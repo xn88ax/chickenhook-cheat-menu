@@ -328,7 +328,7 @@ function Index() {
       {/* Status */}
       <section id="status" className="mx-auto max-w-6xl px-5 py-20">
         <h2 className="text-display text-5xl uppercase md:text-6xl">
-          Status <span className="text-primary">kuchni</span>
+          Status <span className="text-primary">bezpieczeństwa</span>
         </h2>
         <div className="mt-8 overflow-hidden rounded-sm border border-border">
           {[
