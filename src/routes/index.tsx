@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, Crosshair, Eye, Lock, ShieldCheck, Zap } from "lucide-react";
 import heroRooster from "@/assets/hero-rooster.jpg";
 
@@ -115,6 +115,9 @@ function Index() {
             <a href="#funkcje" className="transition-colors hover:text-foreground">
               Funkcje
             </a>
+            <Link to="/opcje" className="transition-colors hover:text-foreground">
+              Opcje
+            </Link>
             <a href="#status" className="transition-colors hover:text-foreground">
               Status
             </a>
@@ -122,6 +125,7 @@ function Index() {
               FAQ
             </a>
           </nav>
+
           <a
             href="#menu"
             className="rounded-sm bucket-gradient px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
