@@ -1,5 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Check, Crosshair, Eye, Lock, ShieldCheck, Zap } from "lucide-react";
+import {
+  Bug,
+  Check,
+  Crosshair,
+  Eye,
+  Heart,
+  MousePointerClick,
+  Rabbit,
+  Shirt,
+  Sparkles,
+  Wind,
+} from "lucide-react";
+
 import heroRooster from "@/assets/hero-rooster.jpg";
 
 export const Route = createFileRoute("/")({
@@ -62,36 +74,52 @@ const menu = [
 
 const features = [
   {
+    icon: Wind,
+    title: "Brak klipu",
+    desc: "Przechodzisz przez ściany i podłogi jak przez panierkę. Regulowana prędkość lotu.",
+  },
+  {
+    icon: Heart,
+    title: "Tryb boga",
+    desc: "Nietykalność na serwerach lokalnych i testowych. Sprawdzisz configi bez ryzyka.",
+  },
+  {
+    icon: Rabbit,
+    title: "Króliczy skok",
+    desc: "Auto bhop z synchronizacją strafe. Trzymasz spację, reszta dzieje się sama.",
+  },
+  {
     icon: Crosshair,
-    title: "Aimbot",
-    desc: "Chrupiąca precyzja. FOV, smooth i RCS ustawiane jak przyprawy — do własnego smaku.",
+    title: "Robot celu",
+    desc: "Aimbot z FOV, smoothem, RCS i wyborem kości. Od cichego wsparcia po pełne HvH.",
+  },
+  {
+    icon: MousePointerClick,
+    title: "Robot spustu",
+    desc: "Triggerbot strzela w milisekundzie po najechaniu na wroga. Opóźnienie do ustawienia.",
   },
   {
     icon: Eye,
-    title: "ESP",
-    desc: "Widzisz każdego przez ścianę: skeleton, HP, broń, granaty i odległość.",
+    title: "Wizualizacje",
+    desc: "Skeleton ESP, boxy, HP, bronie, granaty, radar, chams i podświetlenia.",
   },
   {
-    icon: ShieldCheck,
-    title: "Bypass",
-    desc: "Kernel-level ochrona. Twoje konto zostaje w kuchni, nie na patelni.",
+    icon: Shirt,
+    title: "Zmieniacz skórek",
+    desc: "Skiny, noże, rękawiczki, naklejki i brelok — wszystko widoczne dla Ciebie od razu.",
   },
   {
-    icon: Zap,
-    title: "Zero lagów",
-    desc: "Nakładka renderowana natywnie. 0.3 ms na klatkę — nawet na starym PC.",
+    icon: Sparkles,
+    title: "Ruch",
+    desc: "Auto strafe, fast stop, edge jump, slide i optymalizacja peekowania.",
   },
   {
-    icon: Lock,
-    title: "Stream proof",
-    desc: "Niewidoczny na OBS, Discordzie i screenshotach. Nikt nie zajrzy do wiaderka.",
-  },
-  {
-    icon: Check,
-    title: "Update w 24h",
-    desc: "Po każdej aktualizacji CS2 nowy build ląduje na stole następnego dnia.",
+    icon: Bug,
+    title: "Różne",
+    desc: "Third person, zoom, FOV changer, night mode, spectator list i czysty log konsoli.",
   },
 ];
+
 
 function Index() {
   return (
