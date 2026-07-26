@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/forum")({
+export const Route = createFileRoute("/_authenticated/forum")({
   component: () => <Outlet />,
 });

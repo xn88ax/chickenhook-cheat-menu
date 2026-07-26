@@ -4,7 +4,7 @@ import { Pin } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Avatar, ForumShell, timeAgo } from "@/components/forum/forum-shell";
 
-export const Route = createFileRoute("/forum/dzial/$slug")({
+export const Route = createFileRoute("/_authenticated/forum/dzial/$slug")({
   head: () => ({
     meta: [
       { title: "Dział forum — ChickenHook.ru" },
