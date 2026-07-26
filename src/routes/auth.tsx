@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import { registerWithInvite } from "@/lib/invite.functions";
 import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
@@ -10,13 +12,17 @@ export const Route = createFileRoute("/auth")({
   }),
   head: () => ({
     meta: [
-      { title: "Logowanie — Forum ChickenHook.ru" },
+      { title: "Logowanie — Forum ChickenHook.ru (invite only)" },
       {
         name: "description",
-        content: "Zaloguj się lub załóż konto, aby pisać na forum ChickenHook.",
+        content:
+          "Forum ChickenHook działa w trybie invite only. Zaloguj się lub aktywuj konto kodem zaproszenia.",
       },
       { property: "og:title", content: "Logowanie — Forum ChickenHook.ru" },
-      { property: "og:description", content: "Konto forum ChickenHook — logowanie i rejestracja." },
+      {
+        property: "og:description",
+        content: "Dostęp do forum ChickenHook wyłącznie z kodem zaproszenia.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -28,11 +34,13 @@ function AuthPage() {
   const navigate = useNavigate();
   const { next } = useSearch({ from: "/auth" });
   const target = next && next.startsWith("/") ? next : "/forum";
+  const register = useServerFn(registerWithInvite);
 
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const [mode, setMode] = useState<"login" | "invite">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [invite, setInvite] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -48,17 +56,25 @@ function AuthPage() {
         if (error) throw error;
         navigate({ to: target });
       } else {
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { username: username || email.split("@")[0] },
-            emailRedirectTo: `${window.location.origin}${target}`,
+        const result = await register({
+          data: {
+            code: invite,
+            email,
+            password,
+            username: username || email.split("@")[0],
           },
         });
-        if (error) throw error;
-        if (data.session) navigate({ to: target });
-        else setInfo("Sprawdź maila i potwierdź konto, potem zaloguj się.");
+        if (!result.ok) {
+          setError(result.error);
+          return;
+        }
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          setInfo("Konto utworzone. Zaloguj się.");
+          setMode("login");
+          return;
+        }
+        navigate({ to: target });
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Coś poszło nie tak.");
@@ -82,6 +98,7 @@ function AuthPage() {
     navigate({ to: target });
   }
 
+
   return (
     <div className="flex min-h-screen flex-col bg-background font-sans text-foreground">
       <header className="border-b border-border bg-card">
@@ -102,24 +119,48 @@ function AuthPage() {
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-5 py-12">
         <div className="overflow-hidden rounded-sm border border-border">
           <h1 className="bucket-gradient px-4 py-3 text-sm font-bold uppercase tracking-wide text-primary-foreground">
-            {mode === "login" ? "Logowanie" : "Rejestracja"}
+            {mode === "login" ? "Logowanie" : "Aktywacja zaproszenia"}
           </h1>
           <form onSubmit={onSubmit} className="space-y-4 bg-card px-5 py-5">
-            {mode === "register" && (
-              <div>
-                <label className="text-xs font-bold uppercase text-muted-foreground" htmlFor="nick">
-                  Nick
-                </label>
-                <input
-                  id="nick"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  maxLength={24}
-                  className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
-                  placeholder="np. zimnyFrytek"
-                />
-              </div>
+            <p className="rounded-sm border border-border bg-background px-3 py-2 text-xs text-muted-foreground">
+              Forum działa w trybie <span className="font-bold text-accent">invite only</span> —
+              otwarta rejestracja jest wyłączona. Konto założysz tylko z kodem zaproszenia.
+            </p>
+            {mode === "invite" && (
+              <>
+                <div>
+                  <label
+                    className="text-xs font-bold uppercase text-muted-foreground"
+                    htmlFor="invite"
+                  >
+                    Kod zaproszenia
+                  </label>
+                  <input
+                    id="invite"
+                    required
+                    value={invite}
+                    onChange={(e) => setInvite(e.target.value.toUpperCase())}
+                    maxLength={64}
+                    className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm uppercase tracking-wide outline-none focus:border-primary"
+                    placeholder="CHICKEN-XXXXX-2026"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-bold uppercase text-muted-foreground" htmlFor="nick">
+                    Nick
+                  </label>
+                  <input
+                    id="nick"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    maxLength={24}
+                    className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                    placeholder="np. zimnyFrytek"
+                  />
+                </div>
+              </>
             )}
+
             <div>
               <label className="text-xs font-bold uppercase text-muted-foreground" htmlFor="email">
                 E-mail
@@ -156,29 +197,32 @@ function AuthPage() {
               disabled={busy}
               className="w-full rounded-sm bucket-gradient px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground disabled:opacity-60"
             >
-              {mode === "login" ? "Zaloguj się" : "Załóż konto"}
+              {mode === "login" ? "Zaloguj się" : "Aktywuj kod i wejdź"}
             </button>
 
-            <button
-              type="button"
-              onClick={onGoogle}
-              disabled={busy}
-              className="w-full rounded-sm border border-border px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-foreground transition-colors hover:bg-secondary disabled:opacity-60"
-            >
-              Kontynuuj z Google
-            </button>
+            {mode === "login" && (
+              <button
+                type="button"
+                onClick={onGoogle}
+                disabled={busy}
+                className="w-full rounded-sm border border-border px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-foreground transition-colors hover:bg-secondary disabled:opacity-60"
+              >
+                Kontynuuj z Google
+              </button>
+            )}
 
             <button
               type="button"
               onClick={() => {
-                setMode(mode === "login" ? "register" : "login");
+                setMode(mode === "login" ? "invite" : "login");
                 setError(null);
                 setInfo(null);
               }}
               className="w-full text-xs text-muted-foreground underline-offset-2 hover:underline"
             >
-              {mode === "login" ? "Nie masz konta? Zarejestruj się" : "Masz konto? Zaloguj się"}
+              {mode === "login" ? "Masz kod zaproszenia? Aktywuj konto" : "Masz konto? Zaloguj się"}
             </button>
+
           </form>
         </div>
       </main>
