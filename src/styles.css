@@ -159,3 +159,44 @@
     color: var(--color-foreground);
   }
 }
+
+@utility bucket-gradient {
+  background-image: var(--gradient-bucket);
+}
+
+@utility glow-top {
+  background-image: var(--gradient-glow);
+}
+
+@utility panel {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-panel);
+}
+
+@utility stripe-band {
+  background-image: repeating-linear-gradient(
+    -60deg,
+    var(--color-primary) 0 28px,
+    var(--color-crisp) 28px 56px
+  );
+}
+
+@utility text-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  line-height: 0.92;
+}
+
+@utility marquee-track {
+  animation: marquee 22s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
