@@ -176,9 +176,9 @@ function Index() {
               Undetected od 412 dni
             </span>
             <h1 className="mt-5 text-display text-6xl uppercase sm:text-7xl md:text-8xl">
-              Daj się
+              Daj im
               <br />
-              <span className="text-primary">poczuć</span>
+              <span className="text-primary">posmakować</span>
             </h1>
             <p className="mt-5 max-w-md text-base text-muted-foreground">
               ChickenHook to private cheat do CS2 w fast-foodowej czerwieni. Aimbot, ESP, skin
