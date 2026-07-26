@@ -14,6 +14,7 @@ import {
 
 
 import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
+import chickenOnTree from "@/assets/chicken-on-tree.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -213,11 +214,11 @@ function Index() {
           <div className="relative flex justify-center">
             <div className="absolute -inset-6 rounded-full bg-primary/20 blur-3xl" aria-hidden />
             <img
-              src={chickenhookLogo.url}
-              alt="Herb ChickenHook — złoty kogut na czarnej tarczy"
+              src={chickenOnTree.url}
+              alt="Kurczak na drzewie — symbol ChickenHook"
               width={1024}
               height={1024}
-              className="relative w-full max-w-md drop-shadow-[0_20px_45px_rgba(0,0,0,0.6)]"
+              className="relative w-full max-w-md rounded-sm drop-shadow-[0_20px_45px_rgba(0,0,0,0.6)]"
             />
           </div>
         </div>
