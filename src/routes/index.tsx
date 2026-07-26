@@ -12,7 +12,7 @@ import {
   Wind,
 } from "lucide-react";
 
-import heroRooster from "@/assets/hero-rooster.jpg";
+
 import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
@@ -210,14 +210,14 @@ function Index() {
               ))}
             </dl>
           </div>
-          <div className="relative">
+          <div className="relative flex justify-center">
             <div className="absolute -inset-6 rounded-full bg-primary/20 blur-3xl" aria-hidden />
             <img
-              src={heroRooster}
-              alt="Maskotka ChickenHook — opancerzony kogut z wiaderkiem"
+              src={chickenhookLogo.url}
+              alt="Herb ChickenHook — złoty kogut na czarnej tarczy"
               width={1024}
               height={1024}
-              className="relative rounded-sm border border-border object-cover shadow-[var(--shadow-panel)]"
+              className="relative w-full max-w-md drop-shadow-[0_20px_45px_rgba(0,0,0,0.6)]"
             />
           </div>
         </div>
