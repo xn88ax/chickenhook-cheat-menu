@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { registerWithInvite } from "@/lib/invite.functions";
+import { isRememberSession, setRememberSession } from "@/lib/session-persistence";
 import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
+
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -44,6 +46,12 @@ function AuthPage() {
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [remember, setRemember] = useState(true);
+
+  useEffect(() => {
+    setRemember(isRememberSession());
+  }, []);
+
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -189,8 +197,22 @@ function AuthPage() {
               />
             </div>
 
+            <label className="flex items-center gap-2 text-xs font-bold uppercase text-muted-foreground">
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => {
+                  setRemember(e.target.checked);
+                  setRememberSession(e.target.checked);
+                }}
+                className="size-4 accent-[hsl(var(--primary))]"
+              />
+              Zapamiętaj mnie
+            </label>
+
             {error && <p className="text-xs text-primary">{error}</p>}
             {info && <p className="text-xs text-accent">{info}</p>}
+
 
             <button
               type="submit"
