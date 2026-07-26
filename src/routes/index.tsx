@@ -202,9 +202,9 @@ function Index() {
               {[
                 ["18 420", "Użytkowników"],
                 ["0", "Banów w 2026"],
-                ["24h", "Update po patchu"],
-              ].map(([v, l]) => (
-                <div key={l}>
+                ["\n", "\n"],
+              ].map(([v, l], i) => (
+                <div key={i}>
                   <dt className="text-display text-3xl text-accent">{v}</dt>
                   <dd className="text-xs uppercase tracking-wide text-muted-foreground">{l}</dd>
                 </div>
