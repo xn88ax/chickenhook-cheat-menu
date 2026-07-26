@@ -317,7 +317,7 @@ function Index() {
                       : "border border-border text-foreground hover:bg-secondary"
                   }`}
                 >
-                  Do koszyka
+                  Kup teraz
                 </a>
               </div>
             ))}
