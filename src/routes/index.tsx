@@ -39,20 +39,20 @@ export const Route = createFileRoute("/")({
 
 const menu = [
   {
-    name: "Bucket Solo",
+    name: "Solo",
     price: "39",
     period: "/ 7 dni",
-    tag: "Na spróbowanie",
+    tag: "Na start",
     items: ["Aimbot z smoothem", "Box ESP + HP", "Radar hack", "Wsparcie na Discordzie"],
   },
   {
-    name: "Zinger Menu",
+    name: "Premium",
     price: "89",
     period: "/ 30 dni",
     tag: "Najczęściej brany",
     featured: true,
     items: [
-      "Wszystko z Bucket Solo",
+      "Wszystko z Solo",
       "Skeleton ESP + glow",
       "Triggerbot i backtrack",
       "Skin & knife changer",
@@ -60,12 +60,12 @@ const menu = [
     ],
   },
   {
-    name: "Family Feast",
+    name: "Elite",
     price: "249",
     period: "/ lifetime",
-    tag: "Dla głodnych",
+    tag: "Dla wymagających",
     items: [
-      "Wszystko z Zinger Menu",
+      "Wszystko z Premium",
       "HvH ready config",
       "Konfigi od topowych graczy",
       "Priorytetowy support 24/7",
