@@ -405,7 +405,7 @@ function Index() {
             </p>
           </div>
           <p className="text-xs uppercase tracking-wide text-muted-foreground">
-            © 2026 ChickenHook — Finger lickin' headshots
+            © 2026 ChickenHook — Private CS2 software
           </p>
         </div>
       </footer>
