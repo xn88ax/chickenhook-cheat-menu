@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as OpcjeRouteImport } from './routes/opcje'
 import { Route as ForumRouteImport } from './routes/forum'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -29,6 +30,11 @@ const ForumRoute = ForumRouteImport.update({
   path: '/forum',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/forum': typeof ForumRoute
   '/opcje': typeof OpcjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/forum': typeof ForumRoute
   '/opcje': typeof OpcjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/forum': typeof ForumRoute
   '/opcje': typeof OpcjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/forum' | '/opcje' | '/sitemap.xml'
+  fullPaths: '/' | '/auth' | '/forum' | '/opcje' | '/sitemap.xml'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/forum' | '/opcje' | '/sitemap.xml'
-  id: '__root__' | '/' | '/forum' | '/opcje' | '/sitemap.xml'
+  to: '/' | '/auth' | '/forum' | '/opcje' | '/sitemap.xml'
+  id: '__root__' | '/' | '/auth' | '/forum' | '/opcje' | '/sitemap.xml'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   ForumRoute: typeof ForumRoute
   OpcjeRoute: typeof OpcjeRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForumRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   ForumRoute: ForumRoute,
   OpcjeRoute: OpcjeRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
