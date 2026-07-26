@@ -105,6 +105,10 @@ function Opcje() {
             <Link to="/opcje" className="text-foreground">
               Opcje
             </Link>
+            <Link to="/forum" className="transition-colors hover:text-foreground">
+              Forum
+            </Link>
+
           </nav>
           <Link
             to="/"
