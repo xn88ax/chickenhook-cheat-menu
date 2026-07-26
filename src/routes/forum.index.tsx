@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { Avatar, ForumShell, timeAgo } from "@/components/forum/forum-shell";
 
-export const Route = createFileRoute("/forum")({
+export const Route = createFileRoute("/forum/")({
   head: () => ({
     meta: [
       { title: "Forum ChickenHook.ru — społeczność cheatów do CS2" },

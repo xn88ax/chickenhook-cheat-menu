@@ -14,6 +14,7 @@ import { Route as OpcjeRouteImport } from './routes/opcje'
 import { Route as ForumRouteImport } from './routes/forum'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ForumIndexRouteImport } from './routes/forum.index'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -40,41 +41,55 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ForumIndexRoute = ForumIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ForumRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/forum': typeof ForumRoute
+  '/forum': typeof ForumRouteWithChildren
   '/opcje': typeof OpcjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/forum/': typeof ForumIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/forum': typeof ForumRoute
   '/opcje': typeof OpcjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/forum': typeof ForumIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/forum': typeof ForumRoute
+  '/forum': typeof ForumRouteWithChildren
   '/opcje': typeof OpcjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/forum/': typeof ForumIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/forum' | '/opcje' | '/sitemap.xml'
+  fullPaths: '/' | '/auth' | '/forum' | '/opcje' | '/sitemap.xml' | '/forum/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/forum' | '/opcje' | '/sitemap.xml'
-  id: '__root__' | '/' | '/auth' | '/forum' | '/opcje' | '/sitemap.xml'
+  to: '/' | '/auth' | '/opcje' | '/sitemap.xml' | '/forum'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/forum'
+    | '/opcje'
+    | '/sitemap.xml'
+    | '/forum/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
-  ForumRoute: typeof ForumRoute
+  ForumRoute: typeof ForumRouteWithChildren
   OpcjeRoute: typeof OpcjeRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
@@ -116,13 +131,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/forum/': {
+      id: '/forum/'
+      path: '/'
+      fullPath: '/forum/'
+      preLoaderRoute: typeof ForumIndexRouteImport
+      parentRoute: typeof ForumRoute
+    }
   }
 }
+
+interface ForumRouteChildren {
+  ForumIndexRoute: typeof ForumIndexRoute
+}
+
+const ForumRouteChildren: ForumRouteChildren = {
+  ForumIndexRoute: ForumIndexRoute,
+}
+
+const ForumRouteWithChildren = ForumRoute._addFileChildren(ForumRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
-  ForumRoute: ForumRoute,
+  ForumRoute: ForumRouteWithChildren,
   OpcjeRoute: OpcjeRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
