@@ -200,7 +200,7 @@ function Index() {
             </div>
             <dl className="mt-10 grid max-w-md grid-cols-3 gap-4">
               {[
-                ["18 420", "Zadowolonych"],
+                ["18 420", "Użytkowników"],
                 ["0", "Banów w 2026"],
                 ["24h", "Update po patchu"],
               ].map(([v, l]) => (
