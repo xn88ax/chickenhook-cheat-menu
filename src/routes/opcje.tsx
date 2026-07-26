@@ -38,7 +38,7 @@ const options = [
   {
     icon: Wind,
     title: "Brak klipu",
-    desc: "Przechodzisz przez ściany i podłogi jak przez panierkę. Regulowana prędkość lotu.",
+    desc: "Przechodzisz przez ściany i podłogi bez ograniczeń. Regulowana prędkość lotu.",
   },
   {
     icon: Heart,
@@ -111,7 +111,7 @@ function Opcje() {
             hash="menu"
             className="rounded-sm bucket-gradient px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
           >
-            Zamów
+            Kup teraz
           </Link>
         </div>
       </header>
@@ -120,14 +120,14 @@ function Opcje() {
         <div className="pointer-events-none absolute inset-0 glow-top" aria-hidden="true" />
         <div className="relative mx-auto max-w-6xl px-5 py-16 md:py-20">
           <span className="inline-block rounded-sm border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-            Pełne menu funkcji
+            Pełna lista funkcji
           </span>
           <h1 className="mt-5 text-display text-6xl uppercase sm:text-7xl md:text-8xl">
             Opcje <span className="text-primary">cheata</span>
           </h1>
           <p className="mt-5 max-w-xl text-base text-muted-foreground">
-            Wszystkie składniki ChickenHook w jednym wiaderku. Każdą opcję włączasz osobno i
-            doprawiasz pod swój styl gry.
+            Wszystkie moduły ChickenHook w jednym panelu. Każdą opcję włączasz osobno i
+            konfigurujesz pod swój styl gry.
           </p>
         </div>
       </section>
@@ -166,7 +166,7 @@ function Opcje() {
             hash="menu"
             className="rounded-sm bucket-gradient px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
           >
-            Zobacz menu
+            Zobacz cennik
           </Link>
           <Link
             to="/"

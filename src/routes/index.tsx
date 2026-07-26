@@ -39,20 +39,20 @@ export const Route = createFileRoute("/")({
 
 const menu = [
   {
-    name: "Bucket Solo",
+    name: "Solo",
     price: "39",
     period: "/ 7 dni",
-    tag: "Na spróbowanie",
+    tag: "Na start",
     items: ["Aimbot z smoothem", "Box ESP + HP", "Radar hack", "Wsparcie na Discordzie"],
   },
   {
-    name: "Zinger Menu",
+    name: "Premium",
     price: "89",
     period: "/ 30 dni",
     tag: "Najczęściej brany",
     featured: true,
     items: [
-      "Wszystko z Bucket Solo",
+      "Wszystko z Solo",
       "Skeleton ESP + glow",
       "Triggerbot i backtrack",
       "Skin & knife changer",
@@ -60,12 +60,12 @@ const menu = [
     ],
   },
   {
-    name: "Family Feast",
+    name: "Elite",
     price: "249",
     period: "/ lifetime",
-    tag: "Dla głodnych",
+    tag: "Dla wymagających",
     items: [
-      "Wszystko z Zinger Menu",
+      "Wszystko z Premium",
       "HvH ready config",
       "Konfigi od topowych graczy",
       "Priorytetowy support 24/7",
@@ -78,7 +78,7 @@ const features = [
   {
     icon: Wind,
     title: "Brak klipu",
-    desc: "Przechodzisz przez ściany i podłogi jak przez panierkę. Regulowana prędkość lotu.",
+    desc: "Przechodzisz przez ściany i podłogi bez ograniczeń. Regulowana prędkość lotu.",
   },
   {
     icon: Heart,
@@ -142,7 +142,7 @@ function Index() {
           </a>
           <nav className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-wide text-muted-foreground md:flex">
             <a href="#menu" className="transition-colors hover:text-foreground">
-              Menu
+              Cennik
             </a>
             <a href="#funkcje" className="transition-colors hover:text-foreground">
               Funkcje
@@ -162,7 +162,7 @@ function Index() {
             href="#menu"
             className="rounded-sm bucket-gradient px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
           >
-            Zamów
+            Kup teraz
           </a>
         </div>
       </header>
@@ -176,31 +176,31 @@ function Index() {
               Undetected od 412 dni
             </span>
             <h1 className="mt-5 text-display text-6xl uppercase sm:text-7xl md:text-8xl">
-              Podane
+              Daj im
               <br />
-              na <span className="text-primary">gorąco</span>
+              <span className="text-primary">posmakować</span>
             </h1>
             <p className="mt-5 max-w-md text-base text-muted-foreground">
-              ChickenHook to cheat do CS2 przyrządzony z 12 tajnych ziół i przypraw. Aimbot, ESP i
-              bypass w jednym wiaderku. Smażony świeżo po każdej aktualizacji.
+              ChickenHook to private cheat do CS2 w fast-foodowej czerwieni. Aimbot, ESP, skin
+              changer i bypass w jednym zestawie — podawane świeżo po każdym patchu.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
                 href="#menu"
                 className="rounded-sm bucket-gradient px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
               >
-                Zobacz menu
+                Zobacz cennik
               </a>
               <a
                 href="#funkcje"
                 className="rounded-sm border border-border px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-foreground transition-colors hover:bg-secondary"
               >
-                Składniki
+                Funkcje
               </a>
             </div>
             <dl className="mt-10 grid max-w-md grid-cols-3 gap-4">
               {[
-                ["18 420", "Zadowolonych"],
+                ["18 420", "Użytkowników"],
                 ["0", "Banów w 2026"],
                 ["24h", "Update po patchu"],
               ].map(([v, l]) => (
@@ -237,7 +237,7 @@ function Index() {
                 "HvH ready",
                 "Bypass VAC",
                 "Stream proof",
-                "Chrupiące 12 przypraw",
+                "Private build",
               ].map((t) => (
                 <span key={t} className="flex items-center gap-8">
                   {t} <span className="text-accent">✦</span>
@@ -251,10 +251,10 @@ function Index() {
       {/* Features */}
       <section id="funkcje" className="mx-auto max-w-6xl px-5 py-20">
         <h2 className="text-display text-5xl uppercase md:text-6xl">
-          12 tajnych <span className="text-primary">przypraw</span>
+          Pełny <span className="text-primary">skład</span>
         </h2>
         <p className="mt-3 max-w-lg text-muted-foreground">
-          Każdy moduł doprawiony osobno i testowany na Premierze powyżej 20k ELO.
+          Każdy moduł konfigurowany osobno i testowany na Premierze powyżej 20k ELO.
         </p>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
@@ -274,7 +274,7 @@ function Index() {
       <section id="menu" className="border-y border-border bg-card/40 py-20">
         <div className="mx-auto max-w-6xl px-5">
           <h2 className="text-display text-5xl uppercase md:text-6xl">
-            Nasze <span className="text-primary">menu</span>
+            Wybierz <span className="text-primary">plan</span>
           </h2>
           <p className="mt-3 max-w-lg text-muted-foreground">
             Bez abonamentu na siłę. Wybierasz zestaw, dostajesz loader w 60 sekund.
@@ -317,7 +317,7 @@ function Index() {
                       : "border border-border text-foreground hover:bg-secondary"
                   }`}
                 >
-                  Do koszyka
+                  Kup teraz
                 </a>
               </div>
             ))}
@@ -328,7 +328,7 @@ function Index() {
       {/* Status */}
       <section id="status" className="mx-auto max-w-6xl px-5 py-20">
         <h2 className="text-display text-5xl uppercase md:text-6xl">
-          Status <span className="text-primary">kuchni</span>
+          Status <span className="text-primary">bezpieczeństwa</span>
         </h2>
         <div className="mt-8 overflow-hidden rounded-sm border border-border">
           {[
@@ -376,8 +376,8 @@ function Index() {
                 "Windows 10/11, wyłączony Secure Boot i 5 minut na konfigurację. Instrukcja krok po kroku w panelu.",
               ],
               [
-                "Czy mogę zmienić zestaw?",
-                "Tak, w ciągu 48 godzin dopłacasz różnicę i przechodzisz na wyższe menu.",
+                "Czy mogę zmienić plan?",
+                "Tak, w ciągu 48 godzin dopłacasz różnicę i przechodzisz na wyższy plan.",
               ],
             ].map(([q, a]) => (
               <details key={q} className="panel group rounded-sm p-5">
@@ -405,7 +405,7 @@ function Index() {
             </p>
           </div>
           <p className="text-xs uppercase tracking-wide text-muted-foreground">
-            © 2026 ChickenHook — Finger lickin' headshots
+            © 2026 ChickenHook — Private CS2 software
           </p>
         </div>
       </footer>
