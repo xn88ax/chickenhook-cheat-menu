@@ -73,6 +73,7 @@ export function ForumShell({
           ) : (
             <Link
               to="/auth"
+              search={{ next: "/forum" }}
               className="rounded-sm bucket-gradient px-4 py-2 text-xs font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)]"
             >
               Zaloguj się

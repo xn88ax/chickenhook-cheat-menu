@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { Avatar, ForumShell, timeAgo } from "@/components/forum/forum-shell";
 
-export const Route = createFileRoute("/forum/watek/$id")({
+export const Route = createFileRoute("/_authenticated/forum/watek/$id")({
   head: () => ({
     meta: [
       { title: "Wątek — Forum ChickenHook.ru" },
