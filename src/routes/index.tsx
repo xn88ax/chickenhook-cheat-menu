@@ -251,10 +251,10 @@ function Index() {
       {/* Features */}
       <section id="funkcje" className="mx-auto max-w-6xl px-5 py-20">
         <h2 className="text-display text-5xl uppercase md:text-6xl">
-          12 tajnych <span className="text-primary">przypraw</span>
+          Pełny <span className="text-primary">skład</span>
         </h2>
         <p className="mt-3 max-w-lg text-muted-foreground">
-          Każdy moduł doprawiony osobno i testowany na Premierze powyżej 20k ELO.
+          Każdy moduł konfigurowany osobno i testowany na Premierze powyżej 20k ELO.
         </p>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
