@@ -237,7 +237,7 @@ function Index() {
                 "HvH ready",
                 "Bypass VAC",
                 "Stream proof",
-                "Chrupiące 12 przypraw",
+                "Private build",
               ].map((t) => (
                 <span key={t} className="flex items-center gap-8">
                   {t} <span className="text-accent">✦</span>
