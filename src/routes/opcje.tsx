@@ -166,7 +166,7 @@ function Opcje() {
             hash="menu"
             className="rounded-sm bucket-gradient px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
           >
-            Zobacz menu
+            Zobacz cennik
           </Link>
           <Link
             to="/"
