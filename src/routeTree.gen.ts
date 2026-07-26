@@ -15,6 +15,7 @@ import { Route as ForumRouteImport } from './routes/forum'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ForumIndexRouteImport } from './routes/forum.index'
+import { Route as ForumWatekIdRouteImport } from './routes/forum.watek.$id'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -46,6 +47,11 @@ const ForumIndexRoute = ForumIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ForumRoute,
 } as any)
+const ForumWatekIdRoute = ForumWatekIdRouteImport.update({
+  id: '/watek/$id',
+  path: '/watek/$id',
+  getParentRoute: () => ForumRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/opcje': typeof OpcjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/forum/': typeof ForumIndexRoute
+  '/forum/watek/$id': typeof ForumWatekIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/opcje': typeof OpcjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/forum': typeof ForumIndexRoute
+  '/forum/watek/$id': typeof ForumWatekIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -70,12 +78,20 @@ export interface FileRoutesById {
   '/opcje': typeof OpcjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/forum/': typeof ForumIndexRoute
+  '/forum/watek/$id': typeof ForumWatekIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/forum' | '/opcje' | '/sitemap.xml' | '/forum/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/forum'
+    | '/opcje'
+    | '/sitemap.xml'
+    | '/forum/'
+    | '/forum/watek/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/opcje' | '/sitemap.xml' | '/forum'
+  to: '/' | '/auth' | '/opcje' | '/sitemap.xml' | '/forum' | '/forum/watek/$id'
   id:
     | '__root__'
     | '/'
@@ -84,6 +100,7 @@ export interface FileRouteTypes {
     | '/opcje'
     | '/sitemap.xml'
     | '/forum/'
+    | '/forum/watek/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -138,15 +155,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForumIndexRouteImport
       parentRoute: typeof ForumRoute
     }
+    '/forum/watek/$id': {
+      id: '/forum/watek/$id'
+      path: '/watek/$id'
+      fullPath: '/forum/watek/$id'
+      preLoaderRoute: typeof ForumWatekIdRouteImport
+      parentRoute: typeof ForumRoute
+    }
   }
 }
 
 interface ForumRouteChildren {
   ForumIndexRoute: typeof ForumIndexRoute
+  ForumWatekIdRoute: typeof ForumWatekIdRoute
 }
 
 const ForumRouteChildren: ForumRouteChildren = {
   ForumIndexRoute: ForumIndexRoute,
+  ForumWatekIdRoute: ForumWatekIdRoute,
 }
 
 const ForumRouteWithChildren = ForumRoute._addFileChildren(ForumRouteChildren)
