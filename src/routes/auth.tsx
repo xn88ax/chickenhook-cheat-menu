@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import { registerWithInvite } from "@/lib/invite.functions";
 import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
@@ -10,13 +12,17 @@ export const Route = createFileRoute("/auth")({
   }),
   head: () => ({
     meta: [
-      { title: "Logowanie — Forum ChickenHook.ru" },
+      { title: "Logowanie — Forum ChickenHook.ru (invite only)" },
       {
         name: "description",
-        content: "Zaloguj się lub załóż konto, aby pisać na forum ChickenHook.",
+        content:
+          "Forum ChickenHook działa w trybie invite only. Zaloguj się lub aktywuj konto kodem zaproszenia.",
       },
       { property: "og:title", content: "Logowanie — Forum ChickenHook.ru" },
-      { property: "og:description", content: "Konto forum ChickenHook — logowanie i rejestracja." },
+      {
+        property: "og:description",
+        content: "Dostęp do forum ChickenHook wyłącznie z kodem zaproszenia.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -28,11 +34,13 @@ function AuthPage() {
   const navigate = useNavigate();
   const { next } = useSearch({ from: "/auth" });
   const target = next && next.startsWith("/") ? next : "/forum";
+  const register = useServerFn(registerWithInvite);
 
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const [mode, setMode] = useState<"login" | "invite">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [invite, setInvite] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -48,17 +56,25 @@ function AuthPage() {
         if (error) throw error;
         navigate({ to: target });
       } else {
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { username: username || email.split("@")[0] },
-            emailRedirectTo: `${window.location.origin}${target}`,
+        const result = await register({
+          data: {
+            code: invite,
+            email,
+            password,
+            username: username || email.split("@")[0],
           },
         });
-        if (error) throw error;
-        if (data.session) navigate({ to: target });
-        else setInfo("Sprawdź maila i potwierdź konto, potem zaloguj się.");
+        if (!result.ok) {
+          setError(result.error);
+          return;
+        }
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          setInfo("Konto utworzone. Zaloguj się.");
+          setMode("login");
+          return;
+        }
+        navigate({ to: target });
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Coś poszło nie tak.");
@@ -81,6 +97,7 @@ function AuthPage() {
     if (result.redirected) return;
     navigate({ to: target });
   }
+
 
   return (
     <div className="flex min-h-screen flex-col bg-background font-sans text-foreground">
