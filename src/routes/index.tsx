@@ -274,7 +274,7 @@ function Index() {
       <section id="menu" className="border-y border-border bg-card/40 py-20">
         <div className="mx-auto max-w-6xl px-5">
           <h2 className="text-display text-5xl uppercase md:text-6xl">
-            Nasze <span className="text-primary">menu</span>
+            Wybierz <span className="text-primary">plan</span>
           </h2>
           <p className="mt-3 max-w-lg text-muted-foreground">
             Bez abonamentu na siłę. Wybierasz zestaw, dostajesz loader w 60 sekund.
