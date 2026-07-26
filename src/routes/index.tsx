@@ -150,6 +150,10 @@ function Index() {
             <Link to="/opcje" className="transition-colors hover:text-foreground">
               Opcje
             </Link>
+            <Link to="/forum" className="transition-colors hover:text-foreground">
+              Forum
+            </Link>
+
             <a href="#status" className="transition-colors hover:text-foreground">
               Status
             </a>
