@@ -78,7 +78,7 @@ const features = [
   {
     icon: Wind,
     title: "Brak klipu",
-    desc: "Przechodzisz przez ściany i podłogi jak przez panierkę. Regulowana prędkość lotu.",
+    desc: "Przechodzisz przez ściany i podłogi bez ograniczeń. Regulowana prędkość lotu.",
   },
   {
     icon: Heart,
