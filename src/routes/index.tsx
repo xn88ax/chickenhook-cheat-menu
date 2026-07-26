@@ -142,7 +142,7 @@ function Index() {
           </a>
           <nav className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-wide text-muted-foreground md:flex">
             <a href="#menu" className="transition-colors hover:text-foreground">
-              Menu
+              Cennik
             </a>
             <a href="#funkcje" className="transition-colors hover:text-foreground">
               Funkcje
