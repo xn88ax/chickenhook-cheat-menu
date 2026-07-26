@@ -12,7 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as OpcjeRouteImport } from './routes/opcje'
 import { Route as ForumRouteImport } from './routes/forum'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ForumIndexRouteImport } from './routes/forum.index'
+import { Route as ForumWatekIdRouteImport } from './routes/forum.watek.$id'
+import { Route as ForumDzialSlugRouteImport } from './routes/forum.dzial.$slug'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -29,42 +33,98 @@ const ForumRoute = ForumRouteImport.update({
   path: '/forum',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ForumIndexRoute = ForumIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ForumRoute,
+} as any)
+const ForumWatekIdRoute = ForumWatekIdRouteImport.update({
+  id: '/watek/$id',
+  path: '/watek/$id',
+  getParentRoute: () => ForumRoute,
+} as any)
+const ForumDzialSlugRoute = ForumDzialSlugRouteImport.update({
+  id: '/dzial/$slug',
+  path: '/dzial/$slug',
+  getParentRoute: () => ForumRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/forum': typeof ForumRoute
+  '/auth': typeof AuthRoute
+  '/forum': typeof ForumRouteWithChildren
   '/opcje': typeof OpcjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/forum/': typeof ForumIndexRoute
+  '/forum/dzial/$slug': typeof ForumDzialSlugRoute
+  '/forum/watek/$id': typeof ForumWatekIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/forum': typeof ForumRoute
+  '/auth': typeof AuthRoute
   '/opcje': typeof OpcjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/forum': typeof ForumIndexRoute
+  '/forum/dzial/$slug': typeof ForumDzialSlugRoute
+  '/forum/watek/$id': typeof ForumWatekIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/forum': typeof ForumRoute
+  '/auth': typeof AuthRoute
+  '/forum': typeof ForumRouteWithChildren
   '/opcje': typeof OpcjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/forum/': typeof ForumIndexRoute
+  '/forum/dzial/$slug': typeof ForumDzialSlugRoute
+  '/forum/watek/$id': typeof ForumWatekIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/forum' | '/opcje' | '/sitemap.xml'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/forum'
+    | '/opcje'
+    | '/sitemap.xml'
+    | '/forum/'
+    | '/forum/dzial/$slug'
+    | '/forum/watek/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/forum' | '/opcje' | '/sitemap.xml'
-  id: '__root__' | '/' | '/forum' | '/opcje' | '/sitemap.xml'
+  to:
+    | '/'
+    | '/auth'
+    | '/opcje'
+    | '/sitemap.xml'
+    | '/forum'
+    | '/forum/dzial/$slug'
+    | '/forum/watek/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/forum'
+    | '/opcje'
+    | '/sitemap.xml'
+    | '/forum/'
+    | '/forum/dzial/$slug'
+    | '/forum/watek/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ForumRoute: typeof ForumRoute
+  AuthRoute: typeof AuthRoute
+  ForumRoute: typeof ForumRouteWithChildren
   OpcjeRoute: typeof OpcjeRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
@@ -92,6 +152,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForumRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -99,12 +166,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/forum/': {
+      id: '/forum/'
+      path: '/'
+      fullPath: '/forum/'
+      preLoaderRoute: typeof ForumIndexRouteImport
+      parentRoute: typeof ForumRoute
+    }
+    '/forum/watek/$id': {
+      id: '/forum/watek/$id'
+      path: '/watek/$id'
+      fullPath: '/forum/watek/$id'
+      preLoaderRoute: typeof ForumWatekIdRouteImport
+      parentRoute: typeof ForumRoute
+    }
+    '/forum/dzial/$slug': {
+      id: '/forum/dzial/$slug'
+      path: '/dzial/$slug'
+      fullPath: '/forum/dzial/$slug'
+      preLoaderRoute: typeof ForumDzialSlugRouteImport
+      parentRoute: typeof ForumRoute
+    }
   }
 }
 
+interface ForumRouteChildren {
+  ForumIndexRoute: typeof ForumIndexRoute
+  ForumDzialSlugRoute: typeof ForumDzialSlugRoute
+  ForumWatekIdRoute: typeof ForumWatekIdRoute
+}
+
+const ForumRouteChildren: ForumRouteChildren = {
+  ForumIndexRoute: ForumIndexRoute,
+  ForumDzialSlugRoute: ForumDzialSlugRoute,
+  ForumWatekIdRoute: ForumWatekIdRoute,
+}
+
+const ForumRouteWithChildren = ForumRoute._addFileChildren(ForumRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ForumRoute: ForumRoute,
+  AuthRoute: AuthRoute,
+  ForumRoute: ForumRouteWithChildren,
   OpcjeRoute: OpcjeRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
