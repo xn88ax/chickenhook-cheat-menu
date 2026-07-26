@@ -176,26 +176,26 @@ function Index() {
               Undetected od 412 dni
             </span>
             <h1 className="mt-5 text-display text-6xl uppercase sm:text-7xl md:text-8xl">
-              Podane
+              Daj się
               <br />
-              na <span className="text-primary">gorąco</span>
+              <span className="text-primary">poczuć</span>
             </h1>
             <p className="mt-5 max-w-md text-base text-muted-foreground">
-              ChickenHook to cheat do CS2 przyrządzony z 12 tajnych ziół i przypraw. Aimbot, ESP i
-              bypass w jednym wiaderku. Smażony świeżo po każdej aktualizacji.
+              ChickenHook to private cheat do CS2 w fast-foodowej czerwieni. Aimbot, ESP, skin
+              changer i bypass w jednym zestawie — podawane świeżo po każdym patchu.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
                 href="#menu"
                 className="rounded-sm bucket-gradient px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
               >
-                Zobacz menu
+                Zobacz cennik
               </a>
               <a
                 href="#funkcje"
                 className="rounded-sm border border-border px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-foreground transition-colors hover:bg-secondary"
               >
-                Składniki
+                Funkcje
               </a>
             </div>
             <dl className="mt-10 grid max-w-md grid-cols-3 gap-4">
