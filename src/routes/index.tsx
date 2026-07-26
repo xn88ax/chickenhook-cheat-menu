@@ -376,8 +376,8 @@ function Index() {
                 "Windows 10/11, wyłączony Secure Boot i 5 minut na konfigurację. Instrukcja krok po kroku w panelu.",
               ],
               [
-                "Czy mogę zmienić zestaw?",
-                "Tak, w ciągu 48 godzin dopłacasz różnicę i przechodzisz na wyższe menu.",
+                "Czy mogę zmienić plan?",
+                "Tak, w ciągu 48 godzin dopłacasz różnicę i przechodzisz na wyższy plan.",
               ],
             ].map(([q, a]) => (
               <details key={q} className="panel group rounded-sm p-5">
