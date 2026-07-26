@@ -197,29 +197,32 @@ function AuthPage() {
               disabled={busy}
               className="w-full rounded-sm bucket-gradient px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground disabled:opacity-60"
             >
-              {mode === "login" ? "Zaloguj się" : "Załóż konto"}
+              {mode === "login" ? "Zaloguj się" : "Aktywuj kod i wejdź"}
             </button>
 
-            <button
-              type="button"
-              onClick={onGoogle}
-              disabled={busy}
-              className="w-full rounded-sm border border-border px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-foreground transition-colors hover:bg-secondary disabled:opacity-60"
-            >
-              Kontynuuj z Google
-            </button>
+            {mode === "login" && (
+              <button
+                type="button"
+                onClick={onGoogle}
+                disabled={busy}
+                className="w-full rounded-sm border border-border px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-foreground transition-colors hover:bg-secondary disabled:opacity-60"
+              >
+                Kontynuuj z Google
+              </button>
+            )}
 
             <button
               type="button"
               onClick={() => {
-                setMode(mode === "login" ? "register" : "login");
+                setMode(mode === "login" ? "invite" : "login");
                 setError(null);
                 setInfo(null);
               }}
               className="w-full text-xs text-muted-foreground underline-offset-2 hover:underline"
             >
-              {mode === "login" ? "Nie masz konta? Zarejestruj się" : "Masz konto? Zaloguj się"}
+              {mode === "login" ? "Masz kod zaproszenia? Aktywuj konto" : "Masz konto? Zaloguj się"}
             </button>
+
           </form>
         </div>
       </main>
