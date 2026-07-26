@@ -10,6 +10,7 @@ import {
   Sparkles,
   Wind,
 } from "lucide-react";
+import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 
 export const Route = createFileRoute("/opcje")({
   head: () => ({
@@ -87,9 +88,11 @@ function Opcje() {
       <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
           <Link to="/" className="flex items-center gap-2">
-            <span className="grid size-9 place-items-center rounded-sm bucket-gradient text-display text-xl text-primary-foreground">
-              CH
-            </span>
+            <img
+              src={chickenhookLogo.url}
+              alt="Herb ChickenHook — złoty kogut na czarnej tarczy"
+              className="h-10 w-auto"
+            />
             <span className="text-display text-2xl">
               CHICKEN<span className="text-primary">HOOK</span>
               <span className="text-muted-foreground">.RU</span>
