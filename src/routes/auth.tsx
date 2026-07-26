@@ -119,24 +119,48 @@ function AuthPage() {
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-5 py-12">
         <div className="overflow-hidden rounded-sm border border-border">
           <h1 className="bucket-gradient px-4 py-3 text-sm font-bold uppercase tracking-wide text-primary-foreground">
-            {mode === "login" ? "Logowanie" : "Rejestracja"}
+            {mode === "login" ? "Logowanie" : "Aktywacja zaproszenia"}
           </h1>
           <form onSubmit={onSubmit} className="space-y-4 bg-card px-5 py-5">
-            {mode === "register" && (
-              <div>
-                <label className="text-xs font-bold uppercase text-muted-foreground" htmlFor="nick">
-                  Nick
-                </label>
-                <input
-                  id="nick"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  maxLength={24}
-                  className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
-                  placeholder="np. zimnyFrytek"
-                />
-              </div>
+            <p className="rounded-sm border border-border bg-background px-3 py-2 text-xs text-muted-foreground">
+              Forum działa w trybie <span className="font-bold text-accent">invite only</span> —
+              otwarta rejestracja jest wyłączona. Konto założysz tylko z kodem zaproszenia.
+            </p>
+            {mode === "invite" && (
+              <>
+                <div>
+                  <label
+                    className="text-xs font-bold uppercase text-muted-foreground"
+                    htmlFor="invite"
+                  >
+                    Kod zaproszenia
+                  </label>
+                  <input
+                    id="invite"
+                    required
+                    value={invite}
+                    onChange={(e) => setInvite(e.target.value.toUpperCase())}
+                    maxLength={64}
+                    className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm uppercase tracking-wide outline-none focus:border-primary"
+                    placeholder="CHICKEN-XXXXX-2026"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-bold uppercase text-muted-foreground" htmlFor="nick">
+                    Nick
+                  </label>
+                  <input
+                    id="nick"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    maxLength={24}
+                    className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                    placeholder="np. zimnyFrytek"
+                  />
+                </div>
+              </>
             )}
+
             <div>
               <label className="text-xs font-bold uppercase text-muted-foreground" htmlFor="email">
                 E-mail
