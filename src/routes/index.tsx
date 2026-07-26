@@ -162,7 +162,7 @@ function Index() {
             href="#menu"
             className="rounded-sm bucket-gradient px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
           >
-            Zamów
+            Kup teraz
           </a>
         </div>
       </header>
