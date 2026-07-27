@@ -66,40 +66,8 @@ function Opcje() {
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
-      <header className="sticky top-0 z-50 border-b border-border glass-bar">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-          <Link to="/" className="flex items-center gap-2">
-            <img
-              src={chickenhookLogo.url}
-              alt="Herb ChickenHook — złoty kogut na czarnej tarczy"
-              className="h-10 w-auto"
-            />
-            <span className="text-display text-2xl">
-              CHICKEN<span className="text-primary">HOOK</span>
-              <span className="text-muted-foreground">.RU</span>
-            </span>
-          </Link>
-          <nav className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-wide text-muted-foreground md:flex">
-            <Link to="/" className="transition-colors hover:text-foreground">
-              Start
-            </Link>
-            <Link to="/opcje" className="text-foreground">
-              Opcje
-            </Link>
-            <Link to="/forum" className="transition-colors hover:text-foreground">
-              Forum
-            </Link>
+      <SiteHeader active="opcje" />
 
-          </nav>
-          <Link
-            to="/"
-            hash="menu"
-            className="rounded-xl bg-secondary px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
-          >
-            Kup teraz
-          </Link>
-        </div>
-      </header>
 
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 glow-top" aria-hidden="true" />
