@@ -301,7 +301,8 @@ function Index() {
                       : "border border-border text-foreground hover:bg-secondary"
                   }`}
                 >
-                  Kup teraz
+                  Wybieram {p.name}
+
                 </a>
               </div>
             ))}
