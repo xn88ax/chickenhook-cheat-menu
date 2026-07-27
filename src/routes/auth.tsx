@@ -109,7 +109,7 @@ function AuthPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background font-sans text-foreground">
-      <header className="border-b border-border bg-card">
+      <header className="border-b border-border glass-bar">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5">
           <Link to="/" className="flex items-center gap-2">
             <img src={chickenhookLogo.url} alt="Herb ChickenHook" className="h-9 w-auto" />
@@ -129,7 +129,7 @@ function AuthPage() {
           <h1 className="bucket-gradient px-4 py-3 text-sm font-bold uppercase tracking-wide text-primary-foreground">
             {mode === "login" ? "Logowanie" : "Aktywacja zaproszenia"}
           </h1>
-          <form onSubmit={onSubmit} className="space-y-4 bg-card px-5 py-5">
+          <form onSubmit={onSubmit} className="space-y-4 glass px-5 py-5">
             <p className="rounded-sm border border-border bg-background px-3 py-2 text-xs text-muted-foreground">
               Forum działa w trybie <span className="font-bold text-accent">invite only</span> —
               otwarta rejestracja jest wyłączona. Konto założysz tylko z kodem zaproszenia.

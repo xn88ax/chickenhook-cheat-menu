@@ -88,7 +88,7 @@ function CategoryPage() {
               </h2>
               <div className="divide-y divide-border">
                 {(threadsQuery.data ?? []).length === 0 && (
-                  <p className="bg-card px-4 py-6 text-xs text-muted-foreground">
+                  <p className="glass px-4 py-6 text-xs text-muted-foreground">
                     Brak wątków w tym dziale.
                   </p>
                 )}
@@ -97,7 +97,7 @@ function CategoryPage() {
                     key={t.id}
                     to="/forum/watek/$id"
                     params={{ id: t.id }}
-                    className="flex items-center gap-3 bg-card px-4 py-3 transition-colors hover:bg-secondary/50"
+                    className="flex items-center gap-3 glass px-4 py-3 transition-colors hover:bg-secondary/50"
                   >
                     <Avatar name={nameOf(t.author_id)} className="size-9" />
                     <div className="min-w-0 flex-1">

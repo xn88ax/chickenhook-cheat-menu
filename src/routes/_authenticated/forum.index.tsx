@@ -170,7 +170,7 @@ function Forum() {
                 setError(null);
                 createThread.mutate();
               }}
-              className="space-y-3 rounded-sm border border-border bg-card p-4"
+              className="space-y-3 rounded-sm border border-border glass p-4"
             >
               <select
                 required
@@ -246,10 +246,10 @@ function Forum() {
             </h2>
             <div className="divide-y divide-border">
               {threadsQuery.isLoading && (
-                <p className="bg-card px-4 py-6 text-xs text-muted-foreground">Ładowanie…</p>
+                <p className="glass px-4 py-6 text-xs text-muted-foreground">Ładowanie…</p>
               )}
               {!threadsQuery.isLoading && threads.length === 0 && (
-                <p className="bg-card px-4 py-6 text-xs text-muted-foreground">
+                <p className="glass px-4 py-6 text-xs text-muted-foreground">
                   Brak wątków. Załóż pierwszy.
                 </p>
               )}
@@ -282,7 +282,7 @@ function Forum() {
             <h2 className="bg-secondary px-4 py-2.5 text-xs font-bold uppercase tracking-wide text-foreground">
               Statystyki forum
             </h2>
-            <dl className="space-y-2 bg-card px-4 py-4 text-xs">
+            <dl className="space-y-2 glass px-4 py-4 text-xs">
               {[
                 ["Wątki", statsQuery.data?.threads ?? 0],
                 ["Posty", statsQuery.data?.posts ?? 0],
@@ -300,7 +300,7 @@ function Forum() {
             <h2 className="bg-secondary px-4 py-2.5 text-xs font-bold uppercase tracking-wide text-foreground">
               Dołącz do nas
             </h2>
-            <div className="space-y-2 bg-card px-4 py-4">
+            <div className="space-y-2 glass px-4 py-4">
               <Link
                 to="/"
                 hash="menu"
