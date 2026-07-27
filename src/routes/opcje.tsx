@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Lock, Search, X } from "lucide-react";
+import { Check, Lock, Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { FeatureDialog } from "@/components/feature-dialog";
