@@ -393,7 +393,6 @@ function Index() {
         </div>
       </section>
 
-      <div className="h-3 stripe-band" aria-hidden />
 
       <footer className="mx-auto max-w-6xl px-5 py-12">
         <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
