@@ -1,0 +1,213 @@
+import {
+  Bug,
+  Coins,
+  Crosshair,
+  Eye,
+  Gauge,
+  Heart,
+  MousePointerClick,
+  Rabbit,
+  ServerCrash,
+  Shirt,
+  Sparkles,
+  Wind,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
+
+import type { PreviewKind } from "@/components/feature-preview";
+
+export type Feature = {
+  slug: string;
+  icon: LucideIcon;
+  title: string;
+  desc: string;
+  long: string;
+  bullets: string[];
+  preview: PreviewKind;
+};
+
+export const features: Feature[] = [
+  {
+    slug: "brak-klipu",
+    icon: Wind,
+    title: "Brak klipu",
+    desc: "Przechodzisz przez ściany i podłogi bez ograniczeń. Regulowana prędkość lotu.",
+    long: "Moduł wyłącza kolizję Twojej postaci z geometrią mapy. Przelatujesz przez ściany, sufity i skrzynki, a kamera trzyma płynny ruch bez szarpnięć.",
+    bullets: [
+      "Regulacja prędkości lotu (0.5x – 5x)",
+      "Tryb cichy: pozycja synchronizowana z serwerem",
+      "Bind na dowolny klawisz, także toggle",
+      "Auto powrót do ostatniej legalnej pozycji",
+    ],
+    preview: "noclip",
+  },
+  {
+    slug: "tryb-boga",
+    icon: Heart,
+    title: "Tryb boga",
+    desc: "Nietykalność na serwerach lokalnych i testowych. Sprawdzisz configi bez ryzyka.",
+    long: "Blokuje odbieranie obrażeń na serwerach, na których masz prawa administratora lub w trybie offline. Idealne do testowania configów aima i recoila.",
+    bullets: [
+      "Ochrona przed obrażeniami i upadkiem",
+      "Nieskończone HP i kamizelka",
+      "Brak flasha i efektu ognia",
+      "Działa na mapach treningowych i workshopie",
+    ],
+    preview: "god",
+  },
+  {
+    slug: "kroliczy-skok",
+    icon: Rabbit,
+    title: "Króliczy skok",
+    desc: "Auto bhop z synchronizacją strafe. Trzymasz spację, reszta dzieje się sama.",
+    long: "Automatyczny bunnyhop z korekcją strafe'a. Trzymasz spację, a moduł liczy idealny timing skoków oraz ruch myszy pod maksymalne przyspieszenie.",
+    bullets: [
+      "Auto strafe synchronizowany z ruchem myszy",
+      "Skalowana szansa trafienia (human-like)",
+      "Limit prędkości pod anti-cheat",
+      "Wskaźnik prędkości na ekranie",
+    ],
+    preview: "bhop",
+  },
+  {
+    slug: "robot-celu",
+    icon: Crosshair,
+    title: "Robot celu",
+    desc: "Aimbot z FOV, smoothem, RCS i wyborem kości. Od cichego wsparcia po pełne HvH.",
+    long: "Pełny aimbot z kontrolą pola widzenia, wygładzaniem ruchu i kompensacją odrzutu. Możesz go ustawić jako delikatną pomoc albo agresywny rage.",
+    bullets: [
+      "FOV 0–180° i smooth 0–100",
+      "Wybór kości: głowa, klatka, najbliższa",
+      "RCS — automatyczna kontrola odrzutu",
+      "Osobne profile na broń",
+    ],
+    preview: "aim",
+  },
+  {
+    slug: "robot-spustu",
+    icon: MousePointerClick,
+    title: "Robot spustu",
+    desc: "Triggerbot strzela w milisekundzie po najechaniu na wroga. Opóźnienie do ustawienia.",
+    long: "Triggerbot pilnuje celownika i oddaje strzał dokładnie w chwili, gdy pod krzyżykiem pojawi się przeciwnik. Losowe opóźnienie sprawia, że wygląda to naturalnie.",
+    bullets: [
+      "Opóźnienie 0–250 ms z losowaniem",
+      "Filtr na hitboxy (tylko głowa / tułów)",
+      "Blokada strzału przez dym i flasha",
+      "Tryb burst dla broni automatycznej",
+    ],
+    preview: "trigger",
+  },
+  {
+    slug: "wizualizacje",
+    icon: Eye,
+    title: "Wizualizacje",
+    desc: "Skeleton ESP, boxy, HP, bronie, granaty, radar, chams i podświetlenia.",
+    long: "Kompletny zestaw ESP: widzisz przeciwników przez ściany razem z ich ekwipunkiem, zdrowiem i kierunkiem patrzenia.",
+    bullets: [
+      "Box, skeleton, chams i glow",
+      "Paski HP i tarczy oraz nazwy graczy",
+      "Ikony broni, granatów i bomby",
+      "Radar 2D z zasięgiem i dystansem",
+    ],
+    preview: "esp",
+  },
+  {
+    slug: "zmieniacz-skorek",
+    icon: Shirt,
+    title: "Zmieniacz skórek",
+    desc: "Skiny, noże, rękawiczki, naklejki i brelok — wszystko widoczne dla Ciebie od razu.",
+    long: "Podmienia wygląd Twojego ekwipunku po stronie klienta. Wszystkie skiny, noże i rękawiczki z gry dostępne od ręki, także z naklejkami.",
+    bullets: [
+      "Wszystkie skiny, noże i rękawiczki",
+      "Ustawienie float, seeda i naklejek",
+      "Własne modele noży z animacjami",
+      "Zapisywane presety ekwipunku",
+    ],
+    preview: "skins",
+  },
+  {
+    slug: "ruch",
+    icon: Sparkles,
+    title: "Ruch",
+    desc: "Auto strafe, fast stop, edge jump, slide i optymalizacja peekowania.",
+    long: "Zestaw usprawnień poruszania się: szybsze zatrzymanie przed strzałem, idealne skoki z krawędzi i czystsze peeki.",
+    bullets: [
+      "Fast stop przed oddaniem strzału",
+      "Edge jump i jump bug",
+      "Auto peek z powrotem na pozycję",
+      "Optymalizacja długich skoków",
+    ],
+    preview: "movement",
+  },
+  {
+    slug: "rozne",
+    icon: Bug,
+    title: "Różne",
+    desc: "Third person, zoom, FOV changer, night mode, spectator list i czysty log konsoli.",
+    long: "Drobne, ale przydatne dodatki poprawiające komfort gry i bezpieczeństwo — od widoku z trzeciej osoby po listę obserwujących.",
+    bullets: [
+      "Widok z trzeciej osoby i zoom",
+      "Zmiana FOV i viewmodela",
+      "Night mode — jaśniejsze mapy",
+      "Lista widzów i czysta konsola",
+    ],
+    preview: "misc",
+  },
+  {
+    slug: "teleport",
+    icon: Zap,
+    title: "Teleport",
+    desc: "Natychmiastowe przeniesienie na wskazane miejsce mapy albo do bomby jednym klawiszem.",
+    long: "Przenosi Cię w wybrane miejsce mapy jednym klawiszem. Możesz zapisać własne punkty albo skoczyć prosto do bomby.",
+    bullets: [
+      "Zapisywane punkty na każdej mapie",
+      "Teleport do bomby i do wroga",
+      "Tryb krokowy (małe skoki, mniej podejrzany)",
+      "Powrót na poprzednią pozycję",
+    ],
+    preview: "teleport",
+  },
+  {
+    slug: "awaria-serwera",
+    icon: ServerCrash,
+    title: "Awaria serwera",
+    desc: "Wysyłka spreparowanych pakietów, która wykłada serwer. Tylko na własnych testach.",
+    long: "Moduł testowy wysyłający zniekształcone pakiety sieciowe. Służy wyłącznie do sprawdzania odporności własnych serwerów.",
+    bullets: [
+      "Kontrolowana wysyłka pakietów",
+      "Limit intensywności i licznik",
+      "Log odpowiedzi serwera",
+      "Wyłączony domyślnie i wymaga potwierdzenia",
+    ],
+    preview: "crash",
+  },
+  {
+    slug: "przyspieszenie",
+    icon: Gauge,
+    title: "Przyspieszenie",
+    desc: "Speedhack z płynną regulacją mnożnika prędkości i trybem cichym pod anti-cheat.",
+    long: "Zwiększa prędkość poruszania się z płynną regulacją. Tryb cichy trzyma wartości w granicach akceptowanych przez serwer.",
+    bullets: [
+      "Mnożnik prędkości 1x – 5x",
+      "Tryb cichy pod anti-cheat",
+      "Osobna prędkość w powietrzu",
+      "Bind na przytrzymanie lub toggle",
+    ],
+    preview: "speed",
+  },
+  {
+    slug: "glitch-kasy",
+    icon: Coins,
+    title: "Glitch kasy",
+    desc: "Podbicie stanu konta na serwerach z modami — pełny buy round za każdym razem.",
+    long: "Na serwerach z modami podbija stan konta, dzięki czemu każda runda zakupowa jest pełna. Nie działa na oficjalnych serwerach Valve.",
+    bullets: [
+      "Ustawiana kwota startowa",
+      "Auto buy wybranego zestawu",
+      "Działa na community i modach",
+      "Log transakcji w panelu",
+    ],
+    preview: "money",
+  },
+];

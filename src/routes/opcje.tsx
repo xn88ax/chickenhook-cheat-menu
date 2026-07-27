@@ -1,20 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  Bug,
-  Coins,
-  Crosshair,
-  Eye,
-  Gauge,
-  Heart,
-  MousePointerClick,
-  Rabbit,
-  ServerCrash,
-  Shirt,
-  Sparkles,
-  Wind,
-  Zap,
-} from "lucide-react";
 
+import { FeatureDialog } from "@/components/feature-dialog";
+import { features as options } from "@/data/features";
 import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 
 export const Route = createFileRoute("/opcje")({
@@ -39,73 +26,7 @@ export const Route = createFileRoute("/opcje")({
   component: Opcje,
 });
 
-const options = [
-  {
-    icon: Wind,
-    title: "Brak klipu",
-    desc: "Przechodzisz przez ściany i podłogi bez ograniczeń. Regulowana prędkość lotu.",
-  },
-  {
-    icon: Heart,
-    title: "Tryb boga",
-    desc: "Nietykalność na serwerach lokalnych i testowych. Sprawdzisz configi bez ryzyka.",
-  },
-  {
-    icon: Rabbit,
-    title: "Króliczy skok",
-    desc: "Auto bhop z synchronizacją strafe. Trzymasz spację, reszta dzieje się sama.",
-  },
-  {
-    icon: Crosshair,
-    title: "Robot celu",
-    desc: "Aimbot z FOV, smoothem, RCS i wyborem kości. Od cichego wsparcia po pełne HvH.",
-  },
-  {
-    icon: MousePointerClick,
-    title: "Robot spustu",
-    desc: "Triggerbot strzela w milisekundzie po najechaniu na wroga. Opóźnienie do ustawienia.",
-  },
-  {
-    icon: Eye,
-    title: "Wizualizacje",
-    desc: "Skeleton ESP, boxy, HP, bronie, granaty, radar, chams i podświetlenia.",
-  },
-  {
-    icon: Shirt,
-    title: "Zmieniacz skórek",
-    desc: "Skiny, noże, rękawiczki, naklejki i brelok — wszystko widoczne dla Ciebie od razu.",
-  },
-  {
-    icon: Sparkles,
-    title: "Ruch",
-    desc: "Auto strafe, fast stop, edge jump, slide i optymalizacja peekowania.",
-  },
-  {
-    icon: Bug,
-    title: "Różne",
-    desc: "Third person, zoom, FOV changer, night mode, spectator list i czysty log konsoli.",
-  },
-  {
-    icon: Zap,
-    title: "Teleport",
-    desc: "Natychmiastowe przeniesienie na wskazane miejsce mapy albo do bomby jednym klawiszem.",
-  },
-  {
-    icon: ServerCrash,
-    title: "Awaria serwera",
-    desc: "Wysyłka spreparowanych pakietów, która wykłada serwer. Tylko na własnych testach.",
-  },
-  {
-    icon: Gauge,
-    title: "Przyspieszenie",
-    desc: "Speedhack z płynną regulacją mnożnika prędkości i trybem cichym pod anti-cheat.",
-  },
-  {
-    icon: Coins,
-    title: "Glitch kasy",
-    desc: "Podbicie stanu konta na serwerach z modami — pełny buy round za każdym razem.",
-  },
-];
+
 
 
 function Opcje() {
@@ -168,11 +89,12 @@ function Opcje() {
           {options.map((o) => (
             <div
               key={o.title}
-              className="panel group rounded-sm p-6 transition-colors hover:border-primary/50"
+              className="panel group flex flex-col rounded-sm p-6 transition-colors hover:border-primary/50"
             >
               <o.icon className="size-7 text-primary transition-transform group-hover:scale-110" />
               <h2 className="mt-4 text-display text-2xl uppercase">{o.title}</h2>
               <p className="mt-2 text-sm text-muted-foreground">{o.desc}</p>
+              <FeatureDialog feature={o} />
             </div>
           ))}
         </div>
