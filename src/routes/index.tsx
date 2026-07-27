@@ -178,7 +178,7 @@ function Index() {
             width={1024}
             height={1024}
             loading="lazy"
-            className="w-full rounded-2xl object-cover"
+            className="h-[420px] w-full rounded-2xl object-cover opacity-90 saturate-75 md:h-[520px]"
           />
         </div>
       </section>
