@@ -231,29 +231,8 @@ function Index() {
         </div>
       </section>
 
-      {/* Marquee */}
-      <div className="overflow-hidden border-y border-border bg-primary py-3">
-        <div className="marquee-track flex w-max gap-8 whitespace-nowrap text-display text-2xl uppercase text-primary-foreground">
-          {Array.from({ length: 2 }).map((_, i) => (
-            <span key={i} className="flex gap-8">
-              {[
-                "Aimbot",
-                "ESP",
-                "Skin changer",
-                "Triggerbot",
-                "HvH ready",
-                "Bypass VAC",
-                "Stream proof",
-                "Private build",
-              ].map((t) => (
-                <span key={t} className="flex items-center gap-8">
-                  {t} <span className="text-accent">✦</span>
-                </span>
-              ))}
-            </span>
-          ))}
-        </div>
-      </div>
+
+
 
       {/* Features */}
       <section id="funkcje" className="mx-auto max-w-6xl px-5 py-20">
