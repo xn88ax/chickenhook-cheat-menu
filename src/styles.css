@@ -459,9 +459,12 @@
 
 @utility text-display {
   font-family: var(--font-display);
-  letter-spacing: 0.02em;
-  line-height: 0.92;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  text-transform: none;
 }
+
 
 @utility marquee-track {
   animation: marquee 22s linear infinite;
