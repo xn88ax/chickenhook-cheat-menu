@@ -141,9 +141,6 @@ function Index() {
             </span>
           </a>
           <nav className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-wide text-muted-foreground md:flex">
-            <a href="#menu" className="transition-colors hover:text-foreground">
-              Cennik
-            </a>
             <a href="#funkcje" className="transition-colors hover:text-foreground">
               Funkcje
             </a>
@@ -161,6 +158,7 @@ function Index() {
               FAQ
             </a>
           </nav>
+
 
           <a
             href="#menu"
