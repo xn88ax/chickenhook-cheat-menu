@@ -225,7 +225,7 @@ function Forum() {
                       key={c.id}
                       to="/forum/dzial/$slug"
                       params={{ slug: c.slug }}
-                      className="flex items-center gap-4 bg-card px-4 py-4 transition-colors hover:bg-secondary/50"
+                      className="flex items-center gap-4 glass px-4 py-4 transition-colors hover:bg-secondary/50"
                     >
                       <div className="min-w-0 flex-1">
                         <h3 className="text-sm font-bold">{c.name}</h3>
@@ -258,7 +258,7 @@ function Forum() {
                   key={t.id}
                   to="/forum/watek/$id"
                   params={{ id: t.id }}
-                  className="flex items-center gap-3 bg-card px-4 py-3 transition-colors hover:bg-secondary/50"
+                  className="flex items-center gap-3 glass px-4 py-3 transition-colors hover:bg-secondary/50"
                 >
                   <Avatar name={nameOf(t.author_id)} className="size-9" />
                   <div className="min-w-0 flex-1">

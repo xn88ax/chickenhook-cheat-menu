@@ -36,7 +36,7 @@ export function ForumShell({
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
-      <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-border glass-bar">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5">
           <Link to="/" className="flex items-center gap-2">
             <img src={chickenhookLogo.url} alt="Herb ChickenHook" className="h-9 w-auto" />
@@ -82,7 +82,7 @@ export function ForumShell({
         </div>
       </header>
 
-      <div className="border-b border-border bg-card">
+      <div className="border-b border-border glass-bar">
         <div className="mx-auto flex max-w-6xl items-center gap-1 px-5 text-xs font-bold uppercase tracking-wide">
           <span className="border-b-2 border-primary px-3 py-3 text-foreground">Forum</span>
           <Link to="/forum" className="px-3 py-3 text-muted-foreground hover:text-foreground">
