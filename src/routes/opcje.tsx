@@ -1,19 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  Bug,
-  Coins,
-  Crosshair,
-  Eye,
-  Gauge,
-  Heart,
-  MousePointerClick,
-  Rabbit,
-  ServerCrash,
-  Shirt,
-  Sparkles,
-  Wind,
-  Zap,
-} from "lucide-react";
 
 import { FeatureDialog } from "@/components/feature-dialog";
 import { features as options } from "@/data/features";

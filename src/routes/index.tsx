@@ -1,19 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  Bug,
   Check,
-  Coins,
-  Crosshair,
-  Eye,
-  Gauge,
-  Heart,
-  MousePointerClick,
-  Rabbit,
-  ServerCrash,
-  Shirt,
-  Sparkles,
-  Wind,
-  Zap,
 } from "lucide-react";
 
 
