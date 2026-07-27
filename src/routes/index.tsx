@@ -73,34 +73,38 @@ import { FeaturePreview } from "@/components/feature-preview";
 
 
 
+const heroStats = [
+  ["Win 10 / 11", "Tylko Windows"],
+  ["24/7", "Wsparcie na żywo"],
+  ["Kernel", "Ochrona sterownika"],
+  ["18 420", "Zadowolonych graczy"],
+  ["Regularne", "Aktualizacje"],
+];
+
 function Index() {
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
       {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-border glass-bar">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
+      <header className="sticky top-4 z-50 px-4">
+        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between rounded-full border border-border glass px-3 pl-5">
           <a href="#top" className="flex items-center gap-2">
             <img
               src={chickenhookLogo.url}
-              alt="Herb ChickenHook — złoty kogut na czarnej tarczy"
-              className="h-10 w-auto"
+              alt="Herb ChickenHook — kogut na tarczy"
+              className="h-7 w-auto"
             />
-            <span className="text-display text-2xl">
-              CHICKEN<span className="text-primary">HOOK</span>
-              <span className="text-muted-foreground">.RU</span>
-            </span>
+            <span className="text-display text-lg tracking-tight">chickenhook</span>
           </a>
-          <nav className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-wide text-muted-foreground md:flex">
+          <nav className="hidden items-center gap-7 text-sm text-muted-foreground md:flex">
             <a href="#funkcje" className="transition-colors hover:text-foreground">
               Funkcje
             </a>
             <Link to="/opcje" className="transition-colors hover:text-foreground">
               Opcje
             </Link>
-            <Link to="/forum" className="transition-colors hover:text-foreground">
-              Forum
-            </Link>
-
+            <a href="#menu" className="transition-colors hover:text-foreground">
+              Cennik
+            </a>
             <a href="#status" className="transition-colors hover:text-foreground">
               Status
             </a>
@@ -109,116 +113,113 @@ function Index() {
             </a>
           </nav>
 
-
-          <a
-            href="#menu"
-            className="glass-focus rounded-sm bucket-gradient px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] hover:-translate-y-0.5"
+          <Link
+            to="/forum"
+            className="glass-focus rounded-full border border-border bg-secondary/70 px-5 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-secondary"
           >
-            Kup teraz
-          </a>
+            Forum
+          </Link>
         </div>
       </header>
 
       {/* Hero */}
       <section id="top" className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 glow-top" aria-hidden="true" />
-        <div className="pointer-events-none absolute inset-0 aurora" aria-hidden="true" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 md:grid-cols-2 md:py-24">
-          <div>
-            <span className="inline-block rounded-sm border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-              Undetected od 412 dni
+        <div className="pointer-events-none absolute inset-0 aurora opacity-40" aria-hidden="true" />
+        <div className="relative mx-auto max-w-3xl px-5 py-28 text-center md:py-36">
+          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
+            Premium CS2 software
+          </span>
+          <h1 className="mt-6 text-display text-5xl sm:text-6xl md:text-7xl">
+            Wciąż grasz na tych{" "}
+            <span className="glitch inline-block" data-text="samych cheatach?">
+              samych cheatach?
             </span>
-            <h1 className="mt-5 text-display text-6xl uppercase sm:text-7xl md:text-8xl">
-              Daj im
-              <br />
-              <span className="glitch inline-block text-primary" data-text="posmakować">
-                posmakować
-              </span>
-            </h1>
-            <p className="mt-5 max-w-md text-base text-muted-foreground">
-              ChickenHook to private cheat do CS2 w fast-foodowej czerwieni. Aimbot, ESP, skin
-              changer i bypass w jednym zestawie — podawane świeżo po każdym patchu.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <a
-                href="#menu"
-                className="glass-focus rounded-sm bucket-gradient px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] hover:-translate-y-0.5"
-              >
-                Kup teraz — od 39 zł
-              </a>
-              <a
-                href="#funkcje"
-                className="text-sm font-semibold uppercase tracking-wide text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
-              >
-                Zobacz funkcje
-              </a>
-            </div>
-            <dl className="mt-10 grid max-w-md grid-cols-2 gap-4">
-              {[
-                ["18 420", "Użytkowników"],
-                ["0", "Banów w 2026"],
-              ].map(([v, l], i) => (
-                <div key={i}>
-                  <dt className="text-display text-3xl text-accent">{v}</dt>
-                  <dd className="text-xs uppercase tracking-wide text-muted-foreground">{l}</dd>
-                </div>
-              ))}
-            </dl>
+          </h1>
+          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">
+            Uwolnij pełen potencjał w Counter-Strike 2 z najnowszym prywatnym oprogramowaniem.
+            Dopracowane w każdym detalu, z pełną personalizacją każdego modułu.
+          </p>
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="#menu"
+              className="glass-focus rounded-full border border-border bg-secondary px-7 py-3 text-sm font-semibold text-foreground transition-transform hover:-translate-y-0.5"
+            >
+              Uzyskaj dostęp
+            </a>
+            <a
+              href="#funkcje"
+              className="glass-focus rounded-full border border-border px-7 py-3 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Dowiedz się więcej
+            </a>
+          </div>
+          <p className="mx-auto mt-6 w-fit rounded-full border border-border px-4 py-1.5 text-xs text-muted-foreground">
+            Już od 39 zł / miesiąc
+          </p>
+        </div>
 
-          </div>
-          <div className="relative flex justify-center">
-            <div className="absolute -inset-6 rounded-full bg-primary/20 blur-3xl" aria-hidden />
-            <img
-              src={chickenOnTree.url}
-              alt="Kurczak na drzewie — symbol ChickenHook"
-              width={1024}
-              height={1024}
-              className="relative w-full max-w-md rounded-sm drop-shadow-[0_20px_45px_rgba(0,0,0,0.6)]"
-            />
-          </div>
+        <div className="relative mx-auto grid max-w-5xl grid-cols-2 gap-y-8 px-5 pb-20 text-center sm:grid-cols-3 md:grid-cols-5">
+          {heroStats.map(([v, l]) => (
+            <div key={l}>
+              <p className="text-display text-2xl">{v}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{l}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-
-
+      {/* Showcase */}
+      <section className="relative mx-auto max-w-5xl px-5 pb-24">
+        <div className="overflow-hidden rounded-3xl border border-border glass p-3">
+          <img
+            src={chickenOnTree.url}
+            alt="Podgląd wizualizacji ChickenHook w akcji"
+            width={1024}
+            height={1024}
+            loading="lazy"
+            className="w-full rounded-2xl object-cover"
+          />
+        </div>
+      </section>
 
       {/* Features */}
       <section id="funkcje" className="relative overflow-hidden py-24">
-        <div className="pointer-events-none absolute inset-0 glow-top opacity-40" aria-hidden />
+        <div className="pointer-events-none absolute inset-0 glow-top opacity-30" aria-hidden />
         <div className="relative mx-auto max-w-6xl px-5">
-          <div className="max-w-2xl">
-            <span className="inline-block rounded-sm border border-border bg-secondary/40 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
               Funkcje
             </span>
-            <h2 className="mt-4 text-display text-5xl uppercase md:text-6xl">
-              Pełny <span className="text-primary">skład</span>
+            <h2 className="mt-4 text-display text-4xl md:text-5xl">
+              Co dostajesz dołączając do ChickenHook?
             </h2>
-            <p className="mt-3 text-muted-foreground">
+            <p className="mt-4 text-muted-foreground">
               Każdy moduł konfigurowany osobno i testowany na Premierze powyżej 20k ELO.
             </p>
           </div>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((f, i) => (
               <article
                 key={f.title}
-                className="feature-card group flex flex-col rounded-md p-7"
+                className="feature-card group flex flex-col rounded-2xl p-7"
               >
                 <div className="flex items-start justify-between gap-4">
-                  <span className="flex size-12 items-center justify-center rounded-md border border-primary/30 bg-primary/10 text-primary transition-all duration-300 group-hover:border-primary/60 group-hover:bg-primary/20">
-                    <f.icon className="size-6 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
+                  <span className="flex size-11 items-center justify-center rounded-xl border border-border bg-secondary/60 text-foreground transition-colors duration-300 group-hover:border-primary/50 group-hover:text-primary">
+                    <f.icon className="size-5 transition-transform duration-300 group-hover:scale-110" />
                   </span>
                   {f.restricted ? (
-                    <span className="inline-flex items-center gap-1.5 rounded-sm border border-primary/40 bg-primary/10 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-primary">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-primary">
                       <Lock className="size-3" />
                       Elite + podanie
                     </span>
                   ) : (
-                    <span className="text-display text-2xl leading-none text-muted-foreground/40">
+                    <span className="text-display text-xl leading-none text-muted-foreground/40">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   )}
                 </div>
-                <h3 className="mt-6 text-display text-2xl uppercase leading-none">{f.title}</h3>
+                <h3 className="mt-6 text-display text-xl">{f.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.desc}</p>
                 <FeaturePreview kind={f.preview} />
                 <FeatureDialog feature={f} />
@@ -227,6 +228,7 @@ function Index() {
           </div>
         </div>
       </section>
+
 
 
 
