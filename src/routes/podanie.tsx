@@ -61,11 +61,11 @@ function Podanie() {
       </header>
 
       <section className="mx-auto max-w-3xl px-5 py-16">
-        <span className="inline-flex items-center gap-2 rounded-sm border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+        <span className="inline-flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-primary">
           <Lock className="size-3.5" />
           Tylko Elite
         </span>
-        <h1 className="mt-5 text-display text-5xl uppercase md:text-6xl">
+        <h1 className="mt-5 text-display text-5xl md:text-6xl">
           Podanie o <span className="text-primary">moduły ryzykowne</span>
         </h1>
         <p className="mt-4 text-muted-foreground">
@@ -74,7 +74,7 @@ function Podanie() {
           po ręcznej weryfikacji. Wypełnij podanie — odpowiadamy zwykle w 24 h.
         </p>
 
-        <div className="panel mt-8 flex gap-3 rounded-sm p-5 text-sm text-muted-foreground">
+        <div className="panel mt-8 flex gap-3 rounded-xl p-5 text-sm text-muted-foreground">
           <ShieldAlert className="mt-0.5 size-5 shrink-0 text-primary" />
           <p>
             Weryfikujemy staż konta, historię banów i przeznaczenie modułu. Podania pod publiczne
@@ -83,23 +83,23 @@ function Podanie() {
         </div>
 
         {sent ? (
-          <div className="panel mt-8 flex flex-col items-start gap-3 rounded-sm p-8">
+          <div className="panel mt-8 flex flex-col items-start gap-3 rounded-xl p-8">
             <CheckCircle2 className="size-8 text-primary" />
-            <h2 className="text-display text-3xl uppercase">Podanie wysłane</h2>
+            <h2 className="text-display text-3xl ">Podanie wysłane</h2>
             <p className="text-sm text-muted-foreground">
               Dostaniesz decyzję na Discordzie. Do tego czasu moduły pozostają zablokowane w
               loaderze.
             </p>
             <Link
               to="/opcje"
-              className="mt-2 rounded-sm border border-border px-5 py-2.5 text-sm font-bold uppercase tracking-wide transition-colors hover:bg-secondary"
+              className="mt-2 rounded-xl border border-border px-5 py-2.5 text-sm font-bold uppercase tracking-wide transition-colors hover:bg-secondary"
             >
               Wróć do opcji
             </Link>
           </div>
         ) : (
           <form
-            className="panel mt-8 space-y-5 rounded-sm p-7"
+            className="panel mt-8 space-y-5 rounded-xl p-7"
             onSubmit={(e) => {
               e.preventDefault();
               setSent(true);
@@ -111,7 +111,7 @@ function Podanie() {
                 <input
                   required
                   name="nick"
-                  className="glass-focus mt-2 w-full rounded-sm border border-border bg-background/60 px-3 py-2.5 text-sm outline-none"
+                  className="glass-focus mt-2 w-full rounded-xl border border-border bg-background/60 px-3 py-2.5 text-sm outline-none"
                   placeholder="adam#0001"
                 />
               </label>
@@ -120,7 +120,7 @@ function Podanie() {
                 <input
                   required
                   name="staz"
-                  className="glass-focus mt-2 w-full rounded-sm border border-border bg-background/60 px-3 py-2.5 text-sm outline-none"
+                  className="glass-focus mt-2 w-full rounded-xl border border-border bg-background/60 px-3 py-2.5 text-sm outline-none"
                   placeholder="np. 4000 h, 18k ELO"
                 />
               </label>
@@ -134,7 +134,7 @@ function Podanie() {
                 {restricted.map((f) => (
                   <label
                     key={f.slug}
-                    className="flex cursor-pointer items-center gap-2.5 rounded-sm border border-border bg-background/40 px-3 py-2.5 transition-colors hover:border-primary/50"
+                    className="flex cursor-pointer items-center gap-2.5 rounded-xl border border-border bg-background/40 px-3 py-2.5 transition-colors hover:border-primary/50"
                   >
                     <input
                       type="checkbox"
@@ -156,7 +156,7 @@ function Podanie() {
                 required
                 name="uzasadnienie"
                 rows={5}
-                className="glass-focus mt-2 w-full resize-y rounded-sm border border-border bg-background/60 px-3 py-2.5 text-sm outline-none"
+                className="glass-focus mt-2 w-full resize-y rounded-xl border border-border bg-background/60 px-3 py-2.5 text-sm outline-none"
                 placeholder="Gdzie i po co chcesz używać modułu (własny serwer, mapa treningowa, testy configów)…"
               />
             </label>
@@ -171,7 +171,7 @@ function Podanie() {
 
             <button
               type="submit"
-              className="w-full rounded-sm bucket-gradient px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
+              className="w-full rounded-xl bg-secondary px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
             >
               Wyślij podanie
             </button>
