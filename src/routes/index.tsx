@@ -343,7 +343,7 @@ function Index() {
           ].map(([name, status, ok]) => (
             <div
               key={name as string}
-              className="flex items-center justify-between border-b border-border bg-card px-5 py-4 last:border-0"
+              className="flex items-center justify-between border-b border-border glass px-5 py-4 last:border-0"
             >
               <span className="text-sm font-semibold">{name}</span>
               <span
