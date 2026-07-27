@@ -29,11 +29,40 @@ export const Route = createFileRoute("/opcje")({
   }),
   component: Opcje,
 });
+const GROUPS: Record<string, string> = {
+  "robot-celu": "Celowanie",
+  "robot-spustu": "Celowanie",
+  wizualizacje: "Wizualizacje",
+  "zmieniacz-skorek": "Wizualizacje",
+  ruch: "Ruch",
+  "kroliczy-skok": "Ruch",
+  przyspieszenie: "Ruch",
+  "brak-klipu": "Ruch",
+  "tryb-boga": "Exploity",
+  teleport: "Exploity",
+  "awaria-serwera": "Exploity",
+  "glitch-kasy": "Exploity",
+  rozne: "Inne",
+};
 
-
-
+const TABS = ["Wszystkie", "Celowanie", "Wizualizacje", "Ruch", "Exploity", "Inne"] as const;
 
 function Opcje() {
+  const [tab, setTab] = useState<(typeof TABS)[number]>("Wszystkie");
+  const [q, setQ] = useState("");
+  const [onlyElite, setOnlyElite] = useState(false);
+
+  const filtered = useMemo(() => {
+    const needle = q.trim().toLowerCase();
+    return options.filter((o) => {
+      const group = GROUPS[o.slug] ?? "Inne";
+      if (tab !== "Wszystkie" && group !== tab) return false;
+      if (onlyElite && !o.restricted) return false;
+      if (needle && !`${o.title} ${o.desc}`.toLowerCase().includes(needle)) return false;
+      return true;
+    });
+  }, [tab, q, onlyElite]);
+
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
       <header className="sticky top-0 z-50 border-b border-border glass-bar">
