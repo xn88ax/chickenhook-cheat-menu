@@ -115,8 +115,13 @@ function Opcje() {
           </p>
         </div>
       </section>
+      <section className="mx-auto max-w-6xl px-5 pb-12">
+        <CheatMenu />
+      </section>
+
       <section className="mx-auto max-w-6xl px-5 pb-20">
         {/* Filtry */}
+
         <div className="flex flex-col gap-4 border-b border-border/60 pb-5 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap gap-2">
             {TABS.map((t) => {
