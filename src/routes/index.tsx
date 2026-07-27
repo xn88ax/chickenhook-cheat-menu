@@ -164,7 +164,7 @@ function Index() {
 
           <a
             href="#menu"
-            className="rounded-sm bucket-gradient px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
+            className="glass-focus rounded-sm bucket-gradient px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] hover:-translate-y-0.5"
           >
             Kup teraz
           </a>
@@ -267,9 +267,9 @@ function Index() {
           {features.map((f) => (
             <div
               key={f.title}
-              className="panel group rounded-sm p-6 transition-colors hover:border-primary/50"
+              className="panel group rounded-sm p-6"
             >
-              <f.icon className="size-7 text-primary transition-transform group-hover:scale-110" />
+              <f.icon className="size-7 text-primary transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
               <h3 className="mt-4 text-display text-2xl uppercase">{f.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{f.desc}</p>
             </div>
@@ -318,7 +318,7 @@ function Index() {
                 </ul>
                 <a
                   href="#faq"
-                  className={`mt-7 rounded-sm px-5 py-3 text-center text-sm font-bold uppercase tracking-wide transition-transform hover:-translate-y-0.5 ${
+                  className={`glass-focus mt-7 rounded-sm px-5 py-3 text-center text-sm font-bold uppercase tracking-wide hover:-translate-y-0.5 ${
                     p.featured
                       ? "bucket-gradient text-primary-foreground"
                       : "border border-border text-foreground hover:bg-secondary"
