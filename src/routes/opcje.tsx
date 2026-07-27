@@ -181,7 +181,6 @@ function Opcje() {
         </div>
       </section>
 
-      <div className="h-3 stripe-band" aria-hidden />
 
       <footer className="mx-auto max-w-6xl px-5 py-12">
         <p className="text-xs text-muted-foreground">
