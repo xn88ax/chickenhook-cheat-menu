@@ -136,19 +136,6 @@ function Opcje() {
         </div>
       </section>
 
-      <div className="overflow-hidden border-y border-border bg-primary py-3">
-        <div className="marquee-track flex w-max gap-8 whitespace-nowrap text-display text-2xl uppercase text-primary-foreground">
-          {Array.from({ length: 2 }).map((_, i) => (
-            <span key={i} className="flex gap-8">
-              {options.map((o) => (
-                <span key={o.title} className="flex items-center gap-8">
-                  {o.title} <span className="text-accent">✦</span>
-                </span>
-              ))}
-            </span>
-          ))}
-        </div>
-      </div>
 
       <section className="mx-auto max-w-6xl px-5 py-20">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
