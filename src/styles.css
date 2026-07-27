@@ -183,10 +183,30 @@
 }
 
 @utility panel {
-  background-color: var(--color-card);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-panel);
+  background-color: color-mix(in oklab, var(--color-card) 55%, transparent);
+  background-image: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
+
+@utility glass {
+  background-color: color-mix(in oklab, var(--color-card) 45%, transparent);
+  background-image: var(--glass-bg);
+  border-color: var(--glass-border);
+  box-shadow: var(--shadow-glass);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+}
+
+@utility glass-bar {
+  background-color: color-mix(in oklab, var(--color-background) 60%, transparent);
+  border-color: var(--glass-border);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+}
+
 
 @utility stripe-band {
   background-image: repeating-linear-gradient(
