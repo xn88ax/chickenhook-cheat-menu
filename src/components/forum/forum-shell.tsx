@@ -111,7 +111,7 @@ export function ForumShell({
 
       {children}
 
-      <div className="h-3 stripe-band" aria-hidden />
+      
       <footer className="mx-auto max-w-6xl px-5 py-10">
         <p className="text-xs text-muted-foreground">
           Strona parodystyczna, stworzona w celach demonstracyjnych.
