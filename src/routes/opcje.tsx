@@ -182,43 +182,64 @@ function Opcje() {
           {filtered.length} / {options.length} modułów
         </p>
 
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 divide-y divide-border/60">
           {filtered.map((o) => (
-            <article
-              key={o.slug}
-              className="feature-card group flex flex-col rounded-md p-6"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <span className="flex size-12 items-center justify-center rounded-md border border-primary/30 bg-primary/10 text-primary transition-all duration-300 group-hover:border-primary/60 group-hover:bg-primary/20">
-                  <o.icon className="size-6 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
-                </span>
-                {o.restricted ? (
-                  <span className="inline-flex items-center gap-1.5 rounded-sm border border-primary/40 bg-primary/10 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-primary">
-                    <Lock className="size-3" />
-                    Elite + podanie
-                  </span>
-                ) : (
-                  <span className="rounded-sm border border-border px-2 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">
+            <article key={o.slug} className="grid gap-8 py-12 md:grid-cols-[1.1fr_1fr]">
+              <div>
+                <div className="flex items-center gap-3">
+                  <o.icon className="size-7 text-primary" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
                     {GROUPS[o.slug] ?? "Inne"}
                   </span>
+                  {o.restricted && (
+                    <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-primary">
+                      <Lock className="size-3" />
+                      Elite + podanie
+                    </span>
+                  )}
+                </div>
+                <h2 className="mt-4 text-display text-4xl uppercase leading-none">{o.title}</h2>
+                <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted-foreground">
+                  {o.long}
+                </p>
+                <ul className="mt-5 space-y-2">
+                  {o.bullets.map((b) => (
+                    <li
+                      key={b}
+                      className="flex items-start gap-2 text-sm text-muted-foreground"
+                    >
+                      <Check className="mt-0.5 size-4 shrink-0 text-primary" />
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+                {o.restricted && (
+                  <Link
+                    to="/podanie"
+                    search={{ modul: o.slug }}
+                    className="mt-5 inline-block text-xs font-bold uppercase tracking-wide text-primary underline-offset-4 hover:underline"
+                  >
+                    Złóż podanie o dostęp
+                  </Link>
                 )}
               </div>
-              <h2 className="mt-5 text-display text-2xl uppercase leading-none">{o.title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{o.desc}</p>
-              <FeaturePreview kind={o.preview} />
-              <FeatureDialog feature={o} />
+
+              <div className="preview-open self-center">
+                <FeaturePreview kind={o.preview} />
+              </div>
             </article>
           ))}
         </div>
 
         {filtered.length === 0 && (
-          <div className="panel mt-6 rounded-md p-10 text-center">
+          <div className="py-16 text-center">
             <p className="text-display text-2xl uppercase">Brak wyników</p>
             <p className="mt-2 text-sm text-muted-foreground">
               Zmień filtr albo wpisz inną frazę.
             </p>
           </div>
         )}
+
 
 
         <div className="mt-12 flex flex-wrap gap-3">
