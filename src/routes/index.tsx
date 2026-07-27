@@ -18,6 +18,8 @@ import {
 
 
 
+import { FeatureDialog } from "@/components/feature-dialog";
+import { features } from "@/data/features";
 import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 import chickenOnTree from "@/assets/chicken-on-tree.png.asset.json";
 
@@ -81,86 +83,7 @@ const menu = [
 
 import { FeaturePreview } from "@/components/feature-preview";
 
-const features = [
-  {
-    icon: Wind,
-    title: "Brak klipu",
-    desc: "Przechodzisz przez ściany i podłogi bez ograniczeń. Regulowana prędkość lotu.",
-    preview: "noclip" as const,
-  },
-  {
-    icon: Heart,
-    title: "Tryb boga",
-    desc: "Nietykalność na serwerach lokalnych i testowych. Sprawdzisz configi bez ryzyka.",
-    preview: "god" as const,
-  },
-  {
-    icon: Rabbit,
-    title: "Króliczy skok",
-    desc: "Auto bhop z synchronizacją strafe. Trzymasz spację, reszta dzieje się sama.",
-    preview: "bhop" as const,
-  },
-  {
-    icon: Crosshair,
-    title: "Robot celu",
-    desc: "Aimbot z FOV, smoothem, RCS i wyborem kości. Od cichego wsparcia po pełne HvH.",
-    preview: "aim" as const,
-  },
-  {
-    icon: MousePointerClick,
-    title: "Robot spustu",
-    desc: "Triggerbot strzela w milisekundzie po najechaniu na wroga. Opóźnienie do ustawienia.",
-    preview: "trigger" as const,
-  },
-  {
-    icon: Eye,
-    title: "Wizualizacje",
-    desc: "Skeleton ESP, boxy, HP, bronie, granaty, radar, chams i podświetlenia.",
-    preview: "esp" as const,
-  },
-  {
-    icon: Shirt,
-    title: "Zmieniacz skórek",
-    desc: "Skiny, noże, rękawiczki, naklejki i brelok — wszystko widoczne dla Ciebie od razu.",
-    preview: "skins" as const,
-  },
-  {
-    icon: Sparkles,
-    title: "Ruch",
-    desc: "Auto strafe, fast stop, edge jump, slide i optymalizacja peekowania.",
-    preview: "movement" as const,
-  },
-  {
-    icon: Bug,
-    title: "Różne",
-    desc: "Third person, zoom, FOV changer, night mode, spectator list i czysty log konsoli.",
-    preview: "misc" as const,
-  },
-  {
-    icon: Zap,
-    title: "Teleport",
-    desc: "Natychmiastowe przeniesienie na wskazane miejsce mapy albo do bomby jednym klawiszem.",
-    preview: "teleport" as const,
-  },
-  {
-    icon: ServerCrash,
-    title: "Awaria serwera",
-    desc: "Wysyłka spreparowanych pakietów, która wykłada serwer. Tylko na własnych testach.",
-    preview: "crash" as const,
-  },
-  {
-    icon: Gauge,
-    title: "Przyspieszenie",
-    desc: "Speedhack z płynną regulacją mnożnika prędkości i trybem cichym pod anti-cheat.",
-    preview: "speed" as const,
-  },
-  {
-    icon: Coins,
-    title: "Glitch kasy",
-    desc: "Podbicie stanu konta na serwerach z modami — pełny buy round za każdym razem.",
-    preview: "money" as const,
-  },
-];
+
 
 
 
@@ -305,6 +228,7 @@ function Index() {
                 <h3 className="mt-6 text-display text-2xl uppercase leading-none">{f.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.desc}</p>
                 <FeaturePreview kind={f.preview} />
+                <FeatureDialog feature={f} />
               </article>
             ))}
           </div>
