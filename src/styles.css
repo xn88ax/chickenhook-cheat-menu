@@ -19,8 +19,8 @@
  */
 
 @theme inline {
-  --font-display: "Bebas Neue", "Barlow Condensed", sans-serif;
-  --font-sans: "Barlow", sans-serif;
+  --font-display: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
   --color-bucket: var(--bucket);
   --color-crisp: var(--crisp);
   --radius-sm: calc(var(--radius) - 4px);
