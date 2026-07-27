@@ -3,7 +3,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { CheckCircle2, Lock, ShieldAlert } from "lucide-react";
 
 import { features } from "@/data/features";
-import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
+import { SiteHeader } from "@/components/site-header";
+
 
 export const Route = createFileRoute("/podanie")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -38,27 +39,8 @@ function Podanie() {
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
-      <header className="sticky top-0 z-50 border-b border-border glass-bar">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-          <Link to="/" className="flex items-center gap-2">
-            <img
-              src={chickenhookLogo.url}
-              alt="Herb ChickenHook — złoty kogut na czarnej tarczy"
-              className="h-10 w-auto"
-            />
-            <span className="text-display text-2xl">
-              CHICKEN<span className="text-primary">HOOK</span>
-              <span className="text-muted-foreground">.RU</span>
-            </span>
-          </Link>
-          <Link
-            to="/opcje"
-            className="text-sm font-semibold uppercase tracking-wide text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Opcje
-          </Link>
-        </div>
-      </header>
+      <SiteHeader />
+
 
       <section className="mx-auto max-w-3xl px-5 py-16">
         <span className="inline-flex items-center gap-2 rounded-xl border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-primary">
