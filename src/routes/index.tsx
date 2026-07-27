@@ -233,26 +233,43 @@ function Index() {
 
 
       {/* Features */}
-      <section id="funkcje" className="mx-auto max-w-6xl px-5 py-20">
-        <h2 className="text-display text-5xl uppercase md:text-6xl">
-          Pełny <span className="text-primary">skład</span>
-        </h2>
-        <p className="mt-3 max-w-lg text-muted-foreground">
-          Każdy moduł konfigurowany osobno i testowany na Premierze powyżej 20k ELO.
-        </p>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((f) => (
-            <div
-              key={f.title}
-              className="panel group rounded-sm p-6"
-            >
-              <f.icon className="size-7 text-primary transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
-              <h3 className="mt-4 text-display text-2xl uppercase">{f.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{f.desc}</p>
-            </div>
-          ))}
+      <section id="funkcje" className="relative overflow-hidden py-24">
+        <div className="pointer-events-none absolute inset-0 glow-top opacity-40" aria-hidden />
+        <div className="relative mx-auto max-w-6xl px-5">
+          <div className="max-w-2xl">
+            <span className="inline-block rounded-sm border border-border bg-secondary/40 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+              Funkcje
+            </span>
+            <h2 className="mt-4 text-display text-5xl uppercase md:text-6xl">
+              Pełny <span className="text-primary">skład</span>
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Każdy moduł konfigurowany osobno i testowany na Premierze powyżej 20k ELO.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map((f, i) => (
+              <article
+                key={f.title}
+                className="feature-card group flex flex-col rounded-md p-7"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <span className="flex size-12 items-center justify-center rounded-md border border-primary/30 bg-primary/10 text-primary transition-all duration-300 group-hover:border-primary/60 group-hover:bg-primary/20">
+                    <f.icon className="size-6 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
+                  </span>
+                  <span className="text-display text-2xl leading-none text-muted-foreground/40">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <h3 className="mt-6 text-display text-2xl uppercase leading-none">{f.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.desc}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
+
+
 
       {/* Menu / pricing */}
       <section id="menu" className="border-y border-border bg-card/40 py-20">
