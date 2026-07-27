@@ -1,4 +1,5 @@
-import { Check, PlayCircle } from "lucide-react";
+import { Check, Lock, PlayCircle } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 import { FeaturePreview } from "@/components/feature-preview";
 import {
@@ -25,6 +26,7 @@ export function FeatureDialog({ feature }: { feature: Feature }) {
           Zobacz jak działa
         </button>
       </DialogTrigger>
+
       <DialogContent className="glass max-w-lg">
         <DialogHeader>
           <div className="flex items-center gap-3">
