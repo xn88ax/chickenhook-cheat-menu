@@ -2,15 +2,20 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Bug,
   Check,
+  Coins,
   Crosshair,
   Eye,
+  Gauge,
   Heart,
   MousePointerClick,
   Rabbit,
+  ServerCrash,
   Shirt,
   Sparkles,
   Wind,
+  Zap,
 } from "lucide-react";
+
 
 
 import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
@@ -131,7 +136,32 @@ const features = [
     desc: "Third person, zoom, FOV changer, night mode, spectator list i czysty log konsoli.",
     preview: "misc" as const,
   },
+  {
+    icon: Zap,
+    title: "Teleport",
+    desc: "Natychmiastowe przeniesienie na wskazane miejsce mapy albo do bomby jednym klawiszem.",
+    preview: "teleport" as const,
+  },
+  {
+    icon: ServerCrash,
+    title: "Awaria serwera",
+    desc: "Wysyłka spreparowanych pakietów, która wykłada serwer. Tylko na własnych testach.",
+    preview: "crash" as const,
+  },
+  {
+    icon: Gauge,
+    title: "Przyspieszenie",
+    desc: "Speedhack z płynną regulacją mnożnika prędkości i trybem cichym pod anti-cheat.",
+    preview: "speed" as const,
+  },
+  {
+    icon: Coins,
+    title: "Glitch kasy",
+    desc: "Podbicie stanu konta na serwerach z modami — pełny buy round za każdym razem.",
+    preview: "money" as const,
+  },
 ];
+
 
 
 function Index() {
