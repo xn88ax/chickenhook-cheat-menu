@@ -40,9 +40,10 @@ export function FeatureDialog({ feature }: { feature: Feature }) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="group">
+        <div className="preview-open">
           <FeaturePreview kind={feature.preview} />
         </div>
+
 
         <ul className="mt-2 space-y-2">
           {feature.bullets.map((b) => (
