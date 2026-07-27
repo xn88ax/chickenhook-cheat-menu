@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as PodanieRouteImport } from './routes/podanie'
 import { Route as OpcjeRouteImport } from './routes/opcje'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -22,6 +23,11 @@ import { Route as AuthenticatedForumDzialSlugRouteImport } from './routes/_authe
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PodanieRoute = PodanieRouteImport.update({
+  id: '/podanie',
+  path: '/podanie',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OpcjeRoute = OpcjeRouteImport.update({
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/opcje': typeof OpcjeRoute
+  '/podanie': typeof PodanieRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/forum': typeof AuthenticatedForumRouteWithChildren
   '/forum/': typeof AuthenticatedForumIndexRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/opcje': typeof OpcjeRoute
+  '/podanie': typeof PodanieRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/forum': typeof AuthenticatedForumIndexRoute
   '/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/opcje': typeof OpcjeRoute
+  '/podanie': typeof PodanieRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/forum': typeof AuthenticatedForumRouteWithChildren
   '/_authenticated/forum/': typeof AuthenticatedForumIndexRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/opcje'
+    | '/podanie'
     | '/sitemap.xml'
     | '/forum'
     | '/forum/'
@@ -113,6 +123,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/opcje'
+    | '/podanie'
     | '/sitemap.xml'
     | '/forum'
     | '/forum/dzial/$slug'
@@ -123,6 +134,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/opcje'
+    | '/podanie'
     | '/sitemap.xml'
     | '/_authenticated/forum'
     | '/_authenticated/forum/'
@@ -135,6 +147,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   OpcjeRoute: typeof OpcjeRoute
+  PodanieRoute: typeof PodanieRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
@@ -145,6 +158,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/podanie': {
+      id: '/podanie'
+      path: '/podanie'
+      fullPath: '/podanie'
+      preLoaderRoute: typeof PodanieRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/opcje': {
@@ -237,18 +257,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   OpcjeRoute: OpcjeRoute,
+  PodanieRoute: PodanieRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

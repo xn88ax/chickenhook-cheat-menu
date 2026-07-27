@@ -1,4 +1,5 @@
-import { Check, PlayCircle } from "lucide-react";
+import { Check, Lock, PlayCircle } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 import { FeaturePreview } from "@/components/feature-preview";
 import {
@@ -25,6 +26,7 @@ export function FeatureDialog({ feature }: { feature: Feature }) {
           Zobacz jak działa
         </button>
       </DialogTrigger>
+
       <DialogContent className="glass max-w-lg">
         <DialogHeader>
           <div className="flex items-center gap-3">
@@ -53,6 +55,26 @@ export function FeatureDialog({ feature }: { feature: Feature }) {
             </li>
           ))}
         </ul>
+
+        {feature.restricted && (
+          <div className="mt-2 rounded-sm border border-primary/40 bg-primary/10 p-4">
+            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-primary">
+              <Lock className="size-4" />
+              Tylko plan Elite — wymagane podanie
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Ten moduł jest ryzykowny, więc odblokowujemy go ręcznie po weryfikacji konta.
+            </p>
+            <Link
+              to="/podanie"
+              search={{ modul: feature.slug }}
+              className="mt-3 inline-block rounded-sm bucket-gradient px-4 py-2 text-xs font-bold uppercase tracking-wide text-primary-foreground"
+            >
+              Złóż podanie
+            </Link>
+          </div>
+        )}
+
       </DialogContent>
     </Dialog>
   );

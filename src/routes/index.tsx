@@ -1,7 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  Check,
-} from "lucide-react";
+import { Check, Lock } from "lucide-react";
 
 
 
@@ -62,6 +60,7 @@ const menu = [
       "Wszystko z Premium",
       "HvH ready config",
       "Konfigi od topowych graczy",
+      "Moduły ryzykowne (tryb boga, brak klipu, teleport) po podaniu",
       "Priorytetowy support 24/7",
       "Dostęp do beta buildów",
     ],
@@ -208,9 +207,16 @@ function Index() {
                   <span className="flex size-12 items-center justify-center rounded-md border border-primary/30 bg-primary/10 text-primary transition-all duration-300 group-hover:border-primary/60 group-hover:bg-primary/20">
                     <f.icon className="size-6 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" />
                   </span>
-                  <span className="text-display text-2xl leading-none text-muted-foreground/40">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
+                  {f.restricted ? (
+                    <span className="inline-flex items-center gap-1.5 rounded-sm border border-primary/40 bg-primary/10 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-primary">
+                      <Lock className="size-3" />
+                      Elite + podanie
+                    </span>
+                  ) : (
+                    <span className="text-display text-2xl leading-none text-muted-foreground/40">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  )}
                 </div>
                 <h3 className="mt-6 text-display text-2xl uppercase leading-none">{f.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.desc}</p>

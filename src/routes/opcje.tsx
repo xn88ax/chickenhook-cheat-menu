@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Lock } from "lucide-react";
 
 import { FeatureDialog } from "@/components/feature-dialog";
 import { features as options } from "@/data/features";
@@ -91,7 +92,15 @@ function Opcje() {
               key={o.title}
               className="panel group flex flex-col rounded-sm p-6 transition-colors hover:border-primary/50"
             >
-              <o.icon className="size-7 text-primary transition-transform group-hover:scale-110" />
+              <div className="flex items-start justify-between gap-3">
+                <o.icon className="size-7 text-primary transition-transform group-hover:scale-110" />
+                {o.restricted && (
+                  <span className="inline-flex items-center gap-1.5 rounded-sm border border-primary/40 bg-primary/10 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-primary">
+                    <Lock className="size-3" />
+                    Elite + podanie
+                  </span>
+                )}
+              </div>
               <h2 className="mt-4 text-display text-2xl uppercase">{o.title}</h2>
               <p className="mt-2 text-sm text-muted-foreground">{o.desc}</p>
               <FeatureDialog feature={o} />
