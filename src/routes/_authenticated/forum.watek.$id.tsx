@@ -95,9 +95,9 @@ function ThreadPage() {
 
         {thread && (
           <>
-            <h1 className="text-display text-3xl uppercase">{thread.title}</h1>
+            <h1 className="text-display text-3xl ">{thread.title}</h1>
 
-            <article className="overflow-hidden rounded-sm border border-border">
+            <article className="overflow-hidden rounded-xl border border-border">
               <header className="flex items-center gap-3 bg-secondary px-4 py-2.5">
                 <Avatar name={nameOf(thread.author_id)} className="size-8" />
                 <span className="text-xs font-bold">{nameOf(thread.author_id)}</span>
@@ -111,7 +111,7 @@ function ThreadPage() {
             </article>
 
             {(postsQuery.data ?? []).map((p) => (
-              <article key={p.id} className="overflow-hidden rounded-sm border border-border">
+              <article key={p.id} className="overflow-hidden rounded-xl border border-border">
                 <header className="flex items-center gap-3 bg-secondary px-4 py-2.5">
                   <Avatar name={nameOf(p.author_id)} className="size-8" />
                   <span className="text-xs font-bold">{nameOf(p.author_id)}</span>
@@ -132,7 +132,7 @@ function ThreadPage() {
                   setError(null);
                   addPost.mutate();
                 }}
-                className="space-y-3 rounded-sm border border-border glass p-4"
+                className="space-y-3 rounded-xl border border-border glass p-4"
               >
                 <textarea
                   required
@@ -140,13 +140,13 @@ function ThreadPage() {
                   value={reply}
                   onChange={(e) => setReply(e.target.value)}
                   placeholder="Napisz odpowiedź…"
-                  className="w-full rounded-sm border border-border bg-background px-3 py-2 text-sm"
+                  className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm"
                 />
                 {error && <p className="text-xs text-primary">{error}</p>}
                 <button
                   type="submit"
                   disabled={addPost.isPending}
-                  className="rounded-sm bucket-gradient px-4 py-2 text-xs font-bold uppercase text-primary-foreground disabled:opacity-60"
+                  className="rounded-xl bg-secondary px-4 py-2 text-xs font-bold uppercase text-primary-foreground disabled:opacity-60"
                 >
                   Odpowiedz
                 </button>
@@ -155,7 +155,7 @@ function ThreadPage() {
               <Link
                 to="/auth"
                 search={{ next: `/forum/watek/${id}` }}
-                className="inline-block rounded-sm border border-border px-4 py-2 text-xs font-bold uppercase text-foreground hover:bg-secondary"
+                className="inline-block rounded-xl border border-border px-4 py-2 text-xs font-bold uppercase text-foreground hover:bg-secondary"
               >
                 Zaloguj się, aby odpowiedzieć
               </Link>

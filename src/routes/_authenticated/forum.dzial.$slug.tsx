@@ -78,12 +78,12 @@ function CategoryPage() {
         {category && (
           <>
             <div>
-              <h1 className="text-display text-3xl uppercase">{category.name}</h1>
+              <h1 className="text-display text-3xl ">{category.name}</h1>
               <p className="mt-1 text-sm text-muted-foreground">{category.description}</p>
             </div>
 
-            <section className="overflow-hidden rounded-sm border border-border">
-              <h2 className="bucket-gradient px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground">
+            <section className="overflow-hidden rounded-xl border border-border">
+              <h2 className="bg-secondary px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground">
                 Wątki
               </h2>
               <div className="divide-y divide-border">
