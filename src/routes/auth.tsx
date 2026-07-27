@@ -125,13 +125,13 @@ function AuthPage() {
       </header>
 
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-5 py-12">
-        <div className="overflow-hidden rounded-xl border border-border">
-          <h1 className="bg-secondary px-4 py-3 text-sm font-bold uppercase tracking-wide text-primary-foreground">
+        <div className="overflow-hidden rounded-sm border border-border">
+          <h1 className="bucket-gradient px-4 py-3 text-sm font-bold uppercase tracking-wide text-primary-foreground">
             {mode === "login" ? "Logowanie" : "Aktywacja zaproszenia"}
           </h1>
           <form onSubmit={onSubmit} className="space-y-4 glass px-5 py-5">
-            <p className="rounded-xl border border-border bg-background px-3 py-2 text-xs text-muted-foreground">
-              Forum działa w trybie <span className="font-bold text-primary">invite only</span> —
+            <p className="rounded-sm border border-border bg-background px-3 py-2 text-xs text-muted-foreground">
+              Forum działa w trybie <span className="font-bold text-accent">invite only</span> —
               otwarta rejestracja jest wyłączona. Konto założysz tylko z kodem zaproszenia.
             </p>
             {mode === "invite" && (
@@ -149,7 +149,7 @@ function AuthPage() {
                     value={invite}
                     onChange={(e) => setInvite(e.target.value.toUpperCase())}
                     maxLength={64}
-                    className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2 text-sm uppercase tracking-wide outline-none focus:border-primary"
+                    className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm uppercase tracking-wide outline-none focus:border-primary"
                     placeholder="CHICKEN-XXXXX-2026"
                   />
                 </div>
@@ -162,7 +162,7 @@ function AuthPage() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     maxLength={24}
-                    className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                    className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
                     placeholder="np. zimnyFrytek"
                   />
                 </div>
@@ -179,7 +179,7 @@ function AuthPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
               />
             </div>
             <div>
@@ -193,7 +193,7 @@ function AuthPage() {
                 minLength={6}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
               />
             </div>
 
@@ -211,13 +211,13 @@ function AuthPage() {
             </label>
 
             {error && <p className="text-xs text-primary">{error}</p>}
-            {info && <p className="text-xs text-primary">{info}</p>}
+            {info && <p className="text-xs text-accent">{info}</p>}
 
 
             <button
               type="submit"
               disabled={busy}
-              className="w-full rounded-xl bg-secondary px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground disabled:opacity-60"
+              className="w-full rounded-sm bucket-gradient px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground disabled:opacity-60"
             >
               {mode === "login" ? "Zaloguj się" : "Aktywuj kod i wejdź"}
             </button>
@@ -227,7 +227,7 @@ function AuthPage() {
                 type="button"
                 onClick={onGoogle}
                 disabled={busy}
-                className="w-full rounded-xl border border-border px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-foreground transition-colors hover:bg-secondary disabled:opacity-60"
+                className="w-full rounded-sm border border-border px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-foreground transition-colors hover:bg-secondary disabled:opacity-60"
               >
                 Kontynuuj z Google
               </button>

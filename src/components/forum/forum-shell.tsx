@@ -8,7 +8,7 @@ import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 export function Avatar({ name, className = "" }: { name: string; className?: string }) {
   return (
     <span
-      className={`flex shrink-0 items-center justify-center rounded-xl bg-secondary text-xs font-bold uppercase text-primary-foreground ${className}`}
+      className={`flex shrink-0 items-center justify-center rounded-sm bucket-gradient text-xs font-bold uppercase text-primary-foreground ${className}`}
       aria-hidden
     >
       {name.slice(0, 2)}
@@ -65,7 +65,7 @@ export function ForumShell({
                   await supabase.auth.signOut();
                   navigate({ to: "/forum" });
                 }}
-                className="rounded-xl border border-border px-3 py-1.5 text-xs font-bold uppercase text-muted-foreground transition-colors hover:text-foreground"
+                className="rounded-sm border border-border px-3 py-1.5 text-xs font-bold uppercase text-muted-foreground transition-colors hover:text-foreground"
               >
                 Wyloguj
               </button>
@@ -74,7 +74,7 @@ export function ForumShell({
             <Link
               to="/auth"
               search={{ next: "/forum" }}
-              className="rounded-xl bg-secondary px-4 py-2 text-xs font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)]"
+              className="rounded-sm bucket-gradient px-4 py-2 text-xs font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)]"
             >
               Zaloguj się
             </Link>

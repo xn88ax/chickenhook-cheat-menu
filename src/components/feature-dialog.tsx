@@ -20,7 +20,7 @@ export function FeatureDialog({ feature }: { feature: Feature }) {
       <DialogTrigger asChild>
         <button
           type="button"
-          className="mt-5 inline-flex items-center gap-2 self-start rounded-xl border border-primary/40 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-wide text-primary transition-colors hover:bg-primary/20"
+          className="mt-5 inline-flex items-center gap-2 self-start rounded-sm border border-primary/40 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-wide text-primary transition-colors hover:bg-primary/20"
         >
           <PlayCircle className="size-4" />
           Zobacz jak działa
@@ -33,7 +33,7 @@ export function FeatureDialog({ feature }: { feature: Feature }) {
             <span className="flex size-11 items-center justify-center rounded-md border border-primary/30 bg-primary/10 text-primary">
               <Icon className="size-5" />
             </span>
-            <DialogTitle className="text-display text-3xl leading-none">
+            <DialogTitle className="text-display text-3xl uppercase leading-none">
               {feature.title}
             </DialogTitle>
           </div>
@@ -57,7 +57,7 @@ export function FeatureDialog({ feature }: { feature: Feature }) {
         </ul>
 
         {feature.restricted && (
-          <div className="mt-2 rounded-xl border border-primary/40 bg-primary/10 p-4">
+          <div className="mt-2 rounded-sm border border-primary/40 bg-primary/10 p-4">
             <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-primary">
               <Lock className="size-4" />
               Tylko plan Elite — wymagane podanie
@@ -68,7 +68,7 @@ export function FeatureDialog({ feature }: { feature: Feature }) {
             <Link
               to="/podanie"
               search={{ modul: feature.slug }}
-              className="mt-3 inline-block rounded-xl bg-secondary px-4 py-2 text-xs font-bold uppercase tracking-wide text-primary-foreground"
+              className="mt-3 inline-block rounded-sm bucket-gradient px-4 py-2 text-xs font-bold uppercase tracking-wide text-primary-foreground"
             >
               Złóż podanie
             </Link>

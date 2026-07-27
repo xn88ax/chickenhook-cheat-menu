@@ -142,13 +142,13 @@ function Forum() {
       <main className="mx-auto grid max-w-6xl gap-6 px-5 py-6 lg:grid-cols-[1fr_260px]">
         <div className="space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h1 className="text-display text-3xl ">
+            <h1 className="text-display text-3xl uppercase">
               Forum <span className="text-primary">ChickenHook</span>
             </h1>
             {user ? (
               <button
                 onClick={() => setOpen((v) => !v)}
-                className="rounded-xl bg-secondary px-4 py-2 text-xs font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)]"
+                className="rounded-sm bucket-gradient px-4 py-2 text-xs font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)]"
               >
                 {open ? "Anuluj" : "Nowy wątek"}
               </button>
@@ -156,7 +156,7 @@ function Forum() {
               <Link
                 to="/auth"
                 search={{ next: "/forum" }}
-                className="rounded-xl border border-border px-4 py-2 text-xs font-bold uppercase tracking-wide text-foreground hover:bg-secondary"
+                className="rounded-sm border border-border px-4 py-2 text-xs font-bold uppercase tracking-wide text-foreground hover:bg-secondary"
               >
                 Zaloguj się, aby pisać
               </Link>
@@ -170,13 +170,13 @@ function Forum() {
                 setError(null);
                 createThread.mutate();
               }}
-              className="space-y-3 rounded-xl border border-border glass p-4"
+              className="space-y-3 rounded-sm border border-border glass p-4"
             >
               <select
                 required
                 value={categoryId}
                 onChange={(e) => setCategoryId(e.target.value)}
-                className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm"
+                className="w-full rounded-sm border border-border bg-background px-3 py-2 text-sm"
               >
                 <option value="">Wybierz dział…</option>
                 {categories.map((c) => (
@@ -191,7 +191,7 @@ function Forum() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Tytuł wątku"
-                className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm"
+                className="w-full rounded-sm border border-border bg-background px-3 py-2 text-sm"
               />
               <textarea
                 required
@@ -199,13 +199,13 @@ function Forum() {
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 placeholder="Treść pierwszego posta"
-                className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm"
+                className="w-full rounded-sm border border-border bg-background px-3 py-2 text-sm"
               />
               {error && <p className="text-xs text-primary">{error}</p>}
               <button
                 type="submit"
                 disabled={createThread.isPending}
-                className="rounded-xl bg-secondary px-4 py-2 text-xs font-bold uppercase text-primary-foreground disabled:opacity-60"
+                className="rounded-sm bucket-gradient px-4 py-2 text-xs font-bold uppercase text-primary-foreground disabled:opacity-60"
               >
                 Opublikuj wątek
               </button>
@@ -213,8 +213,8 @@ function Forum() {
           )}
 
           {sections.map((section) => (
-            <section key={section} className="overflow-hidden rounded-xl border border-border">
-              <h2 className="bg-secondary px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground">
+            <section key={section} className="overflow-hidden rounded-sm border border-border">
+              <h2 className="bucket-gradient px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground">
                 {section}
               </h2>
               <div className="divide-y divide-border">
@@ -240,7 +240,7 @@ function Forum() {
             </section>
           ))}
 
-          <section className="overflow-hidden rounded-xl border border-border">
+          <section className="overflow-hidden rounded-sm border border-border">
             <h2 className="bg-secondary px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-foreground">
               Ostatnie wątki
             </h2>
@@ -270,7 +270,7 @@ function Forum() {
                       {nameOf(t.author_id)} · {timeAgo(t.created_at)}
                     </p>
                   </div>
-                  <MessageSquare className="size-4 shrink-0 text-primary" />
+                  <MessageSquare className="size-4 shrink-0 text-accent" />
                 </Link>
               ))}
             </div>
@@ -278,7 +278,7 @@ function Forum() {
         </div>
 
         <aside className="space-y-5">
-          <section className="overflow-hidden rounded-xl border border-border">
+          <section className="overflow-hidden rounded-sm border border-border">
             <h2 className="bg-secondary px-4 py-2.5 text-xs font-bold uppercase tracking-wide text-foreground">
               Statystyki forum
             </h2>
@@ -290,13 +290,13 @@ function Forum() {
               ].map(([l, v]) => (
                 <div key={l as string} className="flex items-center justify-between">
                   <dt className="uppercase tracking-wide text-muted-foreground">{l}</dt>
-                  <dd className="text-display text-xl text-primary">{v}</dd>
+                  <dd className="text-display text-xl text-accent">{v}</dd>
                 </div>
               ))}
             </dl>
           </section>
 
-          <section className="overflow-hidden rounded-xl border border-border">
+          <section className="overflow-hidden rounded-sm border border-border">
             <h2 className="bg-secondary px-4 py-2.5 text-xs font-bold uppercase tracking-wide text-foreground">
               Dołącz do nas
             </h2>
@@ -304,13 +304,13 @@ function Forum() {
               <Link
                 to="/"
                 hash="menu"
-                className="block rounded-xl bg-secondary px-4 py-2.5 text-center text-xs font-bold uppercase tracking-wide text-primary-foreground"
+                className="block rounded-sm bucket-gradient px-4 py-2.5 text-center text-xs font-bold uppercase tracking-wide text-primary-foreground"
               >
                 Zobacz cennik
               </Link>
               <Link
                 to="/opcje"
-                className="block rounded-xl border border-border px-4 py-2.5 text-center text-xs font-bold uppercase tracking-wide text-foreground hover:bg-secondary"
+                className="block rounded-sm border border-border px-4 py-2.5 text-center text-xs font-bold uppercase tracking-wide text-foreground hover:bg-secondary"
               >
                 Opcje cheata
               </Link>

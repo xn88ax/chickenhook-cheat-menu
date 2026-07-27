@@ -105,10 +105,10 @@ export function CheatMenu() {
       <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
         <div className="flex items-center gap-2">
           <Power className={cn("size-4", activeCount ? "text-primary" : "text-muted-foreground")} />
-          <span className="text-display text-lg tracking-wide">
+          <span className="text-display text-lg uppercase tracking-wide">
             Chicken<span className="text-primary">Hook</span> Menu
           </span>
-          <span className="rounded-xl border border-border px-1.5 py-0.5 text-[10px] font-bold uppercase text-muted-foreground">
+          <span className="rounded-sm border border-border px-1.5 py-0.5 text-[10px] font-bold uppercase text-muted-foreground">
             v4.2.1
           </span>
         </div>
@@ -126,9 +126,9 @@ export function CheatMenu() {
               type="button"
               onClick={() => setCat(c)}
               className={cn(
-                "whitespace-nowrap rounded-xl px-3 py-2 text-left text-xs font-bold uppercase tracking-wide transition-colors",
+                "whitespace-nowrap rounded-sm px-3 py-2 text-left text-xs font-bold uppercase tracking-wide transition-colors",
                 cat === c
-                  ? "bg-secondary text-primary-foreground"
+                  ? "bucket-gradient text-primary-foreground"
                   : "text-muted-foreground hover:bg-secondary hover:text-foreground",
               )}
             >
@@ -149,7 +149,7 @@ export function CheatMenu() {
                 onClick={() => setSelected(f)}
                 onKeyDown={(e) => e.key === "Enter" && setSelected(f)}
                 className={cn(
-                  "flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 transition-colors",
+                  "flex cursor-pointer items-center gap-3 rounded-sm px-3 py-2.5 transition-colors",
                   selected.slug === f.slug ? "bg-secondary" : "hover:bg-secondary/60",
                 )}
               >
@@ -174,7 +174,7 @@ export function CheatMenu() {
                   {f.title}
                 </span>
                 {f.restricted && <Lock className="size-3.5 text-primary" />}
-                <span className="rounded-xl border border-border px-1.5 py-0.5 text-[10px] font-bold text-muted-foreground">
+                <span className="rounded-sm border border-border px-1.5 py-0.5 text-[10px] font-bold text-muted-foreground">
                   {KEYS[features.indexOf(f) % KEYS.length]}
                 </span>
               </div>
@@ -185,7 +185,7 @@ export function CheatMenu() {
         {/* Panel szczegółów */}
         <div className="border-t border-border/60 p-4 md:border-l md:border-t-0">
           <FeaturePreview kind={selected.preview} />
-          <h3 className="mt-4 text-display text-2xl leading-none">{selected.title}</h3>
+          <h3 className="mt-4 text-display text-2xl uppercase leading-none">{selected.title}</h3>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{selected.desc}</p>
 
           <div className="mt-4 space-y-3">
@@ -216,7 +216,7 @@ export function CheatMenu() {
             <Link
               to="/podanie"
               search={{ modul: selected.slug }}
-              className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-primary/60 bg-primary/10 px-3 py-2 text-[11px] font-bold uppercase tracking-wide text-primary"
+              className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-sm border border-primary/60 bg-primary/10 px-3 py-2 text-[11px] font-bold uppercase tracking-wide text-primary"
             >
               <Lock className="size-3" />
               Elite — złóż podanie
@@ -228,9 +228,9 @@ export function CheatMenu() {
                 setEnabled((p) => ({ ...p, [selected.slug]: !p[selected.slug] }))
               }
               className={cn(
-                "mt-4 w-full rounded-xl px-3 py-2 text-[11px] font-bold uppercase tracking-wide transition-colors",
+                "mt-4 w-full rounded-sm px-3 py-2 text-[11px] font-bold uppercase tracking-wide transition-colors",
                 isOn
-                  ? "bg-secondary text-primary-foreground"
+                  ? "bucket-gradient text-primary-foreground"
                   : "border border-border text-muted-foreground hover:text-foreground",
               )}
             >

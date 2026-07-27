@@ -6,8 +6,8 @@ import { CheatMenu } from "@/components/cheat-menu";
 import { FeatureDialog } from "@/components/feature-dialog";
 import { FeaturePreview } from "@/components/feature-preview";
 import { features as options } from "@/data/features";
-import { SiteHeader } from "@/components/site-header";
 
+import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 
 export const Route = createFileRoute("/opcje")({
   head: () => ({
@@ -66,16 +66,48 @@ function Opcje() {
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
-      <SiteHeader active="opcje" />
+      <header className="sticky top-0 z-50 border-b border-border glass-bar">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
+          <Link to="/" className="flex items-center gap-2">
+            <img
+              src={chickenhookLogo.url}
+              alt="Herb ChickenHook — złoty kogut na czarnej tarczy"
+              className="h-10 w-auto"
+            />
+            <span className="text-display text-2xl">
+              CHICKEN<span className="text-primary">HOOK</span>
+              <span className="text-muted-foreground">.RU</span>
+            </span>
+          </Link>
+          <nav className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-wide text-muted-foreground md:flex">
+            <Link to="/" className="transition-colors hover:text-foreground">
+              Start
+            </Link>
+            <Link to="/opcje" className="text-foreground">
+              Opcje
+            </Link>
+            <Link to="/forum" className="transition-colors hover:text-foreground">
+              Forum
+            </Link>
 
+          </nav>
+          <Link
+            to="/"
+            hash="menu"
+            className="rounded-sm bucket-gradient px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
+          >
+            Kup teraz
+          </Link>
+        </div>
+      </header>
 
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 glow-top" aria-hidden="true" />
         <div className="relative mx-auto max-w-6xl px-5 py-16 md:py-20">
-          <span className="inline-block rounded-xl border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+          <span className="inline-block rounded-sm border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-primary">
             Pełna lista funkcji
           </span>
-          <h1 className="mt-5 text-display text-6xl sm:text-7xl md:text-8xl">
+          <h1 className="mt-5 text-display text-6xl uppercase sm:text-7xl md:text-8xl">
             Opcje <span className="text-primary">cheata</span>
           </h1>
           <p className="mt-5 max-w-xl text-base text-muted-foreground">
@@ -104,9 +136,9 @@ function Opcje() {
                   key={t}
                   type="button"
                   onClick={() => setTab(t)}
-                  className={`rounded-xl px-3 py-2 text-xs font-bold uppercase tracking-wide transition-all duration-200 ${
+                  className={`rounded-sm px-3 py-2 text-xs font-bold uppercase tracking-wide transition-all duration-200 ${
                     active
-                      ? "bg-secondary text-primary-foreground shadow-[var(--shadow-bucket)]"
+                      ? "bucket-gradient text-primary-foreground shadow-[var(--shadow-bucket)]"
                       : "border border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
                   }`}
                 >
@@ -121,7 +153,7 @@ function Opcje() {
             <button
               type="button"
               onClick={() => setOnlyElite((v) => !v)}
-              className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${
+              className={`inline-flex items-center gap-1.5 rounded-sm px-3 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${
                 onlyElite
                   ? "border border-primary/60 bg-primary/20 text-primary"
                   : "border border-border text-muted-foreground hover:text-foreground"
@@ -136,7 +168,7 @@ function Opcje() {
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="Szukaj funkcji…"
-                className="w-full rounded-xl border border-border bg-background/60 py-2 pl-9 pr-8 text-sm outline-none transition-colors focus:border-primary/60 md:w-56"
+                className="w-full rounded-sm border border-border bg-background/60 py-2 pl-9 pr-8 text-sm outline-none transition-colors focus:border-primary/60 md:w-56"
               />
               {q && (
                 <button
@@ -172,7 +204,7 @@ function Opcje() {
                     </span>
                   )}
                 </div>
-                <h2 className="mt-4 text-display text-4xl leading-none">{o.title}</h2>
+                <h2 className="mt-4 text-display text-4xl uppercase leading-none">{o.title}</h2>
                 <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted-foreground">
                   {o.long}
                 </p>
@@ -207,7 +239,7 @@ function Opcje() {
 
         {filtered.length === 0 && (
           <div className="py-16 text-center">
-            <p className="text-display text-2xl ">Brak wyników</p>
+            <p className="text-display text-2xl uppercase">Brak wyników</p>
             <p className="mt-2 text-sm text-muted-foreground">
               Zmień filtr albo wpisz inną frazę.
             </p>
@@ -220,13 +252,13 @@ function Opcje() {
           <Link
             to="/"
             hash="menu"
-            className="rounded-xl bg-secondary px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
+            className="rounded-sm bucket-gradient px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
           >
             Zobacz cennik
           </Link>
           <Link
             to="/"
-            className="rounded-xl border border-border px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-foreground transition-colors hover:bg-secondary"
+            className="rounded-sm border border-border px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-foreground transition-colors hover:bg-secondary"
           >
             Wróć na start
           </Link>
