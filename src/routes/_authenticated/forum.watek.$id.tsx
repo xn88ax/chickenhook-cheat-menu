@@ -105,7 +105,7 @@ function ThreadPage() {
                   {timeAgo(thread.created_at)}
                 </span>
               </header>
-              <p className="whitespace-pre-wrap bg-card px-4 py-4 text-sm leading-relaxed">
+              <p className="whitespace-pre-wrap glass px-4 py-4 text-sm leading-relaxed">
                 {thread.body}
               </p>
             </article>
@@ -119,7 +119,7 @@ function ThreadPage() {
                     {timeAgo(p.created_at)}
                   </span>
                 </header>
-                <p className="whitespace-pre-wrap bg-card px-4 py-4 text-sm leading-relaxed">
+                <p className="whitespace-pre-wrap glass px-4 py-4 text-sm leading-relaxed">
                   {p.body}
                 </p>
               </article>
@@ -132,7 +132,7 @@ function ThreadPage() {
                   setError(null);
                   addPost.mutate();
                 }}
-                className="space-y-3 rounded-sm border border-border bg-card p-4"
+                className="space-y-3 rounded-sm border border-border glass p-4"
               >
                 <textarea
                   required

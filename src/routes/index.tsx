@@ -127,7 +127,7 @@ function Index() {
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
       {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-border glass-bar">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
           <a href="#top" className="flex items-center gap-2">
             <img
@@ -343,7 +343,7 @@ function Index() {
           ].map(([name, status, ok]) => (
             <div
               key={name as string}
-              className="flex items-center justify-between border-b border-border bg-card px-5 py-4 last:border-0"
+              className="flex items-center justify-between border-b border-border glass px-5 py-4 last:border-0"
             >
               <span className="text-sm font-semibold">{name}</span>
               <span
