@@ -189,6 +189,22 @@
   box-shadow: var(--shadow-glass);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease,
+    background-color 0.35s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in oklab, var(--color-primary) 45%, var(--glass-border));
+    box-shadow: var(--shadow-glass), 0 24px 50px -30px oklch(0.55 0.235 27.5 / 60%);
+  }
+
+  &:focus-within {
+    border-color: color-mix(in oklab, var(--color-primary) 60%, var(--glass-border));
+    box-shadow: var(--shadow-glass), 0 0 0 2px oklch(0.55 0.235 27.5 / 35%);
+  }
 }
 
 @utility glass {
@@ -198,6 +214,20 @@
   box-shadow: var(--shadow-glass);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  transition:
+    border-color 0.35s ease,
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.35s ease;
+
+  &:hover {
+    border-color: color-mix(in oklab, var(--color-primary) 35%, var(--glass-border));
+    background-color: color-mix(in oklab, var(--color-card) 60%, transparent);
+  }
+
+  &:focus-within {
+    border-color: color-mix(in oklab, var(--color-primary) 55%, var(--glass-border));
+    box-shadow: var(--shadow-glass), 0 0 0 2px oklch(0.55 0.235 27.5 / 30%);
+  }
 }
 
 @utility glass-bar {
@@ -205,6 +235,127 @@
   border-color: var(--glass-border);
   backdrop-filter: blur(22px) saturate(150%);
   -webkit-backdrop-filter: blur(22px) saturate(150%);
+  transition:
+    background-color 0.4s ease,
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+
+  &:hover {
+    background-color: color-mix(in oklab, var(--color-background) 75%, transparent);
+    box-shadow: 0 18px 40px -30px oklch(0 0 0 / 90%);
+  }
+}
+
+@utility glass-focus {
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s ease,
+    background-color 0.25s ease,
+    color 0.25s ease;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-background), 0 0 0 4px oklch(0.55 0.235 27.5 / 70%);
+  }
+}
+
+@utility aurora {
+  background-image:
+    radial-gradient(38% 45% at 18% 22%, oklch(0.55 0.235 27.5 / 32%), transparent 70%),
+    radial-gradient(34% 40% at 82% 30%, oklch(0.82 0.17 82 / 20%), transparent 70%),
+    radial-gradient(45% 50% at 50% 88%, oklch(0.55 0.235 27.5 / 18%), transparent 72%);
+  filter: blur(20px);
+  animation: aurora-drift 18s ease-in-out infinite alternate;
+}
+
+@utility glitch {
+  position: relative;
+
+  &::before,
+  &::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    clip-path: inset(0 0 55% 0);
+  }
+
+  &::before {
+    color: oklch(0.82 0.17 82);
+    animation: glitch-a 3.6s steps(2, end) infinite;
+  }
+
+  &::after {
+    color: oklch(0.72 0.16 220);
+    clip-path: inset(58% 0 0 0);
+    animation: glitch-b 4.2s steps(2, end) infinite;
+  }
+}
+
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(-2%, -1%, 0) scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate3d(2%, 2%, 0) scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-1%, 1%, 0) scale(1.02);
+    opacity: 0.85;
+  }
+}
+
+@keyframes glitch-a {
+  0%,
+  92%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  93% {
+    transform: translate3d(-3px, -2px, 0);
+    opacity: 0.9;
+  }
+  96% {
+    transform: translate3d(4px, 1px, 0);
+    opacity: 0.7;
+  }
+  98% {
+    transform: translate3d(-2px, 2px, 0);
+    opacity: 0.85;
+  }
+}
+
+@keyframes glitch-b {
+  0%,
+  90%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  91% {
+    transform: translate3d(3px, 2px, 0);
+    opacity: 0.8;
+  }
+  94% {
+    transform: translate3d(-4px, -1px, 0);
+    opacity: 0.6;
+  }
+  97% {
+    transform: translate3d(2px, -2px, 0);
+    opacity: 0.75;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora,
+  .glitch::before,
+  .glitch::after,
+  .marquee-track {
+    animation: none;
+  }
 }
 
 
