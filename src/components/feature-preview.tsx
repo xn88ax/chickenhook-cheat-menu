@@ -1,3 +1,15 @@
+import { useRef } from "react";
+
+import noclipVideo from "@/assets/preview-noclip.mp4.asset.json";
+import godVideo from "@/assets/preview-god.mp4.asset.json";
+import bhopVideo from "@/assets/preview-bhop.mp4.asset.json";
+import aimVideo from "@/assets/preview-aim.mp4.asset.json";
+import triggerVideo from "@/assets/preview-trigger.mp4.asset.json";
+import espVideo from "@/assets/preview-esp.mp4.asset.json";
+import skinsVideo from "@/assets/preview-skins.mp4.asset.json";
+import movementVideo from "@/assets/preview-movement.mp4.asset.json";
+import miscVideo from "@/assets/preview-misc.mp4.asset.json";
+
 export type PreviewKind =
   | "noclip"
   | "god"
@@ -9,108 +21,56 @@ export type PreviewKind =
   | "movement"
   | "misc";
 
-function Enemy({ className = "" }: { className?: string }) {
-  return (
-    <span
-      className={`absolute size-4 rounded-[2px] bg-primary/80 shadow-[0_0_10px_hsl(var(--primary)/0.8)] ${className}`}
-      aria-hidden
-    />
-  );
-}
+const clips: Record<PreviewKind, { url: string; label: string }> = {
+  noclip: { url: noclipVideo.url, label: "NOCLIP" },
+  god: { url: godVideo.url, label: "GOD MODE" },
+  bhop: { url: bhopVideo.url, label: "BHOP" },
+  aim: { url: aimVideo.url, label: "AIMBOT" },
+  trigger: { url: triggerVideo.url, label: "TRIGGER" },
+  esp: { url: espVideo.url, label: "ESP" },
+  skins: { url: skinsVideo.url, label: "SKINS" },
+  movement: { url: movementVideo.url, label: "MOVEMENT" },
+  misc: { url: miscVideo.url, label: "MISC" },
+};
 
 export function FeaturePreview({ kind }: { kind: PreviewKind }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const clip = clips[kind];
+
+  const play = () => {
+    const el = ref.current;
+    if (!el) return;
+    el.play().catch(() => {});
+  };
+
+  const pause = () => {
+    const el = ref.current;
+    if (!el) return;
+    el.pause();
+    el.currentTime = 0;
+  };
+
   return (
     <div
-      aria-hidden
-      className="preview-stage relative mt-5 h-28 w-full overflow-hidden rounded-md border border-border/70 bg-background/70"
+      className="preview-stage relative mt-5 aspect-video w-full overflow-hidden rounded-md border border-border/70 bg-background/70"
+      onMouseEnter={play}
+      onMouseLeave={pause}
+      onFocus={play}
+      onBlur={pause}
     >
-      <div className="preview-grid absolute inset-0 opacity-40" />
-
-      {kind === "noclip" && (
-        <>
-          <div className="absolute inset-y-0 left-1/2 w-2 -translate-x-1/2 bg-muted-foreground/30" />
-          <span className="preview-noclip absolute top-1/2 size-4 -translate-y-1/2 rounded-[2px] bg-accent shadow-[0_0_12px_hsl(var(--accent)/0.9)]" />
-        </>
-      )}
-
-      {kind === "god" && (
-        <>
-          <span className="preview-shield absolute left-1/2 top-1/2 size-12 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-accent/70" />
-          <span className="absolute left-1/2 top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-[2px] bg-accent" />
-          <span className="preview-hp absolute bottom-2 left-2 text-[10px] font-bold tracking-widest text-accent">
-            HP 100
-          </span>
-        </>
-      )}
-
-      {kind === "bhop" && (
-        <>
-          <div className="absolute bottom-5 left-0 right-0 h-px bg-muted-foreground/40" />
-          <span className="preview-hop absolute bottom-5 left-4 size-4 rounded-[2px] bg-accent" />
-          <span className="absolute right-2 top-2 text-[10px] font-bold tracking-widest text-muted-foreground">
-            +VEL
-          </span>
-        </>
-      )}
-
-      {kind === "aim" && (
-        <>
-          <Enemy className="preview-target left-1/2 top-1/2" />
-          <span className="preview-crosshair absolute left-1/2 top-1/2 size-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-accent/80" />
-          <span className="absolute left-2 top-2 text-[10px] font-bold tracking-widest text-accent">
-            FOV 3°
-          </span>
-        </>
-      )}
-
-      {kind === "trigger" && (
-        <>
-          <span className="absolute left-1/2 top-1/2 h-6 w-px -translate-x-1/2 -translate-y-1/2 bg-accent/80" />
-          <span className="absolute left-1/2 top-1/2 h-px w-6 -translate-x-1/2 -translate-y-1/2 bg-accent/80" />
-          <span className="preview-slide absolute top-1/2 size-4 -translate-y-1/2 rounded-[2px] bg-primary/80" />
-          <span className="preview-fire absolute right-2 top-2 text-[10px] font-bold tracking-widest text-primary">
-            FIRE
-          </span>
-        </>
-      )}
-
-      {kind === "esp" && (
-        <>
-          <span className="preview-box absolute left-8 top-6 h-16 w-10 border border-accent/80" />
-          <span className="absolute left-8 top-3 text-[9px] font-bold tracking-widest text-accent">
-            AWP · 87
-          </span>
-          <span className="preview-box absolute right-10 top-10 h-12 w-8 border border-primary/80 [animation-delay:.4s]" />
-          <span className="absolute right-10 top-7 text-[9px] font-bold tracking-widest text-primary">
-            AK · 42
-          </span>
-        </>
-      )}
-
-      {kind === "skins" && (
-        <div className="flex h-full items-center justify-center">
-          <span className="preview-skin h-8 w-24 rounded-[3px] bg-gradient-to-r from-primary via-accent to-primary" />
-        </div>
-      )}
-
-      {kind === "movement" && (
-        <>
-          <div className="absolute bottom-5 left-0 right-0 h-px bg-muted-foreground/40" />
-          <span className="preview-strafe absolute bottom-6 left-1/2 size-4 rounded-[2px] bg-accent" />
-          <span className="absolute left-2 top-2 text-[10px] font-bold tracking-widest text-muted-foreground">
-            AUTO-STRAFE
-          </span>
-        </>
-      )}
-
-      {kind === "misc" && (
-        <>
-          <span className="preview-fov absolute left-1/2 top-1/2 size-16 -translate-x-1/2 -translate-y-1/2 rounded-md border border-accent/60" />
-          <span className="absolute bottom-2 left-2 text-[10px] font-bold tracking-widest text-muted-foreground">
-            FOV · 3RD · NIGHT
-          </span>
-        </>
-      )}
+      <video
+        ref={ref}
+        src={clip.url}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-label={`Podgląd działania: ${clip.label}`}
+        className="size-full object-cover opacity-80 transition-opacity duration-300 group-hover:opacity-100"
+      />
+      <span className="pointer-events-none absolute left-2 top-2 rounded-sm bg-background/70 px-2 py-0.5 text-[10px] font-bold tracking-widest text-accent backdrop-blur-sm">
+        {clip.label}
+      </span>
     </div>
   );
 }
