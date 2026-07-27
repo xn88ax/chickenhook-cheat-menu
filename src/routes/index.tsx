@@ -174,6 +174,7 @@ function Index() {
       {/* Hero */}
       <section id="top" className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 glow-top" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-0 aurora" aria-hidden="true" />
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 md:grid-cols-2 md:py-24">
           <div>
             <span className="inline-block rounded-sm border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-primary">
@@ -182,7 +183,9 @@ function Index() {
             <h1 className="mt-5 text-display text-6xl uppercase sm:text-7xl md:text-8xl">
               Daj im
               <br />
-              <span className="text-primary">posmakować</span>
+              <span className="glitch inline-block text-primary" data-text="posmakować">
+                posmakować
+              </span>
             </h1>
             <p className="mt-5 max-w-md text-base text-muted-foreground">
               ChickenHook to private cheat do CS2 w fast-foodowej czerwieni. Aimbot, ESP, skin
@@ -191,13 +194,13 @@ function Index() {
             <div className="mt-8 flex flex-wrap gap-3">
               <a
                 href="#menu"
-                className="rounded-sm bucket-gradient px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
+                className="glass-focus rounded-sm bucket-gradient px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] hover:-translate-y-0.5"
               >
                 Zobacz cennik
               </a>
               <a
                 href="#funkcje"
-                className="rounded-sm border border-border px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-foreground transition-colors hover:bg-secondary"
+                className="glass-focus rounded-sm border border-border px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-foreground hover:-translate-y-0.5 hover:bg-secondary"
               >
                 Funkcje
               </a>
