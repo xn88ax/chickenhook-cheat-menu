@@ -9,6 +9,10 @@ import espVideo from "@/assets/preview-esp.mp4.asset.json";
 import skinsVideo from "@/assets/preview-skins.mp4.asset.json";
 import movementVideo from "@/assets/preview-movement.mp4.asset.json";
 import miscVideo from "@/assets/preview-misc.mp4.asset.json";
+import teleportVideo from "@/assets/preview-teleport.mp4.asset.json";
+import crashVideo from "@/assets/preview-crash.mp4.asset.json";
+import speedVideo from "@/assets/preview-speed.mp4.asset.json";
+import moneyVideo from "@/assets/preview-money.mp4.asset.json";
 
 export type PreviewKind =
   | "noclip"
@@ -19,19 +23,28 @@ export type PreviewKind =
   | "esp"
   | "skins"
   | "movement"
-  | "misc";
+  | "misc"
+  | "teleport"
+  | "crash"
+  | "speed"
+  | "money";
 
 const clips: Record<PreviewKind, { url: string; label: string }> = {
-  noclip: { url: noclipVideo.url, label: "NOCLIP" },
-  god: { url: godVideo.url, label: "GOD MODE" },
-  bhop: { url: bhopVideo.url, label: "BHOP" },
-  aim: { url: aimVideo.url, label: "AIMBOT" },
-  trigger: { url: triggerVideo.url, label: "TRIGGER" },
-  esp: { url: espVideo.url, label: "ESP" },
-  skins: { url: skinsVideo.url, label: "SKINS" },
-  movement: { url: movementVideo.url, label: "MOVEMENT" },
-  misc: { url: miscVideo.url, label: "MISC" },
+  noclip: { url: noclipVideo.url, label: "BRAK KLIPU" },
+  god: { url: godVideo.url, label: "TRYB BOGA" },
+  bhop: { url: bhopVideo.url, label: "KRÓLICZY SKOK" },
+  aim: { url: aimVideo.url, label: "ROBOT CELU" },
+  trigger: { url: triggerVideo.url, label: "ROBOT SPUSTU" },
+  esp: { url: espVideo.url, label: "WIZUALIZACJE" },
+  skins: { url: skinsVideo.url, label: "SKÓRKI" },
+  movement: { url: movementVideo.url, label: "RUCH" },
+  misc: { url: miscVideo.url, label: "RÓŻNE" },
+  teleport: { url: teleportVideo.url, label: "TELEPORT" },
+  crash: { url: crashVideo.url, label: "AWARIA SERWERA" },
+  speed: { url: speedVideo.url, label: "PRZYSPIESZENIE" },
+  money: { url: moneyVideo.url, label: "GLITCH KASY" },
 };
+
 
 export function FeaturePreview({ kind }: { kind: PreviewKind }) {
   const ref = useRef<HTMLVideoElement>(null);
