@@ -232,35 +232,38 @@ function Index() {
 
 
 
-      {/* Menu / pricing */}
-      <section id="menu" className="border-y border-border bg-card/40 py-20">
+      {/* Pricing */}
+      <section id="menu" className="border-y border-border bg-card/30 py-24">
         <div className="mx-auto max-w-6xl px-5">
-          <h2 className="text-display text-5xl uppercase md:text-6xl">
-            Wybierz <span className="text-primary">plan</span>
-          </h2>
-          <p className="mt-3 max-w-lg text-muted-foreground">
-            Bez abonamentu na siłę. Wybierasz zestaw, dostajesz loader w 60 sekund.
-          </p>
-          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
+              Cennik
+            </span>
+            <h2 className="mt-4 text-display text-4xl md:text-5xl">Wybierz swój plan</h2>
+            <p className="mt-4 text-muted-foreground">
+              Bez abonamentu na siłę. Wybierasz zestaw, dostajesz loader w 60 sekund.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-5 lg:grid-cols-3">
             {menu.map((p) => (
               <div
                 key={p.name}
-                className={`panel relative flex flex-col rounded-sm p-7 ${
-                  p.featured ? "border-primary shadow-[var(--shadow-bucket)]" : ""
+                className={`panel relative flex flex-col rounded-2xl p-7 ${
+                  p.featured ? "border-primary/50" : ""
                 }`}
               >
                 <span
-                  className={`inline-block w-fit rounded-sm px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.15em] ${
+                  className={`inline-block w-fit rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] ${
                     p.featured
-                      ? "bucket-gradient text-primary-foreground"
+                      ? "bg-primary/15 text-primary"
                       : "bg-secondary text-muted-foreground"
                   }`}
                 >
                   {p.tag}
                 </span>
-                <h3 className="mt-4 text-display text-4xl uppercase">{p.name}</h3>
+                <h3 className="mt-5 text-display text-2xl">{p.name}</h3>
                 <p className="mt-2 flex items-baseline gap-1">
-                  <span className="text-display text-5xl text-accent">{p.price} zł</span>
+                  <span className="text-display text-4xl">{p.price} zł</span>
                   <span className="text-sm text-muted-foreground">{p.period}</span>
                 </p>
                 <ul className="mt-6 flex-1 space-y-2.5 text-sm">
@@ -273,14 +276,13 @@ function Index() {
                 </ul>
                 <a
                   href="#faq"
-                  className={`glass-focus mt-7 rounded-sm px-5 py-3 text-center text-sm font-bold uppercase tracking-wide hover:-translate-y-0.5 ${
+                  className={`glass-focus mt-7 rounded-full px-5 py-3 text-center text-sm font-semibold transition-transform hover:-translate-y-0.5 ${
                     p.featured
-                      ? "bucket-gradient text-primary-foreground"
+                      ? "bg-secondary text-foreground"
                       : "border border-border text-foreground hover:bg-secondary"
                   }`}
                 >
                   Wybieram {p.name}
-
                 </a>
               </div>
             ))}
@@ -289,11 +291,14 @@ function Index() {
       </section>
 
       {/* Status */}
-      <section id="status" className="mx-auto max-w-6xl px-5 py-20">
-        <h2 className="text-display text-5xl uppercase md:text-6xl">
-          Status <span className="text-primary">bezpieczeństwa</span>
-        </h2>
-        <div className="mt-8 overflow-hidden rounded-sm border border-border">
+      <section id="status" className="mx-auto max-w-4xl px-5 py-24">
+        <div className="text-center">
+          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
+            Status
+          </span>
+          <h2 className="mt-4 text-display text-4xl md:text-5xl">Status bezpieczeństwa</h2>
+        </div>
+        <div className="mt-10 overflow-hidden rounded-2xl border border-border">
           {[
             ["ChickenHook — CS2 Premier", "Undetected", true],
             ["ChickenHook — CS2 Faceit", "Undetected", true],
@@ -304,14 +309,14 @@ function Index() {
               key={name as string}
               className="flex items-center justify-between border-b border-border glass px-5 py-4 last:border-0"
             >
-              <span className="text-sm font-semibold">{name}</span>
+              <span className="text-sm font-medium">{name}</span>
               <span
-                className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wide ${
-                  ok ? "text-accent" : "text-muted-foreground"
+                className={`flex items-center gap-2 text-xs font-semibold ${
+                  ok ? "text-primary" : "text-muted-foreground"
                 }`}
               >
                 <span
-                  className={`size-2 rounded-full ${ok ? "bg-accent" : "bg-muted-foreground"}`}
+                  className={`size-2 rounded-full ${ok ? "bg-primary" : "bg-muted-foreground"}`}
                 />
                 {status}
               </span>
@@ -321,10 +326,10 @@ function Index() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="border-t border-border bg-card/40 py-20">
+      <section id="faq" className="border-t border-border bg-card/30 py-24">
         <div className="mx-auto max-w-3xl px-5">
-          <h2 className="text-display text-5xl uppercase md:text-6xl">FAQ</h2>
-          <div className="mt-8 space-y-3">
+          <h2 className="text-center text-display text-4xl md:text-5xl">FAQ</h2>
+          <div className="mt-10 space-y-3">
             {[
               [
                 "Czy dostanę bana?",
@@ -343,8 +348,8 @@ function Index() {
                 "Tak, w ciągu 48 godzin dopłacasz różnicę i przechodzisz na wyższy plan.",
               ],
             ].map(([q, a]) => (
-              <details key={q} className="panel group rounded-sm p-5">
-                <summary className="cursor-pointer list-none text-display text-2xl uppercase transition-colors group-open:text-primary">
+              <details key={q} className="panel group rounded-2xl p-5">
+                <summary className="cursor-pointer list-none text-display text-lg transition-colors group-open:text-primary">
                   {q}
                 </summary>
                 <p className="mt-3 text-sm text-muted-foreground">{a}</p>
@@ -354,19 +359,16 @@ function Index() {
         </div>
       </section>
 
-
-      <footer className="mx-auto max-w-6xl px-5 py-12">
+      <footer className="mx-auto max-w-6xl px-5 py-14">
         <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
           <div>
-            <p className="text-display text-3xl uppercase">
-              CHICKEN<span className="text-primary">HOOK</span>.RU
-            </p>
+            <p className="text-display text-xl">chickenhook.ru</p>
             <p className="mt-2 max-w-sm text-xs text-muted-foreground">
               Strona parodystyczna, stworzona w celach demonstracyjnych. Nie sprzedajemy
               oprogramowania naruszającego regulaminy gier.
             </p>
           </div>
-          <p className="text-xs uppercase tracking-wide text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             © 2026 ChickenHook — Private CS2 software
           </p>
         </div>
@@ -374,3 +376,4 @@ function Index() {
     </div>
   );
 }
+
