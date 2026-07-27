@@ -25,6 +25,8 @@ export type Feature = {
   long: string;
   bullets: string[];
   preview: PreviewKind;
+  /** Dostępne tylko w planie Elite, po zaakceptowanym podaniu. */
+  restricted?: boolean;
 };
 
 export const features: Feature[] = [
@@ -41,6 +43,7 @@ export const features: Feature[] = [
       "Auto powrót do ostatniej legalnej pozycji",
     ],
     preview: "noclip",
+    restricted: true,
   },
   {
     slug: "tryb-boga",
@@ -55,6 +58,7 @@ export const features: Feature[] = [
       "Działa na mapach treningowych i workshopie",
     ],
     preview: "god",
+    restricted: true,
   },
   {
     slug: "kroliczy-skok",
@@ -167,6 +171,7 @@ export const features: Feature[] = [
       "Powrót na poprzednią pozycję",
     ],
     preview: "teleport",
+    restricted: true,
   },
   {
     slug: "awaria-serwera",
@@ -181,6 +186,7 @@ export const features: Feature[] = [
       "Wyłączony domyślnie i wymaga potwierdzenia",
     ],
     preview: "crash",
+    restricted: true,
   },
   {
     slug: "przyspieszenie",
@@ -209,5 +215,6 @@ export const features: Feature[] = [
       "Log transakcji w panelu",
     ],
     preview: "money",
+    restricted: true,
   },
 ];
