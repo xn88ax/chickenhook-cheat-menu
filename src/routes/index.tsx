@@ -189,25 +189,24 @@ function Index() {
               ChickenHook to private cheat do CS2 w fast-foodowej czerwieni. Aimbot, ESP, skin
               changer i bypass w jednym zestawie — podawane świeżo po każdym patchu.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap items-center gap-4">
               <a
                 href="#menu"
                 className="glass-focus rounded-sm bucket-gradient px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] hover:-translate-y-0.5"
               >
-                Zobacz cennik
+                Kup teraz — od 39 zł
               </a>
               <a
                 href="#funkcje"
-                className="glass-focus rounded-sm border border-border px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-foreground hover:-translate-y-0.5 hover:bg-secondary"
+                className="text-sm font-semibold uppercase tracking-wide text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
               >
-                Funkcje
+                Zobacz funkcje
               </a>
             </div>
-            <dl className="mt-10 grid max-w-md grid-cols-3 gap-4">
+            <dl className="mt-10 grid max-w-md grid-cols-2 gap-4">
               {[
                 ["18 420", "Użytkowników"],
                 ["0", "Banów w 2026"],
-                ["\n", "\n"],
               ].map(([v, l], i) => (
                 <div key={i}>
                   <dt className="text-display text-3xl text-accent">{v}</dt>
@@ -215,6 +214,7 @@ function Index() {
                 </div>
               ))}
             </dl>
+
           </div>
           <div className="relative flex justify-center">
             <div className="absolute -inset-6 rounded-full bg-primary/20 blur-3xl" aria-hidden />
