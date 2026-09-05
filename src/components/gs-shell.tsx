@@ -60,7 +60,7 @@ export function GsShell({
             <Link
               key={t.label}
               to={t.to}
-              className="px-3 py-3 text-muted-foreground transition-colors hover:text-foreground"
+              className={`px-3 py-3 transition-colors hover:brightness-125 ${t.cls || "text-muted-foreground hover:text-foreground"}`}
             >
               {t.label}
             </Link>
