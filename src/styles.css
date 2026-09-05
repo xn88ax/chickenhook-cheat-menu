@@ -23,6 +23,7 @@
   --font-sans: "Barlow", sans-serif;
   --color-bucket: var(--bucket);
   --color-crisp: var(--crisp);
+  --color-menugreen: oklch(0.78 0.17 150);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

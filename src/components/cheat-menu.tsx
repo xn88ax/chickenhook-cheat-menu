@@ -1,10 +1,27 @@
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Check, Lock, Power } from "lucide-react";
+import {
+  Check,
+  ChevronDown,
+  Eye,
+  Flame,
+  Gauge,
+  Lock,
+  Puzzle,
+  Save,
+  Search,
+  Settings2,
+  Shield,
+  Sparkles,
+  User,
+  Wand2,
+  Zap,
+} from "lucide-react";
 
-import { FeaturePreview } from "@/components/feature-preview";
 import { features, type Feature } from "@/data/features";
 import { cn } from "@/lib/utils";
+
+// ===== Struktura jak na screenie gamesense: sekcje -> pozycje w sidebarze =====
 
 const GROUPS: Record<string, string> = {
   "robot-celu": "Celowanie",
@@ -22,221 +39,291 @@ const GROUPS: Record<string, string> = {
   rozne: "Inne",
 };
 
-const CATEGORIES = ["Celowanie", "Wizualizacje", "Ruch", "Exploity", "Inne"] as const;
+const SECTIONS = [
+  { name: "Celowanie", icon: Flame },
+  { name: "Wizualizacje", icon: Eye },
+  { name: "Ruch", icon: Zap },
+  { name: "Exploity", icon: Shield },
+  { name: "Inne", icon: Sparkles },
+] as const;
 
-const KEYS = ["INS", "F1", "F2", "F3", "V", "X", "C", "MOUSE4", "MOUSE5", "ALT", "SHIFT", "G", "B"];
+// Deterministyczne "ustawienia" per moduł — jak kolumny opcji w gamesense
+function settingsFor(f: Feature) {
+  const h = [...f.slug].reduce((a, c) => a + c.charCodeAt(0), 0);
+  const selects = [
+    { label: "Tryb działania", options: ["Wyłączony", "Dynamiczny", "Agresywny", "Pełny sos"], value: (h % 3) + 1 },
+    { label: "Priorytet celu", options: ["Najbliższy", "Najdroższy zestaw", "Losowy kurczak"], value: h % 3 },
+    { label: "Funkcja dodatkowa", options: ["Brak", "Podwójna panierka", "Ekstra ostry"], value: (h >> 2) % 3 },
+  ];
+  const sliders = [
+    { label: "Czułość", value: 20 + (h % 61) },
+    { label: "Siła sosu", value: 30 + ((h >> 3) % 61) },
+  ];
+  const toggles = [
+    { label: "Włączone", on: true },
+    { label: "Automatyczny zapis", on: h % 2 === 0 },
+    { label: "Cichy tryb kuchni", on: h % 3 === 0 },
+  ];
+  return { selects, sliders, toggles, stepper: h % 4 };
+}
 
-function Switch({ on }: { on: boolean }) {
+// ===== Kontrolki w stylu gamesense =====
+
+function GsSwitch({ on }: { on: boolean }) {
   return (
     <span
       className={cn(
-        "relative inline-flex h-5 w-9 shrink-0 items-center rounded-full border transition-colors duration-200",
-        on
-          ? "border-primary/70 bg-primary/30 shadow-[0_0_12px_-2px_hsl(var(--primary))]"
-          : "border-border bg-background/60",
+        "relative inline-flex h-3.5 w-7 shrink-0 items-center rounded-full transition-colors duration-200",
+        on ? "bg-menugreen/25" : "bg-secondary",
       )}
     >
       <span
         className={cn(
-          "absolute h-3.5 w-3.5 rounded-full transition-all duration-200",
-          on ? "left-[18px] bg-primary" : "left-[3px] bg-muted-foreground",
+          "absolute h-2.5 w-2.5 rounded-full transition-all duration-200",
+          on ? "left-[15px] bg-menugreen shadow-[0_0_8px_0_var(--color-menugreen)]" : "left-[3px] bg-muted-foreground/60",
         )}
       />
     </span>
   );
 }
 
-function Slider({
+function GsSelect({ label, options, value }: { label: string; options: string[]; value: number }) {
+  return (
+    <div>
+      <div className="text-xs text-foreground/80">{label}</div>
+      <div className="mt-1 flex h-7 items-center justify-between rounded-sm border border-border bg-background/70 px-2 text-xs">
+        <span className="text-menugreen">{options[value] ?? options[0]}</span>
+        <ChevronDown className="size-3 text-muted-foreground" />
+      </div>
+    </div>
+  );
+}
+
+function GsSlider({
   label,
   value,
   onChange,
-  suffix,
 }: {
   label: string;
   value: number;
   onChange: (v: number) => void;
-  suffix?: string;
 }) {
   return (
-    <label className="block">
-      <span className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
-        {label}
-        <span className="text-primary">
-          {value}
-          {suffix}
-        </span>
-      </span>
-      <input
-        type="range"
-        min={0}
-        max={100}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="mt-2 h-1 w-full cursor-pointer appearance-none rounded bg-border accent-primary"
-      />
-    </label>
+    <div>
+      <div className="text-xs text-foreground/80">{label}</div>
+      <div className="mt-2 flex items-center gap-2">
+        <input
+          type="range"
+          min={0}
+          max={100}
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="gs-range h-0.5 flex-1 cursor-pointer appearance-none rounded-full"
+          style={{
+            background: `linear-gradient(to right, var(--color-menugreen) 0%, var(--color-menugreen) ${value}%, var(--border) ${value}%, var(--border) 100%)`,
+          }}
+        />
+        <span className="w-6 text-right text-[11px] tabular-nums text-muted-foreground">{value}</span>
+      </div>
+    </div>
   );
 }
 
+function GsStepper({ value }: { value: number }) {
+  return (
+    <span className="inline-flex items-center rounded-sm border border-border bg-background/70 text-[11px]">
+      <span className="px-1.5 text-muted-foreground">‹</span>
+      <span className="min-w-5 text-center tabular-nums text-foreground/80">{value}</span>
+      <span className="px-1.5 text-muted-foreground">›</span>
+    </span>
+  );
+}
+
+// ===== Główny komponent =====
+
 export function CheatMenu() {
-  const [cat, setCat] = useState<(typeof CATEGORIES)[number]>("Celowanie");
-  const [enabled, setEnabled] = useState<Record<string, boolean>>({
-    "robot-celu": true,
-    wizualizacje: true,
-  });
-  const [sliders, setSliders] = useState<Record<string, number>>({});
   const [selected, setSelected] = useState<Feature>(
     features.find((f) => f.slug === "robot-celu") ?? features[0],
   );
+  const [enabled, setEnabled] = useState<Record<string, boolean>>({
+    "robot-celu": true,
+    wizualizacje: true,
+    "kroliczy-skok": true,
+  });
+  const [sliders, setSliders] = useState<Record<string, number>>({});
 
-  const list = useMemo(
-    () => features.filter((f) => (GROUPS[f.slug] ?? "Inne") === cat),
-    [cat],
-  );
+  const bySection = useMemo(() => {
+    const map = new Map<string, Feature[]>();
+    for (const s of SECTIONS) map.set(s.name, []);
+    for (const f of features) map.get(GROUPS[f.slug] ?? "Inne")?.push(f);
+    return map;
+  }, []);
 
+  const cfg = settingsFor(selected);
   const activeCount = Object.values(enabled).filter(Boolean).length;
-  const s1 = sliders[`${selected.slug}-1`] ?? 45;
-  const s2 = sliders[`${selected.slug}-2`] ?? 70;
   const isOn = !!enabled[selected.slug];
 
   return (
-    <div className="glass overflow-hidden rounded-xl border">
-      {/* Pasek tytułu */}
-      <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
-        <div className="flex items-center gap-2">
-          <Power className={cn("size-4", activeCount ? "text-primary" : "text-muted-foreground")} />
-          <span className="text-display text-lg uppercase tracking-wide">
-            Chicken<span className="text-primary">Hook</span> Menu
-          </span>
-          <span className="rounded-sm border border-border px-1.5 py-0.5 text-[10px] font-bold uppercase text-muted-foreground">
-            v4.2.1
-          </span>
-        </div>
-        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-          {activeCount} aktywnych · INS = menu
+    <div className="overflow-hidden rounded-md border border-border bg-card/95 shadow-[0_24px_80px_-20px_rgba(0,0,0,0.8)]">
+      {/* Pasek tytułu — CHICKENHOOK + Save + ikony */}
+      <div className="flex items-center justify-between border-b border-border bg-secondary/40 px-3 py-2">
+        <span className="text-sm font-extrabold tracking-wide">
+          CHICKEN<span className="text-menugreen">HOOK</span>
         </span>
-      </div>
-
-      <div className="grid md:grid-cols-[160px_1fr_260px]">
-        {/* Kategorie */}
-        <div className="flex gap-1 overflow-x-auto border-b border-border/60 p-2 md:flex-col md:overflow-visible md:border-b-0 md:border-r">
-          {CATEGORIES.map((c) => (
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            className="inline-flex items-center gap-1.5 rounded-sm border border-border bg-background/60 px-2.5 py-1 text-[11px] font-semibold text-foreground/90 transition-colors hover:border-menugreen/50"
+          >
+            <Save className="size-3 text-muted-foreground" />
+            Zapisz
+          </button>
+          {[Puzzle, Settings2, Search].map((Icon, i) => (
             <button
-              key={c}
+              key={i}
               type="button"
-              onClick={() => setCat(c)}
-              className={cn(
-                "whitespace-nowrap rounded-sm px-3 py-2 text-left text-xs font-bold uppercase tracking-wide transition-colors",
-                cat === c
-                  ? "bucket-gradient text-primary-foreground"
-                  : "text-muted-foreground hover:bg-secondary hover:text-foreground",
-              )}
+              className="grid size-7 place-items-center rounded-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-menugreen"
             >
-              {c}
+              <Icon className="size-3.5" />
             </button>
           ))}
         </div>
+      </div>
 
-        {/* Lista funkcji */}
-        <div className="max-h-[420px] overflow-y-auto p-2">
-          {list.map((f) => {
-            const on = !!enabled[f.slug];
-            return (
-              <div
-                key={f.slug}
-                role="button"
-                tabIndex={0}
-                onClick={() => setSelected(f)}
-                onKeyDown={(e) => e.key === "Enter" && setSelected(f)}
-                className={cn(
-                  "flex cursor-pointer items-center gap-3 rounded-sm px-3 py-2.5 transition-colors",
-                  selected.slug === f.slug ? "bg-secondary" : "hover:bg-secondary/60",
-                )}
-              >
-                <button
-                  type="button"
-                  aria-label={`Przełącz ${f.title}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelected(f);
-                    setEnabled((p) => ({ ...p, [f.slug]: !p[f.slug] }));
-                  }}
-                >
-                  <Switch on={on} />
-                </button>
-                <f.icon className={cn("size-4", on ? "text-primary" : "text-muted-foreground")} />
-                <span
-                  className={cn(
-                    "flex-1 text-sm font-semibold",
-                    on ? "text-foreground" : "text-muted-foreground",
-                  )}
-                >
-                  {f.title}
-                </span>
-                {f.restricted && <Lock className="size-3.5 text-primary" />}
-                <span className="rounded-sm border border-border px-1.5 py-0.5 text-[10px] font-bold text-muted-foreground">
-                  {KEYS[features.indexOf(f) % KEYS.length]}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Panel szczegółów */}
-        <div className="border-t border-border/60 p-4 md:border-l md:border-t-0">
-          <FeaturePreview kind={selected.preview} />
-          <h3 className="mt-4 text-display text-2xl uppercase leading-none">{selected.title}</h3>
-          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{selected.desc}</p>
-
-          <div className="mt-4 space-y-3">
-            <Slider
-              label="Czułość"
-              value={s1}
-              suffix="%"
-              onChange={(v) => setSliders((p) => ({ ...p, [`${selected.slug}-1`]: v }))}
-            />
-            <Slider
-              label="Siła"
-              value={s2}
-              suffix="%"
-              onChange={(v) => setSliders((p) => ({ ...p, [`${selected.slug}-2`]: v }))}
-            />
+      <div className="grid md:grid-cols-[190px_1fr]">
+        {/* Sidebar sekcji */}
+        <div className="flex flex-col border-b border-border bg-secondary/25 md:border-b-0 md:border-r">
+          <div className="max-h-[120px] flex-1 overflow-y-auto p-1.5 md:max-h-none">
+            {SECTIONS.map((s) => {
+              const items = bySection.get(s.name) ?? [];
+              if (!items.length) return null;
+              return (
+                <div key={s.name} className="mb-1">
+                  <div className="flex items-center gap-1.5 px-2 pb-1 pt-2 text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">
+                    <s.icon className="size-3 text-menugreen" />
+                    {s.name}
+                  </div>
+                  {items.map((f) => {
+                    const on = !!enabled[f.slug];
+                    const active = selected.slug === f.slug;
+                    return (
+                      <button
+                        key={f.slug}
+                        type="button"
+                        onClick={() => setSelected(f)}
+                        className={cn(
+                          "flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-xs transition-colors",
+                          active
+                            ? "bg-menugreen/15 text-foreground"
+                            : "text-muted-foreground hover:bg-secondary hover:text-foreground",
+                        )}
+                      >
+                        {on ? (
+                          <Check className="size-3.5 shrink-0 text-menugreen" />
+                        ) : (
+                          <span className="size-3.5 shrink-0" />
+                        )}
+                        <span className="flex-1 truncate">{f.title}</span>
+                        {f.restricted && <Lock className="size-3 shrink-0 text-gs-gold text-gold" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              );
+            })}
           </div>
 
-          <ul className="mt-4 space-y-1.5">
-            {selected.bullets.slice(0, 3).map((b) => (
-              <li key={b} className="flex items-start gap-2 text-xs text-muted-foreground">
-                <Check className="mt-0.5 size-3 shrink-0 text-primary" />
-                <span>{b}</span>
-              </li>
-            ))}
-          </ul>
+          {/* Profil użytkownika jak w rogu gamesense */}
+          <div className="flex items-center gap-2 border-t border-border p-2">
+            <span className="grid size-7 place-items-center rounded-sm bg-menugreen/15">
+              <User className="size-4 text-menugreen" />
+            </span>
+            <span className="min-w-0 leading-tight">
+              <span className="block truncate text-xs font-semibold">Kurczak_200iq</span>
+              <span className="block text-[10px] text-muted-foreground">Til: 27.08.2026 24:00</span>
+            </span>
+          </div>
+        </div>
 
-          {selected.restricted ? (
+        {/* Panel konfiguracji — dwie kolumny jak na screenie */}
+        <div className="p-4">
+          <div className="mb-3 flex items-center justify-between">
+            <h3 className="text-sm font-bold">{selected.title}</h3>
+            <span className="text-[11px] text-muted-foreground">
+              {activeCount} aktywnych modułów · INS = menu
+            </span>
+          </div>
+
+          <div className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+            {/* Kolumna 1 */}
+            <div className="space-y-3.5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-foreground/80">{cfg.toggles[0].label}</span>
+                <button
+                  type="button"
+                  aria-label={`Przełącz ${selected.title}`}
+                  onClick={() => setEnabled((p) => ({ ...p, [selected.slug]: !isOn }))}
+                >
+                  <GsSwitch on={isOn} />
+                </button>
+              </div>
+              <GsSelect label={cfg.selects[0].label} options={cfg.selects[0].options} value={cfg.selects[0].value} />
+              <GsSelect label={cfg.selects[1].label} options={cfg.selects[1].options} value={cfg.selects[1].value} />
+              <GsSlider
+                label={cfg.sliders[0].label}
+                value={sliders[`${selected.slug}-1`] ?? cfg.sliders[0].value}
+                onChange={(v) => setSliders((p) => ({ ...p, [`${selected.slug}-1`]: v }))}
+              />
+              <GsSlider
+                label={cfg.sliders[1].label}
+                value={sliders[`${selected.slug}-2`] ?? cfg.sliders[1].value}
+                onChange={(v) => setSliders((p) => ({ ...p, [`${selected.slug}-2`]: v }))}
+              />
+            </div>
+
+            {/* Kolumna 2 */}
+            <div className="space-y-3.5">
+              <GsSelect label={cfg.selects[2].label} options={cfg.selects[2].options} value={cfg.selects[2].value} />
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-foreground/80">{cfg.toggles[1].label}</span>
+                <GsSwitch on={cfg.toggles[1].on} />
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-foreground/80">{cfg.toggles[2].label}</span>
+                <GsSwitch on={cfg.toggles[2].on} />
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-foreground/80">Limit porcji</span>
+                <GsStepper value={cfg.stepper} />
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-1.5 text-xs text-foreground/80">
+                  <Gauge className="size-3 text-muted-foreground" />
+                  Prędkość animacji
+                </span>
+                <span className="text-[11px] text-menugreen">2.0</span>
+              </div>
+            </div>
+          </div>
+
+          <p className="mt-4 border-t border-border pt-3 text-[11px] leading-relaxed text-muted-foreground">
+            {selected.desc}
+          </p>
+
+          {selected.restricted && (
             <Link
               to="/podanie"
               search={{ modul: selected.slug }}
-              className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-sm border border-primary/60 bg-primary/10 px-3 py-2 text-[11px] font-bold uppercase tracking-wide text-primary"
+              className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-sm border border-menugreen/40 bg-menugreen/10 px-3 py-2 text-[11px] font-bold uppercase tracking-wide text-menugreen transition-colors hover:bg-menugreen/20"
             >
               <Lock className="size-3" />
               Elite — złóż podanie
             </Link>
-          ) : (
-            <button
-              type="button"
-              onClick={() =>
-                setEnabled((p) => ({ ...p, [selected.slug]: !p[selected.slug] }))
-              }
-              className={cn(
-                "mt-4 w-full rounded-sm px-3 py-2 text-[11px] font-bold uppercase tracking-wide transition-colors",
-                isOn
-                  ? "bucket-gradient text-primary-foreground"
-                  : "border border-border text-muted-foreground hover:text-foreground",
-              )}
-            >
-              {isOn ? "Wyłącz moduł" : "Włącz moduł"}
-            </button>
           )}
+          <div className="mt-3 flex items-center gap-1.5 text-[10px] text-muted-foreground">
+            <Wand2 className="size-3" />
+            ChickenHook.pub © 2016–2026 · Build 4.12.0 · Alpha
+          </div>
         </div>
       </div>
     </div>
