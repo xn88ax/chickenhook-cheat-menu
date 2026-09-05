@@ -62,23 +62,42 @@ export function GsShell({
 
       {/* Tab nav */}
       <header className="sticky top-0 z-50 mt-4 border-y border-border gs-head">
-        <div className="mx-auto flex max-w-6xl items-center gap-1 px-5 text-xs font-semibold">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-1 px-5 text-xs font-semibold">
           <Bell className="mr-2 size-3.5 gs-lime" />
           {tabs.map((t) => (
             <Link
               key={t.label}
               to={t.to}
-              className={`px-3 py-3 transition-colors hover:brightness-125 ${t.cls || "text-muted-foreground hover:text-foreground"}`}
+              className={`px-2.5 py-3 transition-colors hover:brightness-125 sm:px-3 ${t.cls || "text-muted-foreground hover:text-foreground"}`}
             >
               {t.label}
             </Link>
           ))}
-          <Link to="/" hash="menu" className="px-3 py-3 font-bold text-primary hover:brightness-110">
+
+          <details className="group relative">
+            <summary className="flex cursor-pointer list-none items-center gap-1 px-2.5 py-3 text-muted-foreground transition-colors hover:text-foreground sm:px-3">
+              Więcej
+              <ChevronDown className="size-3 transition-transform group-open:rotate-180" />
+            </summary>
+            <div className="absolute left-0 top-full z-50 min-w-40 border border-border gs-panel">
+              {moreTabs.map((t) => (
+                <Link
+                  key={t.label}
+                  to={t.to}
+                  className="block px-3 py-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                >
+                  {t.label}
+                </Link>
+              ))}
+            </div>
+          </details>
+
+          <Link to="/" hash="menu" className="px-2.5 py-3 font-bold text-primary hover:brightness-110 sm:px-3">
             Premium
           </Link>
           <Link
             to="/forum"
-            className="ml-auto px-3 py-3 text-muted-foreground transition-colors hover:text-foreground"
+            className="ml-auto px-2.5 py-3 text-muted-foreground transition-colors hover:text-foreground sm:px-3"
           >
             Zaloguj
           </Link>
