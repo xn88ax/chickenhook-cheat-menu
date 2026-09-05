@@ -23,6 +23,7 @@
   --font-sans: "Barlow", sans-serif;
   --color-bucket: var(--bucket);
   --color-crisp: var(--crisp);
+  --color-menugreen: oklch(0.78 0.17 150);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -586,4 +587,21 @@
 
 @utility gs-gold {
   color: oklch(0.8 0.15 85);
+}
+
+.gs-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: var(--color-menugreen);
+  box-shadow: 0 0 8px 0 var(--color-menugreen);
+}
+.gs-range::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-radius: 9999px;
+  background: var(--color-menugreen);
+  box-shadow: 0 0 8px 0 var(--color-menugreen);
 }
