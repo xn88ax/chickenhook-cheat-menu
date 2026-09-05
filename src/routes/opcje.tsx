@@ -161,7 +161,7 @@ function Opcje() {
                     </span>
                   )}
                 </div>
-                <h2 className="mt-4 text-display text-4xl uppercase leading-none">{o.title}</h2>
+                <h2 className="mt-3 text-base font-bold uppercase">{o.title}</h2>
                 <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted-foreground">
                   {o.long}
                 </p>
@@ -196,7 +196,7 @@ function Opcje() {
 
         {filtered.length === 0 && (
           <div className="py-16 text-center">
-            <p className="text-display text-2xl uppercase">Brak wyników</p>
+            <p className="text-sm font-bold uppercase">Brak wyników</p>
             <p className="mt-2 text-sm text-muted-foreground">
               Zmień filtr albo wpisz inną frazę.
             </p>
@@ -209,7 +209,7 @@ function Opcje() {
           <Link
             to="/"
             hash="menu"
-            className="rounded-sm bucket-gradient px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
+            className="bucket-gradient px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
           >
             Zobacz cennik
           </Link>
