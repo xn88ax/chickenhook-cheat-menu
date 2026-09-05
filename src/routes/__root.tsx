@@ -11,6 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { Konami } from "../components/konami";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { installSessionPersistence } from "../lib/session-persistence";
 
@@ -146,6 +147,7 @@ function RootComponent() {
       <RouteTransition>
         <Outlet />
       </RouteTransition>
+      <Konami />
     </QueryClientProvider>
   );
 }
