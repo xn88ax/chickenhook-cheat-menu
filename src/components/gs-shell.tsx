@@ -3,12 +3,12 @@ import { Link } from "@tanstack/react-router";
 import { Bell, ChevronRight } from "lucide-react";
 
 const tabs = [
-  { label: "Index", to: "/" },
-  { label: "Funkcje", to: "/opcje" },
-  { label: "Forum", to: "/forum" },
-  { label: "Sponsorzy", to: "/sponsorzy" },
-  { label: "Restauracje", to: "/restauracje" },
-  { label: "Podanie", to: "/podanie" },
+  { label: "Index", to: "/", cls: "" },
+  { label: "Funkcje", to: "/opcje", cls: "text-accent" },
+  { label: "Forum", to: "/forum", cls: "font-bold text-primary" },
+  { label: "Sponsorzy", to: "/sponsorzy", cls: "gs-gold" },
+  { label: "Restauracje", to: "/restauracje", cls: "gs-green" },
+  { label: "Podanie", to: "/podanie", cls: "" },
 ] as const;
 
 /** Panel with a gamesense-style header bar and red underline. */

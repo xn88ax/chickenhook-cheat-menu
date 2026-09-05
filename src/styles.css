@@ -551,3 +551,39 @@
 @utility gs-underline {
   border-bottom: 2px solid oklch(0.62 0.23 26);
 }
+
+/* ===== Iniuria-style glossy action button ===== */
+@utility gs-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.5rem;
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: oklch(0.99 0.005 90);
+  text-shadow: 0 1px 2px oklch(0.2 0.1 24 / 60%);
+  background-image: linear-gradient(
+    to bottom,
+    oklch(0.7 0.24 28),
+    oklch(0.55 0.22 25) 55%,
+    oklch(0.45 0.2 22)
+  );
+  border: 1px solid oklch(0.34 0.14 24);
+  border-radius: var(--radius);
+  transition: filter 0.15s ease;
+
+  &:hover {
+    filter: brightness(1.12);
+  }
+}
+
+@utility gs-green {
+  color: oklch(0.78 0.17 150);
+}
+
+@utility gs-gold {
+  color: oklch(0.8 0.15 85);
+}
