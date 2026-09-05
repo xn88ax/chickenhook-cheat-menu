@@ -194,6 +194,9 @@ function Sponsorzy() {
             <Link to="/sponsorzy" className="text-foreground">
               Sponsorzy
             </Link>
+            <Link to="/restauracje" className="transition-colors hover:text-foreground">
+              Restauracje
+            </Link>
           </nav>
           <Link
             to="/"

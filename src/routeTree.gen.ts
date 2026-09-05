@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SponsorzyRouteImport } from './routes/sponsorzy'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RestauracjeRouteImport } from './routes/restauracje'
 import { Route as PodanieRouteImport } from './routes/podanie'
 import { Route as OpcjeRouteImport } from './routes/opcje'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -29,6 +30,11 @@ const SponsorzyRoute = SponsorzyRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RestauracjeRoute = RestauracjeRouteImport.update({
+  id: '/restauracje',
+  path: '/restauracje',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PodanieRoute = PodanieRouteImport.update({
@@ -83,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/opcje': typeof OpcjeRoute
   '/podanie': typeof PodanieRoute
+  '/restauracje': typeof RestauracjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sponsorzy': typeof SponsorzyRoute
   '/forum': typeof AuthenticatedForumRouteWithChildren
@@ -95,6 +102,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/opcje': typeof OpcjeRoute
   '/podanie': typeof PodanieRoute
+  '/restauracje': typeof RestauracjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sponsorzy': typeof SponsorzyRoute
   '/forum': typeof AuthenticatedForumIndexRoute
@@ -108,6 +116,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/opcje': typeof OpcjeRoute
   '/podanie': typeof PodanieRoute
+  '/restauracje': typeof RestauracjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sponsorzy': typeof SponsorzyRoute
   '/_authenticated/forum': typeof AuthenticatedForumRouteWithChildren
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/opcje'
     | '/podanie'
+    | '/restauracje'
     | '/sitemap.xml'
     | '/sponsorzy'
     | '/forum'
@@ -134,6 +144,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/opcje'
     | '/podanie'
+    | '/restauracje'
     | '/sitemap.xml'
     | '/sponsorzy'
     | '/forum'
@@ -146,6 +157,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/opcje'
     | '/podanie'
+    | '/restauracje'
     | '/sitemap.xml'
     | '/sponsorzy'
     | '/_authenticated/forum'
@@ -160,6 +172,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   OpcjeRoute: typeof OpcjeRoute
   PodanieRoute: typeof PodanieRoute
+  RestauracjeRoute: typeof RestauracjeRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SponsorzyRoute: typeof SponsorzyRoute
 }
@@ -178,6 +191,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/restauracje': {
+      id: '/restauracje'
+      path: '/restauracje'
+      fullPath: '/restauracje'
+      preLoaderRoute: typeof RestauracjeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/podanie': {
@@ -278,6 +298,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   OpcjeRoute: OpcjeRoute,
   PodanieRoute: PodanieRoute,
+  RestauracjeRoute: RestauracjeRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SponsorzyRoute: SponsorzyRoute,
 }
