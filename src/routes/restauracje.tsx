@@ -359,21 +359,17 @@ function Restauracje() {
         </div>
 
         {filtered.length === 0 && (
-          <div className="mt-10 rounded-sm border border-dashed border-border bg-card/30 p-10 text-center">
-            <p className="text-display text-2xl uppercase">Brak wyników</p>
-            <p className="mt-2 text-sm text-muted-foreground">
+          <div className="border border-dashed border-border p-8 text-center">
+            <p className="text-sm font-bold uppercase">Brak wyników</p>
+            <p className="mt-1 text-xs text-muted-foreground">
               Zmień miasto, filtr albo wpisz inną frazę.
             </p>
           </div>
         )}
-      </section>
+        </div>
+        </GsPanel>
+      </main>
+    </GsShell>
 
-      <footer className="mx-auto max-w-6xl px-5 py-12">
-        <p className="text-xs text-muted-foreground">
-          Strona parodystyczna, stworzona w celach demonstracyjnych. Dane lokalizacji są
-          przykładowe.
-        </p>
-      </footer>
-    </div>
   );
 }
