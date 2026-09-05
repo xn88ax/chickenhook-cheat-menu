@@ -124,25 +124,30 @@ function Scene({ kind }: { kind: PreviewKind }) {
 }
 
 export function FeaturePreview({ kind }: { kind: PreviewKind }) {
-  const { data: clip } = useQuery({
-    queryKey: ["cheat-clip", kind],
-    queryFn: () => getCheatClip({ data: { kind } }),
-    staleTime: Infinity,
-    retry: false,
-  });
+  const video = getClipVideo(kind);
 
   return (
     <div className="preview-stage">
       <div className="relative h-[92px] w-full overflow-hidden rounded-lg border border-border/60 bg-background/40">
-        {clip ? (
-          <img
-            src={clip.url}
-            alt={`Podgląd: ${labels[kind]}`}
-            loading="lazy"
+        {video ? (
+          <video
+            src={video}
+            muted
+            loop
+            autoPlay
+            playsInline
+            preload="metadata"
+            aria-label={`Nagranie z CS:GO: ${labels[kind]}`}
             className="absolute inset-0 h-full w-full object-cover"
           />
         ) : (
-          <Scene kind={kind} />
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 text-muted-foreground">
+            <Scene kind={kind} />
+            <div className="relative z-10 flex items-center gap-1.5 rounded bg-background/85 px-2 py-1 text-[10px] font-bold tracking-wide">
+              <VideoOff className="h-3 w-3" />
+              BRAK NAGRANIA
+            </div>
+          </div>
         )}
         <span className="absolute bottom-1.5 right-2 rounded bg-background/70 px-1.5 py-0.5 text-[9px] font-bold tracking-widest text-muted-foreground">
           {labels[kind]}
