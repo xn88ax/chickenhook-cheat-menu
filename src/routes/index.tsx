@@ -1,8 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, Lock } from "lucide-react";
 
+import { BanFeed } from "@/components/ban-feed";
 import { FeatureDialog } from "@/components/feature-dialog";
 import { FeaturePreview } from "@/components/feature-preview";
+import { HallOfFame } from "@/components/hall-of-fame";
+import { OnlineCounter } from "@/components/online-counter";
+import { Shoutbox } from "@/components/shoutbox";
+import { builds } from "@/data/changelog";
 import { features } from "@/data/features";
 import { GsPanel, GsShell } from "@/components/gs-shell";
 
@@ -112,7 +117,43 @@ function Index() {
               </div>
             ))}
           </dl>
+          <div className="border-t border-border">
+            <OnlineCounter />
+          </div>
         </GsPanel>
+
+        {/* Społeczność */}
+        <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+          <GsPanel title="Czat społeczności">
+            <Shoutbox />
+          </GsPanel>
+          <GsPanel title="Fala banów — konkurencja">
+            <BanFeed />
+          </GsPanel>
+        </div>
+
+        <GsPanel title="Hall of Fame — top fraggerzy">
+          <HallOfFame />
+        </GsPanel>
+
+        {/* Ostatni build */}
+        <GsPanel title={`Ostatni build — ${builds[0]!.version}`}>
+          <div className="px-4 py-3 text-xs">
+            <p className="text-muted-foreground">{builds[0]!.date}</p>
+            <ul className="mt-2 space-y-1 text-muted-foreground">
+              {builds[0]!.notes.slice(0, 3).map((n) => (
+                <li key={n}>
+                  <span className="mr-2 gs-lime">·</span>
+                  {n}
+                </li>
+              ))}
+            </ul>
+            <Link to="/changelog" className="mt-2 inline-block text-primary hover:underline">
+              Cały changelog →
+            </Link>
+          </div>
+        </GsPanel>
+
 
         {/* Features */}
         <GsPanel title="Funkcje" className="scroll-mt-16" >
