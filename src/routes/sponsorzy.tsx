@@ -78,8 +78,8 @@ const sponsors: Sponsor[] = [
     slug: "muala",
     category: "Partner strategiczny",
     desc: "Nowy, tajny składnik w naszym sosie. MUALA to brand, który rozumie chicken game na poważnie.",
-    color: "#F7931A",
-    textColor: "#FFFFFF",
+    color: "#FFFFFF",
+    textColor: "#1A1A1A",
     logo: mualaLogo.url,
   },
   {
