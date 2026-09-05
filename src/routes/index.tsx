@@ -89,7 +89,7 @@ function Index() {
                 SUPPORCIE
               </a>
               , aby otrzymać dane do konta i aktywować dostęp. Moduły ryzykowne wymagają{" "}
-              <Link to="/podanie" className="text-primary hover:underline">
+              <Link to="/podanie" search={{ modul: "" }} className="text-primary hover:underline">
                 podania
               </Link>
               .
