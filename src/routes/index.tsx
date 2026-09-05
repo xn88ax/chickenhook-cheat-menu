@@ -4,7 +4,7 @@ import { Check, Lock } from "lucide-react";
 import { BanFeed } from "@/components/ban-feed";
 import { FeatureDialog } from "@/components/feature-dialog";
 import { FeaturePreview } from "@/components/feature-preview";
-import { HallOfFame } from "@/components/hall-of-fame";
+import { OppList } from "@/components/opp-list";
 import { OnlineCounter } from "@/components/online-counter";
 import { Shoutbox } from "@/components/shoutbox";
 import { builds } from "@/data/changelog";
@@ -124,7 +124,7 @@ function Index() {
 
         {/* Społeczność */}
         <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
-          <GsPanel title="Czat społeczności">
+          <GsPanel title="Shoutbox">
             <Shoutbox />
           </GsPanel>
           <GsPanel title="Fala banów — konkurencja">
@@ -132,8 +132,8 @@ function Index() {
           </GsPanel>
         </div>
 
-        <GsPanel title="Hall of Fame — top fraggerzy">
-          <HallOfFame />
+        <GsPanel title="Lista oppsów — zbanowani">
+          <OppList />
         </GsPanel>
 
         {/* Ostatni build */}
