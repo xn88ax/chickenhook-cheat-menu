@@ -140,14 +140,38 @@ function Forum() {
   return (
     <ForumShell>
       <main className="mx-auto max-w-6xl space-y-4 px-5 py-4">
-        {/* Purple banners */}
+        {/* Banners */}
         <div className="space-y-2">
           <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
             Masz nieużyte kody zaproszeń!
           </p>
           <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
-            Dostępny jest nowy klient!
+            Dostępny jest nowy klient — build 4.12.0!
           </p>
+        </div>
+
+        {/* Welcome notice (iniuria-style) */}
+        <p className="gs-panel px-4 py-3 text-xs leading-relaxed text-muted-foreground">
+          Jeśli jesteś tu pierwszy raz, przeczytaj{" "}
+          <Link to="/" hash="faq" className="text-primary hover:underline">
+            FAQ
+          </Link>
+          . Aby pisać na forum, musisz mieć konto z aktywną subskrypcją — po opłaceniu
+          zamówienia konto aktywuje się automatycznie. Wybierz dział z listy poniżej i
+          działaj.
+        </p>
+
+        {/* Big glossy action buttons */}
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          <a href="#faq" className="gs-action">
+            Pobierz
+          </a>
+          <Link to="/opcje" className="gs-action">
+            Tutorial
+          </Link>
+          <a href="#faq" className="gs-action">
+            Support
+          </a>
         </div>
 
         {/* Announcement */}
