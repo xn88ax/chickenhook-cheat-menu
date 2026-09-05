@@ -137,17 +137,46 @@ function Forum() {
   const countFor = (categoryId: string) =>
     threads.filter((t) => t.category_id === categoryId).length;
 
+  const lastFor = (categoryId: string) =>
+    threads
+      .filter((t) => t.category_id === categoryId)
+      .sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
+
   return (
     <ForumShell>
       <main className="mx-auto max-w-6xl space-y-4 px-5 py-4">
-        {/* Purple banners */}
+        {/* Banners */}
         <div className="space-y-2">
           <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
             Masz nieużyte kody zaproszeń!
           </p>
           <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
-            Dostępny jest nowy klient!
+            Dostępny jest nowy klient — build 4.12.0!
           </p>
+        </div>
+
+        {/* Welcome notice (iniuria-style) */}
+        <p className="gs-panel px-4 py-3 text-xs leading-relaxed text-muted-foreground">
+          Jeśli jesteś tu pierwszy raz, przeczytaj{" "}
+          <Link to="/" hash="faq" className="text-primary hover:underline">
+            FAQ
+          </Link>
+          . Aby pisać na forum, musisz mieć konto z aktywną subskrypcją — po opłaceniu
+          zamówienia konto aktywuje się automatycznie. Wybierz dział z listy poniżej i
+          działaj.
+        </p>
+
+        {/* Big glossy action buttons */}
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          <a href="#faq" className="gs-action">
+            Pobierz
+          </a>
+          <Link to="/opcje" className="gs-action">
+            Tutorial
+          </Link>
+          <a href="#faq" className="gs-action">
+            Support
+          </a>
         </div>
 
         {/* Announcement */}
@@ -242,23 +271,42 @@ function Forum() {
             <div className="divide-y divide-border">
               {categories
                 .filter((c) => c.section === section)
-                .map((c) => (
-                  <Link
-                    key={c.id}
-                    to="/forum/dzial/$slug"
-                    params={{ slug: c.slug }}
-                    className="flex items-center gap-4 px-4 py-3 transition-colors hover:bg-white/5"
-                  >
-                    <span className="size-2 shrink-0 rounded-full bg-white/20" aria-hidden />
-                    <div className="min-w-0 flex-1">
-                      <h3 className="text-sm font-bold text-foreground">{c.name}</h3>
-                      <p className="mt-0.5 text-xs text-muted-foreground">{c.description}</p>
-                    </div>
-                    <span className="shrink-0 text-right text-xs text-muted-foreground">
-                      {countFor(c.id)} wątków
-                    </span>
-                  </Link>
-                ))}
+                .map((c, i) => {
+                  const last = lastFor(c.id);
+                  return (
+                    <Link
+                      key={c.id}
+                      to="/forum/dzial/$slug"
+                      params={{ slug: c.slug }}
+                      className="flex items-center gap-4 px-4 py-3 transition-colors hover:bg-white/5"
+                    >
+                      <MessageSquare className="size-5 shrink-0 text-muted-foreground" aria-hidden />
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-sm font-bold text-foreground">
+                          {c.name}{" "}
+                          <span className="text-xs font-normal text-muted-foreground">
+                            ({2 + ((i * 3) % 7)} ogląda)
+                          </span>
+                        </h3>
+                        <p className="mt-0.5 text-xs text-muted-foreground">{c.description}</p>
+                      </div>
+                      <span className="hidden w-24 shrink-0 text-right text-xs text-muted-foreground sm:block">
+                        Wątki: <span className="font-bold text-foreground">{countFor(c.id)}</span>
+                      </span>
+                      <span className="hidden w-48 shrink-0 text-right text-xs text-muted-foreground md:block">
+                        {last ? (
+                          <>
+                            <span className="block truncate text-foreground">{last.title}</span>
+                            <span className="text-primary">{nameOf(last.author_id)}</span> ·{" "}
+                            {timeAgo(last.created_at)}
+                          </>
+                        ) : (
+                          "Brak postów"
+                        )}
+                      </span>
+                    </Link>
+                  );
+                })}
             </div>
           </section>
         ))}
