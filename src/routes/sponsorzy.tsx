@@ -3,6 +3,13 @@ import { ExternalLink } from "lucide-react";
 
 import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 import mualaLogo from "@/assets/muala-logo.png.asset.json";
+import pollosLogo from "@/assets/logo-pollos.png";
+import drobpolLogo from "@/assets/logo-drobool.png";
+import davesLogo from "@/assets/logo-daves.png";
+import pepsiLogo from "@/assets/logo-pepsi.png";
+import popeyesLogo from "@/assets/logo-popeyes.png";
+import chickfilaLogo from "@/assets/logo-chickfila.png";
+import wendysLogo from "@/assets/logo-wendys.png";
 
 export const Route = createFileRoute("/sponsorzy")({
   head: () => ({
@@ -34,6 +41,7 @@ type Sponsor = {
   color: string;
   textColor: string;
   logo?: string;
+  icon?: string;
   initial?: string;
 };
 
@@ -45,25 +53,25 @@ const sponsors: Sponsor[] = [
     desc: "Dostarcza chrupiące skrzydełka, które inspirują nasz aimbot do precyzyjnych headshotów.",
     color: "#E4002B",
     textColor: "#FFFFFF",
-    initial: "K",
+    icon: "https://cdn.simpleicons.org/kfc/ffffff",
   },
   {
     name: "Pepsi",
     slug: "pepsi",
     category: "Napoje",
     desc: "Orzeźwiający boost do reakcji. Pijesz Pepsi — przeciwnik pije słone łzy.",
-    color: "#004B93",
-    textColor: "#FFFFFF",
-    initial: "P",
+    color: "#F0F4FA",
+    textColor: "#1A1A1A",
+    logo: pepsiLogo,
   },
   {
     name: "Popeyes",
     slug: "popeyes",
     category: "Fast food",
     desc: "Pikantne stripsy i jeszcze pikantsze configi do HvH. Louisiana flavor w każdym fragu.",
-    color: "#F4A900",
+    color: "#FFF4E0",
     textColor: "#1A1A1A",
-    initial: "P",
+    logo: popeyesLogo,
   },
   {
     name: "MUALA",
@@ -81,43 +89,43 @@ const sponsors: Sponsor[] = [
     desc: "Dystrybucja na najwyższym poziomie. Ich kurczaki są tak czyste jak nasz bypass.",
     color: "#FED100",
     textColor: "#1A1A1A",
-    initial: "L",
+    logo: pollosLogo,
   },
   {
     name: "Drob-Pol",
     slug: "drob-pol",
     category: "Dostawca",
     desc: "Lokalny dostawca, który zapewnia świeży kod prosto z polskiego kurnika.",
-    color: "#C8102E",
-    textColor: "#FFFFFF",
-    initial: "D",
+    color: "#FFFFFF",
+    textColor: "#1A1A1A",
+    logo: drobpolLogo,
   },
   {
     name: "Chick-fil-A",
     slug: "chick-fil-a",
     category: "Fast food",
     desc: "Eat mor chicken, frag mor noobs. Amerykański standard wspiera naszego europejskiego kurczaka.",
-    color: "#E11446",
-    textColor: "#FFFFFF",
-    initial: "C",
+    color: "#FFF0F2",
+    textColor: "#1A1A1A",
+    logo: chickfilaLogo,
   },
   {
     name: "Dave's Hot Chicken",
     slug: "daves-hot-chicken",
     category: "Fast food",
     desc: "Stopień ostrości dopasowany do poziomu ryzyka. Extra hot = extra undetected.",
-    color: "#FF4D00",
-    textColor: "#FFFFFF",
-    initial: "D",
+    color: "#FFF3EC",
+    textColor: "#1A1A1A",
+    logo: davesLogo,
   },
   {
     name: "Wendy's",
     slug: "wendys",
     category: "Fast food",
     desc: "Świeże, nigdy mrożone — tak jak nasze buildy. Beefy freshness w każdym update.",
-    color: "#C8102E",
-    textColor: "#FFFFFF",
-    initial: "W",
+    color: "#FFF0F2",
+    textColor: "#1A1A1A",
+    logo: wendysLogo,
   },
   {
     name: "SpaceX",
@@ -126,7 +134,7 @@ const sponsors: Sponsor[] = [
     desc: "Rakiety ich, nasze chamsy — obie rzeczy latają pod radar. Kosmiczne wsparcie dla elite buildów.",
     color: "#000000",
     textColor: "#FFFFFF",
-    initial: "S",
+    icon: "https://cdn.simpleicons.org/spacex/ffffff",
   },
   {
     name: "Twitter",
@@ -135,20 +143,21 @@ const sponsors: Sponsor[] = [
     desc: "Tutaj dzieją się dramy, leakują buildy i krzyczą cheaterzy. X oznacza miejsce spotkań naszej społeczności.",
     color: "#000000",
     textColor: "#FFFFFF",
-    initial: "X",
+    icon: "https://cdn.simpleicons.org/x/ffffff",
   },
 ];
 
 function SponsorLogo({ sponsor }: { sponsor: Sponsor }) {
-  if (sponsor.logo) {
+  if (sponsor.logo || sponsor.icon) {
     return (
       <div
         className="flex h-28 w-full items-center justify-center rounded-t-md p-5"
         style={{ backgroundColor: sponsor.color }}
       >
         <img
-          src={sponsor.logo}
+          src={sponsor.logo ?? sponsor.icon}
           alt={`Logo ${sponsor.name}`}
+          loading="lazy"
           className="max-h-full max-w-full object-contain"
         />
       </div>
