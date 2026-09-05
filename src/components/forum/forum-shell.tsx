@@ -55,6 +55,9 @@ export function ForumShell({
             <Link to="/forum" className="text-foreground">
               Forum
             </Link>
+            <Link to="/sponsorzy" className="transition-colors hover:text-foreground">
+              Sponsorzy
+            </Link>
           </nav>
           {user ? (
             <div className="flex items-center gap-2">

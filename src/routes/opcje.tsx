@@ -89,7 +89,9 @@ function Opcje() {
             <Link to="/forum" className="transition-colors hover:text-foreground">
               Forum
             </Link>
-
+            <Link to="/sponsorzy" className="transition-colors hover:text-foreground">
+              Sponsorzy
+            </Link>
           </nav>
           <Link
             to="/"
