@@ -224,7 +224,7 @@ export function CheatMenu() {
                           <span className="size-3.5 shrink-0" />
                         )}
                         <span className="flex-1 truncate">{f.title}</span>
-                        {f.restricted && <Lock className="size-3 shrink-0 text-gs-gold text-gold" />}
+                        {f.restricted && <Lock className="gs-gold size-3 shrink-0" />}
                       </button>
                     );
                   })}
