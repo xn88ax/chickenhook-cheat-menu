@@ -86,7 +86,7 @@ function CategoryPage() {
               <h2 className="gs-head px-4 py-2 text-xs font-bold">
                 Wątki
               </h2>
-              <div className="border-b-2" style={{ borderColor: "oklch(0.78 0.17 130)" }} />
+              <div className="border-b-2" style={{ borderColor: "oklch(0.62 0.23 26)" }} />
               <div className="divide-y divide-border">
                 {(threadsQuery.data ?? []).length === 0 && (
                   <p className="px-4 py-6 text-xs text-muted-foreground">
