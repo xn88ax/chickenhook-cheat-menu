@@ -143,7 +143,7 @@ const sponsors: Sponsor[] = [
     desc: "Tutaj dzieją się dramy, leakują buildy i krzyczą cheaterzy. X oznacza miejsce spotkań naszej społeczności.",
     color: "#000000",
     textColor: "#FFFFFF",
-    icon: "https://cdn.simpleicons.org/x/ffffff",
+    icon: "https://cdn.simpleicons.org/twitter/ffffff",
   },
 ];
 
