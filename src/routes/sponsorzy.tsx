@@ -253,65 +253,16 @@ function SponsorLogo({ sponsor }: { sponsor: Sponsor }) {
 
 function Sponsorzy() {
   return (
-    <div className="min-h-screen bg-background font-sans text-foreground">
-      <header className="sticky top-0 z-50 border-b border-border glass-bar">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-          <Link to="/" className="flex items-center gap-2">
-            <img
-              src={chickenhookLogo.url}
-              alt="Herb ChickenHook — złoty kogut na czarnej tarczy"
-              className="h-10 w-auto"
-            />
-            <span className="text-display text-2xl">
-              CHICKEN<span className="text-primary">HOOK</span>
-              <span className="text-muted-foreground">.RU</span>
-            </span>
-          </Link>
-          <nav className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-wide text-muted-foreground md:flex">
-            <Link to="/" className="transition-colors hover:text-foreground">
-              Start
-            </Link>
-            <Link to="/opcje" className="transition-colors hover:text-foreground">
-              Opcje
-            </Link>
-            <Link to="/forum" className="transition-colors hover:text-foreground">
-              Forum
-            </Link>
-            <Link to="/sponsorzy" className="text-foreground">
-              Sponsorzy
-            </Link>
-            <Link to="/restauracje" className="transition-colors hover:text-foreground">
-              Restauracje
-            </Link>
-          </nav>
-          <Link
-            to="/"
-            hash="menu"
-            className="rounded-sm bucket-gradient px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
-          >
-            Kup teraz
-          </Link>
-        </div>
-      </header>
+    <GsShell crumbs={[{ label: "Sponsorzy" }]}>
+      <main className="mx-auto max-w-6xl space-y-4 px-5 py-4">
+        <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
+          Partnerzy ChickenHook — dziękujemy za wsparcie kurnika
+        </p>
 
-      <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 glow-top" aria-hidden="true" />
-        <div className="relative mx-auto max-w-6xl px-5 py-16 md:py-24">
-          <span className="inline-block rounded-sm border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-            Partnerzy
-          </span>
-          <h1 className="mt-5 text-display text-6xl uppercase sm:text-7xl md:text-8xl">
-            Sponsorzy <span className="text-primary">kurczaka</span>
-          </h1>
-          <p className="mt-5 max-w-xl text-base text-muted-foreground">
-            ChickenHook nie istniałby bez tych legend. Od fast-foodowych gigantów po kosmicznych
-            inżynierów — wszyscy wierzą w moc złotego koguta.
-          </p>
-        </div>
-      </section>
+        <GsPanel title="Sponsorzy">
+        <div className="p-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
-      <section className="relative mx-auto max-w-6xl px-5 pb-24">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {sponsors.map((s) => (
             <article
               key={s.slug}
