@@ -34,23 +34,22 @@ export const shoutLines = [
   "kfc na rogu ma promocje, idealny pre-game",
 ];
 
-export type Fragger = {
+export type Opp = {
   nick: string;
-  hs: string;
-  kd: string;
-  elo: string;
-  plan: string;
+  cheat: string;
+  reason: string;
+  date: string;
 };
 
-export const fraggers: Fragger[] = [
-  { nick: "Kurczak_200iq", hs: "99,9%", kd: "41,2", elo: "12 345", plan: "Elite" },
-  { nick: "crispy_one_tap", hs: "99,4%", kd: "38,7", elo: "11 980", plan: "Elite" },
-  { nick: "SkrzydelkoPL", hs: "98,8%", kd: "33,1", elo: "10 402", plan: "Premium" },
-  { nick: "hvh_grzegorz", hs: "97,2%", kd: "29,9", elo: "9 871", plan: "Elite" },
-  { nick: "bhop_bolek", hs: "96,5%", kd: "24,4", elo: "8 655", plan: "Premium" },
-  { nick: "GesslerFan1998", hs: "95,1%", kd: "21,8", elo: "8 210", plan: "Premium" },
-  { nick: "AimAssistent", hs: "93,7%", kd: "19,3", elo: "7 640", plan: "Solo" },
-  { nick: "zabka_hotdog", hs: "91,2%", kd: "17,0", elo: "7 001", plan: "Solo" },
+export const opps: Opp[] = [
+  { nick: "skeet_fanboy_99", cheat: "skeet.cc", reason: "fala VAC, loader wykryty", date: "12.08.2026" },
+  { nick: "onetap_oliwier", cheat: "onetap.su", reason: "glow esp widoczne na demku", date: "09.08.2026" },
+  { nick: "aimware_andrzej", cheat: "aimware.net", reason: "spinbot na premier, 41 zgłoszeń", date: "02.08.2026" },
+  { nick: "free_cheats_krzys", cheat: "cheat z YouTube'a", reason: "pobrał plik free_aim_2026.exe", date: "28.07.2026" },
+  { nick: "neverlose_norbert", cheat: "neverlose.cc", reason: "koniec subskrypcji = koniec szczęścia", date: "21.07.2026" },
+  { nick: "kolega_ze_szkoly", cheat: "cheat od kolegi", reason: "kolega też dostał bana", date: "14.07.2026" },
+  { nick: "gs_weteran", cheat: "gamesense.pub", reason: "nostalgia nie chroni przed VAC", date: "05.07.2026" },
+  { nick: "allegro_aimbot", cheat: "cheat z Allegro", reason: "sprzedawca miał 12% pozytywów", date: "29.06.2026" },
 ];
 
 export const banFeedLines = [
@@ -61,5 +60,5 @@ export const banFeedLines = [
   "darmowy cheat z YouTube'a — 3 402 konta",
   "cheat od kolegi ze szkoły — 1 konto (kolega)",
   "gamesense.pub — 244 konta, zostały wspomnienia",
-  "„niewykrywalny\” cheat z Allegro — 611 kont",
+  "„niewykrywalny” cheat z Allegro — 611 kont",
 ];
