@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { GsPanel, GsShell } from "@/components/gs-shell";
 import { Car, Clock, MapPin, Search, Truck, Utensils, X } from "lucide-react";
 
-import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 
 export const Route = createFileRoute("/restauracje")({
   head: () => ({
@@ -180,65 +180,16 @@ function Restauracje() {
   }, [query, city, tag]);
 
   return (
-    <div className="min-h-screen bg-background font-sans text-foreground">
-      <header className="sticky top-0 z-50 border-b border-border glass-bar">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-          <Link to="/" className="flex items-center gap-2">
-            <img
-              src={chickenhookLogo.url}
-              alt="Herb ChickenHook — złoty kogut na czarnej tarczy"
-              className="h-10 w-auto"
-            />
-            <span className="text-display text-2xl">
-              CHICKEN<span className="text-primary">HOOK</span>
-              <span className="text-muted-foreground">.RU</span>
-            </span>
-          </Link>
-          <nav className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-wide text-muted-foreground md:flex">
-            <Link to="/" className="transition-colors hover:text-foreground">
-              Start
-            </Link>
-            <Link to="/opcje" className="transition-colors hover:text-foreground">
-              Opcje
-            </Link>
-            <Link to="/forum" className="transition-colors hover:text-foreground">
-              Forum
-            </Link>
-            <Link to="/sponsorzy" className="transition-colors hover:text-foreground">
-              Sponsorzy
-            </Link>
-            <Link to="/restauracje" className="text-foreground">
-              Restauracje
-            </Link>
-          </nav>
-          <Link
-            to="/"
-            hash="menu"
-            className="rounded-sm bucket-gradient px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
-          >
-            Kup teraz
-          </Link>
-        </div>
-      </header>
+    <GsShell crumbs={[{ label: "Restauracje" }]}>
+      <main className="mx-auto max-w-6xl space-y-4 px-5 py-4">
+        <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
+          Lokalizacje kurników — drive-thru, dostawa i lokale 24h
+        </p>
 
-      <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 glow-top" aria-hidden="true" />
-        <div className="relative mx-auto max-w-6xl px-5 py-16 md:py-20">
-          <span className="inline-block rounded-sm border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-            Lokalizacje
-          </span>
-          <h1 className="mt-5 text-display text-6xl uppercase sm:text-7xl md:text-8xl">
-            Restauracje <span className="text-primary">KFC</span>
-          </h1>
-          <p className="mt-5 max-w-xl text-base text-muted-foreground">
-            Wybierz miasto i znajdź najbliższy kurnik. Drive-thru, dostawa i lokale całodobowe —
-            wszystko w jednym miejscu.
-          </p>
-        </div>
-      </section>
+        <GsPanel title="Restauracje">
+        <div className="p-4">
+        <div className="border-b border-border pb-4">
 
-      <section className="relative mx-auto max-w-6xl px-5 pb-24">
-        <div className="border-b border-border pb-6">
           <div className="relative max-w-md">
             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
@@ -313,9 +264,9 @@ function Restauracje() {
 
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((r) => (
-            <article key={r.name} className="panel flex flex-col rounded-md p-6">
+            <article key={r.name} className="gs-panel flex flex-col p-4">
               <div className="flex items-start justify-between gap-3">
-                <h2 className="text-display text-2xl uppercase leading-tight">{r.name}</h2>
+                <h3 className="text-sm font-bold uppercase leading-tight">{r.name}</h3>
                 <span className="shrink-0 rounded-sm border border-border bg-secondary/50 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">
                   {r.city}
                 </span>
@@ -359,21 +310,17 @@ function Restauracje() {
         </div>
 
         {filtered.length === 0 && (
-          <div className="mt-10 rounded-sm border border-dashed border-border bg-card/30 p-10 text-center">
-            <p className="text-display text-2xl uppercase">Brak wyników</p>
-            <p className="mt-2 text-sm text-muted-foreground">
+          <div className="border border-dashed border-border p-8 text-center">
+            <p className="text-sm font-bold uppercase">Brak wyników</p>
+            <p className="mt-1 text-xs text-muted-foreground">
               Zmień miasto, filtr albo wpisz inną frazę.
             </p>
           </div>
         )}
-      </section>
+        </div>
+        </GsPanel>
+      </main>
+    </GsShell>
 
-      <footer className="mx-auto max-w-6xl px-5 py-12">
-        <p className="text-xs text-muted-foreground">
-          Strona parodystyczna, stworzona w celach demonstracyjnych. Dane lokalizacji są
-          przykładowe.
-        </p>
-      </footer>
-    </div>
   );
 }

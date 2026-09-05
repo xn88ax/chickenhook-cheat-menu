@@ -1,9 +1,9 @@
+import { GsPanel, GsShell } from "@/components/gs-shell";
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CheckCircle2, Lock, ShieldAlert } from "lucide-react";
 
 import { features } from "@/data/features";
-import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 
 export const Route = createFileRoute("/podanie")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -37,44 +37,24 @@ function Podanie() {
   const [sent, setSent] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background font-sans text-foreground">
-      <header className="sticky top-0 z-50 border-b border-border glass-bar">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-          <Link to="/" className="flex items-center gap-2">
-            <img
-              src={chickenhookLogo.url}
-              alt="Herb ChickenHook — złoty kogut na czarnej tarczy"
-              className="h-10 w-auto"
-            />
-            <span className="text-display text-2xl">
-              CHICKEN<span className="text-primary">HOOK</span>
-              <span className="text-muted-foreground">.RU</span>
-            </span>
-          </Link>
-          <Link
-            to="/opcje"
-            className="text-sm font-semibold uppercase tracking-wide text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Opcje
-          </Link>
-        </div>
-      </header>
-
-      <section className="mx-auto max-w-3xl px-5 py-16">
-        <span className="inline-flex items-center gap-2 rounded-sm border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+    <GsShell crumbs={[{ label: "Podanie" }]}>
+      <main className="mx-auto max-w-4xl space-y-4 px-5 py-4">
+        <p className="gs-banner flex items-center justify-center gap-2 px-4 py-2.5 text-center text-xs font-bold">
           <Lock className="size-3.5" />
-          Tylko Elite
-        </span>
-        <h1 className="mt-5 text-display text-5xl uppercase md:text-6xl">
-          Podanie o <span className="text-primary">moduły ryzykowne</span>
-        </h1>
-        <p className="mt-4 text-muted-foreground">
+          Moduły ryzykowne — tylko plan Elite
+        </p>
+
+        <GsPanel title="Podanie o moduły ryzykowne">
+        <div className="p-4">
+        <p className="text-xs leading-relaxed text-muted-foreground">
           Moduły takie jak tryb boga, brak klipu, teleport, awaria serwera i glitch kasy są
           dostępne wyłącznie w planie <strong className="text-foreground">Elite</strong> i dopiero
           po ręcznej weryfikacji. Wypełnij podanie — odpowiadamy zwykle w 24 h.
         </p>
 
-        <div className="panel mt-8 flex gap-3 rounded-sm p-5 text-sm text-muted-foreground">
+
+
+        <div className="mt-4 flex gap-3 border border-border bg-secondary p-3 text-xs text-muted-foreground">
           <ShieldAlert className="mt-0.5 size-5 shrink-0 text-primary" />
           <p>
             Weryfikujemy staż konta, historię banów i przeznaczenie modułu. Podania pod publiczne
@@ -83,9 +63,9 @@ function Podanie() {
         </div>
 
         {sent ? (
-          <div className="panel mt-8 flex flex-col items-start gap-3 rounded-sm p-8">
+          <div className="mt-4 flex flex-col items-start gap-2 border border-border p-5">
             <CheckCircle2 className="size-8 text-primary" />
-            <h2 className="text-display text-3xl uppercase">Podanie wysłane</h2>
+            <h2 className="text-sm font-bold uppercase">Podanie wysłane</h2>
             <p className="text-sm text-muted-foreground">
               Dostaniesz decyzję na Discordzie. Do tego czasu moduły pozostają zablokowane w
               loaderze.
@@ -99,7 +79,7 @@ function Podanie() {
           </div>
         ) : (
           <form
-            className="panel mt-8 space-y-5 rounded-sm p-7"
+            className="mt-4 space-y-4 border border-border p-4"
             onSubmit={(e) => {
               e.preventDefault();
               setSent(true);
@@ -111,7 +91,7 @@ function Podanie() {
                 <input
                   required
                   name="nick"
-                  className="glass-focus mt-2 w-full rounded-sm border border-border bg-background/60 px-3 py-2.5 text-sm outline-none"
+                  className="mt-2 w-full rounded-sm border border-border bg-background px-3 py-2.5 text-sm outline-none"
                   placeholder="adam#0001"
                 />
               </label>
@@ -120,7 +100,7 @@ function Podanie() {
                 <input
                   required
                   name="staz"
-                  className="glass-focus mt-2 w-full rounded-sm border border-border bg-background/60 px-3 py-2.5 text-sm outline-none"
+                  className="mt-2 w-full rounded-sm border border-border bg-background px-3 py-2.5 text-sm outline-none"
                   placeholder="np. 4000 h, 18k ELO"
                 />
               </label>
@@ -134,7 +114,7 @@ function Podanie() {
                 {restricted.map((f) => (
                   <label
                     key={f.slug}
-                    className="flex cursor-pointer items-center gap-2.5 rounded-sm border border-border bg-background/40 px-3 py-2.5 transition-colors hover:border-primary/50"
+                    className="flex cursor-pointer items-center gap-2.5 rounded-sm border border-border bg-secondary px-3 py-2.5 transition-colors hover:border-primary/50"
                   >
                     <input
                       type="checkbox"
@@ -156,7 +136,7 @@ function Podanie() {
                 required
                 name="uzasadnienie"
                 rows={5}
-                className="glass-focus mt-2 w-full resize-y rounded-sm border border-border bg-background/60 px-3 py-2.5 text-sm outline-none"
+                className="mt-2 w-full resize-y rounded-sm border border-border bg-background px-3 py-2.5 text-sm outline-none"
                 placeholder="Gdzie i po co chcesz używać modułu (własny serwer, mapa treningowa, testy configów)…"
               />
             </label>
@@ -171,19 +151,16 @@ function Podanie() {
 
             <button
               type="submit"
-              className="w-full rounded-sm bucket-gradient px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
+              className="w-full bucket-gradient px-7 py-2.5 text-xs font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
             >
               Wyślij podanie
             </button>
           </form>
         )}
-      </section>
+        </div>
+        </GsPanel>
+      </main>
+    </GsShell>
 
-      <footer className="mx-auto max-w-6xl px-5 py-12">
-        <p className="text-xs text-muted-foreground">
-          Strona parodystyczna, stworzona w celach demonstracyjnych.
-        </p>
-      </footer>
-    </div>
   );
 }
