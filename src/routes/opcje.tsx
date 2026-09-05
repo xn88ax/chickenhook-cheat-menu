@@ -6,8 +6,8 @@ import { CheatMenu } from "@/components/cheat-menu";
 import { FeatureDialog } from "@/components/feature-dialog";
 import { FeaturePreview } from "@/components/feature-preview";
 import { features as options } from "@/data/features";
+import { GsPanel, GsShell } from "@/components/gs-shell";
 
-import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 
 export const Route = createFileRoute("/opcje")({
   head: () => ({
