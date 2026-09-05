@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SponsorzyRouteImport } from './routes/sponsorzy'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PodanieRouteImport } from './routes/podanie'
 import { Route as OpcjeRouteImport } from './routes/opcje'
@@ -20,6 +21,11 @@ import { Route as AuthenticatedForumIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedForumWatekIdRouteImport } from './routes/_authenticated/forum.watek.$id'
 import { Route as AuthenticatedForumDzialSlugRouteImport } from './routes/_authenticated/forum.dzial.$slug'
 
+const SponsorzyRoute = SponsorzyRouteImport.update({
+  id: '/sponsorzy',
+  path: '/sponsorzy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -78,6 +84,7 @@ export interface FileRoutesByFullPath {
   '/opcje': typeof OpcjeRoute
   '/podanie': typeof PodanieRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sponsorzy': typeof SponsorzyRoute
   '/forum': typeof AuthenticatedForumRouteWithChildren
   '/forum/': typeof AuthenticatedForumIndexRoute
   '/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
@@ -89,6 +96,7 @@ export interface FileRoutesByTo {
   '/opcje': typeof OpcjeRoute
   '/podanie': typeof PodanieRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sponsorzy': typeof SponsorzyRoute
   '/forum': typeof AuthenticatedForumIndexRoute
   '/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
   '/forum/watek/$id': typeof AuthenticatedForumWatekIdRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/opcje': typeof OpcjeRoute
   '/podanie': typeof PodanieRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sponsorzy': typeof SponsorzyRoute
   '/_authenticated/forum': typeof AuthenticatedForumRouteWithChildren
   '/_authenticated/forum/': typeof AuthenticatedForumIndexRoute
   '/_authenticated/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/opcje'
     | '/podanie'
     | '/sitemap.xml'
+    | '/sponsorzy'
     | '/forum'
     | '/forum/'
     | '/forum/dzial/$slug'
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
     | '/opcje'
     | '/podanie'
     | '/sitemap.xml'
+    | '/sponsorzy'
     | '/forum'
     | '/forum/dzial/$slug'
     | '/forum/watek/$id'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
     | '/opcje'
     | '/podanie'
     | '/sitemap.xml'
+    | '/sponsorzy'
     | '/_authenticated/forum'
     | '/_authenticated/forum/'
     | '/_authenticated/forum/dzial/$slug'
@@ -149,10 +161,18 @@ export interface RootRouteChildren {
   OpcjeRoute: typeof OpcjeRoute
   PodanieRoute: typeof PodanieRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SponsorzyRoute: typeof SponsorzyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sponsorzy': {
+      id: '/sponsorzy'
+      path: '/sponsorzy'
+      fullPath: '/sponsorzy'
+      preLoaderRoute: typeof SponsorzyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -259,6 +279,7 @@ const rootRouteChildren: RootRouteChildren = {
   OpcjeRoute: OpcjeRoute,
   PodanieRoute: PodanieRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SponsorzyRoute: SponsorzyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
