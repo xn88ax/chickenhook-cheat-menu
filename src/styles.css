@@ -506,17 +506,18 @@
 }
 
 @utility gs-lime {
-  color: oklch(0.78 0.17 130);
+  color: oklch(0.62 0.23 26);
 }
 
 @utility gs-banner {
   background-image: linear-gradient(
     135deg,
-    oklch(0.5 0.2 310),
-    oklch(0.4 0.18 305)
+    oklch(0.45 0.2 26),
+    oklch(0.33 0.15 24)
   );
-  border: 1px solid oklch(0.55 0.2 310 / 60%);
+  border: 1px solid oklch(0.55 0.22 26 / 60%);
 }
+
 
 @utility gs-bar {
   height: 3px;
