@@ -11,10 +11,10 @@ import popeyesLogo from "@/assets/logo-popeyes.png";
 import chickfilaLogo from "@/assets/logo-chickfila.png";
 import wendysLogo from "@/assets/logo-wendys.png";
 import twitterLogo from "@/assets/logo-twitter.png.asset.json";
-import totalcasinoLogo from "@/assets/logo-totalcasino.png";
-import zabkaLogo from "@/assets/logo-zabka.png";
-import trumpLogo from "@/assets/logo-trump.png";
-import marshmelloLogo from "@/assets/logo-marshmello.png";
+import totalcasinoLogo from "@/assets/totalcasino.png";
+import stakeLogo from "@/assets/stake.png";
+import trumpLogo from "@/assets/trump.jpg";
+import marshmelloLogo from "@/assets/marshmello.jpg";
 
 export const Route = createFileRoute("/sponsorzy")({
   head: () => ({
@@ -149,6 +149,78 @@ const sponsors: Sponsor[] = [
     color: "#000000",
     textColor: "#FFFFFF",
     logo: twitterLogo.url,
+  },
+  {
+    name: "Stake",
+    slug: "stake",
+    category: "Rozrywka",
+    desc: "Stawia na naszego kurczaka w każdym meczu. High risk, high reward — tak jak nasz elite build.",
+    color: "#0F212E",
+    textColor: "#FFFFFF",
+    logo: stakeLogo,
+  },
+  {
+    name: "Total Casino",
+    slug: "totalcasino",
+    category: "Rozrywka",
+    desc: "Legalne polskie kasyno wspiera legalnie niedostępnego cheata. Jackpot to u nas pełny magazynek.",
+    color: "#FFFFFF",
+    textColor: "#1A1A1A",
+    logo: totalcasinoLogo,
+  },
+  {
+    name: "AliExpress",
+    slug: "aliexpress",
+    category: "E-commerce",
+    desc: "Dostarcza nam tanie konta do testów. Wysyłka 30 dni, ban w 30 sekund.",
+    color: "#E62E04",
+    textColor: "#FFFFFF",
+    icon: "https://cdn.simpleicons.org/aliexpress/ffffff",
+  },
+  {
+    name: "Żabka",
+    slug: "zabka",
+    category: "Handel",
+    desc: "Żabka na rogu zawsze otwarta — tak jak nasze menu w grze. Hot-dog i headshot o 3 w nocy.",
+    color: "#00833E",
+    textColor: "#FFFFFF",
+    icon: "https://cdn.simpleicons.org/zabka/ffffff",
+  },
+  {
+    name: "Telegram",
+    slug: "telegram",
+    category: "Komunikacja",
+    desc: "Tutaj lecą prywatne buildy i invite'y. Szyfrowane czaty dla szyfrowanego kodu.",
+    color: "#26A5E4",
+    textColor: "#FFFFFF",
+    icon: "https://cdn.simpleicons.org/telegram/ffffff",
+  },
+  {
+    name: "WhatsApp",
+    slug: "whatsapp",
+    category: "Komunikacja",
+    desc: "Grupa 'Kurnik Elite' — tam koordynujemy queue na Mirage. Mama też tam jest, ale nie wie.",
+    color: "#25D366",
+    textColor: "#FFFFFF",
+    icon: "https://cdn.simpleicons.org/whatsapp/ffffff",
+  },
+  {
+    name: "Donald John Trump",
+    slug: "donaldjtrump",
+    category: "VIP",
+    desc: "Make ChickenHook Great Again. Mówi, że nasz aimbot to najlepszy aimbot w historii — wszyscy to mówią.",
+    color: "#1A1A2E",
+    textColor: "#FFFFFF",
+    logo: trumpLogo,
+  },
+  {
+    name: "Marshmello",
+    slug: "marshmello",
+    category: "Muzyka",
+    desc: "Grał na Fortnite, teraz buja się z nami w CS2. Kask na głowie, chamsy na ekranie.",
+    color: "#F5F5F5",
+    textColor: "#1A1A1A",
+    logo: marshmelloLogo,
   },
 ];
 
