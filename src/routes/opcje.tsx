@@ -3,7 +3,6 @@ import { Check, Lock, Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { CheatMenu } from "@/components/cheat-menu";
-import { FeatureDialog } from "@/components/feature-dialog";
 import { FeaturePreview } from "@/components/feature-preview";
 import { features as options } from "@/data/features";
 import { GsPanel, GsShell } from "@/components/gs-shell";
