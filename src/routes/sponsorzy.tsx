@@ -10,6 +10,7 @@ import pepsiLogo from "@/assets/logo-pepsi.png";
 import popeyesLogo from "@/assets/logo-popeyes.png";
 import chickfilaLogo from "@/assets/logo-chickfila.png";
 import wendysLogo from "@/assets/logo-wendys.png";
+import twitterLogo from "@/assets/logo-twitter.png.asset.json";
 
 export const Route = createFileRoute("/sponsorzy")({
   head: () => ({
