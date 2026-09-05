@@ -264,52 +264,45 @@ function Sponsorzy() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
           {sponsors.map((s) => (
-            <article
-              key={s.slug}
-              className="panel group flex flex-col overflow-hidden rounded-md"
-            >
+            <article key={s.slug} className="gs-panel group flex flex-col overflow-hidden">
               <SponsorLogo sponsor={s} />
-              <div className="flex flex-1 flex-col p-6">
-                <span className="w-fit rounded-sm border border-border bg-secondary/50 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">
+              <div className="flex flex-1 flex-col p-3">
+                <span className="w-fit border border-border bg-secondary px-1.5 py-0.5 text-[10px] font-bold uppercase text-muted-foreground">
                   {s.category}
                 </span>
-                <h2 className="mt-3 text-display text-3xl uppercase">{s.name}</h2>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                <h3 className="mt-2 text-sm font-bold uppercase">{s.name}</h3>
+                <p className="mt-1 flex-1 text-xs leading-relaxed text-muted-foreground">
                   {s.desc}
                 </p>
                 <a
                   href={`https://${s.slug === "twitter" ? "x.com" : s.slug === "los-pollos-hermanos" ? "lospolloshermanos.com" : s.slug + ".com"}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-primary transition-colors hover:text-accent"
+                  className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase text-primary hover:underline"
                 >
                   Odwiedź stronę
-                  <ExternalLink className="size-3.5" />
+                  <ExternalLink className="size-3" />
                 </a>
               </div>
             </article>
           ))}
         </div>
-
-        <div className="mt-16 rounded-sm border border-dashed border-border bg-card/30 p-8 text-center">
-          <p className="text-display text-2xl uppercase">Chcesz dołączyć do kurnika?</p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Jeśli twój brand kocha kurczaka tak jak my, napisz do nas na forum.
-          </p>
-          <Link
-            to="/forum"
-            className="mt-5 inline-block rounded-sm bucket-gradient px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
-          >
-            Skontaktuj się przez forum
-          </Link>
         </div>
-      </section>
+        </GsPanel>
 
-      <footer className="mx-auto max-w-6xl px-5 py-12">
-        <p className="text-xs text-muted-foreground">
-          Strona parodystyczna, stworzona w celach demonstracyjnych.
-        </p>
-      </footer>
-    </div>
+        <GsPanel title="Chcesz dołączyć do kurnika?">
+          <div className="px-4 py-3 text-xs text-muted-foreground">
+            <p>Jeśli twój brand kocha kurczaka tak jak my, napisz do nas na forum.</p>
+            <Link
+              to="/forum"
+              className="mt-3 inline-block bucket-gradient px-3 py-1.5 text-[11px] font-bold uppercase text-primary-foreground"
+            >
+              Skontaktuj się przez forum
+            </Link>
+          </div>
+        </GsPanel>
+      </main>
+    </GsShell>
+
   );
 }
