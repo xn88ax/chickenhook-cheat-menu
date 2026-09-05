@@ -605,3 +605,44 @@
   background: var(--color-menugreen);
   box-shadow: 0 0 8px 0 var(--color-menugreen);
 }
+
+/* ===== Tryb kurczaka (Konami code) ===== */
+.chicken-mode {
+  cursor:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><text y='26' font-size='26'>🐔</text></svg>")
+      4 4,
+    auto;
+}
+
+@keyframes chicken-fly {
+  0% {
+    transform: translateY(110vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20vh) rotate(340deg);
+    opacity: 0;
+  }
+}
+
+.chicken-fly {
+  bottom: 0;
+  animation-name: chicken-fly;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chicken-fly {
+    animation: none;
+    opacity: 0.35;
+    bottom: auto;
+    top: 12%;
+  }
+}

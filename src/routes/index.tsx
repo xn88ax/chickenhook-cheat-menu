@@ -1,8 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, Lock } from "lucide-react";
 
+import { BanFeed } from "@/components/ban-feed";
 import { FeatureDialog } from "@/components/feature-dialog";
 import { FeaturePreview } from "@/components/feature-preview";
+import { HallOfFame } from "@/components/hall-of-fame";
+import { OnlineCounter } from "@/components/online-counter";
+import { Shoutbox } from "@/components/shoutbox";
+import { builds } from "@/data/changelog";
 import { features } from "@/data/features";
 import { GsPanel, GsShell } from "@/components/gs-shell";
 
