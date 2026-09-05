@@ -65,68 +65,21 @@ function Opcje() {
   }, [tab, q, onlyElite]);
 
   return (
-    <div className="min-h-screen bg-background font-sans text-foreground">
-      <header className="sticky top-0 z-50 border-b border-border glass-bar">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-          <Link to="/" className="flex items-center gap-2">
-            <img
-              src={chickenhookLogo.url}
-              alt="Herb ChickenHook — złoty kogut na czarnej tarczy"
-              className="h-10 w-auto"
-            />
-            <span className="text-display text-2xl">
-              CHICKEN<span className="text-primary">HOOK</span>
-              <span className="text-muted-foreground">.RU</span>
-            </span>
-          </Link>
-          <nav className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-wide text-muted-foreground md:flex">
-            <Link to="/" className="transition-colors hover:text-foreground">
-              Start
-            </Link>
-            <Link to="/opcje" className="text-foreground">
-              Opcje
-            </Link>
-            <Link to="/forum" className="transition-colors hover:text-foreground">
-              Forum
-            </Link>
-            <Link to="/sponsorzy" className="transition-colors hover:text-foreground">
-              Sponsorzy
-            </Link>
-            <Link to="/restauracje" className="transition-colors hover:text-foreground">
-              Restauracje
-            </Link>
-          </nav>
-          <Link
-            to="/"
-            hash="menu"
-            className="rounded-sm bucket-gradient px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
-          >
-            Kup teraz
-          </Link>
-        </div>
-      </header>
+    <GsShell crumbs={[{ label: "Funkcje" }]}>
+      <main className="mx-auto max-w-6xl space-y-4 px-5 py-4">
+        <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
+          Wszystkie moduły ChickenHook — build 4.12.0
+        </p>
 
-      <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 glow-top" aria-hidden="true" />
-        <div className="relative mx-auto max-w-6xl px-5 py-16 md:py-20">
-          <span className="inline-block rounded-sm border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-            Pełna lista funkcji
-          </span>
-          <h1 className="mt-5 text-display text-6xl uppercase sm:text-7xl md:text-8xl">
-            Opcje <span className="text-primary">cheata</span>
-          </h1>
-          <p className="mt-5 max-w-xl text-base text-muted-foreground">
-            Wszystkie moduły ChickenHook w jednym panelu. Każdą opcję włączasz osobno i
-            konfigurujesz pod swój styl gry.
-          </p>
-        </div>
-      </section>
-      <section className="mx-auto max-w-6xl px-5 pb-12">
-        <CheatMenu />
-      </section>
+        <GsPanel title="Menu cheata">
+          <div className="p-4">
+            <CheatMenu />
+          </div>
+        </GsPanel>
 
-      <section className="mx-auto max-w-6xl px-5 pb-20">
-        {/* Filtry */}
+        <GsPanel title="Lista modułów">
+        <div className="p-4">
+
 
         <div className="flex flex-col gap-4 border-b border-border/60 pb-5 md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap gap-2">
