@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Check, Lock } from "lucide-react";
+import { Check, Lock, Quote } from "lucide-react";
 
 
 
@@ -233,7 +233,58 @@ function Index() {
         </div>
       </section>
 
-
+      {/* Opinie ekspertów */}
+      <section className="relative overflow-hidden border-y border-border bg-card/40 py-20">
+        <div className="pointer-events-none absolute inset-0 glow-top opacity-30" aria-hidden />
+        <div className="relative mx-auto max-w-6xl px-5">
+          <span className="inline-block rounded-sm border border-border bg-secondary/40 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+            Eksperci o ChickenHook
+          </span>
+          <h2 className="mt-4 text-display text-5xl uppercase md:text-6xl">
+            Co mówią <span className="text-primary">mistrzowie</span>
+          </h2>
+          <p className="mt-3 max-w-lg text-muted-foreground">
+            Światowej sławy jurorzy testowali naszego kurczaka w CS2 i nie mogą się powstrzymać od komentarzy.
+          </p>
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
+            {[
+              {
+                name: "Magda Gessler",
+                role: "Jurorka, restauratorka",
+                quote:
+                  "Ten aimbot jest jak idealnie usmażony filet — złoty z zewnątrz, soczysty w środku. A ten ESP? Widzę wszystko, nawet to, czego nie powinnam widzieć. 10/10, ale więcej czosnku.",
+                initial: "MG",
+              },
+              {
+                name: "Gordon Ramsay",
+                role: "Szef kuchni, telewizyjna legenda",
+                quote:
+                  "Finally, a cheat with some actual flavour! The HvH config? Absolutely stunning. The bunnyhop? Crispy. If this chicken gets banned, I'll shut down the kitchen myself. ChickenHook — f*cking delicious.",
+                initial: "GR",
+              },
+            ].map((t) => (
+              <article
+                key={t.name}
+                className="panel relative flex flex-col rounded-sm p-7 transition-all duration-300 hover:-translate-y-1 hover:bg-card/60"
+              >
+                <Quote className="absolute right-6 top-6 size-8 text-primary/20" />
+                <p className="flex-1 text-base leading-relaxed text-foreground/90">
+                  “{t.quote}”
+                </p>
+                <div className="mt-6 flex items-center gap-4">
+                  <div className="flex size-12 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-sm font-bold text-primary">
+                    {t.initial}
+                  </div>
+                  <div>
+                    <p className="text-display text-lg uppercase leading-none">{t.name}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">{t.role}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Menu / pricing */}
       <section id="menu" className="border-y border-border bg-card/40 py-20">
