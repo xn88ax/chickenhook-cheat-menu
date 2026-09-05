@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { VideoOff } from "lucide-react";
 
-import { getCheatClip } from "@/lib/clips.functions";
+import { getClipVideo } from "@/data/clips";
 
 export type PreviewKind =
   | "noclip"
