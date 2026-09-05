@@ -58,6 +58,9 @@ export function ForumShell({
             <Link to="/sponsorzy" className="transition-colors hover:text-foreground">
               Sponsorzy
             </Link>
+            <Link to="/restauracje" className="transition-colors hover:text-foreground">
+              Restauracje
+            </Link>
           </nav>
           {user ? (
             <div className="flex items-center gap-2">

@@ -103,6 +103,9 @@ function Index() {
             <Link to="/sponsorzy" className="transition-colors hover:text-foreground">
               Sponsorzy
             </Link>
+            <Link to="/restauracje" className="transition-colors hover:text-foreground">
+              Restauracje
+            </Link>
             <a href="#status" className="transition-colors hover:text-foreground">
               Status
             </a>
