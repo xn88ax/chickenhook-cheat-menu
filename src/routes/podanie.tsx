@@ -177,13 +177,10 @@ function Podanie() {
             </button>
           </form>
         )}
-      </section>
+        </div>
+        </GsPanel>
+      </main>
+    </GsShell>
 
-      <footer className="mx-auto max-w-6xl px-5 py-12">
-        <p className="text-xs text-muted-foreground">
-          Strona parodystyczna, stworzona w celach demonstracyjnych.
-        </p>
-      </footer>
-    </div>
   );
 }
