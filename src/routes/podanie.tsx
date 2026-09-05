@@ -1,9 +1,9 @@
+import { GsPanel, GsShell } from "@/components/gs-shell";
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CheckCircle2, Lock, ShieldAlert } from "lucide-react";
 
 import { features } from "@/data/features";
-import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 
 export const Route = createFileRoute("/podanie")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -54,7 +54,7 @@ function Podanie() {
 
 
 
-        <div className="panel mt-8 flex gap-3 rounded-sm p-5 text-sm text-muted-foreground">
+        <div className="mt-4 flex gap-3 border border-border bg-secondary p-3 text-xs text-muted-foreground">
           <ShieldAlert className="mt-0.5 size-5 shrink-0 text-primary" />
           <p>
             Weryfikujemy staż konta, historię banów i przeznaczenie modułu. Podania pod publiczne
@@ -63,9 +63,9 @@ function Podanie() {
         </div>
 
         {sent ? (
-          <div className="panel mt-8 flex flex-col items-start gap-3 rounded-sm p-8">
+          <div className="mt-4 flex flex-col items-start gap-2 border border-border p-5">
             <CheckCircle2 className="size-8 text-primary" />
-            <h2 className="text-display text-3xl uppercase">Podanie wysłane</h2>
+            <h2 className="text-sm font-bold uppercase">Podanie wysłane</h2>
             <p className="text-sm text-muted-foreground">
               Dostaniesz decyzję na Discordzie. Do tego czasu moduły pozostają zablokowane w
               loaderze.
@@ -79,7 +79,7 @@ function Podanie() {
           </div>
         ) : (
           <form
-            className="panel mt-8 space-y-5 rounded-sm p-7"
+            className="mt-4 space-y-4 border border-border p-4"
             onSubmit={(e) => {
               e.preventDefault();
               setSent(true);
@@ -91,7 +91,7 @@ function Podanie() {
                 <input
                   required
                   name="nick"
-                  className="glass-focus mt-2 w-full rounded-sm border border-border bg-background/60 px-3 py-2.5 text-sm outline-none"
+                  className="mt-2 w-full rounded-sm border border-border bg-background px-3 py-2.5 text-sm outline-none"
                   placeholder="adam#0001"
                 />
               </label>
@@ -100,7 +100,7 @@ function Podanie() {
                 <input
                   required
                   name="staz"
-                  className="glass-focus mt-2 w-full rounded-sm border border-border bg-background/60 px-3 py-2.5 text-sm outline-none"
+                  className="mt-2 w-full rounded-sm border border-border bg-background px-3 py-2.5 text-sm outline-none"
                   placeholder="np. 4000 h, 18k ELO"
                 />
               </label>
@@ -114,7 +114,7 @@ function Podanie() {
                 {restricted.map((f) => (
                   <label
                     key={f.slug}
-                    className="flex cursor-pointer items-center gap-2.5 rounded-sm border border-border bg-background/40 px-3 py-2.5 transition-colors hover:border-primary/50"
+                    className="flex cursor-pointer items-center gap-2.5 rounded-sm border border-border bg-secondary px-3 py-2.5 transition-colors hover:border-primary/50"
                   >
                     <input
                       type="checkbox"
@@ -136,7 +136,7 @@ function Podanie() {
                 required
                 name="uzasadnienie"
                 rows={5}
-                className="glass-focus mt-2 w-full resize-y rounded-sm border border-border bg-background/60 px-3 py-2.5 text-sm outline-none"
+                className="mt-2 w-full resize-y rounded-sm border border-border bg-background px-3 py-2.5 text-sm outline-none"
                 placeholder="Gdzie i po co chcesz używać modułu (własny serwer, mapa treningowa, testy configów)…"
               />
             </label>
@@ -151,7 +151,7 @@ function Podanie() {
 
             <button
               type="submit"
-              className="w-full rounded-sm bucket-gradient px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
+              className="w-full bucket-gradient px-7 py-2.5 text-xs font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
             >
               Wyślij podanie
             </button>
