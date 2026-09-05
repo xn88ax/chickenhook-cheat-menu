@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import { Send } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { Send, Sparkles } from "lucide-react";
 
+import { generateShouts, type GeneratedShout } from "@/lib/shoutbox.functions";
 import { shoutLines, shoutNicks } from "@/data/community";
 
 type Shout = { id: number; nick: string; text: string; time: string; mine?: boolean };
@@ -19,35 +21,60 @@ let seq = 0;
 export function Shoutbox() {
   const [shouts, setShouts] = useState<Shout[]>([]);
   const [draft, setDraft] = useState("");
+  const [aiOn, setAiOn] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
+  const queue = useRef<GeneratedShout[]>([]);
+  const fetching = useRef(false);
+  const fetchShouts = useServerFn(generateShouts);
 
-  // Wiadomości startowe generujemy po hydratacji, żeby serwer i klient się zgadzały.
+  // Pobiera paczkę świeżych wiadomości z AI do kolejki.
+  const refill = useCallback(async () => {
+    if (fetching.current || queue.current.length > 2) return;
+    fetching.current = true;
+    try {
+      const { shouts: fresh } = await fetchShouts();
+      if (fresh.length > 0) {
+        queue.current = [...queue.current, ...fresh];
+        setAiOn(true);
+      }
+    } catch {
+      // fallback lokalny — cicho
+    } finally {
+      fetching.current = false;
+    }
+  }, [fetchShouts]);
+
+  const nextShout = useCallback((): Omit<Shout, "id" | "time"> => {
+    const fresh = queue.current.shift();
+    if (fresh) return fresh;
+    // Awaryjnie, gdy AI nie odpowiada.
+    return { nick: pick(shoutNicks), text: pick(shoutLines) };
+  }, []);
+
+  // Start: paczka z AI + pierwsze wiadomości po hydratacji.
   useEffect(() => {
+    void refill();
     setShouts(
-      Array.from({ length: 6 }, (_, i) => ({
+      Array.from({ length: 4 }, (_, i) => ({
         id: ++seq,
-        nick: pick(shoutNicks),
-        text: pick(shoutLines),
-        time: clock((6 - i) * 47),
+        ...nextShout(),
+        time: clock((4 - i) * 47),
       })),
     );
-  }, []);
+  }, [refill, nextShout]);
 
   useEffect(() => {
     let id: ReturnType<typeof setTimeout>;
     const tick = () => {
       id = setTimeout(() => {
-        setShouts((s) =>
-          [...s, { id: ++seq, nick: pick(shoutNicks), text: pick(shoutLines), time: clock() }].slice(
-            -40,
-          ),
-        );
+        void refill();
+        setShouts((s) => [...s, { id: ++seq, ...nextShout(), time: clock() }].slice(-40));
         tick();
-      }, 3000 + Math.random() * 3000);
+      }, 3500 + Math.random() * 3500);
     };
     tick();
     return () => clearTimeout(id);
-  }, []);
+  }, [refill, nextShout]);
 
   useEffect(() => {
     const el = listRef.current;
@@ -86,7 +113,7 @@ export function Shoutbox() {
           onChange={(e) => setDraft(e.target.value)}
           maxLength={140}
           placeholder="Napisz coś do kurnika…"
-          aria-label="Wiadomość na czacie"
+          aria-label="Wiadomość na shoutboxie"
           className="flex-1 border border-border bg-background px-3 py-2 text-xs outline-none focus:border-primary/60"
         />
         <button type="submit" className="gs-action px-4 py-2" aria-label="Wyślij">
@@ -94,8 +121,15 @@ export function Shoutbox() {
           Wyślij
         </button>
       </form>
-      <p className="border-t border-border px-4 py-2 text-[10px] text-muted-foreground">
-        Czat jest symulowany na potrzeby parodii — Twoje wiadomości nigdzie nie lecą.
+      <p className="flex items-center gap-1.5 border-t border-border px-4 py-2 text-[10px] text-muted-foreground">
+        {aiOn ? (
+          <>
+            <Sparkles className="size-3 gs-lime" />
+            Wiadomości generuje AI — każda paczka jest świeża. Twoje wiadomości nigdzie nie lecą.
+          </>
+        ) : (
+          "Shoutbox jest symulowany na potrzeby parodii — Twoje wiadomości nigdzie nie lecą."
+        )}
       </p>
     </div>
   );
