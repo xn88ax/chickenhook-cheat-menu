@@ -61,5 +61,5 @@ export const banFeedLines = [
   "darmowy cheat z YouTube'a — 3 402 konta",
   "cheat od kolegi ze szkoły — 1 konto (kolega)",
   "gamesense.pub — 244 konta, zostały wspomnienia",
-  "„niewykrywalny\" cheat z Allegro — 611 kont",
+  "„niewykrywalny\” cheat z Allegro — 611 kont",
 ];

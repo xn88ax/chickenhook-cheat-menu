@@ -21,8 +21,8 @@ export const guides: Guide[] = [
       {
         heading: "Krok 1 — cisza to złoto",
         paragraphs: [
-          "Największym wykrywaczem cheatów nie jest anti-cheat, tylko czat ogólny. Statystyki naszego wymyślonego działu badań mówią jasno: 94% zgłoszeń bierze się z wpisania „ez" po rundzie.",
-          "Jeśli musisz coś napisać, napisz „gg" i wyjdź z serwera jak dżentelmen.",
+          "Największym wykrywaczem cheatów nie jest anti-cheat, tylko czat ogólny. Statystyki naszego wymyślonego działu badań mówią jasno: 94% zgłoszeń bierze się z wpisania „ez” po rundzie.",
+          "Jeśli musisz coś napisać, napisz „gg” i wyjdź z serwera jak dżentelmen.",
         ],
       },
       {
@@ -53,7 +53,7 @@ export const guides: Guide[] = [
       {
         heading: "Czym w ogóle jest HvH",
         paragraphs: [
-          "HvH to skrót od „hack versus hack". Wszyscy mają cheaty, więc wygrywa ten, kto ma lepszy config i mocniejsze nerwy.",
+          "HvH to skrót od „hack versus hack”. Wszyscy mają cheaty, więc wygrywa ten, kto ma lepszy config i mocniejsze nerwy.",
           "To trochę jak konkurs na najbardziej chrupiące skrzydełko, tylko że wszyscy używają tej samej panierki.",
         ],
       },
@@ -68,7 +68,7 @@ export const guides: Guide[] = [
         heading: "Etykieta w HvH",
         paragraphs: [
           "Nie płacz na czacie. Nie wychodź po dwóch rundach. Nie pisz do admina, że przeciwnik cheatuje — cheatują wszyscy, taka jest umowa.",
-          "Po meczu wypada podziękować. Krótkie „smaczne" wystarczy.",
+          "Po meczu wypada podziękować. Krótkie „smaczne” wystarczy.",
         ],
       },
     ],
@@ -90,7 +90,7 @@ export const guides: Guide[] = [
       {
         heading: "Zasada 2 — nie przesadzaj z przyprawami",
         paragraphs: [
-          "Włączone naraz wszystkie moduły to nie „mocny config", to zupa. Wybierz trzy rzeczy i zrób je dobrze.",
+          "Włączone naraz wszystkie moduły to nie „mocny config”, to zupa. Wybierz trzy rzeczy i zrób je dobrze.",
         ],
       },
       {
@@ -125,7 +125,7 @@ export const guides: Guide[] = [
       {
         heading: "Minuta 0–2: ticket",
         paragraphs: [
-          "Zakładasz ticket na supporcie i czekasz. Admin odpisze szybciej, niż zdążysz napisać „halo?".",
+          "Zakładasz ticket na supporcie i czekasz. Admin odpisze szybciej, niż zdążysz napisać „halo?”.",
         ],
       },
       {

@@ -13,7 +13,7 @@ export const builds: Build[] = [
     notes: [
       "Naprawiono bug, że aimbot strzelał w kurczaki zamiast w CT.",
       "Skeleton ESP nie rysuje już szkieletu Twojego własnego kolegi z drużyny (przepraszamy, Bolek).",
-      "Dodano suwak „chrupkość" — nie robi nic, ale ładnie wygląda.",
+      "Dodano suwak „chrupkość” — nie robi nic, ale ładnie wygląda.",
       "Loader wstrzykuje się 0,4 s szybciej, bo usunęliśmy jeden console.log.",
     ],
   },
@@ -25,7 +25,7 @@ export const builds: Build[] = [
       "Triggerbot przestał strzelać do własnego cienia na de_mirage.",
       "Króliczy skok nie wyrzuca już gracza w kosmos przy 300 FPS.",
       "Zmieniacz skórek: dodano nóż z motywem panierki.",
-      "Poprawiono literówkę w słowie „undetected" (było „undetectd").",
+      "Poprawiono literówkę w słowie „undetected” (było „undetectd”).",
     ],
   },
   {
@@ -45,7 +45,7 @@ export const builds: Build[] = [
     notes: [
       "Naprawiono awarię, przy której menu otwierało się w języku, którego nikt nie rozpoznał.",
       "Speedhack ograniczony do 5x, bo ktoś przebił mapę.",
-      "Usunięto przycisk „Zbanuj mnie" dodany omyłkowo w 4.10.1.",
+      "Usunięto przycisk „Zbanuj mnie” dodany omyłkowo w 4.10.1.",
     ],
   },
   {
