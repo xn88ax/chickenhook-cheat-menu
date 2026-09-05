@@ -37,6 +37,7 @@ type Sponsor = {
   color: string;
   textColor: string;
   logo?: string;
+  icon?: string;
   initial?: string;
 };
 
@@ -48,7 +49,7 @@ const sponsors: Sponsor[] = [
     desc: "Dostarcza chrupiące skrzydełka, które inspirują nasz aimbot do precyzyjnych headshotów.",
     color: "#E4002B",
     textColor: "#FFFFFF",
-    initial: "K",
+    icon: "https://cdn.simpleicons.org/kfc/ffffff",
   },
   {
     name: "Pepsi",
@@ -57,7 +58,7 @@ const sponsors: Sponsor[] = [
     desc: "Orzeźwiający boost do reakcji. Pijesz Pepsi — przeciwnik pije słone łzy.",
     color: "#004B93",
     textColor: "#FFFFFF",
-    initial: "P",
+    icon: "https://cdn.simpleicons.org/pepsi/ffffff",
   },
   {
     name: "Popeyes",
@@ -66,7 +67,7 @@ const sponsors: Sponsor[] = [
     desc: "Pikantne stripsy i jeszcze pikantsze configi do HvH. Louisiana flavor w każdym fragu.",
     color: "#F4A900",
     textColor: "#1A1A1A",
-    initial: "P",
+    icon: "https://cdn.simpleicons.org/popeyes/1A1A1A",
   },
   {
     name: "MUALA",
@@ -84,16 +85,16 @@ const sponsors: Sponsor[] = [
     desc: "Dystrybucja na najwyższym poziomie. Ich kurczaki są tak czyste jak nasz bypass.",
     color: "#FED100",
     textColor: "#1A1A1A",
-    initial: "L",
+    logo: pollosLogo,
   },
   {
     name: "Drob-Pol",
     slug: "drob-pol",
     category: "Dostawca",
     desc: "Lokalny dostawca, który zapewnia świeży kod prosto z polskiego kurnika.",
-    color: "#C8102E",
-    textColor: "#FFFFFF",
-    initial: "D",
+    color: "#FFFFFF",
+    textColor: "#1A1A1A",
+    logo: drobpolLogo,
   },
   {
     name: "Chick-fil-A",
@@ -102,16 +103,16 @@ const sponsors: Sponsor[] = [
     desc: "Eat mor chicken, frag mor noobs. Amerykański standard wspiera naszego europejskiego kurczaka.",
     color: "#E11446",
     textColor: "#FFFFFF",
-    initial: "C",
+    icon: "https://cdn.simpleicons.org/chickfila/ffffff",
   },
   {
     name: "Dave's Hot Chicken",
     slug: "daves-hot-chicken",
     category: "Fast food",
     desc: "Stopień ostrości dopasowany do poziomu ryzyka. Extra hot = extra undetected.",
-    color: "#FF4D00",
-    textColor: "#FFFFFF",
-    initial: "D",
+    color: "#FFF3EC",
+    textColor: "#1A1A1A",
+    logo: davesLogo,
   },
   {
     name: "Wendy's",
@@ -120,7 +121,7 @@ const sponsors: Sponsor[] = [
     desc: "Świeże, nigdy mrożone — tak jak nasze buildy. Beefy freshness w każdym update.",
     color: "#C8102E",
     textColor: "#FFFFFF",
-    initial: "W",
+    icon: "https://cdn.simpleicons.org/wendys/ffffff",
   },
   {
     name: "SpaceX",
@@ -129,7 +130,7 @@ const sponsors: Sponsor[] = [
     desc: "Rakiety ich, nasze chamsy — obie rzeczy latają pod radar. Kosmiczne wsparcie dla elite buildów.",
     color: "#000000",
     textColor: "#FFFFFF",
-    initial: "S",
+    icon: "https://cdn.simpleicons.org/spacex/ffffff",
   },
   {
     name: "Twitter",
@@ -138,20 +139,21 @@ const sponsors: Sponsor[] = [
     desc: "Tutaj dzieją się dramy, leakują buildy i krzyczą cheaterzy. X oznacza miejsce spotkań naszej społeczności.",
     color: "#000000",
     textColor: "#FFFFFF",
-    initial: "X",
+    icon: "https://cdn.simpleicons.org/x/ffffff",
   },
 ];
 
 function SponsorLogo({ sponsor }: { sponsor: Sponsor }) {
-  if (sponsor.logo) {
+  if (sponsor.logo || sponsor.icon) {
     return (
       <div
         className="flex h-28 w-full items-center justify-center rounded-t-md p-5"
         style={{ backgroundColor: sponsor.color }}
       >
         <img
-          src={sponsor.logo}
+          src={sponsor.logo ?? sponsor.icon}
           alt={`Logo ${sponsor.name}`}
+          loading="lazy"
           className="max-h-full max-w-full object-contain"
         />
       </div>
