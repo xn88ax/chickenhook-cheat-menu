@@ -1,14 +1,22 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { Bell, ChevronRight } from "lucide-react";
+import { Bell, ChevronDown, ChevronRight } from "lucide-react";
 
 const tabs = [
   { label: "Index", to: "/", cls: "" },
   { label: "Funkcje", to: "/opcje", cls: "text-accent" },
   { label: "Forum", to: "/forum", cls: "font-bold text-primary" },
+  { label: "Narzędzia", to: "/narzedzia", cls: "gs-green" },
   { label: "Sponsorzy", to: "/sponsorzy", cls: "gs-gold" },
-  { label: "Restauracje", to: "/restauracje", cls: "gs-green" },
-  { label: "Podanie", to: "/podanie", cls: "" },
+] as const;
+
+const moreTabs = [
+  { label: "Restauracje", to: "/restauracje" },
+  { label: "Changelog", to: "/changelog" },
+  { label: "Poradniki", to: "/poradniki" },
+  { label: "Sklep", to: "/sklep" },
+  { label: "O nas", to: "/o-nas" },
+  { label: "Podanie", to: "/podanie" },
 ] as const;
 
 /** Panel with a gamesense-style header bar and red underline. */

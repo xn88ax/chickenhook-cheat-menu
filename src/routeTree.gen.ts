@@ -10,13 +10,19 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SponsorzyRouteImport } from './routes/sponsorzy'
+import { Route as SklepRouteImport } from './routes/sklep'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RestauracjeRouteImport } from './routes/restauracje'
+import { Route as PoradnikiRouteImport } from './routes/poradniki'
 import { Route as PodanieRouteImport } from './routes/podanie'
 import { Route as OpcjeRouteImport } from './routes/opcje'
+import { Route as ONasRouteImport } from './routes/o-nas'
+import { Route as NarzedziaRouteImport } from './routes/narzedzia'
+import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PoradnikiSlugRouteImport } from './routes/poradniki.$slug'
 import { Route as AuthenticatedForumRouteImport } from './routes/_authenticated/forum'
 import { Route as AuthenticatedForumIndexRouteImport } from './routes/_authenticated/forum.index'
 import { Route as AuthenticatedForumWatekIdRouteImport } from './routes/_authenticated/forum.watek.$id'
@@ -25,6 +31,11 @@ import { Route as AuthenticatedForumDzialSlugRouteImport } from './routes/_authe
 const SponsorzyRoute = SponsorzyRouteImport.update({
   id: '/sponsorzy',
   path: '/sponsorzy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SklepRoute = SklepRouteImport.update({
+  id: '/sklep',
+  path: '/sklep',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -37,6 +48,11 @@ const RestauracjeRoute = RestauracjeRouteImport.update({
   path: '/restauracje',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PoradnikiRoute = PoradnikiRouteImport.update({
+  id: '/poradniki',
+  path: '/poradniki',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PodanieRoute = PodanieRouteImport.update({
   id: '/podanie',
   path: '/podanie',
@@ -45,6 +61,21 @@ const PodanieRoute = PodanieRouteImport.update({
 const OpcjeRoute = OpcjeRouteImport.update({
   id: '/opcje',
   path: '/opcje',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ONasRoute = ONasRouteImport.update({
+  id: '/o-nas',
+  path: '/o-nas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NarzedziaRoute = NarzedziaRouteImport.update({
+  id: '/narzedzia',
+  path: '/narzedzia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChangelogRoute = ChangelogRouteImport.update({
+  id: '/changelog',
+  path: '/changelog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -60,6 +91,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PoradnikiSlugRoute = PoradnikiSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => PoradnikiRoute,
 } as any)
 const AuthenticatedForumRoute = AuthenticatedForumRouteImport.update({
   id: '/forum',
@@ -87,12 +123,18 @@ const AuthenticatedForumDzialSlugRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/changelog': typeof ChangelogRoute
+  '/narzedzia': typeof NarzedziaRoute
+  '/o-nas': typeof ONasRoute
   '/opcje': typeof OpcjeRoute
   '/podanie': typeof PodanieRoute
+  '/poradniki': typeof PoradnikiRouteWithChildren
   '/restauracje': typeof RestauracjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sklep': typeof SklepRoute
   '/sponsorzy': typeof SponsorzyRoute
   '/forum': typeof AuthenticatedForumRouteWithChildren
+  '/poradniki/$slug': typeof PoradnikiSlugRoute
   '/forum/': typeof AuthenticatedForumIndexRoute
   '/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
   '/forum/watek/$id': typeof AuthenticatedForumWatekIdRoute
@@ -100,11 +142,17 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/changelog': typeof ChangelogRoute
+  '/narzedzia': typeof NarzedziaRoute
+  '/o-nas': typeof ONasRoute
   '/opcje': typeof OpcjeRoute
   '/podanie': typeof PodanieRoute
+  '/poradniki': typeof PoradnikiRouteWithChildren
   '/restauracje': typeof RestauracjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sklep': typeof SklepRoute
   '/sponsorzy': typeof SponsorzyRoute
+  '/poradniki/$slug': typeof PoradnikiSlugRoute
   '/forum': typeof AuthenticatedForumIndexRoute
   '/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
   '/forum/watek/$id': typeof AuthenticatedForumWatekIdRoute
@@ -114,12 +162,18 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/changelog': typeof ChangelogRoute
+  '/narzedzia': typeof NarzedziaRoute
+  '/o-nas': typeof ONasRoute
   '/opcje': typeof OpcjeRoute
   '/podanie': typeof PodanieRoute
+  '/poradniki': typeof PoradnikiRouteWithChildren
   '/restauracje': typeof RestauracjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sklep': typeof SklepRoute
   '/sponsorzy': typeof SponsorzyRoute
   '/_authenticated/forum': typeof AuthenticatedForumRouteWithChildren
+  '/poradniki/$slug': typeof PoradnikiSlugRoute
   '/_authenticated/forum/': typeof AuthenticatedForumIndexRoute
   '/_authenticated/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
   '/_authenticated/forum/watek/$id': typeof AuthenticatedForumWatekIdRoute
@@ -129,12 +183,18 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/changelog'
+    | '/narzedzia'
+    | '/o-nas'
     | '/opcje'
     | '/podanie'
+    | '/poradniki'
     | '/restauracje'
     | '/sitemap.xml'
+    | '/sklep'
     | '/sponsorzy'
     | '/forum'
+    | '/poradniki/$slug'
     | '/forum/'
     | '/forum/dzial/$slug'
     | '/forum/watek/$id'
@@ -142,11 +202,17 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/changelog'
+    | '/narzedzia'
+    | '/o-nas'
     | '/opcje'
     | '/podanie'
+    | '/poradniki'
     | '/restauracje'
     | '/sitemap.xml'
+    | '/sklep'
     | '/sponsorzy'
+    | '/poradniki/$slug'
     | '/forum'
     | '/forum/dzial/$slug'
     | '/forum/watek/$id'
@@ -155,12 +221,18 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/changelog'
+    | '/narzedzia'
+    | '/o-nas'
     | '/opcje'
     | '/podanie'
+    | '/poradniki'
     | '/restauracje'
     | '/sitemap.xml'
+    | '/sklep'
     | '/sponsorzy'
     | '/_authenticated/forum'
+    | '/poradniki/$slug'
     | '/_authenticated/forum/'
     | '/_authenticated/forum/dzial/$slug'
     | '/_authenticated/forum/watek/$id'
@@ -170,10 +242,15 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ChangelogRoute: typeof ChangelogRoute
+  NarzedziaRoute: typeof NarzedziaRoute
+  ONasRoute: typeof ONasRoute
   OpcjeRoute: typeof OpcjeRoute
   PodanieRoute: typeof PodanieRoute
+  PoradnikiRoute: typeof PoradnikiRouteWithChildren
   RestauracjeRoute: typeof RestauracjeRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SklepRoute: typeof SklepRoute
   SponsorzyRoute: typeof SponsorzyRoute
 }
 
@@ -184,6 +261,13 @@ declare module '@tanstack/react-router' {
       path: '/sponsorzy'
       fullPath: '/sponsorzy'
       preLoaderRoute: typeof SponsorzyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sklep': {
+      id: '/sklep'
+      path: '/sklep'
+      fullPath: '/sklep'
+      preLoaderRoute: typeof SklepRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -200,6 +284,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RestauracjeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/poradniki': {
+      id: '/poradniki'
+      path: '/poradniki'
+      fullPath: '/poradniki'
+      preLoaderRoute: typeof PoradnikiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/podanie': {
       id: '/podanie'
       path: '/podanie'
@@ -212,6 +303,27 @@ declare module '@tanstack/react-router' {
       path: '/opcje'
       fullPath: '/opcje'
       preLoaderRoute: typeof OpcjeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/o-nas': {
+      id: '/o-nas'
+      path: '/o-nas'
+      fullPath: '/o-nas'
+      preLoaderRoute: typeof ONasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/narzedzia': {
+      id: '/narzedzia'
+      path: '/narzedzia'
+      fullPath: '/narzedzia'
+      preLoaderRoute: typeof NarzedziaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/changelog': {
+      id: '/changelog'
+      path: '/changelog'
+      fullPath: '/changelog'
+      preLoaderRoute: typeof ChangelogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -234,6 +346,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/poradniki/$slug': {
+      id: '/poradniki/$slug'
+      path: '/$slug'
+      fullPath: '/poradniki/$slug'
+      preLoaderRoute: typeof PoradnikiSlugRouteImport
+      parentRoute: typeof PoradnikiRoute
     }
     '/_authenticated/forum': {
       id: '/_authenticated/forum'
@@ -292,14 +411,31 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface PoradnikiRouteChildren {
+  PoradnikiSlugRoute: typeof PoradnikiSlugRoute
+}
+
+const PoradnikiRouteChildren: PoradnikiRouteChildren = {
+  PoradnikiSlugRoute: PoradnikiSlugRoute,
+}
+
+const PoradnikiRouteWithChildren = PoradnikiRoute._addFileChildren(
+  PoradnikiRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ChangelogRoute: ChangelogRoute,
+  NarzedziaRoute: NarzedziaRoute,
+  ONasRoute: ONasRoute,
   OpcjeRoute: OpcjeRoute,
   PodanieRoute: PodanieRoute,
+  PoradnikiRoute: PoradnikiRouteWithChildren,
   RestauracjeRoute: RestauracjeRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SklepRoute: SklepRoute,
   SponsorzyRoute: SponsorzyRoute,
 }
 export const routeTree = rootRouteImport
