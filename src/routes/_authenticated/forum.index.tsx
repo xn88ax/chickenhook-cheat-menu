@@ -139,184 +139,183 @@ function Forum() {
 
   return (
     <ForumShell>
-      <main className="mx-auto grid max-w-6xl gap-6 px-5 py-6 lg:grid-cols-[1fr_260px]">
-        <div className="space-y-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h1 className="text-display text-3xl uppercase">
-              Forum <span className="text-primary">ChickenHook</span>
-            </h1>
-            {user ? (
-              <button
-                onClick={() => setOpen((v) => !v)}
-                className="rounded-sm bucket-gradient px-4 py-2 text-xs font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)]"
-              >
-                {open ? "Anuluj" : "Nowy wątek"}
-              </button>
-            ) : (
-              <Link
-                to="/auth"
-                search={{ next: "/forum" }}
-                className="rounded-sm border border-border px-4 py-2 text-xs font-bold uppercase tracking-wide text-foreground hover:bg-secondary"
-              >
-                Zaloguj się, aby pisać
-              </Link>
-            )}
-          </div>
-
-          {open && user && (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setError(null);
-                createThread.mutate();
-              }}
-              className="space-y-3 rounded-sm border border-border glass p-4"
-            >
-              <select
-                required
-                value={categoryId}
-                onChange={(e) => setCategoryId(e.target.value)}
-                className="w-full rounded-sm border border-border bg-background px-3 py-2 text-sm"
-              >
-                <option value="">Wybierz dział…</option>
-                {categories.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-              <input
-                required
-                maxLength={140}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Tytuł wątku"
-                className="w-full rounded-sm border border-border bg-background px-3 py-2 text-sm"
-              />
-              <textarea
-                required
-                rows={4}
-                value={body}
-                onChange={(e) => setBody(e.target.value)}
-                placeholder="Treść pierwszego posta"
-                className="w-full rounded-sm border border-border bg-background px-3 py-2 text-sm"
-              />
-              {error && <p className="text-xs text-primary">{error}</p>}
-              <button
-                type="submit"
-                disabled={createThread.isPending}
-                className="rounded-sm bucket-gradient px-4 py-2 text-xs font-bold uppercase text-primary-foreground disabled:opacity-60"
-              >
-                Opublikuj wątek
-              </button>
-            </form>
-          )}
-
-          {sections.map((section) => (
-            <section key={section} className="overflow-hidden rounded-sm border border-border">
-              <h2 className="bucket-gradient px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground">
-                {section}
-              </h2>
-              <div className="divide-y divide-border">
-                {categories
-                  .filter((c) => c.section === section)
-                  .map((c) => (
-                    <Link
-                      key={c.id}
-                      to="/forum/dzial/$slug"
-                      params={{ slug: c.slug }}
-                      className="flex items-center gap-4 glass px-4 py-4 transition-colors hover:bg-secondary/50"
-                    >
-                      <div className="min-w-0 flex-1">
-                        <h3 className="text-sm font-bold">{c.name}</h3>
-                        <p className="mt-1 text-xs text-muted-foreground">{c.description}</p>
-                      </div>
-                      <span className="shrink-0 text-xs text-muted-foreground">
-                        {countFor(c.id)} wątków
-                      </span>
-                    </Link>
-                  ))}
-              </div>
-            </section>
-          ))}
-
-          <section className="overflow-hidden rounded-sm border border-border">
-            <h2 className="bg-secondary px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-foreground">
-              Ostatnie wątki
-            </h2>
-            <div className="divide-y divide-border">
-              {threadsQuery.isLoading && (
-                <p className="glass px-4 py-6 text-xs text-muted-foreground">Ładowanie…</p>
-              )}
-              {!threadsQuery.isLoading && threads.length === 0 && (
-                <p className="glass px-4 py-6 text-xs text-muted-foreground">
-                  Brak wątków. Załóż pierwszy.
-                </p>
-              )}
-              {threads.map((t) => (
-                <Link
-                  key={t.id}
-                  to="/forum/watek/$id"
-                  params={{ id: t.id }}
-                  className="flex items-center gap-3 glass px-4 py-3 transition-colors hover:bg-secondary/50"
-                >
-                  <Avatar name={nameOf(t.author_id)} className="size-9" />
-                  <div className="min-w-0 flex-1">
-                    <h3 className="flex items-center gap-1.5 text-sm font-semibold">
-                      {t.pinned && <Pin className="size-3.5 shrink-0 text-primary" />}
-                      <span className="truncate">{t.title}</span>
-                    </h3>
-                    <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                      {nameOf(t.author_id)} · {timeAgo(t.created_at)}
-                    </p>
-                  </div>
-                  <MessageSquare className="size-4 shrink-0 text-accent" />
-                </Link>
-              ))}
-            </div>
-          </section>
+      <main className="mx-auto max-w-6xl space-y-4 px-5 py-4">
+        {/* Purple banners */}
+        <div className="space-y-2">
+          <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
+            Masz nieużyte kody zaproszeń!
+          </p>
+          <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
+            Dostępny jest nowy klient!
+          </p>
         </div>
 
-        <aside className="space-y-5">
-          <section className="overflow-hidden rounded-sm border border-border">
-            <h2 className="bg-secondary px-4 py-2.5 text-xs font-bold uppercase tracking-wide text-foreground">
-              Statystyki forum
-            </h2>
-            <dl className="space-y-2 glass px-4 py-4 text-xs">
-              {[
-                ["Wątki", statsQuery.data?.threads ?? 0],
-                ["Posty", statsQuery.data?.posts ?? 0],
-                ["Członkowie", statsQuery.data?.members ?? 0],
-              ].map(([l, v]) => (
-                <div key={l as string} className="flex items-center justify-between">
-                  <dt className="uppercase tracking-wide text-muted-foreground">{l}</dt>
-                  <dd className="text-display text-xl text-accent">{v}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
+        {/* Announcement */}
+        <section className="gs-panel">
+          <h2 className="gs-head border-b border-border px-4 py-2 text-xs font-bold">
+            Ogłoszenie
+          </h2>
+          <div className="px-4 py-3 text-xs leading-relaxed">
+            <p className="font-bold text-primary">UWAGA, WAŻNA WIADOMOŚĆ:</p>
+            <p className="mt-1 text-muted-foreground">
+              Po zakupie subskrypcji załóż ticket na naszym{" "}
+              <Link to="/" hash="faq" className="text-primary hover:underline">
+                SUPPORCIE
+              </Link>
+              , aby otrzymać dane do konta i aktywować subskrypcję.
+            </p>
+          </div>
+        </section>
 
-          <section className="overflow-hidden rounded-sm border border-border">
-            <h2 className="bg-secondary px-4 py-2.5 text-xs font-bold uppercase tracking-wide text-foreground">
-              Dołącz do nas
-            </h2>
-            <div className="space-y-2 glass px-4 py-4">
-              <Link
-                to="/"
-                hash="menu"
-                className="block rounded-sm bucket-gradient px-4 py-2.5 text-center text-xs font-bold uppercase tracking-wide text-primary-foreground"
-              >
-                Zobacz cennik
-              </Link>
-              <Link
-                to="/opcje"
-                className="block rounded-sm border border-border px-4 py-2.5 text-center text-xs font-bold uppercase tracking-wide text-foreground hover:bg-secondary"
-              >
-                Opcje cheata
-              </Link>
+        {/* New thread */}
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-muted-foreground">
+            Wątki:{" "}
+            <span className="cursor-pointer text-primary hover:underline">Napisane</span> |{" "}
+            <span className="cursor-pointer text-primary hover:underline">Nowe</span> |{" "}
+            <span className="cursor-pointer text-primary hover:underline">Aktywne</span>
+          </span>
+          {user && (
+            <button
+              onClick={() => setOpen((v) => !v)}
+              className="bucket-gradient px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-primary-foreground"
+            >
+              {open ? "Anuluj" : "Nowy wątek"}
+            </button>
+          )}
+        </div>
+
+        {open && user && (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setError(null);
+              createThread.mutate();
+            }}
+            className="space-y-3 gs-panel p-4"
+          >
+            <select
+              required
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+              className="w-full border border-border gs-bg px-3 py-2 text-sm"
+            >
+              <option value="">Wybierz dział…</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+            <input
+              required
+              maxLength={140}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Tytuł wątku"
+              className="w-full border border-border gs-bg px-3 py-2 text-sm"
+            />
+            <textarea
+              required
+              rows={4}
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              placeholder="Treść pierwszego posta"
+              className="w-full border border-border gs-bg px-3 py-2 text-sm"
+            />
+            {error && <p className="text-xs text-primary">{error}</p>}
+            <button
+              type="submit"
+              disabled={createThread.isPending}
+              className="bucket-gradient px-4 py-2 text-xs font-bold uppercase text-primary-foreground disabled:opacity-60"
+            >
+              Opublikuj wątek
+            </button>
+          </form>
+        )}
+
+        {/* Sections */}
+        {sections.map((section) => (
+          <section key={section} className="gs-panel">
+            <h2 className="gs-head px-4 py-2 text-xs font-bold">{section}</h2>
+            <div className="border-b-2" style={{ borderColor: "oklch(0.78 0.17 130)" }} />
+            <div className="divide-y divide-border">
+              {categories
+                .filter((c) => c.section === section)
+                .map((c) => (
+                  <Link
+                    key={c.id}
+                    to="/forum/dzial/$slug"
+                    params={{ slug: c.slug }}
+                    className="flex items-center gap-4 px-4 py-3 transition-colors hover:bg-white/5"
+                  >
+                    <span className="size-2 shrink-0 rounded-full bg-white/20" aria-hidden />
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-sm font-bold text-foreground">{c.name}</h3>
+                      <p className="mt-0.5 text-xs text-muted-foreground">{c.description}</p>
+                    </div>
+                    <span className="shrink-0 text-right text-xs text-muted-foreground">
+                      {countFor(c.id)} wątków
+                    </span>
+                  </Link>
+                ))}
             </div>
           </section>
-        </aside>
+        ))}
+
+        {/* Latest threads */}
+        <section className="gs-panel">
+          <h2 className="gs-head px-4 py-2 text-xs font-bold">Ostatnie wątki</h2>
+          <div className="border-b-2" style={{ borderColor: "oklch(0.78 0.17 130)" }} />
+          <div className="divide-y divide-border">
+            {threadsQuery.isLoading && (
+              <p className="px-4 py-6 text-xs text-muted-foreground">Ładowanie…</p>
+            )}
+            {!threadsQuery.isLoading && threads.length === 0 && (
+              <p className="px-4 py-6 text-xs text-muted-foreground">
+                Brak wątków. Załóż pierwszy.
+              </p>
+            )}
+            {threads.map((t) => (
+              <Link
+                key={t.id}
+                to="/forum/watek/$id"
+                params={{ id: t.id }}
+                className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-white/5"
+              >
+                <Avatar name={nameOf(t.author_id)} className="size-8" />
+                <div className="min-w-0 flex-1">
+                  <h3 className="flex items-center gap-1.5 text-sm font-semibold">
+                    {t.pinned && <Pin className="size-3.5 shrink-0 gs-lime" />}
+                    <span className="truncate">{t.title}</span>
+                  </h3>
+                  <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                    <span className="text-primary">{nameOf(t.author_id)}</span> ·{" "}
+                    {timeAgo(t.created_at)}
+                  </p>
+                </div>
+                <MessageSquare className="size-4 shrink-0 gs-lime" />
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* Stats strip */}
+        <section className="gs-panel">
+          <h2 className="gs-head px-4 py-2 text-xs font-bold">Statystyki forum</h2>
+          <dl className="flex flex-wrap gap-6 px-4 py-3 text-xs">
+            {[
+              ["Wątki", statsQuery.data?.threads ?? 0],
+              ["Posty", statsQuery.data?.posts ?? 0],
+              ["Członkowie", statsQuery.data?.members ?? 0],
+            ].map(([l, v]) => (
+              <div key={l as string} className="flex items-baseline gap-2">
+                <dt className="uppercase tracking-wide text-muted-foreground">{l}</dt>
+                <dd className="text-sm font-bold gs-lime">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
       </main>
     </ForumShell>
   );
