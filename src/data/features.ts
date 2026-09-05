@@ -33,7 +33,7 @@ export const features: Feature[] = [
   {
     slug: "brak-klipu",
     icon: Wind,
-    title: "Brak klipu",
+    title: "Noclip",
     desc: "Przechodzisz przez ściany i podłogi bez ograniczeń. Regulowana prędkość lotu.",
     long: "Moduł wyłącza kolizję Twojej postaci z geometrią mapy. Przelatujesz przez ściany, sufity i skrzynki, a kamera trzyma płynny ruch bez szarpnięć.",
     bullets: [

@@ -18,7 +18,7 @@ export type PreviewKind =
   | "money";
 
 const labels: Record<PreviewKind, string> = {
-  noclip: "BRAK KLIPU",
+  noclip: "NOCLIP",
   god: "TRYB BOGA",
   bhop: "KRÓLICZY SKOK",
   aim: "ROBOT CELU",
