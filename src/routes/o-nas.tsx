@@ -20,7 +20,7 @@ export const Route = createFileRoute("/o-nas")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: ONas;
+  component: ONas,
 });
 
 const timeline = [
