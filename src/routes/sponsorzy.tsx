@@ -10,6 +10,7 @@ import pepsiLogo from "@/assets/logo-pepsi.png";
 import popeyesLogo from "@/assets/logo-popeyes.png";
 import chickfilaLogo from "@/assets/logo-chickfila.png";
 import wendysLogo from "@/assets/logo-wendys.png";
+import twitterLogo from "@/assets/logo-twitter.png.asset.json";
 
 export const Route = createFileRoute("/sponsorzy")({
   head: () => ({
@@ -143,7 +144,7 @@ const sponsors: Sponsor[] = [
     desc: "Tutaj dzieją się dramy, leakują buildy i krzyczą cheaterzy. X oznacza miejsce spotkań naszej społeczności.",
     color: "#000000",
     textColor: "#FFFFFF",
-    icon: "https://cdn.simpleicons.org/twitter/ffffff",
+    logo: twitterLogo.url,
   },
 ];
 
