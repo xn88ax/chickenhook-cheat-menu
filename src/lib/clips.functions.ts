@@ -20,7 +20,7 @@ const QUERIES: Record<string, string> = {
   money: "money rain",
 };
 
-const cache = new Map<string, { url: string; poster: string } | null>();
+const cache = new Map<string, { url: string } | null>();
 
 export const getCheatClip = createServerFn({ method: "GET" })
   .inputValidator((data) => z.object({ kind: z.string().max(24) }).parse(data))
