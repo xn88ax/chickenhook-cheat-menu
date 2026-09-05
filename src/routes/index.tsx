@@ -246,6 +246,63 @@ function Index() {
           </div>
         </GsPanel>
 
+        {/* Opinie klientów — parodia recenzji z Trustpilot */}
+        <GsPanel title="Opinie klientów">
+          <div className="flex items-center gap-3 border-b border-border px-4 py-3">
+            <span className="text-2xl font-extrabold text-primary">4,9</span>
+            <div>
+              <p className="text-xs tracking-wide text-primary">★★★★★</p>
+              <p className="text-[11px] text-muted-foreground">Na podstawie 39 opinii · TrustBucket</p>
+            </div>
+          </div>
+          <div className="divide-y divide-border">
+            {[
+              {
+                name: "Marci",
+                date: "14 maja 2026",
+                stars: 5,
+                text: "Zapłaciłem 250 zł za invite i 25 zł za suba. Loader wstrzykuje się w 10 sekund, admini odpisują na Discordzie zanim zdążę napisać pytanie. Warto każdej złotówki.",
+              },
+              {
+                name: "HitP",
+                date: "19 lipca 2026",
+                stars: 5,
+                text: "Jedyne prawdziwe chickenhook.ru — nie mylić z podróbkami, które sprzedają invite'y i liczą, że ktoś się pomyli. Tutaj wszystko działa od pierwszego kliknięcia.",
+              },
+              {
+                name: "Maximilian",
+                date: "24 lipca 2026",
+                stars: 4,
+                text: "Dostałem invite od znajomego i od razu kupiłem subskrypcję. Płatność nie była błyskawiczna, ale po 10 minutach miałem suba, loader odpalony i config załadowany. Polecam.",
+              },
+              {
+                name: "bolek tolek",
+                date: "1 lipca 2026",
+                stars: 5,
+                text: "TO JEST PRAWDZIWE, to nie jest żaden scam jak tamte inne strony co używają dobrego imienia. Kupiłem invite i gram do dziś, zero banów.",
+              },
+              {
+                name: "Usama Khan",
+                date: "22 grudnia 2025",
+                stars: 5,
+                text: "Kupiłem cfg od jednego z memberów i jest legit. Smooth aim, legit bot czuć jak tylko aim assist. 10/10, nie zmarnujecie pieniędzy.",
+              },
+            ].map((r) => (
+              <div key={r.name + r.date} className="px-4 py-3">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                  <span className="text-xs font-bold">{r.name}</span>
+                  <span className="text-[11px] tracking-wide text-primary">
+                    {"★".repeat(r.stars)}
+                    <span className="text-muted-foreground">{"★".repeat(5 - r.stars)}</span>
+                  </span>
+                  <span className="text-[11px] text-muted-foreground">{r.date}</span>
+                </div>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{r.text}</p>
+              </div>
+            ))}
+          </div>
+        </GsPanel>
+
         {/* FAQ */}
         <GsPanel title="FAQ">
           <div id="faq" className="divide-y divide-border">
