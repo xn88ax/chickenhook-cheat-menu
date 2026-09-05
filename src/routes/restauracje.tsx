@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { GsPanel, GsShell } from "@/components/gs-shell";
 import { Car, Clock, MapPin, Search, Truck, Utensils, X } from "lucide-react";
 
-import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 
 export const Route = createFileRoute("/restauracje")({
   head: () => ({
@@ -264,9 +264,9 @@ function Restauracje() {
 
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((r) => (
-            <article key={r.name} className="panel flex flex-col rounded-md p-6">
+            <article key={r.name} className="gs-panel flex flex-col p-4">
               <div className="flex items-start justify-between gap-3">
-                <h2 className="text-display text-2xl uppercase leading-tight">{r.name}</h2>
+                <h3 className="text-sm font-bold uppercase leading-tight">{r.name}</h3>
                 <span className="shrink-0 rounded-sm border border-border bg-secondary/50 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">
                   {r.city}
                 </span>
