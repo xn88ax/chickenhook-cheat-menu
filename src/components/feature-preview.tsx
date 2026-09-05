@@ -1,3 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+
+import { getCheatClip } from "@/lib/clips.functions";
+
 export type PreviewKind =
   | "noclip"
   | "god"
@@ -120,10 +124,29 @@ function Scene({ kind }: { kind: PreviewKind }) {
 }
 
 export function FeaturePreview({ kind }: { kind: PreviewKind }) {
+  const { data: clip } = useQuery({
+    queryKey: ["cheat-clip", kind],
+    queryFn: () => getCheatClip({ data: { kind } }),
+    staleTime: Infinity,
+    retry: false,
+  });
+
   return (
     <div className="preview-stage">
       <div className="relative h-[92px] w-full overflow-hidden rounded-lg border border-border/60 bg-background/40">
-        <Scene kind={kind} />
+        {clip ? (
+          <video
+            src={clip.url}
+            poster={clip.poster ?? undefined}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          <Scene kind={kind} />
+        )}
         <span className="absolute bottom-1.5 right-2 rounded bg-background/70 px-1.5 py-0.5 text-[9px] font-bold tracking-widest text-muted-foreground">
           {labels[kind]}
         </span>
