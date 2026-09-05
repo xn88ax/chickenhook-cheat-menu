@@ -97,29 +97,29 @@ function ThreadPage() {
           <>
             <h1 className="text-display text-3xl uppercase">{thread.title}</h1>
 
-            <article className="overflow-hidden rounded-sm border border-border">
-              <header className="flex items-center gap-3 bg-secondary px-4 py-2.5">
+            <article className="gs-panel">
+              <header className="flex items-center gap-3 gs-head border-b border-border px-4 py-2.5">
                 <Avatar name={nameOf(thread.author_id)} className="size-8" />
                 <span className="text-xs font-bold">{nameOf(thread.author_id)}</span>
                 <span className="ml-auto text-xs text-muted-foreground">
                   {timeAgo(thread.created_at)}
                 </span>
               </header>
-              <p className="whitespace-pre-wrap glass px-4 py-4 text-sm leading-relaxed">
+              <p className="whitespace-pre-wrap px-4 py-4 text-sm leading-relaxed">
                 {thread.body}
               </p>
             </article>
 
             {(postsQuery.data ?? []).map((p) => (
-              <article key={p.id} className="overflow-hidden rounded-sm border border-border">
-                <header className="flex items-center gap-3 bg-secondary px-4 py-2.5">
+              <article key={p.id} className="gs-panel">
+                <header className="flex items-center gap-3 gs-head border-b border-border px-4 py-2.5">
                   <Avatar name={nameOf(p.author_id)} className="size-8" />
                   <span className="text-xs font-bold">{nameOf(p.author_id)}</span>
                   <span className="ml-auto text-xs text-muted-foreground">
                     {timeAgo(p.created_at)}
                   </span>
                 </header>
-                <p className="whitespace-pre-wrap glass px-4 py-4 text-sm leading-relaxed">
+                <p className="whitespace-pre-wrap px-4 py-4 text-sm leading-relaxed">
                   {p.body}
                 </p>
               </article>
@@ -132,7 +132,7 @@ function ThreadPage() {
                   setError(null);
                   addPost.mutate();
                 }}
-                className="space-y-3 rounded-sm border border-border glass p-4"
+                className="space-y-3 gs-panel p-4"
               >
                 <textarea
                   required
