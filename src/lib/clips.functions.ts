@@ -53,9 +53,15 @@ export const getCheatClip = createServerFn({ method: "GET" })
     // losowy klip z wyników, żeby było "randomowo"
     const item = items[Math.floor(Math.random() * items.length)];
     const file = item?.file ?? {};
-    const url = file?.mp4 ?? file?.hd?.mp4?.url ?? file?.md?.mp4?.url ?? null;
-    const poster = file?.gif ?? file?.md?.gif?.url ?? file?.sm?.webp?.url ?? null;
-    const out = url ? { url, poster } : null;
+    // animowany GIF/WebP w <img> — działa wszędzie, także na iOS
+    const url =
+      file?.gif ??
+      file?.md?.gif?.url ??
+      file?.md?.webp?.url ??
+      file?.sm?.gif?.url ??
+      file?.webp ??
+      null;
+    const out = url ? { url } : null;
     cache.set(kind, out);
     return out;
   });

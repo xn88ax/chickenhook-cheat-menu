@@ -135,13 +135,10 @@ export function FeaturePreview({ kind }: { kind: PreviewKind }) {
     <div className="preview-stage">
       <div className="relative h-[92px] w-full overflow-hidden rounded-lg border border-border/60 bg-background/40">
         {clip ? (
-          <video
+          <img
             src={clip.url}
-            poster={clip.poster ?? undefined}
-            autoPlay
-            loop
-            muted
-            playsInline
+            alt={`Podgląd: ${labels[kind]}`}
+            loading="lazy"
             className="absolute inset-0 h-full w-full object-cover"
           />
         ) : (
