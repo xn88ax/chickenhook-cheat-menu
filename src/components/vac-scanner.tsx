@@ -17,7 +17,12 @@ export function VacScanner() {
   const [done, setDone] = useState(false);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  useEffect(() => () => timer.current && clearInterval(timer.current), []);
+  useEffect(
+    () => () => {
+      if (timer.current) clearInterval(timer.current);
+    },
+    [],
+  );
 
   const start = () => {
     setRunning(true);
