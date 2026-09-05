@@ -1,44 +1,41 @@
-# Pomysły bekowe na rozbudowę ChickenHook.ru
+# ChickenHook — pakiet bekowy (kategorie 1–4)
 
-Strona już ma: styl GameSense, forum, opinie ekspertów/klientów, menu cheata, sponsorów, restauracje KFC, podanie o moduły Elite i losowe klipy pod funkcjami.
+Robimy wszystko z kategorii 1, 2, 3 i easter egg z kategorii 4. Całość w obecnym stylu GameSense: płaskie ciemne panele `GsPanel`, czerwone akcenty, teksty po polsku.
 
-Oto kolejne rzeczy, które pasują do klimatu parodii cheat'a CS2 — podzielone na 5 kategorii. Po Twojej akceptacji zrobię wybrane pozycje.
+## 1. Społeczność / żywy świat (strona główna)
+- **Licznik online** — pasek z liczbą graczy, która losowo skacze co kilka sekund (np. 41–63), plus „szczyt dzisiaj". Ląduje w panelu Statystyki.
+- **Shoutbox** — panel „Czat społeczności": wiadomości wymyślonych użytkowników dopisują się same co 3–6 s, przewijana lista, pole do wpisania własnej wiadomości (dodaje ją lokalnie, bez zapisu).
+- **Hall of Fame** — tabela top fraggerów: nick, HS%, K/D, ELO, „banów: 0", medale za pierwsze trzy miejsca.
+- **Live ban feed** — kolumna z falstartowymi banami konkurencji („skeet.cc — 412 kont VAC"), a na dole zawsze „ChickenHook — undetected". Wpisy dopisują się na żywo.
 
-## 1. Społeczność / "żywy" świat strony
-- **Fake licznik online** — "47 użytkowników gra teraz z ChickenHook", losowo skaczący co kilka sekund.
-- **Shoutbox / czat** — symulowany czat na żywo z wymyślonymi użytkownikami ("Kurczak_200iq: aim dzisiaj smakuje", "n00b_killer: invite pls").
-- **Hall of Fame** — tabela "top fraggers" z absurdalnymi statami (99,9% HS rate, 0 banów, 12 345 ELO).
-- **Live ban feed** — strumień fałszywych VAC banów dla konkurencji, ChickenHook zawsze "undetected".
-
-## 2. Narzędzia / generatory
-- **Generator configu HvH** — losuje nazwę pliku ("legit-mm-2026.cfg", "rage-hvh-final.cfg") i śmieszny opis ustawień.
-- **Fake VAC scanner** — przycisk "Sprawdź czy jesteś bezpieczny", po skanie wynik: "0% ryzyka, Valve śpi".
-- **Koło fortuny modułów** — kręcisz, wygrywasz "1 dzień Elite", "ban (żart)", "nic".
-- **Porównanie z konkurencją** — tabela Skeet / Onetap / Aimware vs ChickenHook; ChickenHook wygrywa w każdej kategorii.
+## 2. Narzędzia / generatory (nowa podstrona /narzedzia)
+- **Generator configu HvH** — przycisk losuje nazwę pliku i zestaw żartobliwych ustawień (FOV, smooth, „chicken_mode 1"), pokazuje wynik jako podglądany plik .cfg z przyciskiem „Pobierz" (kopiuje tekst).
+- **Fake VAC scanner** — przycisk startuje udawany skan z paskiem postępu i lecącymi krokami („sprawdzam pliki…", „usypiam Valve…"), wynik: „0% ryzyka".
+- **Koło fortuny** — obracające się koło z nagrodami („1 dzień Elite", „ban (żart)", „nic", „config od proa"), animacja obrotu i wynik. Jedno kręcenie na wejście, potem „wróć za 24 h".
+- **Porównanie z konkurencją** — tabela ChickenHook vs Skeet vs Onetap vs Aimware; zielone fajki tylko u nas, konkurencja z krzyżykami i przypisami.
 
 ## 3. Treści / marketing
-- **Patch notes** — changelog buildów ("Build 4.12.1 — naprawiono bug, że aimbot strzelał w kurczaki zamiast w CT").
-- **Blog / poradniki** — "Jak nie dostać bana w 3 prostych krokach", "HvH dla początkujących kurczaków".
-- **Sklep z merch** — koszulki, kubki, naklejki z kurczakiem; wszystko "sold out" lub "tylko dla Elite".
-- **Strona "O nas"** — historia powstania ChickenHook w stylu legendy.
+- **Patch notes** — nowa podstrona `/changelog`: lista buildów z datami i punktami zmian (żartobliwe), najnowszy build oznaczony jako aktualny. Skrót ostatniego wpisu też na stronie głównej.
+- **Blog / poradniki** — `/poradniki` z listą artykułów i `/poradniki/$slug` z treścią. 4–5 wpisów, m.in. „Jak nie dostać bana w 3 prostych krokach", „HvH dla początkujących kurczaków".
+- **Sklep z merch** — `/sklep`: siatka produktów (koszulka, kubek, naklejki, poduszka-kurczak), ceny w zł, każdy oznaczony „Wyprzedane" albo „Tylko Elite" — nic nie da się kupić.
+- **O nas** — `/o-nas`: historia powstania w stylu legendy, kalendarium i „zespół" (pseudonimy + role).
 
-## 4. Easter eggs i interakcje
-- **Konami code** — wpisz ↑↑↓↓←→←→BA na stronie głównej, włącza się tryb "kurczaka" (zmiana kursora, dźwięk opcjonalnie, animacje).
-- **Terminal / konsola** — pseudo-terminal w stylu CS-a, komendy typu "sv_cheats 1", "chicken_mode 1".
-- **Animowany kurczak** — maskotka biegająca po navbarze lub reagująca na kliknięcia.
-- **Easter egg w 404** — strona błędu "VAC banned from this page".
+## 4. Easter egg — Konami code
+- Nasłuch klawiszy globalnie: ↑↑↓↓←→←→BA. Po wpisaniu włącza się „tryb kurczaka": kursor zmienia się na kurczaka, po ekranie przelatują emoji kurczaków, pojawia się plakietka „TRYB KURCZAKA AKTYWNY" z możliwością wyłączenia. Stan trzymany w pamięci przeglądarki, wyłączany przy `prefers-reduced-motion` (animacje statyczne).
 
-## 5. Funkcjonalności użytkownika
-- **System ticketów** — fałszywy formularz supportu z automatyczną odpowiedzią.
-- **Kariera** — ogłoszenia o pracę w ChickenHook ("Senior Kurczak Developer", "Anti-Anti-Cheat Specialist").
-- **Referral / invite** — generator kodu invite, licznik "zaprzyjaźnionych kurczaków".
-- **Profil użytkownika** — strona profilu z avatarem kurczaka, statystykami i planem.
+## Nawigacja
+Górna nawigacja dostaje nowe zakładki: Narzędzia, Changelog, Poradniki, Sklep, O nas. Przy tej liczbie pozycji nav zwija część linków do rozwijanego „Więcej", żeby na telefonie nie pękał.
 
-## Co proponuję najpierw
-Najbardziej pasują do obecnego layoutu i robią największy efekt:
-1. Fake licznik online + shoutbox (strona główna ożywa).
-2. Generator configu HvH (dobra beka, łatwo podpiąć pod /opcje).
-3. Patch notes (dodaje wiarygodności parodii).
-4. Konami code / terminal (easter egg dla wtajemniczonych).
+## Szczegóły techniczne
+- Nowe trasy w `src/routes/`: `narzedzia.tsx`, `changelog.tsx`, `poradniki.tsx`, `poradniki.$slug.tsx`, `sklep.tsx`, `o-nas.tsx` — każda z własnym `head()` (unikalny title/description/og).
+- Nowe komponenty w `src/components/`: `online-counter.tsx`, `shoutbox.tsx`, `hall-of-fame.tsx`, `ban-feed.tsx`, `config-generator.tsx`, `vac-scanner.tsx`, `fortune-wheel.tsx`, `competitor-table.tsx`, `konami.tsx`.
+- Dane statyczne w `src/data/`: `shoutbox.ts`, `fraggers.ts`, `bans.ts`, `changelog.ts`, `guides.ts`, `merch.ts`, `wheel.ts`.
+- Wszystko po stronie klienta (`useState`/`useEffect`, `setInterval`), bez bazy i bez funkcji serwerowych — to czysta parodia.
+- Nowe klasy pomocnicze (koło fortuny, pasek skanera, kursor-kurczak) dodane do `src/styles.css`; zero kolorów wpisanych na sztywno.
+- Konami code montowany raz w `src/routes/__root.tsx`, żeby działał na każdej podstronie.
 
-Wybierz, które kategorie lub konkretne pomysły chcesz zaimplementować, a ja przygotuję szczegółowy plan kodu i zrobię to w kolejnej turze.
+## Kolejność prac
+1. Kategoria 1 na stronie głównej (licznik, shoutbox, hall of fame, ban feed).
+2. Podstrona Narzędzia z czterema narzędziami + nowa nawigacja.
+3. Changelog, poradniki, sklep, O nas.
+4. Konami code i tryb kurczaka.
