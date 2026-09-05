@@ -6,6 +6,10 @@ import mualaLogo from "@/assets/muala-logo.png.asset.json";
 import pollosLogo from "@/assets/logo-pollos.png";
 import drobpolLogo from "@/assets/logo-drobool.png";
 import davesLogo from "@/assets/logo-daves.png";
+import pepsiLogo from "@/assets/logo-pepsi.png";
+import popeyesLogo from "@/assets/logo-popeyes.png";
+import chickfilaLogo from "@/assets/logo-chickfila.png";
+import wendysLogo from "@/assets/logo-wendys.png";
 
 export const Route = createFileRoute("/sponsorzy")({
   head: () => ({
@@ -56,18 +60,18 @@ const sponsors: Sponsor[] = [
     slug: "pepsi",
     category: "Napoje",
     desc: "Orzeźwiający boost do reakcji. Pijesz Pepsi — przeciwnik pije słone łzy.",
-    color: "#004B93",
-    textColor: "#FFFFFF",
-    icon: "https://cdn.simpleicons.org/pepsi/ffffff",
+    color: "#F0F4FA",
+    textColor: "#1A1A1A",
+    logo: pepsiLogo,
   },
   {
     name: "Popeyes",
     slug: "popeyes",
     category: "Fast food",
     desc: "Pikantne stripsy i jeszcze pikantsze configi do HvH. Louisiana flavor w każdym fragu.",
-    color: "#F4A900",
+    color: "#FFF4E0",
     textColor: "#1A1A1A",
-    icon: "https://cdn.simpleicons.org/popeyes/1A1A1A",
+    logo: popeyesLogo,
   },
   {
     name: "MUALA",
@@ -101,9 +105,9 @@ const sponsors: Sponsor[] = [
     slug: "chick-fil-a",
     category: "Fast food",
     desc: "Eat mor chicken, frag mor noobs. Amerykański standard wspiera naszego europejskiego kurczaka.",
-    color: "#E11446",
-    textColor: "#FFFFFF",
-    icon: "https://cdn.simpleicons.org/chickfila/ffffff",
+    color: "#FFF0F2",
+    textColor: "#1A1A1A",
+    logo: chickfilaLogo,
   },
   {
     name: "Dave's Hot Chicken",
@@ -119,9 +123,9 @@ const sponsors: Sponsor[] = [
     slug: "wendys",
     category: "Fast food",
     desc: "Świeże, nigdy mrożone — tak jak nasze buildy. Beefy freshness w każdym update.",
-    color: "#C8102E",
-    textColor: "#FFFFFF",
-    icon: "https://cdn.simpleicons.org/wendys/ffffff",
+    color: "#FFF0F2",
+    textColor: "#1A1A1A",
+    logo: wendysLogo,
   },
   {
     name: "SpaceX",
