@@ -3,6 +3,9 @@ import { ExternalLink } from "lucide-react";
 
 import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
 import mualaLogo from "@/assets/muala-logo.png.asset.json";
+import pollosLogo from "@/assets/logo-pollos.png";
+import drobpolLogo from "@/assets/logo-drobool.png";
+import davesLogo from "@/assets/logo-daves.png";
 
 export const Route = createFileRoute("/sponsorzy")({
   head: () => ({
