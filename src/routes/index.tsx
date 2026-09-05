@@ -122,6 +122,7 @@ function Index() {
             Kup teraz
           </a>
         </div>
+        <div className="gs-bar" aria-hidden="true" />
       </header>
 
       {/* Hero */}

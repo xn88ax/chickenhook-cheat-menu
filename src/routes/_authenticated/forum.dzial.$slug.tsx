@@ -82,13 +82,14 @@ function CategoryPage() {
               <p className="mt-1 text-sm text-muted-foreground">{category.description}</p>
             </div>
 
-            <section className="overflow-hidden rounded-sm border border-border">
-              <h2 className="bucket-gradient px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground">
+            <section className="gs-panel">
+              <h2 className="gs-head px-4 py-2 text-xs font-bold">
                 Wątki
               </h2>
+              <div className="border-b-2" style={{ borderColor: "oklch(0.78 0.17 130)" }} />
               <div className="divide-y divide-border">
                 {(threadsQuery.data ?? []).length === 0 && (
-                  <p className="glass px-4 py-6 text-xs text-muted-foreground">
+                  <p className="px-4 py-6 text-xs text-muted-foreground">
                     Brak wątków w tym dziale.
                   </p>
                 )}
@@ -97,7 +98,7 @@ function CategoryPage() {
                     key={t.id}
                     to="/forum/watek/$id"
                     params={{ id: t.id }}
-                    className="flex items-center gap-3 glass px-4 py-3 transition-colors hover:bg-secondary/50"
+                    className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-white/5"
                   >
                     <Avatar name={nameOf(t.author_id)} className="size-9" />
                     <div className="min-w-0 flex-1">

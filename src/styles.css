@@ -560,3 +560,58 @@
     animation: none !important;
   }
 }
+
+/* ===== GameSense-style forum (flat dark panels) ===== */
+@utility gs-bg {
+  background-color: oklch(0.15 0.004 260);
+}
+
+@utility gs-panel {
+  background-color: oklch(0.21 0.005 260);
+  border: 1px solid oklch(0.28 0.005 260);
+}
+
+@utility gs-head {
+  background-color: oklch(0.26 0.005 260);
+  color: oklch(0.85 0.008 260);
+}
+
+@utility gs-lime {
+  color: oklch(0.78 0.17 130);
+}
+
+@utility gs-banner {
+  background-image: linear-gradient(
+    135deg,
+    oklch(0.5 0.2 310),
+    oklch(0.4 0.18 305)
+  );
+  border: 1px solid oklch(0.55 0.2 310 / 60%);
+}
+
+@utility gs-bar {
+  height: 3px;
+  background-image: linear-gradient(
+    90deg,
+    #ff1e1e,
+    #ff6a00,
+    #ffb300,
+    #ff2d6f,
+    #d1002b,
+    #ff1e1e
+  );
+  background-size: 300% 100%;
+  animation: gs-bar-slide 8s linear infinite;
+}
+
+@keyframes gs-bar-slide {
+  to {
+    background-position: 300% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gs-bar {
+    animation: none;
+  }
+}
