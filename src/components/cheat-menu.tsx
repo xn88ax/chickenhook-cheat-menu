@@ -384,77 +384,15 @@ export function CheatMenu() {
           </div>
 
           <div className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
-            {/* Kolumna 1 */}
-            <div className="space-y-3.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-foreground/80">{cfg.toggles[0].label}</span>
-                <button
-                  type="button"
-                  aria-label={`Przełącz ${selected.title}`}
-                  onClick={() => setEnabled((p) => ({ ...p, [selected.slug]: !isOn }))}
-                >
-                  <GsSwitch on={isOn} />
-                </button>
-              </div>
-              <GsSelect
-                label={cfg.selects[0].label}
-                options={cfg.selects[0].options}
-                value={selects[`${selected.slug}-0`] ?? cfg.selects[0].value}
-                onChange={(v) => setSelects((p) => ({ ...p, [`${selected.slug}-0`]: v }))}
-              />
-              <GsSelect
-                label={cfg.selects[1].label}
-                options={cfg.selects[1].options}
-                value={selects[`${selected.slug}-1`] ?? cfg.selects[1].value}
-                onChange={(v) => setSelects((p) => ({ ...p, [`${selected.slug}-1`]: v }))}
-              />
-
-              <GsSlider
-                label={cfg.sliders[0].label}
-                value={sliders[`${selected.slug}-1`] ?? cfg.sliders[0].value}
-                onChange={(v) => setSliders((p) => ({ ...p, [`${selected.slug}-1`]: v }))}
-              />
-              <GsSlider
-                label={cfg.sliders[1].label}
-                value={sliders[`${selected.slug}-2`] ?? cfg.sliders[1].value}
-                onChange={(v) => setSliders((p) => ({ ...p, [`${selected.slug}-2`]: v }))}
-              />
-            </div>
-
-            {/* Kolumna 2 */}
-            <div className="space-y-3.5">
-              <GsSelect
-                label={cfg.selects[2].label}
-                options={cfg.selects[2].options}
-                value={selects[`${selected.slug}-2`] ?? cfg.selects[2].value}
-                onChange={(v) => setSelects((p) => ({ ...p, [`${selected.slug}-2`]: v }))}
-              />
-
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-foreground/80">{cfg.toggles[1].label}</span>
-                <GsSwitch on={cfg.toggles[1].on} />
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-foreground/80">{cfg.toggles[2].label}</span>
-                <GsSwitch on={cfg.toggles[2].on} />
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-foreground/80">Limit porcji</span>
-                <GsStepper value={cfg.stepper} />
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="flex items-center gap-1.5 text-xs text-foreground/80">
-                  <Gauge className="size-3 text-muted-foreground" />
-                  Prędkość animacji
-                </span>
-                <span className="text-[11px] gs-glow text-menugreen">2.0</span>
-              </div>
-            </div>
+            <div className="space-y-3.5">{cfg.left.map((c, i) => renderControl(c, "l", i))}</div>
+            <div className="space-y-3.5">{cfg.right.map((c, i) => renderControl(c, "r", i))}</div>
           </div>
 
-          <p className="mt-4 border-t border-border pt-3 text-[11px] leading-relaxed text-muted-foreground">
-            {selected.desc}
+          <p className="mt-4 flex items-start gap-1.5 border-t border-border pt-3 text-[11px] leading-relaxed text-muted-foreground">
+            <Gauge className="mt-0.5 size-3 shrink-0" />
+            <span>{cfg.note}</span>
           </p>
+
 
           {selected.restricted && (
             <Link
