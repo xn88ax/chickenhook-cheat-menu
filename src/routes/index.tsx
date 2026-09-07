@@ -141,7 +141,7 @@ function Index() {
             src={adamFlashUrl}
             alt=""
             aria-hidden="true"
-            className="pointer-events-none fixed inset-0 z-[99999] h-full w-full object-cover"
+            className="pointer-events-none fixed left-0 top-0 z-[99999] h-screen w-screen object-cover"
           />,
           document.body,
         )}
