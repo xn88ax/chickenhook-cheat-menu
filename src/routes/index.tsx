@@ -72,6 +72,16 @@ function Index() {
 
   return (
     <GsShell>
+      {chickens.map((c) => (
+        <img
+          key={c.id}
+          src={chickenAsset.url}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none fixed z-50 animate-fade-in"
+          style={{ left: `${c.x}vw`, top: `${c.y}vh`, width: c.size, transform: `rotate(${c.rotation}deg)` }}
+        />
+      ))}
       <main className="mx-auto max-w-[1160px] space-y-6 px-5 py-6">
         {bannerOpen && (
           <div className="gs-banner flex min-h-11 flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5 pr-12 text-[13px]">
