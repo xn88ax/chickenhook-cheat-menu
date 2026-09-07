@@ -78,9 +78,10 @@ const menu = [
 ];
 
 function Index() {
-  const [bannersOpen, setBannersOpen] = useState(
-    () => typeof window === "undefined" || !sessionStorage.getItem("banners-closed"),
-  );
+  const [bannersOpen, setBannersOpen] = useState(true);
+  useEffect(() => {
+    if (sessionStorage.getItem("banners-closed")) setBannersOpen(false);
+  }, []);
   return (
     <GsShell>
       <main className="mx-auto max-w-6xl space-y-4 px-5 py-4">
