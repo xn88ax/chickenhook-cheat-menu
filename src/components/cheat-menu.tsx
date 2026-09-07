@@ -87,17 +87,65 @@ function GsSwitch({ on }: { on: boolean }) {
   );
 }
 
-function GsSelect({ label, options, value }: { label: string; options: string[]; value: number }) {
+function GsSelect({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: string[];
+  value: number;
+  onChange: (v: number) => void;
+}) {
+  const [open, setOpen] = useState(false);
   return (
-    <div>
+    <div className="relative">
       <div className="text-xs text-foreground/80">{label}</div>
-      <div className="mt-1 flex h-7 items-center justify-between rounded-sm border border-border bg-background/70 px-2 text-xs">
-        <span className="gs-glow text-menugreen">{options[value] ?? options[0]}</span>
-        <ChevronDown className="size-3 text-muted-foreground" />
-      </div>
+      <button
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        onBlur={() => window.setTimeout(() => setOpen(false), 120)}
+        className="mt-1 flex h-7 w-full items-center justify-between rounded-sm border border-border bg-background/70 px-2 text-xs transition-colors hover:border-menugreen/50"
+      >
+        <span className="gs-glow truncate text-menugreen">{options[value] ?? options[0]}</span>
+        <ChevronDown
+          className={cn("size-3 shrink-0 text-muted-foreground transition-transform", open && "rotate-180")}
+        />
+      </button>
+      {open && (
+        <ul
+          role="listbox"
+          className="absolute left-0 right-0 top-full z-30 mt-1 overflow-hidden rounded-sm border border-border bg-card shadow-lg"
+        >
+          {options.map((o, i) => (
+            <li key={o}>
+              <button
+                type="button"
+                role="option"
+                aria-selected={i === value}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  onChange(i);
+                  setOpen(false);
+                }}
+                className={cn(
+                  "block w-full px-2 py-1.5 text-left text-xs transition-colors hover:bg-secondary",
+                  i === value ? "text-menugreen" : "text-foreground/80",
+                )}
+              >
+                {o}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
+
 
 function GsSlider({
   label,
