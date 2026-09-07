@@ -123,7 +123,6 @@ export function Winamp() {
       const audio = new Audio();
       audio.crossOrigin = "anonymous";
       audio.preload = "auto";
-      (window as unknown as { __wa?: HTMLAudioElement }).__wa = audio;
       audio.addEventListener("timeupdate", () => {
         setElapsed(Math.floor(audio.currentTime));
       });
@@ -243,7 +242,6 @@ export function Winamp() {
 
   async function start() {
     const t = TRACKS[indexRef.current]!;
-    console.log("[winamp] start", t.kind, t.title);
     if (t.kind === "sc") {
       const ctx = ensureAudio();
       void ctx.resume();
