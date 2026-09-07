@@ -4,6 +4,7 @@ import { CompetitorTable } from "@/components/competitor-table";
 import { ConfigGenerator } from "@/components/config-generator";
 import { FortuneWheel } from "@/components/fortune-wheel";
 import { GsPanel, GsShell } from "@/components/gs-shell";
+import { Winamp } from "@/components/winamp";
 import { VacScanner } from "@/components/vac-scanner";
 
 export const Route = createFileRoute("/narzedzia")({
@@ -48,6 +49,10 @@ function Narzedzia() {
 
         <GsPanel title="Koło fortuny modułów">
           <FortuneWheel />
+        </GsPanel>
+
+        <GsPanel title="ChickenAmp — odtwarzacz kurnika">
+          <Winamp />
         </GsPanel>
 
         <GsPanel title="ChickenHook vs konkurencja">

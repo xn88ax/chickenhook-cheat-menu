@@ -24,6 +24,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PoradnikiSlugRouteImport } from './routes/poradniki.$slug'
 import { Route as AuthenticatedForumRouteImport } from './routes/_authenticated/forum'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedForumIndexRouteImport } from './routes/_authenticated/forum.index'
 import { Route as AuthenticatedForumWatekIdRouteImport } from './routes/_authenticated/forum.watek.$id'
 import { Route as AuthenticatedForumDzialSlugRouteImport } from './routes/_authenticated/forum.dzial.$slug'
@@ -102,6 +103,11 @@ const AuthenticatedForumRoute = AuthenticatedForumRouteImport.update({
   path: '/forum',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedForumIndexRoute = AuthenticatedForumIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sklep': typeof SklepRoute
   '/sponsorzy': typeof SponsorzyRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/forum': typeof AuthenticatedForumRouteWithChildren
   '/poradniki/$slug': typeof PoradnikiSlugRoute
   '/forum/': typeof AuthenticatedForumIndexRoute
@@ -152,6 +159,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sklep': typeof SklepRoute
   '/sponsorzy': typeof SponsorzyRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/poradniki/$slug': typeof PoradnikiSlugRoute
   '/forum': typeof AuthenticatedForumIndexRoute
   '/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
@@ -172,6 +180,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sklep': typeof SklepRoute
   '/sponsorzy': typeof SponsorzyRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/forum': typeof AuthenticatedForumRouteWithChildren
   '/poradniki/$slug': typeof PoradnikiSlugRoute
   '/_authenticated/forum/': typeof AuthenticatedForumIndexRoute
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sklep'
     | '/sponsorzy'
+    | '/admin'
     | '/forum'
     | '/poradniki/$slug'
     | '/forum/'
@@ -212,6 +222,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sklep'
     | '/sponsorzy'
+    | '/admin'
     | '/poradniki/$slug'
     | '/forum'
     | '/forum/dzial/$slug'
@@ -231,6 +242,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sklep'
     | '/sponsorzy'
+    | '/_authenticated/admin'
     | '/_authenticated/forum'
     | '/poradniki/$slug'
     | '/_authenticated/forum/'
@@ -361,6 +373,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedForumRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/forum/': {
       id: '/_authenticated/forum/'
       path: '/'
@@ -401,10 +420,12 @@ const AuthenticatedForumRouteWithChildren =
   AuthenticatedForumRoute._addFileChildren(AuthenticatedForumRouteChildren)
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedForumRoute: typeof AuthenticatedForumRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedForumRoute: AuthenticatedForumRouteWithChildren,
 }
 

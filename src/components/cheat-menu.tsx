@@ -80,7 +80,7 @@ function GsSwitch({ on }: { on: boolean }) {
       <span
         className={cn(
           "absolute h-2.5 w-2.5 rounded-full transition-all duration-200",
-          on ? "left-[15px] bg-menugreen shadow-[0_0_8px_0_var(--color-menugreen)]" : "left-[3px] bg-muted-foreground/60",
+          on ? "left-[15px] bg-menugreen shadow-[0_0_10px_2px_var(--color-menugreen)]" : "left-[3px] bg-muted-foreground/60",
         )}
       />
     </span>
@@ -92,7 +92,7 @@ function GsSelect({ label, options, value }: { label: string; options: string[];
     <div>
       <div className="text-xs text-foreground/80">{label}</div>
       <div className="mt-1 flex h-7 items-center justify-between rounded-sm border border-border bg-background/70 px-2 text-xs">
-        <span className="text-menugreen">{options[value] ?? options[0]}</span>
+        <span className="gs-glow text-menugreen">{options[value] ?? options[0]}</span>
         <ChevronDown className="size-3 text-muted-foreground" />
       </div>
     </div>
@@ -168,7 +168,7 @@ export function CheatMenu() {
       {/* Pasek tytułu — CHICKENHOOK + Save + ikony */}
       <div className="flex items-center justify-between border-b border-border bg-secondary/40 px-3 py-2">
         <span className="text-sm font-extrabold tracking-wide">
-          CHICKEN<span className="text-menugreen">HOOK</span>
+          CHICKEN<span className="gs-glow text-menugreen">HOOK</span>
         </span>
         <div className="flex items-center gap-1.5">
           <button
@@ -200,7 +200,7 @@ export function CheatMenu() {
               return (
                 <div key={s.name} className="mb-1">
                   <div className="flex items-center gap-1.5 px-2 pb-1 pt-2 text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">
-                    <s.icon className="size-3 text-menugreen" />
+                    <s.icon className="size-3 gs-glow text-menugreen" />
                     {s.name}
                   </div>
                   {items.map((f) => {
@@ -219,7 +219,7 @@ export function CheatMenu() {
                         )}
                       >
                         {on ? (
-                          <Check className="size-3.5 shrink-0 text-menugreen" />
+                          <Check className="size-3.5 shrink-0 gs-glow text-menugreen" />
                         ) : (
                           <span className="size-3.5 shrink-0" />
                         )}
@@ -236,7 +236,7 @@ export function CheatMenu() {
           {/* Profil użytkownika jak w rogu gamesense */}
           <div className="flex items-center gap-2 border-t border-border p-2">
             <span className="grid size-7 place-items-center rounded-sm bg-menugreen/15">
-              <User className="size-4 text-menugreen" />
+              <User className="size-4 gs-glow text-menugreen" />
             </span>
             <span className="min-w-0 leading-tight">
               <span className="block truncate text-xs font-semibold">Kurczak_200iq</span>
@@ -301,7 +301,7 @@ export function CheatMenu() {
                   <Gauge className="size-3 text-muted-foreground" />
                   Prędkość animacji
                 </span>
-                <span className="text-[11px] text-menugreen">2.0</span>
+                <span className="text-[11px] gs-glow text-menugreen">2.0</span>
               </div>
             </div>
           </div>
@@ -314,7 +314,7 @@ export function CheatMenu() {
             <Link
               to="/podanie"
               search={{ modul: selected.slug }}
-              className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-sm border border-menugreen/40 bg-menugreen/10 px-3 py-2 text-[11px] font-bold uppercase tracking-wide text-menugreen transition-colors hover:bg-menugreen/20"
+              className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-sm border border-menugreen/40 bg-menugreen/10 px-3 py-2 text-[11px] font-bold uppercase tracking-wide gs-glow text-menugreen transition-colors hover:bg-menugreen/20"
             >
               <Lock className="size-3" />
               Elite — złóż podanie
@@ -322,7 +322,7 @@ export function CheatMenu() {
           )}
           <div className="mt-3 flex items-center gap-1.5 text-[10px] text-muted-foreground">
             <Wand2 className="size-3" />
-            ChickenHook.pub © 2016–2026 · Build 4.12.0 · Alpha
+            ChickenHook.ru © 2016–2026 · Build 4.12.0 · Alpha
           </div>
         </div>
       </div>
