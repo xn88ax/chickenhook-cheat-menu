@@ -514,7 +514,7 @@
 }
 
 @utility gs-panel {
-  background-color: var(--color-card);
+  background-color: color-mix(in oklab, var(--color-card) 58%, transparent);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   overflow: hidden;
@@ -690,10 +690,10 @@
   inset: -8%;
   background: url("/og.gif") center 25% / cover no-repeat;
   mix-blend-mode: screen;
-  opacity: 0.24;
-  filter: contrast(1.2) saturate(0.9) brightness(0.95);
+  opacity: 0.42;
+  filter: contrast(1.25) saturate(1) brightness(1.05);
   animation: ken-burns 36s ease-in-out infinite alternate;
-  mask-image: radial-gradient(ellipse 70% 65% at 50% 35%, black 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 25%, transparent 78%);
 }
 
 /* przyciemnienie, żeby karty były czytelne */
@@ -702,8 +702,8 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, oklch(0.145 0.003 285 / 35%) 0%, oklch(0.145 0.003 285 / 82%) 100%),
-    radial-gradient(900px 500px at 15% -10%, oklch(0.58 0.225 26 / 10%), transparent 55%);
+    linear-gradient(180deg, oklch(0.145 0.003 285 / 22%) 0%, oklch(0.145 0.003 285 / 68%) 100%),
+    radial-gradient(900px 500px at 15% -10%, oklch(0.58 0.225 26 / 12%), transparent 55%);
 }
 
 @keyframes ken-burns {
