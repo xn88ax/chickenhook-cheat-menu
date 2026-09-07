@@ -252,16 +252,10 @@ export function Winamp() {
       const want = `sc:${t.trackId}`;
       if (audio.dataset.track !== want) {
         setLoading(true);
-        try {
-          const res = await fetch(`${t.stream}?client_id=${SC_CLIENT_ID}`);
-          const json = (await res.json()) as { url?: string };
-          if (!json.url) throw new Error("brak strumienia");
-          audio.dataset.track = want;
-          audio.src = json.url;
-        } catch {
-          setLoading(false);
-          return;
-        }
+        // adres MP3 rozwiązuje nasz serwer (API SoundCloud blokuje CORS),
+        // końcowy strumień z cf-media.sndcdn.com ma CORS otwarty — fala działa
+        audio.dataset.track = want;
+        audio.src = `/api/sc-stream?u=${encodeURIComponent(t.stream)}`;
         setLoading(false);
       }
       stopClock();
