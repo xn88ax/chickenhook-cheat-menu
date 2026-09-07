@@ -50,7 +50,20 @@ export function GsShell({
   children: ReactNode;
   crumbs?: { label: string }[];
 }) {
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!moreOpen) return;
+    function onDown(e: MouseEvent) {
+      if (!moreRef.current?.contains(e.target as Node)) setMoreOpen(false);
+    }
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, [moreOpen]);
+
   return (
+
     <div className="min-h-screen gs-bg font-sans text-foreground">
       {/* Logo bar */}
       <div className="mx-auto max-w-6xl px-5 pt-5">
