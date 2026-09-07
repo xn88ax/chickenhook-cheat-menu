@@ -163,7 +163,7 @@ export function Shoutbox() {
           <p className="mt-1 text-[11px] text-muted-foreground">
             Wiadomości są trwałe i podpisane Twoim nickiem z kurnika. Czytać może każdy.
           </p>
-          <Link to="/auth" className="mt-3 inline-flex gs-action px-4 py-2">
+          <Link to="/auth" search={{ next: "/" }} className="mt-3 inline-flex gs-action px-4 py-2">
             {loading ? "Sprawdzam konto…" : "Zaloguj się / Rejestracja"}
           </Link>
         </div>
