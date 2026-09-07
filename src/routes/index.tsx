@@ -16,16 +16,15 @@ import { GsPanel, GsShell } from "@/components/gs-shell";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "ChickenHook.ru — Cheaty do CS2 | Aim, ESP, HvH" },
+      { title: "chickenhook" },
       {
         name: "description",
-        content:
-          "ChickenHook.ru — private cheat do CS2. Aimbot, ESP, skin changer i pełny bypass. Świeży kod, aktualizacje w 24h.",
+        content: "chikn",
       },
-      { property: "og:title", content: "ChickenHook.ru — Cheaty do CS2" },
+      { property: "og:title", content: "chickenhook" },
       {
         property: "og:description",
-        content: "Aimbot, ESP i bypass do CS2. Undetected od 412 dni.",
+        content: "chikn",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
