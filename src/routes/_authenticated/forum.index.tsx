@@ -151,7 +151,7 @@ function Forum() {
             Masz nieużyte kody zaproszeń!
           </p>
           <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
-            Dostępny jest nowy klient — build 4.12.0!
+            Dostępny jest nowy klient — build 4.chkn!
           </p>
         </div>
 

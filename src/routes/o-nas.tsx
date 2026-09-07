@@ -28,7 +28,7 @@ const timeline = [
   ["2024", "Pierwszy użytkownik. Był to kolega założyciela. Nadal jest z nami."],
   ["2025", "Sześciu użytkowników. Powstaje forum, bo trzeba było gdzieś się kłócić."],
   ["styczeń 2026", "Zerowa liczba banów. Zaczynamy o tym pisać na każdej podstronie."],
-  ["wrzesień 2026", "Build 4.12.0, sponsorzy z branży drobiarskiej i własny sklep bez towaru."],
+  ["wrzesień 2026", "Build 4.chkn, sponsorzy z branży drobiarskiej i własny sklep bez towaru."],
 ];
 
 const team = [

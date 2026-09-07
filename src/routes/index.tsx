@@ -148,7 +148,7 @@ function Index() {
       <main className="mx-auto max-w-[1160px] space-y-6 px-5 py-6">
         {bannerOpen && (
           <div className="gs-banner flex min-h-11 flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5 pr-12 text-[13px]">
-            <strong>Nowy klient · build 4.12.0</strong>
+            <strong>Nowy klient · build 4.chkn</strong>
             <span className="text-muted-foreground"><span className="text-[var(--status-ok)]">Undetected 412 dni</span> · 0 banów 2026</span>
             <Link to="/changelog" className="font-medium text-primary hover:text-accent">Changelog →</Link>
             <Button variant="ghost" size="icon" aria-label="Zamknij ogłoszenie" onClick={() => { sessionStorage.setItem("banners-closed", "1"); setBannerOpen(false); }} className="absolute right-[max(1.25rem,calc((100%-1160px)/2+1.25rem))] size-8 text-muted-foreground hover:text-foreground"><X /></Button>
@@ -199,7 +199,7 @@ function Index() {
             <div className="border-t border-border px-4 py-3"><Link to="/opcje" className="text-xs font-semibold text-primary hover:text-accent">Wszystkie {features.length} modułów →</Link></div>
           </GsPanel>
 
-          <GsPanel title={`Ostatni build — ${builds[0]?.version ?? "4.12.0"}`}>
+          <GsPanel title={`Ostatni build — ${builds[0]?.version ?? "4.chkn"}`}>
             <div className="p-4 text-sm">
               <p className="text-xs text-[var(--text-subtle)]">{builds[0]?.date}</p>
               <ul className="mt-3 space-y-2 text-muted-foreground">

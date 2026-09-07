@@ -67,7 +67,7 @@ function Opcje() {
     <GsShell crumbs={[{ label: "Funkcje" }]}>
       <main className="mx-auto max-w-6xl space-y-4 px-5 py-4">
         <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
-          Wszystkie moduły ChickenHook — build 4.12.0
+          Wszystkie moduły ChickenHook — build 4.chkn
         </p>
 
         <GsPanel title="Menu cheata">

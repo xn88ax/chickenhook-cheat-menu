@@ -15,7 +15,7 @@ export const Route = createFileRoute("/changelog")({
       { property: "og:title", content: "Changelog buildów — ChickenHook.ru" },
       {
         property: "og:description",
-        content: "Build 4.12.0 i wcześniejsze — pełna historia zmian naszego kurczaka.",
+        content: "Build 4.chkn i wcześniejsze — pełna historia zmian naszego kurczaka.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -29,7 +29,7 @@ function Changelog() {
     <GsShell crumbs={[{ label: "Changelog" }]}>
       <main className="mx-auto max-w-4xl space-y-4 px-5 py-4">
         <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
-          Aktualny build: 4.12.0 · aktualizacje po każdym patchu Valve
+          Aktualny build: 4.chkn · aktualizacje po każdym patchu Valve
         </p>
 
         <h1 className="sr-only">Changelog ChickenHook</h1>
