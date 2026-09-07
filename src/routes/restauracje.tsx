@@ -165,8 +165,9 @@ function Restauracje() {
 
         <p className="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">
           Znaleziono {filtered.length}{" "}
-          {filtered.length === 1 ? "restaurację" : "restauracji"}
+          {filtered.length === 1 ? "restaurację" : "restauracji"} z {restaurants.length} w Polsce
         </p>
+
 
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((r) => (
