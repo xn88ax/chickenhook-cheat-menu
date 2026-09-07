@@ -18,13 +18,26 @@ function clock(iso: string) {
   return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 }
 
+const NICK_KEY = "chickenhook_guest_nick";
+
 export function Shoutbox() {
   const { user, loading } = useAuth();
   const [shouts, setShouts] = useState<Shout[]>([]);
   const [draft, setDraft] = useState("");
+  const [guestNick, setGuestNick] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
+
+  // Nick gościa trzymany lokalnie w przeglądarce.
+  useEffect(() => {
+    const saved = localStorage.getItem(NICK_KEY);
+    setGuestNick(saved ?? `gosc_${Math.floor(1000 + Math.random() * 8999)}`);
+  }, []);
+
+  useEffect(() => {
+    if (guestNick) localStorage.setItem(NICK_KEY, guestNick);
+  }, [guestNick]);
 
   // Historia z bazy + wiadomości na żywo.
   useEffect(() => {
@@ -68,12 +81,13 @@ export function Shoutbox() {
   async function send(e: React.FormEvent) {
     e.preventDefault();
     const text = draft.trim();
-    if (!text || !user || sending) return;
+    const nick = (user ? displayName(user) : guestNick.trim() || "gosc").slice(0, 32);
+    if (!text || sending) return;
     setSending(true);
     setError(null);
     const { data, error: err } = await supabase
       .from("shouts")
-      .insert({ nick: displayName(user), text, user_id: user.id })
+      .insert({ nick, text, user_id: user ? user.id : null })
       .select("id, nick, text, created_at, user_id")
       .single();
     setSending(false);
@@ -90,6 +104,7 @@ export function Shoutbox() {
     const { error: err } = await supabase.from("shouts").delete().eq("id", id);
     if (err) setError("Nie udało się usunąć wiadomości.");
   }
+
 
   return (
     <div>
