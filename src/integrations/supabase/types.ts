@@ -168,6 +168,27 @@ export type Database = {
         }
         Relationships: []
       }
+      shouts: {
+        Row: {
+          created_at: string
+          id: string
+          nick: string
+          text: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          nick: string
+          text: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          nick?: string
+          text?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
