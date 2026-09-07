@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Check, ChevronRight, X } from "lucide-react";
 
 import adamAsset1 from "@/assets/adam-kurczak.jpg.asset.json";
@@ -111,14 +112,16 @@ function Index() {
           style={{ left: `${c.x}vw`, top: `${c.y}vh`, width: c.size, transform: `rotate(${c.rotation}deg)` }}
         />
       ))}
-      {adamFlashUrl && (
-        <img
-          src={adamFlashUrl}
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none fixed inset-0 z-[60] h-full w-full object-cover animate-fade-in"
-        />
-      )}
+      {adamFlashUrl &&
+        createPortal(
+          <img
+            src={adamFlashUrl}
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none fixed inset-0 z-[99999] h-full w-full object-cover"
+          />,
+          document.body,
+        )}
       <main className="mx-auto max-w-[1160px] space-y-6 px-5 py-6">
         {bannerOpen && (
           <div className="gs-banner flex min-h-11 flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5 pr-12 text-[13px]">
