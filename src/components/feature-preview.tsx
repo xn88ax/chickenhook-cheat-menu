@@ -1,6 +1,6 @@
 import { VideoOff } from "lucide-react";
 
-import { getClipVideo } from "@/data/clips";
+import { getClipVideo, getClipYoutube } from "@/data/clips";
 
 export type PreviewKind =
   | "noclip"
