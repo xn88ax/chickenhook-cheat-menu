@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Pause, Play, Repeat, Shuffle, SkipBack, SkipForward, Square } from "lucide-react";
+import { Music2, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward, Square } from "lucide-react";
 
-type Track = {
+type SynthTrack = {
+  kind: "synth";
   title: string;
   bpm: number;
   /** MIDI note numbers; null = pauza */
@@ -9,20 +10,37 @@ type Track = {
   bass: (number | null)[];
 };
 
+type SpotifyTrack = {
+  kind: "spotify";
+  title: string;
+  /** Spotify track id */
+  spotifyId: string;
+};
+
+type Track = SynthTrack | SpotifyTrack;
+
 const TRACKS: Track[] = [
+  { kind: "spotify", title: "xn88ax - PROMETHAZINE", spotifyId: "6DTqemry14eOoHRNkSnMSG" },
+  { kind: "spotify", title: "xn88ax - never ending story", spotifyId: "6mjFHZizlvfsXTTkDQxPKr" },
+  { kind: "spotify", title: "xn88ax - POLANDSTRONKBAGUETTE", spotifyId: "4XqImVR5TRY4JSuYTkNjaC" },
+  { kind: "spotify", title: "xn88ax - shy type", spotifyId: "19ra9hRnCPHuBehkJYnqrU" },
+  { kind: "spotify", title: "xn88ax - ALLEYESONYOU", spotifyId: "7k5sHL9hegoWIoEAuHFsC7" },
   {
+    kind: "synth",
     title: "ChickenHook - Kurnik Anthem (chiptune)",
     bpm: 132,
     notes: [69, 72, 76, 72, 69, 67, 69, 71, 69, 72, 76, 79, 76, 72, 69, null],
     bass: [45, null, 45, null, 43, null, 41, null, 45, null, 45, null, 40, null, 40, null],
   },
   {
+    kind: "synth",
     title: "HvH Panierka - Fried Bassline",
     bpm: 148,
     notes: [64, 64, 67, 71, 74, 71, 67, 64, 62, 65, 69, 72, 69, 65, 62, null],
     bass: [40, 40, 43, 43, 38, 38, 41, 41, 40, 40, 36, 36, 43, 43, 45, 45],
   },
   {
+    kind: "synth",
     title: "Undetected 412 Days - Loader Theme",
     bpm: 118,
     notes: [72, 74, 76, 79, 81, 79, 76, 74, 72, 71, 69, 71, 72, 76, 72, null],
@@ -51,7 +69,8 @@ export function Winamp() {
   const rafRef = useRef<number | null>(null);
 
   const track = TRACKS[index]!;
-  const stepMs = 60000 / track.bpm / 2;
+  const isSynth = track.kind === "synth";
+  const stepMs = isSynth ? 60000 / track.bpm / 2 : 0;
 
   function stopClock() {
     if (timerRef.current) window.clearInterval(timerRef.current);
@@ -110,6 +129,7 @@ export function Winamp() {
 
   function tick() {
     const t = TRACKS[index]!;
+    if (t.kind !== "synth") return;
     const s = stepRef.current % t.notes.length;
     const lead = t.notes[s];
     const bass = t.bass[s];
@@ -124,11 +144,7 @@ export function Winamp() {
     }
   }
 
-  function start() {
-    const ctx = ensureAudio();
-    void ctx.resume();
-    stopClock();
-    timerRef.current = window.setInterval(tick, stepMs);
+  function startDraw() {
     const draw = () => {
       const analyser = analyserRef.current;
       const canvas = canvasRef.current;
@@ -168,6 +184,15 @@ export function Winamp() {
       rafRef.current = requestAnimationFrame(draw);
     };
     rafRef.current = requestAnimationFrame(draw);
+  }
+
+  function start() {
+    if (!isSynth) return;
+    const ctx = ensureAudio();
+    void ctx.resume();
+    stopClock();
+    timerRef.current = window.setInterval(tick, stepMs);
+    startDraw();
     setPlaying(true);
   }
 
@@ -184,17 +209,18 @@ export function Winamp() {
     setElapsed(0);
   }
 
+  function select(nextIndex: number) {
+    pause();
+    setIndex(nextIndex);
+    stepRef.current = 0;
+    setElapsed(0);
+  }
+
   function jump(delta: number) {
     const nextIndex = shuffle
       ? Math.floor(Math.random() * TRACKS.length)
       : (index + delta + TRACKS.length) % TRACKS.length;
-    setIndex(nextIndex);
-    stepRef.current = 0;
-    setElapsed(0);
-    if (playing) {
-      stopClock();
-      timerRef.current = window.setInterval(tick, 60000 / TRACKS[nextIndex]!.bpm / 2);
-    }
+    select(nextIndex);
   }
 
   const next = () => jump(1);
@@ -234,10 +260,32 @@ export function Winamp() {
               aria-label="Fala dźwiękowa na żywo"
             />
             <p className="mt-1 truncate font-mono text-[10px] text-primary/90">
-              {index + 1}. {track.title} · {track.bpm} BPM
+              {index + 1}. {track.title}
+              {isSynth ? ` · ${track.bpm} BPM` : " · Spotify"}
             </p>
           </div>
         </div>
+
+        {/* Wbudowany player Spotify dla prawdziwych utworów */}
+        {track.kind === "spotify" && (
+          <div className="border-b border-border bg-background px-2 py-2">
+            <iframe
+              key={track.spotifyId}
+              src={`https://open.spotify.com/embed/track/${track.spotifyId}?utm_source=generator&theme=0`}
+              width="100%"
+              height="152"
+              frameBorder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              title={`Spotify: ${track.title}`}
+              className="block w-full border border-border/60"
+            />
+            <p className="mt-1 flex items-center gap-1 text-[10px] text-muted-foreground">
+              <Music2 className="size-3" /> Odtwarzanie obsługuje player Spotify — zalogowani słyszą
+              pełną wersję.
+            </p>
+          </div>
+        )}
 
         {/* Suwaki */}
         <div className="grid gap-2 border-b border-border px-2 py-2 sm:grid-cols-2">
@@ -274,30 +322,49 @@ export function Winamp() {
         {/* Transport */}
         <div className="flex flex-wrap items-center gap-1 px-2 py-2">
           {[
-            { icon: SkipBack, label: "Poprzedni", onClick: () => jump(-1), active: false },
+            { icon: SkipBack, label: "Poprzedni", onClick: () => jump(-1), active: false, disabled: false },
             {
               icon: playing ? Pause : Play,
               label: playing ? "Pauza" : "Odtwarzaj",
               onClick: () => (playing ? pause() : start()),
               active: playing,
+              disabled: !isSynth,
             },
-            { icon: Square, label: "Stop", onClick: stop, active: false },
-            { icon: SkipForward, label: "Następny", onClick: next, active: false },
-            { icon: Shuffle, label: "Losowo", onClick: () => setShuffle((s) => !s), active: shuffle },
-            { icon: Repeat, label: "Powtarzaj", onClick: () => setLoop((l) => !l), active: loop },
+            { icon: Square, label: "Stop", onClick: stop, active: false, disabled: !isSynth },
+            { icon: SkipForward, label: "Następny", onClick: next, active: false, disabled: false },
+            {
+              icon: Shuffle,
+              label: "Losowo",
+              onClick: () => setShuffle((s) => !s),
+              active: shuffle,
+              disabled: false,
+            },
+            {
+              icon: Repeat,
+              label: "Powtarzaj",
+              onClick: () => setLoop((l) => !l),
+              active: loop,
+              disabled: false,
+            },
           ].map((b) => (
             <button
               key={b.label}
               type="button"
               aria-label={b.label}
               onClick={b.onClick}
-              className={`grid size-7 place-items-center border border-border transition-colors hover:border-primary hover:text-primary ${
+              disabled={b.disabled}
+              className={`grid size-7 place-items-center border border-border transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-30 ${
                 b.active ? "gs-glow border-primary/60 text-primary" : "text-muted-foreground"
               }`}
             >
               <b.icon className="size-3.5" />
             </button>
           ))}
+          {!isSynth && (
+            <span className="ml-1 text-[10px] text-muted-foreground">
+              Play/pauza w playerze Spotify powyżej
+            </span>
+          )}
         </div>
 
         {/* Playlista */}
@@ -306,27 +373,21 @@ export function Winamp() {
             <button
               key={t.title}
               type="button"
-              onClick={() => {
-                setIndex(i);
-                stepRef.current = 0;
-                setElapsed(0);
-                if (playing) {
-                  stopClock();
-                  timerRef.current = window.setInterval(tick, 60000 / t.bpm / 2);
-                }
-              }}
+              onClick={() => select(i)}
               className={`block w-full truncate px-2 py-1.5 text-left font-mono text-[11px] transition-colors hover:bg-secondary ${
                 i === index ? "gs-glow bg-secondary text-primary" : "text-muted-foreground"
               }`}
             >
               {i + 1}. {t.title}
+              {t.kind === "spotify" ? " · Spotify" : " · chiptune"}
             </button>
           ))}
         </div>
       </div>
 
       <p className="mt-2 text-center text-[10px] text-muted-foreground">
-        Dźwięk generowany na żywo w przeglądarce — żadnych plików, tylko czysty kurnikowy chiptune.
+        Prawdziwe utwory xn88ax lecą z playera Spotify, a kurnikowe chiptune'y są syntezowane na
+        żywo — fala na wyświetlaczu rysuje się z faktycznego sygnału.
       </p>
     </div>
   );
