@@ -44,9 +44,6 @@ const TRACKS: Track[] = [
   ...SYNTH_TRACKS,
 ];
 
-// Publiczny client_id strony soundcloud.com — służy do pobrania podpisanego adresu MP3
-const SC_CLIENT_ID = "Pb72ranhoyt6gw7hM7TkzUItXlMWSNSo";
-
 const midi = (n: number) => 440 * Math.pow(2, (n - 69) / 12);
 
 export function Winamp() {
