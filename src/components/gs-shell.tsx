@@ -136,6 +136,7 @@ export function GsShell({
             </nav>
           )}
         </div>
+        <div className="gs-bar absolute inset-x-0 bottom-0" aria-hidden="true" />
       </header>
 
       <div className="relative z-10">
