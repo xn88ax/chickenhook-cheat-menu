@@ -40,8 +40,8 @@ export function Winamp() {
   const [loop, setLoop] = useState(true);
   const [shuffle, setShuffle] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const [bars, setBars] = useState<number[]>(() => Array(20).fill(0));
 
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const ctxRef = useRef<AudioContext | null>(null);
   const gainRef = useRef<GainNode | null>(null);
   const panRef = useRef<StereoPannerNode | null>(null);
@@ -81,7 +81,7 @@ export function Winamp() {
     gain.gain.value = volume / 250;
     const pan = ctx.createStereoPanner();
     const analyser = ctx.createAnalyser();
-    analyser.fftSize = 64;
+    analyser.fftSize = 2048;
     gain.connect(pan);
     pan.connect(analyser);
     analyser.connect(ctx.destination);
@@ -131,10 +131,39 @@ export function Winamp() {
     timerRef.current = window.setInterval(tick, stepMs);
     const draw = () => {
       const analyser = analyserRef.current;
-      if (analyser) {
-        const buf = new Uint8Array(analyser.frequencyBinCount);
-        analyser.getByteFrequencyData(buf);
-        setBars(Array.from(buf.slice(0, 20), (v) => v / 255));
+      const canvas = canvasRef.current;
+      if (analyser && canvas) {
+        const g = canvas.getContext("2d");
+        if (g) {
+          const w = canvas.width;
+          const h = canvas.height;
+          const buf = new Uint8Array(analyser.fftSize);
+          analyser.getByteTimeDomainData(buf);
+          const styles = getComputedStyle(canvas);
+          const accent = styles.getPropertyValue("--color-primary").trim() || "#e5484d";
+          g.fillStyle = "rgba(0,0,0,0.35)";
+          g.fillRect(0, 0, w, h);
+          // linia środka
+          g.strokeStyle = "rgba(255,255,255,0.08)";
+          g.lineWidth = 1;
+          g.beginPath();
+          g.moveTo(0, h / 2);
+          g.lineTo(w, h / 2);
+          g.stroke();
+          // prawdziwa fala z sygnału audio
+          g.strokeStyle = accent;
+          g.lineWidth = 1.5;
+          g.shadowColor = accent;
+          g.shadowBlur = 6;
+          g.beginPath();
+          const step = w / buf.length;
+          for (let i = 0; i < buf.length; i += 1) {
+            const y = ((buf[i] ?? 128) / 255) * h;
+            if (i === 0) g.moveTo(0, y);
+            else g.lineTo(i * step, y);
+          }
+          g.stroke();
+        }
       }
       rafRef.current = requestAnimationFrame(draw);
     };
@@ -144,7 +173,8 @@ export function Winamp() {
 
   function pause() {
     stopClock();
-    setBars(Array(20).fill(0));
+    const canvas = canvasRef.current;
+    canvas?.getContext("2d")?.clearRect(0, 0, canvas.width, canvas.height);
     setPlaying(false);
   }
 
@@ -196,15 +226,13 @@ export function Winamp() {
         <div className="flex gap-2 border-b border-border bg-background px-2 py-2">
           <div className="gs-glow font-mono text-2xl tabular-nums text-primary">{mmss}</div>
           <div className="min-w-0 flex-1">
-            <div className="flex h-6 items-end gap-[2px]">
-              {bars.map((v, i) => (
-                <span
-                  key={i}
-                  className="w-full bg-primary/80"
-                  style={{ height: `${Math.max(4, v * 100)}%` }}
-                />
-              ))}
-            </div>
+            <canvas
+              ref={canvasRef}
+              width={560}
+              height={40}
+              className="h-10 w-full border border-border/60 bg-background"
+              aria-label="Fala dźwiękowa na żywo"
+            />
             <p className="mt-1 truncate font-mono text-[10px] text-primary/90">
               {index + 1}. {track.title} · {track.bpm} BPM
             </p>
