@@ -83,10 +83,11 @@ function Index() {
 
       if (e.key.length === 1) {
         adamBuffer.current += e.key.toLowerCase();
-        if (adamBuffer.current.length > ADAM_CODE.length) {
-          adamBuffer.current = adamBuffer.current.slice(-ADAM_CODE.length);
+        const maxLen = Math.max(...ADAM_CODES.map((c) => c.length));
+        if (adamBuffer.current.length > maxLen) {
+          adamBuffer.current = adamBuffer.current.slice(-maxLen);
         }
-        if (adamBuffer.current.endsWith(ADAM_CODE)) {
+        if (ADAM_CODES.some((code) => adamBuffer.current.endsWith(code))) {
           adamBuffer.current = "";
           const url = ADAM_IMAGES[Math.floor(Math.random() * ADAM_IMAGES.length)];
           setAdamFlashUrl(url);
