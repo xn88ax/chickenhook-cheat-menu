@@ -2,8 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Check, ChevronRight, X } from "lucide-react";
 
-import adamAsset from "@/assets/adam-kurczak.jpg.asset.json";
+import adamAsset1 from "@/assets/adam-kurczak.jpg.asset.json";
+import adamAsset2 from "@/assets/adam-kurczak-2.jpg.asset.json";
+import adamAsset3 from "@/assets/adam-kurczak-3.jpg.asset.json";
 import chickenAsset from "@/assets/chicken.png.asset.json";
+
+const ADAM_IMAGES = [adamAsset1.url, adamAsset2.url, adamAsset3.url];
 import { BanFeed } from "@/components/ban-feed";
 import { FeatureDialog } from "@/components/feature-dialog";
 import { OppList } from "@/components/opp-list";
@@ -52,7 +56,7 @@ function Index() {
   const [bannerOpen, setBannerOpen] = useState(true);
   const [faqOpen, setFaqOpen] = useState<number | null>(0);
   const [chickens, setChickens] = useState<Chicken[]>([]);
-  const [adamFlash, setAdamFlash] = useState(false);
+  const [adamFlashUrl, setAdamFlashUrl] = useState<string | null>(null);
   const adamBuffer = useRef("");
   const adamTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -83,8 +87,9 @@ function Index() {
         }
         if (adamBuffer.current.endsWith(ADAM_CODE)) {
           adamBuffer.current = "";
-          setAdamFlash(true);
-          setTimeout(() => setAdamFlash(false), 100);
+          const url = ADAM_IMAGES[Math.floor(Math.random() * ADAM_IMAGES.length)];
+          setAdamFlashUrl(url);
+          setTimeout(() => setAdamFlashUrl(null), 100);
         }
         if (adamTimer.current) clearTimeout(adamTimer.current);
         adamTimer.current = setTimeout(() => { adamBuffer.current = ""; }, 1500);
@@ -106,9 +111,9 @@ function Index() {
           style={{ left: `${c.x}vw`, top: `${c.y}vh`, width: c.size, transform: `rotate(${c.rotation}deg)` }}
         />
       ))}
-      {adamFlash && (
+      {adamFlashUrl && (
         <img
-          src={adamAsset.url}
+          src={adamFlashUrl}
           alt=""
           aria-hidden="true"
           className="pointer-events-none fixed inset-0 z-[60] h-full w-full object-cover animate-fade-in"
