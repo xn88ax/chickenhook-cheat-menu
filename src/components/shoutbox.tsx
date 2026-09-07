@@ -174,7 +174,11 @@ export function Shoutbox() {
         ) : (
           <>
             <span>Piszesz jako gość — wiadomości gościa nie da się później usunąć.</span>
-            <Link to="/auth" className="inline-flex items-center gap-1 font-bold text-primary">
+            <Link
+              to="/auth"
+              search={{ next: "/" }}
+              className="inline-flex items-center gap-1 font-bold text-primary"
+            >
               <LogIn className="size-3" />
               {loading ? "Sprawdzam konto…" : "Zaloguj się"}
             </Link>
