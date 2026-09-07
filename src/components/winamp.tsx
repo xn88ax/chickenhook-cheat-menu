@@ -173,7 +173,8 @@ export function Winamp() {
 
   function pause() {
     stopClock();
-    setBars(Array(20).fill(0));
+    const canvas = canvasRef.current;
+    canvas?.getContext("2d")?.clearRect(0, 0, canvas.width, canvas.height);
     setPlaying(false);
   }
 
