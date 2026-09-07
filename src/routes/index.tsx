@@ -106,6 +106,14 @@ function Index() {
           style={{ left: `${c.x}vw`, top: `${c.y}vh`, width: c.size, transform: `rotate(${c.rotation}deg)` }}
         />
       ))}
+      {adamFlash && (
+        <img
+          src={adamAsset.url}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 z-[60] h-full w-full object-cover animate-fade-in"
+        />
+      )}
       <main className="mx-auto max-w-[1160px] space-y-6 px-5 py-6">
         {bannerOpen && (
           <div className="gs-banner flex min-h-11 flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5 pr-12 text-[13px]">
