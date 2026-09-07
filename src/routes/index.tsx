@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, Lock, X } from "lucide-react";
 
 import { BanFeed } from "@/components/ban-feed";
