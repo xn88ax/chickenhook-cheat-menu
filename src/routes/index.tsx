@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Check, Lock } from "lucide-react";
+import { useState } from "react";
+import { Check, Lock, X } from "lucide-react";
 
 import { BanFeed } from "@/components/ban-feed";
 import { FeatureDialog } from "@/components/feature-dialog";
