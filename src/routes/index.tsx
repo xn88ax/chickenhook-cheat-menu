@@ -90,6 +90,10 @@ function Index() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      const isTyping = target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT" || target.isContentEditable);
+      if (isTyping) return;
+
       if (e.key === "a" || e.key === "A") {
         const id = Date.now() + Math.random();
         const x = Math.random() * 90 + 5;
@@ -100,17 +104,12 @@ function Index() {
         setTimeout(() => setChickens((prev) => prev.filter((c) => c.id !== id)), 2500);
       }
 
-      const target = e.target as HTMLElement;
-      const isTyping = target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT" || target.isContentEditable);
-      if (isTyping) return;
-
       if (e.key.length === 1) {
         adamBuffer.current += e.key.toLowerCase();
-        const maxLen = Math.max(...ADAM_CODES.map((c) => c.length));
-        if (adamBuffer.current.length > maxLen) {
-          adamBuffer.current = adamBuffer.current.slice(-maxLen);
+        if (adamBuffer.current.length > ADAM_MAX_LEN + 1) {
+          adamBuffer.current = adamBuffer.current.slice(-(ADAM_MAX_LEN + 1));
         }
-        if (ADAM_CODES.some((code) => adamBuffer.current.endsWith(code))) {
+        if (ADAM_CODES.some((code) => levenshtein(adamBuffer.current.slice(-code.length), code) <= 1)) {
           adamBuffer.current = "";
           const url = ADAM_IMAGES[Math.floor(Math.random() * ADAM_IMAGES.length)];
           setAdamFlashUrl(url);
