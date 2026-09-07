@@ -163,40 +163,60 @@ export function Winamp() {
   }
 
   function startDraw() {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
     const draw = () => {
-      const analyser = analyserRef.current;
       const canvas = canvasRef.current;
-      if (analyser && canvas) {
+      const analyser = analyserRef.current;
+      if (canvas) {
         const g = canvas.getContext("2d");
         if (g) {
           const w = canvas.width;
           const h = canvas.height;
-          const buf = new Uint8Array(analyser.fftSize);
-          analyser.getByteTimeDomainData(buf);
           const styles = getComputedStyle(canvas);
           const accent = styles.getPropertyValue("--color-primary").trim() || "#e5484d";
+
+          g.shadowBlur = 0;
           g.fillStyle = "rgba(0,0,0,0.35)";
           g.fillRect(0, 0, w, h);
-          // linia środka
           g.strokeStyle = "rgba(255,255,255,0.08)";
           g.lineWidth = 1;
           g.beginPath();
           g.moveTo(0, h / 2);
           g.lineTo(w, h / 2);
           g.stroke();
-          // prawdziwa fala z sygnału audio
+
           g.strokeStyle = accent;
           g.lineWidth = 1.5;
           g.shadowColor = accent;
           g.shadowBlur = 6;
           g.beginPath();
-          const step = w / buf.length;
-          for (let i = 0; i < buf.length; i += 1) {
-            const y = ((buf[i] ?? 128) / 255) * h;
-            if (i === 0) g.moveTo(0, y);
-            else g.lineTo(i * step, y);
+
+          if (analyser) {
+            // prawdziwa fala z sygnału audio (kurnikowe chiptune'y)
+            const buf = new Uint8Array(analyser.fftSize);
+            analyser.getByteTimeDomainData(buf);
+            const step = w / buf.length;
+            for (let i = 0; i < buf.length; i += 1) {
+              const y = ((buf[i] ?? 128) / 255) * h;
+              if (i === 0) g.moveTo(0, y);
+              else g.lineTo(i * step, y);
+            }
+          } else {
+            // brak dostępu do sygnału (player Spotify) — animowana linia
+            const t = performance.now() / 260;
+            for (let x = 0; x <= w; x += 2) {
+              const p = x / w;
+              const amp = playingRef.current ? 0.32 : 0.02;
+              const y =
+                h / 2 +
+                Math.sin(p * 22 + t) * h * amp * 0.6 +
+                Math.sin(p * 7 - t * 1.7) * h * amp * 0.4;
+              if (x === 0) g.moveTo(0, y);
+              else g.lineTo(x, y);
+            }
           }
           g.stroke();
+          g.shadowBlur = 0;
         }
       }
       rafRef.current = requestAnimationFrame(draw);
@@ -204,22 +224,37 @@ export function Winamp() {
     rafRef.current = requestAnimationFrame(draw);
   }
 
+  // rysuj zawsze — także gdy nic nie leci (płaska linia / animacja)
+  useEffect(() => {
+    startDraw();
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   function start() {
-    if (!isSynth) return;
+    if (!isSynth) {
+      playingRef.current = true;
+      setPlaying(true);
+      return;
+    }
     const ctx = ensureAudio();
     void ctx.resume();
-    stopClock();
+    if (timerRef.current) window.clearInterval(timerRef.current);
     timerRef.current = window.setInterval(tick, stepMs);
-    startDraw();
+    playingRef.current = true;
     setPlaying(true);
   }
 
   function pause() {
-    stopClock();
-    const canvas = canvasRef.current;
-    canvas?.getContext("2d")?.clearRect(0, 0, canvas.width, canvas.height);
+    if (timerRef.current) window.clearInterval(timerRef.current);
+    timerRef.current = null;
+    playingRef.current = false;
     setPlaying(false);
   }
+
 
   function stop() {
     pause();
