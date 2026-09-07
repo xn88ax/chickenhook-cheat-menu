@@ -289,7 +289,7 @@ export function CheatMenu() {
               <User className="size-4 gs-glow text-menugreen" />
             </span>
             <span className="min-w-0 leading-tight">
-              <span className="block truncate text-xs font-semibold">Kurczak_200iq</span>
+              <span className="block truncate text-xs font-semibold">Adam Kurczak</span>
               <span className="block text-[10px] text-muted-foreground">Til: 27.08.2026 24:00</span>
             </span>
           </div>
