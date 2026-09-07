@@ -1,6 +1,6 @@
 import { VideoOff } from "lucide-react";
 
-import { getClipVideo } from "@/data/clips";
+import { getClipVideo, getClipYoutube } from "@/data/clips";
 
 export type PreviewKind =
   | "noclip"
@@ -125,6 +125,7 @@ function Scene({ kind }: { kind: PreviewKind }) {
 
 export function FeaturePreview({ kind }: { kind: PreviewKind }) {
   const video = getClipVideo(kind);
+  const youtube = video ? null : getClipYoutube(kind);
 
   return (
     <div className="preview-stage">
@@ -139,6 +140,15 @@ export function FeaturePreview({ kind }: { kind: PreviewKind }) {
             preload="metadata"
             aria-label={`Nagranie z CS:GO: ${labels[kind]}`}
             className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : youtube ? (
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${youtube}?rel=0`}
+            title={`Film: ${labels[kind]}`}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 h-full w-full"
           />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 text-muted-foreground">
