@@ -32,10 +32,10 @@ const timeline = [
 ];
 
 const team = [
-  ["Kurczak_200iq", "Założyciel, główny programista, robi też grafiki"],
-  ["Grzegorz", "Support, odpisuje w 12 sekund, nie wiadomo kiedy śpi"],
-  ["Panierka", "Testerka, psuje wszystko przed użytkownikami"],
-  ["Bolek", "Pierwszy użytkownik, awansował na moderatora"],
+  ['Adam "Chicken" Kurczak', "Założyciel, główny programista, robi też grafiki"],
+  ["kochammefke123PL", "Support, odpisuje w 12 sekund, nie wiadomo kiedy śpi"],
+  ["adiadi", "Tester, psuje wszystko przed użytkownikami"],
+  ["zbyszekkrysztal", "Pierwszy użytkownik, awansował na moderatora"],
 ];
 
 function ONas() {

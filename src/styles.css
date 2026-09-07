@@ -23,7 +23,7 @@
   --font-sans: "Barlow", sans-serif;
   --color-bucket: var(--bucket);
   --color-crisp: var(--crisp);
-  --color-menugreen: oklch(0.78 0.17 150);
+  --color-menugreen: oklch(0.62 0.235 26);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -645,4 +645,13 @@
     bottom: auto;
     top: 12%;
   }
+}
+
+
+@utility gs-glow {
+  text-shadow: 0 0 10px color-mix(in oklab, var(--color-primary) 70%, transparent);
+}
+
+@utility gs-glow-box {
+  box-shadow: 0 0 14px -2px color-mix(in oklab, var(--color-primary) 60%, transparent);
 }
