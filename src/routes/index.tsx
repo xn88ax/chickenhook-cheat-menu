@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Check, ChevronRight, X } from "lucide-react";
 
+import chickenAsset from "@/assets/chicken.png.asset.json";
 import { BanFeed } from "@/components/ban-feed";
 import { FeatureDialog } from "@/components/feature-dialog";
 import { OppList } from "@/components/opp-list";
