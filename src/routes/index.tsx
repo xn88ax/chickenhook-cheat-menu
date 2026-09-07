@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, ChevronRight, X } from "lucide-react";
 
+import adamAsset from "@/assets/adam-kurczak.jpg.asset.json";
 import chickenAsset from "@/assets/chicken.png.asset.json";
 import { BanFeed } from "@/components/ban-feed";
 import { FeatureDialog } from "@/components/feature-dialog";
@@ -45,10 +46,15 @@ const faq = [
 
 type Chicken = { id: number; x: number; y: number; rotation: number; size: number };
 
+const ADAM_CODE = "adam kurczak";
+
 function Index() {
   const [bannerOpen, setBannerOpen] = useState(true);
   const [faqOpen, setFaqOpen] = useState<number | null>(0);
   const [chickens, setChickens] = useState<Chicken[]>([]);
+  const [adamFlash, setAdamFlash] = useState(false);
+  const adamBuffer = useRef("");
+  const adamTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (sessionStorage.getItem("banners-closed")) setBannerOpen(false);
@@ -64,6 +70,24 @@ function Index() {
         const size = 28 + Math.random() * 36;
         setChickens((prev) => [...prev, { id, x, y, rotation, size }]);
         setTimeout(() => setChickens((prev) => prev.filter((c) => c.id !== id)), 2500);
+      }
+
+      const target = e.target as HTMLElement;
+      const isTyping = target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT" || target.isContentEditable);
+      if (isTyping) return;
+
+      if (e.key.length === 1) {
+        adamBuffer.current += e.key.toLowerCase();
+        if (adamBuffer.current.length > ADAM_CODE.length) {
+          adamBuffer.current = adamBuffer.current.slice(-ADAM_CODE.length);
+        }
+        if (adamBuffer.current.endsWith(ADAM_CODE)) {
+          adamBuffer.current = "";
+          setAdamFlash(true);
+          setTimeout(() => setAdamFlash(false), 100);
+        }
+        if (adamTimer.current) clearTimeout(adamTimer.current);
+        adamTimer.current = setTimeout(() => { adamBuffer.current = ""; }, 1500);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -82,6 +106,14 @@ function Index() {
           style={{ left: `${c.x}vw`, top: `${c.y}vh`, width: c.size, transform: `rotate(${c.rotation}deg)` }}
         />
       ))}
+      {adamFlash && (
+        <img
+          src={adamAsset.url}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 z-[60] h-full w-full object-cover animate-fade-in"
+        />
+      )}
       <main className="mx-auto max-w-[1160px] space-y-6 px-5 py-6">
         {bannerOpen && (
           <div className="gs-banner flex min-h-11 flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5 pr-12 text-[13px]">
