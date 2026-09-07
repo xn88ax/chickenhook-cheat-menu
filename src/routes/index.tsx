@@ -61,7 +61,7 @@ function Index() {
         const x = Math.random() * 90 + 5;
         const y = Math.random() * 80 + 10;
         const rotation = Math.random() * 360;
-        const size = 48 + Math.random() * 80;
+        const size = 28 + Math.random() * 36;
         setChickens((prev) => [...prev, { id, x, y, rotation, size }]);
         setTimeout(() => setChickens((prev) => prev.filter((c) => c.id !== id)), 2500);
       }
