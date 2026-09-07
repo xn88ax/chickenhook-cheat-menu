@@ -344,7 +344,13 @@ export function CheatMenu() {
 
             {/* Kolumna 2 */}
             <div className="space-y-3.5">
-              <GsSelect label={cfg.selects[2].label} options={cfg.selects[2].options} value={cfg.selects[2].value} />
+              <GsSelect
+                label={cfg.selects[2].label}
+                options={cfg.selects[2].options}
+                value={selects[`${selected.slug}-2`] ?? cfg.selects[2].value}
+                onChange={(v) => setSelects((p) => ({ ...p, [`${selected.slug}-2`]: v }))}
+              />
+
               <div className="flex items-center justify-between">
                 <span className="text-xs text-foreground/80">{cfg.toggles[1].label}</span>
                 <GsSwitch on={cfg.toggles[1].on} />
