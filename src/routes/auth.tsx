@@ -91,20 +91,8 @@ function AuthPage() {
     }
   }
 
-  async function onGoogle() {
-    setError(null);
-    setBusy(true);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
-      setError(result.error.message ?? "Logowanie Google nie powiodło się.");
-      setBusy(false);
-      return;
-    }
-    if (result.redirected) return;
-    navigate({ to: target });
-  }
+
+
 
 
   return (
