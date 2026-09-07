@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 
 import { features, type Feature } from "@/data/features";
+import { fallbackMenuConfig, menuOptions, type MenuControl } from "@/data/menu-options";
 import { cn } from "@/lib/utils";
 
 // ===== Struktura jak na screenie gamesense: sekcje -> pozycje w sidebarze =====
@@ -47,25 +48,6 @@ const SECTIONS = [
   { name: "Inne", icon: Sparkles },
 ] as const;
 
-// Deterministyczne "ustawienia" per moduł — jak kolumny opcji w gamesense
-function settingsFor(f: Feature) {
-  const h = [...f.slug].reduce((a, c) => a + c.charCodeAt(0), 0);
-  const selects = [
-    { label: "Tryb działania", options: ["Wyłączony", "Dynamiczny", "Agresywny", "Pełny sos"], value: (h % 3) + 1 },
-    { label: "Priorytet celu", options: ["Najbliższy", "Najdroższy zestaw", "Losowy kurczak"], value: h % 3 },
-    { label: "Funkcja dodatkowa", options: ["Brak", "Podwójna panierka", "Ekstra ostry"], value: (h >> 2) % 3 },
-  ];
-  const sliders = [
-    { label: "Czułość", value: 20 + (h % 61) },
-    { label: "Siła sosu", value: 30 + ((h >> 3) % 61) },
-  ];
-  const toggles = [
-    { label: "Włączone", on: true },
-    { label: "Automatyczny zapis", on: h % 2 === 0 },
-    { label: "Cichy tryb kuchni", on: h % 3 === 0 },
-  ];
-  return { selects, sliders, toggles, stepper: h % 4 };
-}
 
 // ===== Kontrolki w stylu gamesense =====
 
@@ -150,10 +132,12 @@ function GsSelect({
 function GsSlider({
   label,
   value,
+  unit,
   onChange,
 }: {
   label: string;
   value: number;
+  unit?: string;
   onChange: (v: number) => void;
 }) {
   return (
@@ -165,13 +149,17 @@ function GsSlider({
           min={0}
           max={100}
           value={value}
+          aria-label={label}
           onChange={(e) => onChange(Number(e.target.value))}
           className="gs-range h-0.5 flex-1 cursor-pointer appearance-none rounded-full"
           style={{
             background: `linear-gradient(to right, var(--color-menugreen) 0%, var(--color-menugreen) ${value}%, var(--border) ${value}%, var(--border) 100%)`,
           }}
         />
-        <span className="w-6 text-right text-[11px] tabular-nums text-muted-foreground">{value}</span>
+        <span className="w-10 text-right text-[11px] tabular-nums text-muted-foreground">
+          {value}
+          {unit ?? ""}
+        </span>
       </div>
     </div>
   );
