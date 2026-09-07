@@ -78,18 +78,34 @@ const menu = [
 ];
 
 function Index() {
+  const [bannersOpen, setBannersOpen] = useState(
+    () => typeof window === "undefined" || !sessionStorage.getItem("banners-closed"),
+  );
   return (
     <GsShell>
       <main className="mx-auto max-w-6xl space-y-4 px-5 py-4">
         {/* Banners */}
-        <div className="space-y-2">
-          <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
-            Dostępny jest nowy klient — build 4.12.0
-          </p>
-          <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
-            Undetected od 412 dni · 0 banów w 2026
-          </p>
-        </div>
+        {bannersOpen && (
+          <div className="relative space-y-2">
+            <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
+              Dostępny jest nowy klient — build 4.12.0
+            </p>
+            <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
+              Undetected od 412 dni · 0 banów w 2026
+            </p>
+            <button
+              type="button"
+              aria-label="Zamknij ogłoszenia"
+              onClick={() => {
+                sessionStorage.setItem("banners-closed", "1");
+                setBannersOpen(false);
+              }}
+              className="absolute right-2 top-1/2 grid size-6 -translate-y-1/2 place-items-center rounded border border-white/25 text-white/70 transition-colors hover:border-white/60 hover:text-white"
+            >
+              <X className="size-3.5" />
+            </button>
+          </div>
+        )}
 
         {/* Announcement */}
         <GsPanel title="Ogłoszenie">
