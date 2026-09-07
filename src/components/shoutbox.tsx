@@ -1,85 +1,134 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
-import { Send, Sparkles } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Send, Users } from "lucide-react";
 
-import { generateShouts, type GeneratedShout } from "@/lib/shoutbox.functions";
-import { shoutLines, shoutNicks } from "@/data/community";
+import { supabase } from "@/integrations/supabase/client";
+import { shoutNicks } from "@/data/community";
 
-type Shout = { id: number; nick: string; text: string; time: string; mine?: boolean };
+type Shout = { id: string; nick: string; text: string; created_at: string };
 
-function clock(offsetSeconds = 0) {
-  const d = new Date(Date.now() - offsetSeconds * 1000);
+const NICK_KEY = "chickenhook_nick";
+
+function clock(iso: string) {
+  const d = new Date(iso);
   return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 }
 
-function pick<T>(arr: readonly T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)] as T;
-}
-
-let seq = 0;
-
 export function Shoutbox() {
+  const [nick, setNick] = useState<string | null>(null);
+  const [nickDraft, setNickDraft] = useState("");
   const [shouts, setShouts] = useState<Shout[]>([]);
   const [draft, setDraft] = useState("");
-  const [aiOn, setAiOn] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
-  const queue = useRef<GeneratedShout[]>([]);
-  const fetching = useRef(false);
-  const fetchShouts = useServerFn(generateShouts);
 
-  // Pobiera paczkę świeżych wiadomości z AI do kolejki.
-  const refill = useCallback(async () => {
-    if (fetching.current || queue.current.length > 2) return;
-    fetching.current = true;
-    try {
-      const { shouts: fresh } = await fetchShouts();
-      if (fresh.length > 0) {
-        queue.current = [...queue.current, ...fresh];
-        setAiOn(true);
-      }
-    } catch {
-      // fallback lokalny — cicho
-    } finally {
-      fetching.current = false;
-    }
-  }, [fetchShouts]);
-
-  const nextShout = useCallback((): Omit<Shout, "id" | "time"> => {
-    const fresh = queue.current.shift();
-    if (fresh) return fresh;
-    // Awaryjnie, gdy AI nie odpowiada.
-    return { nick: pick(shoutNicks), text: pick(shoutLines) };
+  // Nick trzymamy lokalnie w przeglądarce.
+  useEffect(() => {
+    setNick(localStorage.getItem(NICK_KEY));
   }, []);
 
-  // Start: paczka z AI + pierwsze wiadomości po hydratacji.
+  // Historia + wiadomości na żywo.
   useEffect(() => {
-    void refill();
-    setShouts(
-      Array.from({ length: 4 }, (_, i) => ({
-        id: ++seq,
-        ...nextShout(),
-        time: clock((4 - i) * 47),
-      })),
-    );
-  }, [refill, nextShout]);
+    let active = true;
+    void supabase
+      .from("shouts")
+      .select("id, nick, text, created_at")
+      .order("created_at", { ascending: false })
+      .limit(60)
+      .then(({ data }) => {
+        if (active && data) setShouts([...data].reverse() as Shout[]);
+      });
 
-  useEffect(() => {
-    let id: ReturnType<typeof setTimeout>;
-    const tick = () => {
-      id = setTimeout(() => {
-        void refill();
-        setShouts((s) => [...s, { id: ++seq, ...nextShout(), time: clock() }].slice(-40));
-        tick();
-      }, 3500 + Math.random() * 3500);
+    const channel = supabase
+      .channel("shouts-live")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "shouts" },
+        (payload) => {
+          const row = payload.new as Shout;
+          setShouts((s) => (s.some((x) => x.id === row.id) ? s : [...s, row].slice(-80)));
+        },
+      )
+      .subscribe();
+
+    return () => {
+      active = false;
+      void supabase.removeChannel(channel);
     };
-    tick();
-    return () => clearTimeout(id);
-  }, [refill, nextShout]);
+  }, []);
 
   useEffect(() => {
     const el = listRef.current;
     if (el) el.scrollTop = el.scrollHeight;
-  }, [shouts]);
+  }, [shouts, nick]);
+
+  async function send(e: React.FormEvent) {
+    e.preventDefault();
+    const text = draft.trim();
+    if (!text || !nick || sending) return;
+    setSending(true);
+    setError(null);
+    const { data, error: err } = await supabase
+      .from("shouts")
+      .insert({ nick, text })
+      .select("id, nick, text, created_at")
+      .single();
+    setSending(false);
+    if (err || !data) {
+      setError("Nie udało się wysłać. Spróbuj jeszcze raz.");
+      return;
+    }
+    setDraft("");
+    setShouts((s) => (s.some((x) => x.id === data.id) ? s : [...s, data as Shout].slice(-80)));
+  }
+
+  if (nick === null) {
+    return (
+      <div className="px-4 py-5">
+        <p className="flex items-center gap-1.5 text-xs font-bold">
+          <Users className="size-3.5 gs-lime" />
+          Wybierz nick, żeby pisać na shoutboxie
+        </p>
+        <p className="mt-1 text-[11px] text-muted-foreground">
+          Bez rejestracji — nick zapisuje się tylko w Twojej przeglądarce.
+        </p>
+        <form
+          className="mt-3 flex flex-wrap gap-2"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const value = nickDraft.trim();
+            if (value.length < 2) return;
+            localStorage.setItem(NICK_KEY, value);
+            setNick(value);
+          }}
+        >
+          <input
+            value={nickDraft}
+            onChange={(e) => setNickDraft(e.target.value)}
+            minLength={2}
+            maxLength={24}
+            placeholder="np. Kurczak_200iq"
+            aria-label="Twój nick"
+            className="min-w-48 flex-1 border border-border bg-background px-3 py-2 text-xs outline-none focus:border-primary/60"
+          />
+          <button type="submit" className="gs-action px-4 py-2">
+            Wchodzę
+          </button>
+          <button
+            type="button"
+            className="border border-border px-3 py-2 text-[11px] uppercase text-muted-foreground hover:border-primary/60 hover:text-primary"
+            onClick={() =>
+              setNickDraft(
+                `${shoutNicks[Math.floor(Math.random() * shoutNicks.length)]}${Math.floor(Math.random() * 90 + 10)}`,
+              )
+            }
+          >
+            Losuj nick
+          </button>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -88,48 +137,52 @@ export function Shoutbox() {
         className="h-64 space-y-1.5 overflow-y-auto px-4 py-3 text-xs"
         aria-live="polite"
       >
-        {shouts.map((s) => (
-          <p key={s.id} className="leading-relaxed">
-            <span className="mr-1.5 text-[10px] text-muted-foreground tabular-nums">{s.time}</span>
-            <span className={`font-bold ${s.mine ? "gs-green" : "text-primary"}`}>{s.nick}</span>
-            <span className="text-muted-foreground">: {s.text}</span>
-          </p>
-        ))}
+        {shouts.length === 0 ? (
+          <p className="text-muted-foreground">Cicho tu… napisz pierwszy.</p>
+        ) : (
+          shouts.map((s) => (
+            <p key={s.id} className="leading-relaxed">
+              <span className="mr-1.5 text-[10px] text-muted-foreground tabular-nums">
+                {clock(s.created_at)}
+              </span>
+              <span className={`font-bold ${s.nick === nick ? "gs-green" : "text-primary"}`}>
+                {s.nick}
+              </span>
+              <span className="text-muted-foreground">: {s.text}</span>
+            </p>
+          ))
+        )}
       </div>
-      <form
-        className="flex gap-2 border-t border-border px-4 py-3"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const text = draft.trim();
-          if (!text) return;
-          setShouts((s) =>
-            [...s, { id: ++seq, nick: "Ty", text, time: clock(), mine: true }].slice(-40),
-          );
-          setDraft("");
-        }}
-      >
+      <form className="flex gap-2 border-t border-border px-4 py-3" onSubmit={send}>
         <input
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
-          maxLength={140}
+          maxLength={200}
           placeholder="Napisz coś do kurnika…"
           aria-label="Wiadomość na shoutboxie"
           className="flex-1 border border-border bg-background px-3 py-2 text-xs outline-none focus:border-primary/60"
         />
-        <button type="submit" className="gs-action px-4 py-2" aria-label="Wyślij">
+        <button type="submit" disabled={sending} className="gs-action px-4 py-2 disabled:opacity-60">
           <Send className="size-3.5" />
           Wyślij
         </button>
       </form>
-      <p className="flex items-center gap-1.5 border-t border-border px-4 py-2 text-[10px] text-muted-foreground">
-        {aiOn ? (
-          <>
-            <Sparkles className="size-3 gs-lime" />
-            Wiadomości generuje AI — każda paczka jest świeża. Twoje wiadomości nigdzie nie lecą.
-          </>
-        ) : (
-          "Shoutbox jest symulowany na potrzeby parodii — Twoje wiadomości nigdzie nie lecą."
-        )}
+      <p className="flex flex-wrap items-center gap-2 border-t border-border px-4 py-2 text-[10px] text-muted-foreground">
+        <span>
+          Piszesz jako <span className="font-bold gs-green">{nick}</span>
+        </span>
+        <button
+          type="button"
+          className="uppercase text-primary hover:underline"
+          onClick={() => {
+            localStorage.removeItem(NICK_KEY);
+            setNick(null);
+            setNickDraft("");
+          }}
+        >
+          Zmień nick
+        </button>
+        {error ? <span className="text-primary">{error}</span> : null}
       </p>
     </div>
   );
