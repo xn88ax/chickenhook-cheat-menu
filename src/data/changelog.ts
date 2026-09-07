@@ -28,7 +28,7 @@ export const builds: Build[] = [
       "Sponsorzy wrócili do menu: KFC, MUALA, Popeyes i reszta kurnika znowu widoczna.",
       "Dodano zamykane czerwone belki z krzyżykiem — kliknij X i zapomnij do końca sesji.",
       "Animowany GIF trafił też do podglądu linka (og:image) i małej ikonki karty (favicon).",
-      "Klawisz „a" lub „A" wyrzuca na stronę losowego, maleńkiego kurczaka w losowym miejscu — bo czemu nie.",
+      "Klawisz „a” lub „A” wyrzuca na stronę losowego, maleńkiego kurczaka w losowym miejscu — bo czemu nie.",
       "Tryb kurczaka (Konami code) zmienia kursor w 🐔 i puszcza latające kurczaki przez cały ekran.",
       "Panel opinii klientów zawiera teraz 39 prawdziwych recenzji z oryginalnymi nickami, datami i średnią 2,1.",
       "Zespół powiększył się o jajeczko1 — pierwszego użytkownika, który awansował na moderatora.",
@@ -44,7 +44,7 @@ export const builds: Build[] = [
     notes: [
       "Naprawiono bug, że aimbot strzelał w kurczaki zamiast w CT.",
       "Skeleton ESP nie rysuje już szkieletu Twojego własnego kolegi z drużyny (przepraszamy, Bolek).",
-      "Dodano suwak „chrupkość" — nie robi nic, ale ładnie wygląda.",
+      "Dodano suwak „chrupkość” — nie robi nic, ale ładnie wygląda.",
       "Loader wstrzykuje się 0,4 s szybciej, bo usunęliśmy jeden console.log.",
     ],
   },
