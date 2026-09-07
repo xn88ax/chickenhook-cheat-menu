@@ -43,12 +43,31 @@ const faq = [
   ["Czy mogę zmienić plan?", "Tak, w ciągu 48 godzin dopłacasz różnicę i przechodzisz na wyższy plan."],
 ] as const;
 
+type Chicken = { id: number; x: number; y: number; rotation: number; size: number };
+
 function Index() {
   const [bannerOpen, setBannerOpen] = useState(true);
   const [faqOpen, setFaqOpen] = useState<number | null>(0);
+  const [chickens, setChickens] = useState<Chicken[]>([]);
 
   useEffect(() => {
     if (sessionStorage.getItem("banners-closed")) setBannerOpen(false);
+  }, []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "a" || e.key === "A") {
+        const id = Date.now() + Math.random();
+        const x = Math.random() * 90 + 5;
+        const y = Math.random() * 80 + 10;
+        const rotation = Math.random() * 360;
+        const size = 48 + Math.random() * 80;
+        setChickens((prev) => [...prev, { id, x, y, rotation, size }]);
+        setTimeout(() => setChickens((prev) => prev.filter((c) => c.id !== id)), 2500);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
   return (
