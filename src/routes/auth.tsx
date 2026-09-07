@@ -222,16 +222,6 @@ function AuthPage() {
               {mode === "login" ? "Zaloguj się" : "Aktywuj kod i wejdź"}
             </button>
 
-            {mode === "login" && (
-              <button
-                type="button"
-                onClick={onGoogle}
-                disabled={busy}
-                className="w-full rounded-sm border border-border px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-foreground transition-colors hover:bg-secondary disabled:opacity-60"
-              >
-                Kontynuuj z Google
-              </button>
-            )}
 
             <button
               type="button"
