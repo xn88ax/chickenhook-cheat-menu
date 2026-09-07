@@ -669,3 +669,41 @@
 @utility gs-glow-box {
   box-shadow: 0 0 14px -2px color-mix(in oklab, var(--color-primary) 60%, transparent);
 }
+
+:root {
+  --status-ok: oklch(0.78 0.17 150);
+  --status-warn: oklch(0.79 0.14 83);
+  --text-subtle: oklch(0.56 0.006 285);
+}
+
+.site-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 500px at 15% -10%, oklch(0.58 0.225 26 / 12%), transparent 55%),
+    radial-gradient(700px 400px at 110% 20%, oklch(0.58 0.225 26 / 6%), transparent 50%),
+    var(--color-background);
+}
+
+.site-bg::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background-image:
+    linear-gradient(oklch(1 0 0 / 3.5%) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(1 0 0 / 3.5%) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+  animation: grid-drift 28s linear infinite;
+}
+
+@keyframes grid-drift {
+  to { transform: translate(-48px, -48px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-bg::before { animation: none; }
+}
