@@ -208,7 +208,7 @@ export function Winamp() {
             const t = performance.now() / 260;
             for (let x = 0; x <= w; x += 2) {
               const p = x / w;
-              const amp = playingRef.current ? 0.32 : 0.02;
+              const amp = 0.3;
               const y =
                 h / 2 +
                 Math.sin(p * 22 + t) * h * amp * 0.6 +
