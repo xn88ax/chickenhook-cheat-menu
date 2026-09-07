@@ -51,7 +51,7 @@ const faq = [
 
 type Chicken = { id: number; x: number; y: number; rotation: number; size: number };
 
-const ADAM_CODE = "adam kurczak";
+const ADAM_CODES = ["adam kurczak", "adamkurczak"] as const;
 
 function Index() {
   const [bannerOpen, setBannerOpen] = useState(true);
