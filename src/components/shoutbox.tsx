@@ -141,48 +141,48 @@ export function Shoutbox() {
         )}
       </div>
 
-      {user ? (
-        <>
-          <form className="flex gap-2 border-t border-border px-4 py-3" onSubmit={send}>
-            <input
-              value={draft}
-              onChange={(e) => setDraft(e.target.value)}
-              maxLength={200}
-              placeholder="Napisz coś do kurnika…"
-              aria-label="Wiadomość na shoutboxie"
-              className="flex-1 border border-border bg-background px-3 py-2 text-xs outline-none focus:border-primary/60"
-            />
-            <button
-              type="submit"
-              disabled={sending}
-              className="gs-action px-4 py-2 disabled:opacity-60"
-            >
-              <Send className="size-3.5" />
-              Wyślij
-            </button>
-          </form>
-          <p className="flex flex-wrap items-center gap-2 border-t border-border px-4 py-2 text-[10px] text-muted-foreground">
-            <span>
-              Piszesz jako <span className="font-bold gs-green">{displayName(user)}</span> — konto z
-              kurnika
-            </span>
-            {error ? <span className="text-primary">{error}</span> : null}
-          </p>
-        </>
-      ) : (
-        <div className="border-t border-border px-4 py-4">
-          <p className="flex items-center gap-1.5 text-xs font-bold">
-            <LogIn className="size-3.5 gs-lime" />
-            Zaloguj się, żeby pisać na shoutboxie
-          </p>
-          <p className="mt-1 text-[11px] text-muted-foreground">
-            Wiadomości są trwałe i podpisane Twoim nickiem z kurnika. Czytać może każdy.
-          </p>
-          <Link to="/auth" search={{ next: "/" }} className="mt-3 inline-flex gs-action px-4 py-2">
-            {loading ? "Sprawdzam konto…" : "Zaloguj się / Rejestracja"}
-          </Link>
-        </div>
-      )}
+      <form className="flex flex-wrap gap-2 border-t border-border px-4 py-3" onSubmit={send}>
+        {!user && (
+          <input
+            value={guestNick}
+            onChange={(e) => setGuestNick(e.target.value)}
+            maxLength={32}
+            placeholder="nick"
+            aria-label="Twój nick"
+            className="w-28 border border-border bg-background px-2 py-2 text-xs outline-none focus:border-primary/60"
+          />
+        )}
+        <input
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          maxLength={200}
+          placeholder="Napisz coś do kurnika…"
+          aria-label="Wiadomość na shoutboxie"
+          className="min-w-32 flex-1 border border-border bg-background px-3 py-2 text-xs outline-none focus:border-primary/60"
+        />
+        <button type="submit" disabled={sending} className="gs-action px-4 py-2 disabled:opacity-60">
+          <Send className="size-3.5" />
+          Wyślij
+        </button>
+      </form>
+      <p className="flex flex-wrap items-center gap-2 border-t border-border px-4 py-2 text-[10px] text-muted-foreground">
+        {user ? (
+          <span>
+            Piszesz jako <span className="font-bold gs-green">{displayName(user)}</span> — konto z
+            kurnika
+          </span>
+        ) : (
+          <>
+            <span>Piszesz jako gość — wiadomości gościa nie da się później usunąć.</span>
+            <Link to="/auth" className="inline-flex items-center gap-1 font-bold text-primary">
+              <LogIn className="size-3" />
+              {loading ? "Sprawdzam konto…" : "Zaloguj się"}
+            </Link>
+          </>
+        )}
+        {error ? <span className="text-primary">{error}</span> : null}
+      </p>
+
     </div>
   );
 }
