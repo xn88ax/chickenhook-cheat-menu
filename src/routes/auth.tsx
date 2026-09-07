@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
+
 import { registerWithInvite } from "@/lib/invite.functions";
 import { isRememberSession, setRememberSession } from "@/lib/session-persistence";
 import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
@@ -91,20 +91,8 @@ function AuthPage() {
     }
   }
 
-  async function onGoogle() {
-    setError(null);
-    setBusy(true);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
-      setError(result.error.message ?? "Logowanie Google nie powiodło się.");
-      setBusy(false);
-      return;
-    }
-    if (result.redirected) return;
-    navigate({ to: target });
-  }
+
+
 
 
   return (
@@ -222,16 +210,6 @@ function AuthPage() {
               {mode === "login" ? "Zaloguj się" : "Aktywuj kod i wejdź"}
             </button>
 
-            {mode === "login" && (
-              <button
-                type="button"
-                onClick={onGoogle}
-                disabled={busy}
-                className="w-full rounded-sm border border-border px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-foreground transition-colors hover:bg-secondary disabled:opacity-60"
-              >
-                Kontynuuj z Google
-              </button>
-            )}
 
             <button
               type="button"
