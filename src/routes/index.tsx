@@ -111,9 +111,9 @@ function Index() {
           style={{ left: `${c.x}vw`, top: `${c.y}vh`, width: c.size, transform: `rotate(${c.rotation}deg)` }}
         />
       ))}
-      {adamFlash && (
+      {adamFlashUrl && (
         <img
-          src={adamAsset.url}
+          src={adamFlashUrl}
           alt=""
           aria-hidden="true"
           className="pointer-events-none fixed inset-0 z-[60] h-full w-full object-cover animate-fade-in"
