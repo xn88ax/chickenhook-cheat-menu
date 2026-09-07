@@ -4,6 +4,7 @@ import { LogIn, Send, Trash2 } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { displayName, useAuth } from "@/hooks/use-auth";
+import { Button } from "@/components/ui/button";
 
 type Shout = {
   id: string;
@@ -110,7 +111,7 @@ export function Shoutbox() {
     <div>
       <div
         ref={listRef}
-        className="h-64 space-y-1.5 overflow-y-auto px-4 py-3 text-xs"
+        className="h-[280px] overflow-y-auto px-4 py-3 text-[13px]"
         aria-live="polite"
       >
         {shouts.length === 0 ? (
@@ -119,12 +120,12 @@ export function Shoutbox() {
           shouts.map((s) => {
             const mine = !!user && s.user_id === user.id;
             return (
-              <p key={s.id} className="group flex items-baseline gap-1.5 leading-relaxed">
-                <span className="text-[10px] text-muted-foreground tabular-nums">
+              <p key={s.id} className="group grid grid-cols-[44px_auto_1fr_auto] items-baseline gap-2 border-b border-border/50 py-1.5 leading-relaxed last:border-0">
+                <span className="text-xs text-[var(--text-subtle)] tabular-nums">
                   {clock(s.created_at)}
                 </span>
-                <span className={`font-bold ${mine ? "gs-green" : "text-primary"}`}>{s.nick}</span>
-                <span className="min-w-0 flex-1 break-words text-muted-foreground">: {s.text}</span>
+                <span className="font-semibold text-primary">{s.nick}</span>
+                <span className="min-w-0 break-words text-muted-foreground">{s.text}</span>
                 {mine ? (
                   <button
                     type="button"
@@ -141,31 +142,21 @@ export function Shoutbox() {
         )}
       </div>
 
-      <form className="flex flex-wrap gap-2 border-t border-border px-4 py-3" onSubmit={send}>
-        {!user && (
-          <input
-            value={guestNick}
-            onChange={(e) => setGuestNick(e.target.value)}
-            maxLength={32}
-            placeholder="nick"
-            aria-label="Twój nick"
-            className="w-28 border border-border bg-background px-2 py-2 text-xs outline-none focus:border-primary/60"
-          />
-        )}
+       <form className="flex gap-2 border-t border-border px-4 py-3" onSubmit={send}>
         <input
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           maxLength={200}
           placeholder="Napisz coś do kurnika…"
           aria-label="Wiadomość na shoutboxie"
-          className="min-w-32 flex-1 border border-border bg-background px-3 py-2 text-xs outline-none focus:border-primary/60"
+           className="h-9 min-w-0 flex-1 rounded-lg border border-border bg-background px-3 text-xs outline-none focus:border-primary"
         />
-        <button type="submit" disabled={sending} className="gs-action px-4 py-2 disabled:opacity-60">
+         <Button type="submit" disabled={sending} size="sm" className="h-9 rounded-lg px-4">
           <Send className="size-3.5" />
           Wyślij
-        </button>
+         </Button>
       </form>
-      <p className="flex flex-wrap items-center gap-2 border-t border-border px-4 py-2 text-[10px] text-muted-foreground">
+       <div className="flex flex-wrap items-center gap-2 px-4 pb-3 text-[11px] text-[var(--text-subtle)]">
         {user ? (
           <span>
             Piszesz jako <span className="font-bold gs-green">{displayName(user)}</span> — konto z
@@ -173,7 +164,7 @@ export function Shoutbox() {
           </span>
         ) : (
           <>
-            <span>Piszesz jako gość — wiadomości gościa nie da się później usunąć.</span>
+             <label className="flex items-center gap-2">Piszesz jako gość:<input value={guestNick} onChange={(e) => setGuestNick(e.target.value)} maxLength={32} aria-label="Twój nick" className="w-28 border-0 border-b border-border bg-transparent px-1 py-0.5 text-xs text-muted-foreground outline-none focus:border-primary" /></label>
             <Link
               to="/auth"
               search={{ next: "/" }}
@@ -185,7 +176,7 @@ export function Shoutbox() {
           </>
         )}
         {error ? <span className="text-primary">{error}</span> : null}
-      </p>
+       </div>
 
     </div>
   );

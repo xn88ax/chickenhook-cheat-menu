@@ -24,12 +24,12 @@ export function OnlineCounter() {
           <span className="absolute inline-flex size-2 animate-ping rounded-full bg-primary/70" />
           <span className="relative inline-flex size-2 rounded-full bg-primary" />
         </span>
-        <strong className="text-sm font-bold gs-green tabular-nums">{count}</strong>
+        <strong className="text-sm font-bold text-foreground tabular-nums">{count}</strong>
         <span className="text-muted-foreground">użytkowników gra teraz z ChickenHook</span>
       </span>
       <span className="flex items-center gap-2 text-muted-foreground">
         <Activity className="size-3.5 text-primary" />
-        Szczyt dzisiaj: <strong className="gs-lime tabular-nums">{peak}</strong>
+        Szczyt dzisiaj: <strong className="text-foreground tabular-nums">{peak}</strong>
       </span>
       <span className="text-muted-foreground">
         W kolejce po invite: <strong className="gs-gold">nadal Ty</strong>

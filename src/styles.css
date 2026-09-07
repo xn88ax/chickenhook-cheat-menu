@@ -68,25 +68,25 @@
 }
 
 :root {
-  --radius: 0.125rem;
-  --background: oklch(0.15 0.004 260);
-  --foreground: oklch(0.9 0.005 260);
-  --card: oklch(0.21 0.005 260);
-  --card-foreground: oklch(0.9 0.005 260);
-  --popover: oklch(0.21 0.005 260);
-  --popover-foreground: oklch(0.9 0.005 260);
+  --radius: 0.625rem;
+  --background: oklch(0.145 0.003 285);
+  --foreground: oklch(0.955 0.002 285);
+  --card: oklch(0.19 0.004 285);
+  --card-foreground: oklch(0.955 0.002 285);
+  --popover: oklch(0.19 0.004 285);
+  --popover-foreground: oklch(0.955 0.002 285);
   --primary: oklch(0.58 0.225 26);
   --primary-foreground: oklch(0.99 0.005 90);
-  --secondary: oklch(0.26 0.005 260);
-  --secondary-foreground: oklch(0.9 0.005 260);
-  --muted: oklch(0.24 0.005 260);
-  --muted-foreground: oklch(0.66 0.006 260);
+  --secondary: oklch(0.235 0.005 285);
+  --secondary-foreground: oklch(0.955 0.002 285);
+  --muted: oklch(0.22 0.004 285);
+  --muted-foreground: oklch(0.755 0.006 285);
   --accent: oklch(0.7 0.2 30);
   --accent-foreground: oklch(0.15 0.004 260);
   --destructive: oklch(0.58 0.225 26);
   --destructive-foreground: oklch(0.99 0.005 90);
-  --border: oklch(0.28 0.005 260);
-  --input: oklch(0.28 0.005 260);
+  --border: oklch(0.285 0.006 285);
+  --input: oklch(0.285 0.006 285);
   --ring: oklch(0.58 0.225 26);
   --bucket: oklch(0.58 0.225 26);
   --crisp: oklch(0.9 0.005 260);
@@ -165,6 +165,21 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font: 400 15px/1.5 var(--font-sans);
+    letter-spacing: 0;
+  }
+
+  a {
+    text-decoration-color: transparent;
+  }
+
+  :where(a, button, input, textarea, select, summary):focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-primary) 35%, transparent);
+  }
+
+  :where([id]) {
+    scroll-margin-top: 72px;
   }
 }
 
@@ -495,17 +510,19 @@
 
 /* ===== GameSense-style forum (flat dark panels) ===== */
 @utility gs-bg {
-  background-color: oklch(0.15 0.004 260);
+  background-color: transparent;
 }
 
 @utility gs-panel {
-  background-color: oklch(0.21 0.005 260);
-  border: 1px solid oklch(0.28 0.005 260);
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
 }
 
 @utility gs-head {
-  background-color: oklch(0.26 0.005 260);
-  color: oklch(0.85 0.008 260);
+  background-color: transparent;
+  color: oklch(0.58 0.006 285);
 }
 
 @utility gs-lime {
@@ -513,12 +530,9 @@
 }
 
 @utility gs-banner {
-  background-image: linear-gradient(
-    135deg,
-    oklch(0.45 0.2 26),
-    oklch(0.33 0.15 24)
-  );
-  border: 1px solid oklch(0.55 0.22 26 / 60%);
+  background-color: oklch(0.245 0.075 26);
+  border: 1px solid oklch(0.34 0.105 26);
+  border-radius: var(--radius);
 }
 
 
@@ -654,4 +668,42 @@
 
 @utility gs-glow-box {
   box-shadow: 0 0 14px -2px color-mix(in oklab, var(--color-primary) 60%, transparent);
+}
+
+:root {
+  --status-ok: oklch(0.78 0.17 150);
+  --status-warn: oklch(0.79 0.14 83);
+  --text-subtle: oklch(0.56 0.006 285);
+}
+
+.site-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 500px at 15% -10%, oklch(0.58 0.225 26 / 12%), transparent 55%),
+    radial-gradient(700px 400px at 110% 20%, oklch(0.58 0.225 26 / 6%), transparent 50%),
+    var(--color-background);
+}
+
+.site-bg::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background-image:
+    linear-gradient(oklch(1 0 0 / 3.5%) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(1 0 0 / 3.5%) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+  animation: grid-drift 28s linear infinite;
+}
+
+@keyframes grid-drift {
+  to { transform: translate(-48px, -48px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-bg::before { animation: none; }
 }

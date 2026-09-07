@@ -11,6 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import type { Feature } from "@/data/features";
+import { Button } from "@/components/ui/button";
 
 export function FeatureDialog({ feature }: { feature: Feature }) {
   const Icon = feature.icon;
@@ -18,13 +19,15 @@ export function FeatureDialog({ feature }: { feature: Feature }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button
+        <Button
           type="button"
-          className="mt-5 inline-flex items-center gap-2 self-start rounded-sm border border-primary/40 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-wide text-primary transition-colors hover:bg-primary/20"
+          variant="outline"
+          size="sm"
+          className="mt-5 self-start rounded-lg border-primary/40 text-[11px] font-semibold uppercase text-primary hover:bg-primary/10 hover:text-primary"
         >
           <PlayCircle className="size-4" />
           Zobacz jak działa
-        </button>
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="glass max-w-lg">

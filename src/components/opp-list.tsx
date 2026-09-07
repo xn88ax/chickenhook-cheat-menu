@@ -1,13 +1,18 @@
+import { useState } from "react";
 import { Ban } from "lucide-react";
 
 import { opps, plDate } from "@/data/community";
+import { Button } from "@/components/ui/button";
 
 export function OppList() {
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? opps : opps.slice(0, 5);
   return (
-    <div className="overflow-x-auto">
+    <div>
+    <div className="max-h-[28rem] overflow-auto">
       <table className="w-full min-w-[36rem] text-xs">
-        <thead>
-          <tr className="border-b border-border text-left uppercase tracking-wide text-muted-foreground">
+        <thead className="sticky top-0 z-10 bg-card">
+          <tr className="border-b border-border text-left uppercase tracking-[0.08em] text-muted-foreground">
             <th className="px-4 py-2 font-bold">#</th>
             <th className="px-4 py-2 font-bold">Opp</th>
             <th className="px-4 py-2 font-bold">Cheat</th>
@@ -18,8 +23,8 @@ export function OppList() {
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
-          {opps.map((o, i) => (
-            <tr key={o.nick}>
+          {visible.map((o, i) => (
+            <tr key={o.nick} className="odd:bg-background/20">
               <td className="px-4 py-2 text-muted-foreground tabular-nums">{i + 1}</td>
               <td className="px-4 py-2 font-bold">{o.nick}</td>
               <td className="px-4 py-2 text-muted-foreground">{o.cheat}</td>
@@ -36,9 +41,13 @@ export function OppList() {
           ))}
         </tbody>
       </table>
-      <p className="border-t border-border px-4 py-2 text-[10px] text-muted-foreground">
+    </div>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-2.5">
+      <p className="text-[10px] text-muted-foreground">
         Nicki są zmyślone (parodia), ale fale banów lecą po tej samej osi czasu co feed. Żaden z nich nie grał na ChickenHook.
       </p>
+      <Button variant="outline" size="sm" onClick={() => setExpanded((v) => !v)}>{expanded ? "Pokaż mniej" : `Pełna lista (${opps.length})`}</Button>
+      </div>
     </div>
   );
 }
