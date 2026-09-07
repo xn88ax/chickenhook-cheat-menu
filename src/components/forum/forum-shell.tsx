@@ -54,9 +54,10 @@ export function ForumShell({
           <Link to="/forum" className="px-3 py-3 text-muted-foreground hover:text-foreground">
             Lista użytkowników
           </Link>
-          <Link to="/forum" className="px-3 py-3 text-muted-foreground hover:text-foreground">
-            Szukaj
+          <Link to="/poradniki" className="px-3 py-3 text-muted-foreground hover:text-foreground">
+            Poradniki
           </Link>
+
           <Link to="/forum" className="px-3 py-3 text-muted-foreground hover:text-foreground">
             Profil
           </Link>
