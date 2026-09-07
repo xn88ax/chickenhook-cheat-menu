@@ -217,9 +217,8 @@ export function CheatMenu() {
     wizualizacje: true,
     "kroliczy-skok": true,
   });
-  const [sliders, setSliders] = useState<Record<string, number>>({});
-  const [selects, setSelects] = useState<Record<string, number>>({});
-
+  const [nums, setNums] = useState<Record<string, number>>({});
+  const [switches, setSwitches] = useState<Record<string, boolean>>({});
 
   const bySection = useMemo(() => {
     const map = new Map<string, Feature[]>();
@@ -228,9 +227,70 @@ export function CheatMenu() {
     return map;
   }, []);
 
-  const cfg = settingsFor(selected);
+  const cfg = menuOptions[selected.slug] ?? fallbackMenuConfig;
   const activeCount = Object.values(enabled).filter(Boolean).length;
   const isOn = !!enabled[selected.slug];
+
+  const renderControl = (c: MenuControl, col: "l" | "r", i: number) => {
+    const key = `${selected.slug}-${col}${i}`;
+    const master = col === "l" && i === 0 && c.kind === "toggle";
+
+    switch (c.kind) {
+      case "toggle": {
+        const on = master ? isOn : (switches[key] ?? !!c.on);
+        return (
+          <div key={key} className="flex items-center justify-between gap-3">
+            <span className="text-xs text-foreground/80">{c.label}</span>
+            <button
+              type="button"
+              aria-label={`Przełącz: ${c.label}`}
+              aria-pressed={on}
+              onClick={() =>
+                master
+                  ? setEnabled((p) => ({ ...p, [selected.slug]: !isOn }))
+                  : setSwitches((p) => ({ ...p, [key]: !on }))
+              }
+            >
+              <GsSwitch on={on} />
+            </button>
+          </div>
+        );
+      }
+      case "select":
+        return (
+          <GsSelect
+            key={key}
+            label={c.label}
+            options={c.options}
+            value={nums[key] ?? c.value ?? 0}
+            onChange={(v) => setNums((p) => ({ ...p, [key]: v }))}
+          />
+        );
+      case "slider":
+        return (
+          <GsSlider
+            key={key}
+            label={c.label}
+            unit={c.unit}
+            value={nums[key] ?? c.value}
+            onChange={(v) => setNums((p) => ({ ...p, [key]: v }))}
+          />
+        );
+      case "stepper":
+        return (
+          <div key={key} className="flex items-center justify-between gap-3">
+            <span className="text-xs text-foreground/80">{c.label}</span>
+            <GsStepper
+              value={nums[key] ?? c.value}
+              onChange={(v) => setNums((p) => ({ ...p, [key]: v }))}
+            />
+          </div>
+        );
+      case "key":
+        return <GsKey key={key} label={c.label} value={c.value} />;
+    }
+  };
+
 
   return (
     <div className="overflow-hidden rounded-md border border-border bg-card/95 shadow-[0_24px_80px_-20px_rgba(0,0,0,0.8)]">
