@@ -87,17 +87,65 @@ function GsSwitch({ on }: { on: boolean }) {
   );
 }
 
-function GsSelect({ label, options, value }: { label: string; options: string[]; value: number }) {
+function GsSelect({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: string[];
+  value: number;
+  onChange: (v: number) => void;
+}) {
+  const [open, setOpen] = useState(false);
   return (
-    <div>
+    <div className="relative">
       <div className="text-xs text-foreground/80">{label}</div>
-      <div className="mt-1 flex h-7 items-center justify-between rounded-sm border border-border bg-background/70 px-2 text-xs">
-        <span className="gs-glow text-menugreen">{options[value] ?? options[0]}</span>
-        <ChevronDown className="size-3 text-muted-foreground" />
-      </div>
+      <button
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        onBlur={() => window.setTimeout(() => setOpen(false), 120)}
+        className="mt-1 flex h-7 w-full items-center justify-between rounded-sm border border-border bg-background/70 px-2 text-xs transition-colors hover:border-menugreen/50"
+      >
+        <span className="gs-glow truncate text-menugreen">{options[value] ?? options[0]}</span>
+        <ChevronDown
+          className={cn("size-3 shrink-0 text-muted-foreground transition-transform", open && "rotate-180")}
+        />
+      </button>
+      {open && (
+        <ul
+          role="listbox"
+          className="absolute left-0 right-0 top-full z-30 mt-1 overflow-hidden rounded-sm border border-border bg-card shadow-lg"
+        >
+          {options.map((o, i) => (
+            <li key={o}>
+              <button
+                type="button"
+                role="option"
+                aria-selected={i === value}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  onChange(i);
+                  setOpen(false);
+                }}
+                className={cn(
+                  "block w-full px-2 py-1.5 text-left text-xs transition-colors hover:bg-secondary",
+                  i === value ? "text-menugreen" : "text-foreground/80",
+                )}
+              >
+                {o}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
+
 
 function GsSlider({
   label,
@@ -151,6 +199,8 @@ export function CheatMenu() {
     "kroliczy-skok": true,
   });
   const [sliders, setSliders] = useState<Record<string, number>>({});
+  const [selects, setSelects] = useState<Record<string, number>>({});
+
 
   const bySection = useMemo(() => {
     const map = new Map<string, Feature[]>();
@@ -239,7 +289,7 @@ export function CheatMenu() {
               <User className="size-4 gs-glow text-menugreen" />
             </span>
             <span className="min-w-0 leading-tight">
-              <span className="block truncate text-xs font-semibold">Kurczak_200iq</span>
+              <span className="block truncate text-xs font-semibold">Adam Kurczak</span>
               <span className="block text-[10px] text-muted-foreground">Til: 27.08.2026 24:00</span>
             </span>
           </div>
@@ -267,8 +317,19 @@ export function CheatMenu() {
                   <GsSwitch on={isOn} />
                 </button>
               </div>
-              <GsSelect label={cfg.selects[0].label} options={cfg.selects[0].options} value={cfg.selects[0].value} />
-              <GsSelect label={cfg.selects[1].label} options={cfg.selects[1].options} value={cfg.selects[1].value} />
+              <GsSelect
+                label={cfg.selects[0].label}
+                options={cfg.selects[0].options}
+                value={selects[`${selected.slug}-0`] ?? cfg.selects[0].value}
+                onChange={(v) => setSelects((p) => ({ ...p, [`${selected.slug}-0`]: v }))}
+              />
+              <GsSelect
+                label={cfg.selects[1].label}
+                options={cfg.selects[1].options}
+                value={selects[`${selected.slug}-1`] ?? cfg.selects[1].value}
+                onChange={(v) => setSelects((p) => ({ ...p, [`${selected.slug}-1`]: v }))}
+              />
+
               <GsSlider
                 label={cfg.sliders[0].label}
                 value={sliders[`${selected.slug}-1`] ?? cfg.sliders[0].value}
@@ -283,7 +344,13 @@ export function CheatMenu() {
 
             {/* Kolumna 2 */}
             <div className="space-y-3.5">
-              <GsSelect label={cfg.selects[2].label} options={cfg.selects[2].options} value={cfg.selects[2].value} />
+              <GsSelect
+                label={cfg.selects[2].label}
+                options={cfg.selects[2].options}
+                value={selects[`${selected.slug}-2`] ?? cfg.selects[2].value}
+                onChange={(v) => setSelects((p) => ({ ...p, [`${selected.slug}-2`]: v }))}
+              />
+
               <div className="flex items-center justify-between">
                 <span className="text-xs text-foreground/80">{cfg.toggles[1].label}</span>
                 <GsSwitch on={cfg.toggles[1].on} />

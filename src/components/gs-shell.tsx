@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Bell, ChevronDown, ChevronRight } from "lucide-react";
 
@@ -17,8 +17,8 @@ const moreTabs = [
   { label: "Sklep", to: "/sklep" },
   { label: "O nas", to: "/o-nas" },
   { label: "Podanie", to: "/podanie" },
-  { label: "Panel admina", to: "/admin" },
 ] as const;
+
 
 /** Panel with a gamesense-style header bar and red underline. */
 export function GsPanel({
@@ -50,7 +50,20 @@ export function GsShell({
   children: ReactNode;
   crumbs?: { label: string }[];
 }) {
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!moreOpen) return;
+    function onDown(e: MouseEvent) {
+      if (!moreRef.current?.contains(e.target as Node)) setMoreOpen(false);
+    }
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, [moreOpen]);
+
   return (
+
     <div className="min-h-screen gs-bg font-sans text-foreground">
       {/* Logo bar */}
       <div className="mx-auto max-w-6xl px-5 pt-5">
@@ -75,23 +88,34 @@ export function GsShell({
             </Link>
           ))}
 
-          <details className="group relative">
-            <summary className="flex cursor-pointer list-none items-center gap-1 px-2.5 py-3 text-muted-foreground transition-colors hover:text-foreground sm:px-3">
+          <div className="relative" ref={moreRef}>
+            <button
+              type="button"
+              aria-expanded={moreOpen}
+              onClick={() => setMoreOpen((o) => !o)}
+              className="flex cursor-pointer items-center gap-1 px-2.5 py-3 text-muted-foreground transition-colors hover:text-foreground sm:px-3"
+            >
               Więcej
-              <ChevronDown className="size-3 transition-transform group-open:rotate-180" />
-            </summary>
-            <div className="absolute left-0 top-full z-50 min-w-40 border border-border gs-panel">
-              {moreTabs.map((t) => (
-                <Link
-                  key={t.label}
-                  to={t.to}
-                  className="block px-3 py-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-                >
-                  {t.label}
-                </Link>
-              ))}
-            </div>
-          </details>
+              <ChevronDown
+                className={`size-3 transition-transform ${moreOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+            {moreOpen && (
+              <div className="absolute left-0 top-full z-50 min-w-40 border border-border gs-panel">
+                {moreTabs.map((t) => (
+                  <Link
+                    key={t.label}
+                    to={t.to}
+                    onClick={() => setMoreOpen(false)}
+                    className="block px-3 py-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                  >
+                    {t.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
 
           <Link to="/" hash="menu" className="px-2.5 py-3 gs-glow font-bold text-primary hover:brightness-110 sm:px-3">
             Premium
