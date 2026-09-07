@@ -199,7 +199,7 @@ function Index() {
             <div className="border-t border-border px-4 py-3"><Link to="/opcje" className="text-xs font-semibold text-primary hover:text-accent">Wszystkie {features.length} modułów →</Link></div>
           </GsPanel>
 
-          <GsPanel title={`Ostatni build — ${builds[0]?.version ?? "4.12.0"}`}>
+          <GsPanel title={`Ostatni build — ${builds[0]?.version ?? "4.chkn"}`}>
             <div className="p-4 text-sm">
               <p className="text-xs text-[var(--text-subtle)]">{builds[0]?.date}</p>
               <ul className="mt-3 space-y-2 text-muted-foreground">
