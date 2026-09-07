@@ -9,6 +9,8 @@ import { OnlineCounter } from "@/components/online-counter";
 import { Shoutbox } from "@/components/shoutbox";
 import { builds } from "@/data/changelog";
 import { features } from "@/data/features";
+import { reviews } from "@/data/reviews";
+
 import { GsPanel, GsShell } from "@/components/gs-shell";
 
 export const Route = createFileRoute("/")({
