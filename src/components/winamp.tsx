@@ -242,6 +242,7 @@ export function Winamp() {
 
   async function start() {
     const t = TRACKS[indexRef.current]!;
+    console.log("[winamp] start", t.kind, t.title);
     if (t.kind === "sc") {
       const ctx = ensureAudio();
       void ctx.resume();
