@@ -50,4 +50,5 @@ export const SOUNDCLOUD_TRACKS: SoundcloudTrack[] = [
   { title: "xn88ax - JASMINE", trackId: 2129484501, stream: "https://api-v2.soundcloud.com/media/soundcloud:tracks:2129484501/fc3ea2d7-135e-4ebf-b44a-a40dd29f880e/stream/progressive", duration: 160 },
   { title: "xn88ax - TAJPANKAPTUR", trackId: 2127092088, stream: "https://api-v2.soundcloud.com/media/soundcloud:tracks:2127092088/4c5c1a18-11d8-4d10-bc1c-67e692ff5b71/stream/progressive", duration: 111 },
   { title: "xn88ax - LA ATENCION", trackId: 2123191278, stream: "https://api-v2.soundcloud.com/media/soundcloud:tracks:2123191278/17bb49fa-95ed-4e48-ab6d-362a3c028560/stream/progressive", duration: 166 },
-  { title: "xn88ax - BASSLINEDROP", trackId: 2122719813, stream: "https://api-v2.soundcloud.com/media/soundcloud:tracks:2122719813/a2f29d97-6be5-457f-ac91-bb43336b37bc/stream/progressive", duration: 119 },];
+  { title: "xn88ax - BASSLINEDROP", trackId: 2122719813, stream: "https://api-v2.soundcloud.com/media/soundcloud:tracks:2122719813/a2f29d97-6be5-457f-ac91-bb43336b37bc/stream/progressive", duration: 119 },
+];
