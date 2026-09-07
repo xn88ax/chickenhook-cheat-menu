@@ -40,8 +40,8 @@ export function Winamp() {
   const [loop, setLoop] = useState(true);
   const [shuffle, setShuffle] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const [bars, setBars] = useState<number[]>(() => Array(20).fill(0));
 
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const ctxRef = useRef<AudioContext | null>(null);
   const gainRef = useRef<GainNode | null>(null);
   const panRef = useRef<StereoPannerNode | null>(null);
