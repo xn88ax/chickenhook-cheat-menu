@@ -21,10 +21,28 @@ type Track = SynthTrack | SpotifyTrack;
 
 const TRACKS: Track[] = [
   { kind: "spotify", title: "xn88ax - PROMETHAZINE", spotifyId: "6DTqemry14eOoHRNkSnMSG" },
-  { kind: "spotify", title: "xn88ax - never ending story", spotifyId: "6mjFHZizlvfsXTTkDQxPKr" },
-  { kind: "spotify", title: "xn88ax - POLANDSTRONKBAGUETTE", spotifyId: "4XqImVR5TRY4JSuYTkNjaC" },
-  { kind: "spotify", title: "xn88ax - shy type", spotifyId: "19ra9hRnCPHuBehkJYnqrU" },
+  { kind: "spotify", title: "Akucum, xn88ax - never ending story", spotifyId: "6mjFHZizlvfsXTTkDQxPKr" },
+  { kind: "spotify", title: "xn88ax, 11eter - POLANDSTRONKBAGUETTE", spotifyId: "4XqImVR5TRY4JSuYTkNjaC" },
+  { kind: "spotify", title: "Akucum, xn88ax - shy type", spotifyId: "19ra9hRnCPHuBehkJYnqrU" },
   { kind: "spotify", title: "xn88ax - ALLEYESONYOU", spotifyId: "7k5sHL9hegoWIoEAuHFsC7" },
+  {
+    kind: "spotify",
+    title: "xn88ax, Frostekk - BORDERLINE (frostekk Remix)",
+    spotifyId: "1DckBYNtjT7FZ9IVa8Ugcm",
+  },
+  {
+    kind: "spotify",
+    title: "xn88ax, 11eter, Frostekk - RIFTWALK",
+    spotifyId: "75HNY2VWNNnVBuwvxVHEQQ",
+  },
+  { kind: "spotify", title: "mst200, xn88ax - P250", spotifyId: "1Mvbhgyd07STFB4VoKwhMp" },
+  {
+    kind: "spotify",
+    title: "r0pss, xn88ax, szczvras - All The Things She Said",
+    spotifyId: "3LktBB9ms4SYNWCXiTcB8j",
+  },
+  { kind: "spotify", title: "heimi, xn88ax - ОТПУСТИ МЕНЯ", spotifyId: "4B8qpanj9jiJERqcelHGrG" },
+
   {
     kind: "synth",
     title: "ChickenHook - Kurnik Anthem (chiptune)",
