@@ -165,13 +165,44 @@ function GsSlider({
   );
 }
 
-function GsStepper({ value }: { value: number }) {
+function GsStepper({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange?: (v: number) => void;
+}) {
   return (
     <span className="inline-flex items-center rounded-sm border border-border bg-background/70 text-[11px]">
-      <span className="px-1.5 text-muted-foreground">‹</span>
-      <span className="min-w-5 text-center tabular-nums text-foreground/80">{value}</span>
-      <span className="px-1.5 text-muted-foreground">›</span>
+      <button
+        type="button"
+        aria-label="Mniej"
+        onClick={() => onChange?.(Math.max(0, value - 1))}
+        className="px-1.5 text-muted-foreground transition-colors hover:text-menugreen"
+      >
+        ‹
+      </button>
+      <span className="min-w-6 text-center tabular-nums text-foreground/80">{value}</span>
+      <button
+        type="button"
+        aria-label="Więcej"
+        onClick={() => onChange?.(value + 1)}
+        className="px-1.5 text-muted-foreground transition-colors hover:text-menugreen"
+      >
+        ›
+      </button>
     </span>
+  );
+}
+
+function GsKey({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-xs text-foreground/80">{label}</span>
+      <span className="rounded-sm border border-border bg-background/70 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide gs-glow text-menugreen">
+        {value}
+      </span>
+    </div>
   );
 }
 
