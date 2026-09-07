@@ -682,22 +682,48 @@
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  background:
-    radial-gradient(900px 500px at 15% -10%, oklch(0.58 0.225 26 / 12%), transparent 55%),
-    radial-gradient(700px 400px at 110% 20%, oklch(0.58 0.225 26 / 6%), transparent 50%),
-    var(--color-background);
+  background: var(--color-background);
 }
 
+.site-bg-photo {
+  position: absolute;
+  inset: -8%;
+  background:
+    url("/__l5e/assets-v1/5a7f5526-f31b-402a-bfc2-b49e13d68189/halftone-red.png") center 20% / cover no-repeat;
+  mix-blend-mode: screen;
+  opacity: 0.28;
+  filter: contrast(1.15) saturate(1.1);
+  animation: ken-burns 36s ease-in-out infinite alternate;
+  mask-image: radial-gradient(ellipse 70% 65% at 50% 35%, black 20%, transparent 75%);
+}
+
+/* przyciemnienie, żeby karty były czytelne */
+.site-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, oklch(0.145 0.003 285 / 35%) 0%, oklch(0.145 0.003 285 / 82%) 100%),
+    radial-gradient(900px 500px at 15% -10%, oklch(0.58 0.225 26 / 10%), transparent 55%);
+}
+
+/* siatka — cieńsza, nad zdjęciem */
 .site-bg::before {
   content: "";
   position: absolute;
   inset: -20%;
+  z-index: 1;
   background-image:
-    linear-gradient(oklch(1 0 0 / 3.5%) 1px, transparent 1px),
-    linear-gradient(90deg, oklch(1 0 0 / 3.5%) 1px, transparent 1px);
+    linear-gradient(oklch(1 0 0 / 3%) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(1 0 0 / 3%) 1px, transparent 1px);
   background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse at 50% 30%, black 25%, transparent 75%);
   animation: grid-drift 28s linear infinite;
+}
+
+@keyframes ken-burns {
+  from { transform: scale(1.05) translate3d(-2%, -1%, 0); }
+  to { transform: scale(1.14) translate3d(2%, 2%, 0); }
 }
 
 @keyframes grid-drift {
@@ -705,5 +731,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .site-bg-photo,
   .site-bg::before { animation: none; }
 }
