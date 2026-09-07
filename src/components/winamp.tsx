@@ -193,7 +193,7 @@ export function Winamp() {
           g.shadowBlur = 6;
           g.beginPath();
 
-          if (analyser) {
+          if (analyser && synthRef.current && playingRef.current) {
             // prawdziwa fala z sygnału audio (kurnikowe chiptune'y)
             const buf = new Uint8Array(analyser.fftSize);
             analyser.getByteTimeDomainData(buf);
