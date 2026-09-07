@@ -91,7 +91,7 @@ export function GsShell({
       <header className="sticky top-0 z-50 h-14 border-b border-border bg-secondary/95 backdrop-blur-md">
         <div className="relative z-10 mx-auto flex h-full max-w-[1160px] items-center gap-5 px-5">
           <Link to="/" className="font-display text-[25px] leading-none tracking-normal">
-            <span className="text-foreground">chicken</span><span className="text-foreground">hook.wtf</span>
+            <span className="text-foreground">chicken</span><span className="text-primary">hook</span><span className="text-foreground">.wtf</span>
           </Link>
           <nav className="hidden items-center gap-1 min-[860px]:flex" aria-label="Główna nawigacja">
           {tabs.map((t) => (
