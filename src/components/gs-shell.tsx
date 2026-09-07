@@ -132,7 +132,7 @@ export function GsShell({
           </nav>
           <div className="ml-auto hidden items-center gap-3 min-[860px]:flex">
             <span className="rounded-full border border-border bg-background/40 px-3 py-1.5 text-xs text-muted-foreground">
-              <span className="text-[var(--status-ok)]">Undetected</span> · 4.12.0
+              <span className="text-[var(--status-ok)]">Undetected</span> · 4.chkn
             </span>
             <Link to="/auth" search={{ next: pathname }} className="text-xs font-medium text-muted-foreground hover:text-foreground">
               Zaloguj

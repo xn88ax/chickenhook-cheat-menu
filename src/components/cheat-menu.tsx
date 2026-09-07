@@ -406,7 +406,7 @@ export function CheatMenu() {
           )}
           <div className="mt-3 flex items-center gap-1.5 text-[10px] text-muted-foreground">
             <Wand2 className="size-3" />
-            ChickenHook.ru © 2016–2026 · Build 4.12.0 · Alpha
+            ChickenHook.ru © 2016–2026 · Build 4.chkn · Alpha
           </div>
         </div>
       </div>
