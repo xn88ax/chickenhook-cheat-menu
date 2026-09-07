@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Bell, ChevronDown, ChevronRight } from "lucide-react";
 
@@ -17,8 +17,8 @@ const moreTabs = [
   { label: "Sklep", to: "/sklep" },
   { label: "O nas", to: "/o-nas" },
   { label: "Podanie", to: "/podanie" },
-  { label: "Panel admina", to: "/admin" },
 ] as const;
+
 
 /** Panel with a gamesense-style header bar and red underline. */
 export function GsPanel({
