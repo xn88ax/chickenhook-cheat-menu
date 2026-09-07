@@ -1,0 +1,249 @@
+// Zestawy opcji dla każdego modułu — inspirowane listą funkcji neverlose.cc,
+// nazwy i opisy przetłumaczone na polski (i lekko przekręcone pod ChickenHook).
+
+export type MenuControl =
+  | { kind: "toggle"; label: string; on?: boolean; hint?: string }
+  | { kind: "select"; label: string; options: string[]; value?: number; hint?: string }
+  | { kind: "slider"; label: string; value: number; unit?: string; hint?: string }
+  | { kind: "stepper"; label: string; value: number; hint?: string }
+  | { kind: "key"; label: string; value: string; hint?: string };
+
+export type MenuConfig = {
+  /** Krótki podpis pod panelem — wyjaśnienie funkcji. */
+  note: string;
+  left: MenuControl[];
+  right: MenuControl[];
+};
+
+export const menuOptions: Record<string, MenuConfig> = {
+  "robot-celu": {
+    note: "Aimbot koryguje kąt strzału w stronę wybranej kości. Im niższy smooth, tym szybszy, ale mniej naturalny ruch.",
+    left: [
+      { kind: "toggle", label: "Włącz aimbota", on: true },
+      { kind: "select", label: "Tryb", options: ["Wsparcie (legit)", "Silent aim", "Rage"], value: 0 },
+      { kind: "select", label: "Kość docelowa", options: ["Głowa", "Szyja", "Klatka", "Najbliższa", "Losowa"], value: 0 },
+      { kind: "slider", label: "Pole widzenia (FOV)", value: 24, unit: "°" },
+      { kind: "slider", label: "Wygładzanie (smooth)", value: 62 },
+      { kind: "slider", label: "Minimalne obrażenia", value: 40, unit: "HP" },
+    ],
+    right: [
+      { kind: "toggle", label: "Kontrola odrzutu (RCS)", on: true },
+      { kind: "slider", label: "Siła RCS w pionie", value: 85, unit: "%" },
+      { kind: "slider", label: "Siła RCS w poziomie", value: 70, unit: "%" },
+      { kind: "toggle", label: "Automatyczny strzał", on: false },
+      { kind: "toggle", label: "Ignoruj oślepionych", on: true },
+      { kind: "select", label: "Profil broni", options: ["Wspólny", "Snajperki", "Automaty", "Pistolety"], value: 2 },
+      { kind: "key", label: "Klawisz aimbota", value: "MOUSE5" },
+    ],
+  },
+
+  "robot-spustu": {
+    note: "Triggerbot oddaje strzał w chwili, gdy celownik przechodzi po przeciwniku. Losowe opóźnienie maskuje reakcję.",
+    left: [
+      { kind: "toggle", label: "Włącz triggerbota", on: true },
+      { kind: "select", label: "Warunek strzału", options: ["Dowolny hitbox", "Tylko głowa", "Głowa i klatka", "Nogi (żart)"], value: 1 },
+      { kind: "slider", label: "Opóźnienie", value: 35, unit: "ms" },
+      { kind: "slider", label: "Losowość opóźnienia", value: 20, unit: "%" },
+      { kind: "slider", label: "Minimalne obrażenia", value: 25, unit: "HP" },
+    ],
+    right: [
+      { kind: "toggle", label: "Blokada przez dym", on: true },
+      { kind: "toggle", label: "Blokada po flashu", on: true },
+      { kind: "toggle", label: "Tryb burst", on: false },
+      { kind: "stepper", label: "Pociski w serii", value: 3 },
+      { kind: "select", label: "Tryb pracy", options: ["Przytrzymanie", "Przełącznik", "Zawsze"], value: 0 },
+      { kind: "key", label: "Klawisz", value: "ALT" },
+    ],
+  },
+
+  wizualizacje: {
+    note: "ESP rysuje przeciwników przez ściany. Ramka, szkielet i paski stanu czytane są z danych, które gra i tak wysyła.",
+    left: [
+      { kind: "toggle", label: "Włącz ESP", on: true },
+      { kind: "select", label: "Ramka", options: ["Wyłączona", "Pełna", "Narożniki", "Tylko dolna kreska"], value: 2 },
+      { kind: "toggle", label: "Szkielet", on: true },
+      { kind: "toggle", label: "Pasek zdrowia", on: true },
+      { kind: "toggle", label: "Nazwa gracza", on: true },
+      { kind: "toggle", label: "Ikony broni i granatów", on: false },
+    ],
+    right: [
+      { kind: "select", label: "Chams (modele)", options: ["Wyłączone", "Płaskie", "Metaliczne", "Panierka"], value: 1 },
+      { kind: "select", label: "Podświetlenie (glow)", options: ["Wyłączone", "Delikatne", "Mocne"], value: 1 },
+      { kind: "toggle", label: "Radar 2D", on: true },
+      { kind: "toggle", label: "Dystans do celu", on: false },
+      { kind: "slider", label: "Zasięg rysowania", value: 75, unit: "m" },
+      { kind: "slider", label: "Przezroczystość", value: 80, unit: "%" },
+    ],
+  },
+
+  "zmieniacz-skorek": {
+    note: "Podmiana wyglądu ekwipunku działa tylko po Twojej stronie — inni gracze widzą Twoje prawdziwe przedmioty.",
+    left: [
+      { kind: "toggle", label: "Włącz podmianę", on: true },
+      { kind: "select", label: "Nóż", options: ["Domyślny", "Karambit", "Butterfly", "Skin do kurczaka"], value: 1 },
+      { kind: "select", label: "Rękawiczki", options: ["Brak", "Sport", "Specjalist", "Rękawice z KFC"], value: 3 },
+      { kind: "slider", label: "Zużycie (float)", value: 4, unit: "%" },
+    ],
+    right: [
+      { kind: "stepper", label: "Seed wzoru", value: 387 },
+      { kind: "toggle", label: "Naklejki", on: true },
+      { kind: "toggle", label: "Brelok", on: false },
+      { kind: "toggle", label: "Własne modele noży", on: true },
+      { kind: "select", label: "Preset ekwipunku", options: ["Codzienny", "Turniejowy", "Bogaty kurczak"], value: 2 },
+    ],
+  },
+
+  ruch: {
+    note: "Poprawki poruszania się: szybsze zatrzymanie przed strzałem, czystsze wyjścia z zasłon i skoki z krawędzi.",
+    left: [
+      { kind: "toggle", label: "Włącz usprawnienia ruchu", on: true },
+      { kind: "toggle", label: "Fast stop", on: true },
+      { kind: "slider", label: "Siła fast stopu", value: 90, unit: "%" },
+      { kind: "toggle", label: "Edge jump", on: true },
+      { kind: "toggle", label: "Jump bug", on: false },
+    ],
+    right: [
+      { kind: "select", label: "Auto peek", options: ["Wyłączony", "Powrót po strzale", "Powrót po klawiszu"], value: 1 },
+      { kind: "slider", label: "Dystans peeka", value: 45 },
+      { kind: "toggle", label: "Optymalizacja długich skoków", on: true },
+      { kind: "toggle", label: "Auto slide", on: false },
+      { kind: "key", label: "Klawisz peeka", value: "SHIFT" },
+    ],
+  },
+
+  "kroliczy-skok": {
+    note: "Bunnyhop trzyma idealny timing skoków. Szansa trafienia poniżej 100% wygląda bardziej po ludzku.",
+    left: [
+      { kind: "toggle", label: "Włącz auto bhop", on: true },
+      { kind: "slider", label: "Szansa trafienia skoku", value: 82, unit: "%" },
+      { kind: "select", label: "Auto strafe", options: ["Wyłączony", "Klawisze", "Ruch myszy", "Pełna synchronizacja"], value: 2 },
+      { kind: "slider", label: "Płynność strafe'a", value: 65 },
+    ],
+    right: [
+      { kind: "toggle", label: "Limit prędkości", on: true },
+      { kind: "slider", label: "Maksymalna prędkość", value: 55, unit: "u/s" },
+      { kind: "toggle", label: "Wskaźnik prędkości", on: true },
+      { kind: "select", label: "Tryb", options: ["Przytrzymanie spacji", "Przełącznik"], value: 0 },
+    ],
+  },
+
+  przyspieszenie: {
+    note: "Speedhack podbija prędkość ruchu. Tryb cichy trzyma wartości w granicach, których serwer nie odrzuca.",
+    left: [
+      { kind: "toggle", label: "Włącz przyspieszenie", on: false },
+      { kind: "slider", label: "Mnożnik prędkości", value: 40 },
+      { kind: "slider", label: "Prędkość w powietrzu", value: 30 },
+      { kind: "toggle", label: "Tryb cichy", on: true },
+    ],
+    right: [
+      { kind: "select", label: "Tryb pracy", options: ["Przytrzymanie", "Przełącznik"], value: 0 },
+      { kind: "toggle", label: "Wyłącz przy strzale", on: true },
+      { kind: "toggle", label: "Płynne narastanie", on: true },
+      { kind: "key", label: "Klawisz", value: "MOUSE4" },
+    ],
+  },
+
+  "brak-klipu": {
+    note: "Noclip wyłącza kolizję z geometrią mapy. Tryb cichy trzyma pozycję zgodną z tym, co widzi serwer.",
+    left: [
+      { kind: "toggle", label: "Włącz noclip", on: false },
+      { kind: "slider", label: "Prędkość lotu", value: 50 },
+      { kind: "toggle", label: "Tryb cichy", on: true },
+      { kind: "toggle", label: "Powrót na legalną pozycję", on: true },
+    ],
+    right: [
+      { kind: "select", label: "Sterowanie", options: ["Kamera", "Osie mapy"], value: 0 },
+      { kind: "toggle", label: "Bezwładność", on: false },
+      { kind: "toggle", label: "Ukryj efekty ruchu", on: true },
+      { kind: "key", label: "Klawisz", value: "V" },
+    ],
+  },
+
+  "tryb-boga": {
+    note: "Nietykalność działa tylko tam, gdzie masz prawa administratora albo offline — na oficjalnych serwerach nie.",
+    left: [
+      { kind: "toggle", label: "Włącz tryb boga", on: false },
+      { kind: "toggle", label: "Odporność na obrażenia", on: true },
+      { kind: "toggle", label: "Odporność na upadek", on: true },
+      { kind: "toggle", label: "Nieskończone HP i kamizelka", on: true },
+    ],
+    right: [
+      { kind: "toggle", label: "Brak flasha", on: true },
+      { kind: "toggle", label: "Brak podpalenia", on: true },
+      { kind: "select", label: "Dozwolone serwery", options: ["Tylko offline", "Offline i workshop", "Wszędzie (ryzyko)"], value: 1 },
+      { kind: "toggle", label: "Wymagaj potwierdzenia", on: true },
+    ],
+  },
+
+  teleport: {
+    note: "Teleport przenosi Cię w zapisany punkt. Tryb krokowy dzieli drogę na małe skoki, więc mniej rzuca się w oczy.",
+    left: [
+      { kind: "toggle", label: "Włącz teleport", on: false },
+      { kind: "select", label: "Cel", options: ["Zapisany punkt", "Bomba", "Najbliższy wróg", "Losowe miejsce"], value: 0 },
+      { kind: "stepper", label: "Numer punktu", value: 2 },
+      { kind: "toggle", label: "Tryb krokowy", on: true },
+    ],
+    right: [
+      { kind: "slider", label: "Długość kroku", value: 35 },
+      { kind: "toggle", label: "Zapisz pozycję powrotu", on: true },
+      { kind: "toggle", label: "Ukryj animację", on: true },
+      { kind: "key", label: "Klawisz teleportu", value: "F" },
+      { kind: "key", label: "Klawisz powrotu", value: "G" },
+    ],
+  },
+
+  "awaria-serwera": {
+    note: "Moduł testowy wysyła zniekształcone pakiety. Używaj tylko na własnych serwerach — inaczej to zwykły atak.",
+    left: [
+      { kind: "toggle", label: "Włącz moduł", on: false },
+      { kind: "select", label: "Rodzaj pakietów", options: ["Zniekształcone", "Zapętlone", "Zbyt duże"], value: 0 },
+      { kind: "slider", label: "Intensywność", value: 15, unit: "%" },
+      { kind: "stepper", label: "Pakiety na sekundę", value: 8 },
+    ],
+    right: [
+      { kind: "toggle", label: "Log odpowiedzi serwera", on: true },
+      { kind: "toggle", label: "Limit bezpieczeństwa", on: true },
+      { kind: "toggle", label: "Wymagaj potwierdzenia", on: true },
+      { kind: "select", label: "Zatrzymaj po", options: ["10 s", "30 s", "Ręcznie"], value: 0 },
+    ],
+  },
+
+  "glitch-kasy": {
+    note: "Podbicie stanu konta działa wyłącznie na serwerach z modami — oficjalne serwery Valve liczą kasę u siebie.",
+    left: [
+      { kind: "toggle", label: "Włącz glitch kasy", on: false },
+      { kind: "slider", label: "Kwota startowa", value: 65 },
+      { kind: "toggle", label: "Auto buy", on: true },
+      { kind: "select", label: "Zestaw zakupów", options: ["Pełny", "Eco", "Snajperski", "Tylko nóż"], value: 0 },
+    ],
+    right: [
+      { kind: "toggle", label: "Log transakcji", on: true },
+      { kind: "toggle", label: "Tylko serwery community", on: true },
+      { kind: "toggle", label: "Ukryj powiadomienia", on: false },
+      { kind: "stepper", label: "Powtórzenia na rundę", value: 1 },
+    ],
+  },
+
+  rozne: {
+    note: "Drobne dodatki poprawiające komfort i bezpieczeństwo — od widoku z trzeciej osoby po listę obserwujących.",
+    left: [
+      { kind: "toggle", label: "Widok z trzeciej osoby", on: false },
+      { kind: "slider", label: "Dystans kamery", value: 45 },
+      { kind: "toggle", label: "Zoom", on: true },
+      { kind: "slider", label: "Pole widzenia (FOV)", value: 68, unit: "°" },
+    ],
+    right: [
+      { kind: "toggle", label: "Night mode", on: true },
+      { kind: "toggle", label: "Lista obserwujących", on: true },
+      { kind: "toggle", label: "Czysta konsola", on: true },
+      { kind: "select", label: "Viewmodel", options: ["Domyślny", "Bliski", "Daleki", "Ukryty"], value: 1 },
+      { kind: "key", label: "Klawisz zoomu", value: "C" },
+    ],
+  },
+};
+
+export const fallbackMenuConfig: MenuConfig = {
+  note: "Ten moduł nie ma jeszcze własnych ustawień w tym buildzie.",
+  left: [{ kind: "toggle", label: "Włączone", on: false }],
+  right: [{ kind: "toggle", label: "Automatyczny zapis", on: true }],
+};
