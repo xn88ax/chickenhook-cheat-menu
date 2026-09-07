@@ -35,7 +35,7 @@ const team = [
   ['Adam "Chicken" Kurczak', "Założyciel, główny programista, robi też grafiki"],
   ["kochammefke123PL", "Support, odpisuje w 12 sekund, nie wiadomo kiedy śpi"],
   ["adiadi", "Tester, psuje wszystko przed użytkownikami"],
-  ["zbyszekkrysztal", "Pierwszy użytkownik, awansował na moderatora"],
+  ["jajeczko1", "Pierwszy użytkownik, awansował na moderatora"],
 ];
 
 function ONas() {
