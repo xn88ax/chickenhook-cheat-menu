@@ -17,7 +17,7 @@ const moreTabs = [
   { label: "Sklep", to: "/sklep" },
   { label: "O nas", to: "/o-nas" },
   { label: "Podanie", to: "/podanie" },
-  { label: "Panel admina", to: "/forum/../admin" },
+  { label: "Panel admina", to: "/admin" },
 ] as const;
 
 /** Panel with a gamesense-style header bar and red underline. */
