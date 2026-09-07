@@ -26,130 +26,9 @@ export const Route = createFileRoute("/restauracje")({
   component: Restauracje,
 });
 
-type Tag = "drive" | "dostawa" | "24h" | "sala";
+import { kfcRestaurants, type KfcTag as Tag } from "@/data/kfc";
 
-type Restaurant = {
-  name: string;
-  city: string;
-  address: string;
-  hours: string;
-  tags: Tag[];
-};
-
-const restaurants: Restaurant[] = [
-  {
-    name: "KFC Warszawa Złote Tarasy",
-    city: "Warszawa",
-    address: "Złota 59, 00-120 Warszawa",
-    hours: "09:00 – 22:00",
-    tags: ["dostawa", "sala"],
-  },
-  {
-    name: "KFC Warszawa Marszałkowska",
-    city: "Warszawa",
-    address: "Marszałkowska 104/122, 00-017 Warszawa",
-    hours: "całodobowo",
-    tags: ["24h", "dostawa", "sala"],
-  },
-  {
-    name: "KFC Warszawa Okęcie Drive",
-    city: "Warszawa",
-    address: "Al. Krakowska 61, 02-183 Warszawa",
-    hours: "08:00 – 23:00",
-    tags: ["drive", "dostawa"],
-  },
-  {
-    name: "KFC Kraków Galeria Krakowska",
-    city: "Kraków",
-    address: "Pawia 5, 31-154 Kraków",
-    hours: "09:00 – 22:00",
-    tags: ["dostawa", "sala"],
-  },
-  {
-    name: "KFC Kraków Zakopianka",
-    city: "Kraków",
-    address: "Zakopiańska 62, 30-418 Kraków",
-    hours: "10:00 – 24:00",
-    tags: ["drive", "dostawa", "sala"],
-  },
-  {
-    name: "KFC Łódź Manufaktura",
-    city: "Łódź",
-    address: "Karskiego 5, 91-071 Łódź",
-    hours: "10:00 – 22:00",
-    tags: ["sala", "dostawa"],
-  },
-  {
-    name: "KFC Wrocław Rynek",
-    city: "Wrocław",
-    address: "Rynek 39, 50-102 Wrocław",
-    hours: "09:00 – 23:00",
-    tags: ["sala", "dostawa"],
-  },
-  {
-    name: "KFC Wrocław Bielany Drive",
-    city: "Wrocław",
-    address: "Czekoladowa 11, 55-040 Bielany Wrocławskie",
-    hours: "całodobowo",
-    tags: ["24h", "drive", "dostawa"],
-  },
-  {
-    name: "KFC Poznań Stary Browar",
-    city: "Poznań",
-    address: "Półwiejska 42, 61-888 Poznań",
-    hours: "10:00 – 21:00",
-    tags: ["sala"],
-  },
-  {
-    name: "KFC Gdańsk Forum",
-    city: "Gdańsk",
-    address: "Targ Sienny 7, 80-806 Gdańsk",
-    hours: "09:00 – 22:00",
-    tags: ["sala", "dostawa"],
-  },
-  {
-    name: "KFC Gdynia Riviera",
-    city: "Gdynia",
-    address: "Kazimierza Górskiego 2, 81-304 Gdynia",
-    hours: "09:00 – 21:00",
-    tags: ["sala", "dostawa"],
-  },
-  {
-    name: "KFC Katowice Silesia",
-    city: "Katowice",
-    address: "Chorzowska 107, 40-101 Katowice",
-    hours: "09:00 – 22:00",
-    tags: ["sala", "dostawa"],
-  },
-  {
-    name: "KFC Szczecin Galaxy",
-    city: "Szczecin",
-    address: "Wyszyńskiego 14, 70-201 Szczecin",
-    hours: "10:00 – 21:00",
-    tags: ["sala"],
-  },
-  {
-    name: "KFC Lublin Drive",
-    city: "Lublin",
-    address: "Witosa 32, 20-315 Lublin",
-    hours: "08:00 – 24:00",
-    tags: ["drive", "dostawa"],
-  },
-  {
-    name: "KFC Białystok Auchan",
-    city: "Białystok",
-    address: "Produkcyjna 84, 15-680 Białystok",
-    hours: "09:00 – 21:00",
-    tags: ["drive", "sala"],
-  },
-  {
-    name: "KFC Rzeszów Millenium Hall",
-    city: "Rzeszów",
-    address: "Kopisto 1, 35-315 Rzeszów",
-    hours: "10:00 – 21:00",
-    tags: ["sala", "dostawa"],
-  },
-];
+const restaurants = kfcRestaurants;
 
 const tagLabels: Record<Tag, { label: string; icon: typeof Car }> = {
   drive: { label: "Drive-thru", icon: Car },
@@ -158,7 +37,17 @@ const tagLabels: Record<Tag, { label: string; icon: typeof Car }> = {
   sala: { label: "Sala na miejscu", icon: Utensils },
 };
 
-const cities = ["Wszystkie", ...Array.from(new Set(restaurants.map((r) => r.city)))];
+const countByCity = restaurants.reduce<Record<string, number>>((acc, r) => {
+  acc[r.city] = (acc[r.city] ?? 0) + 1;
+  return acc;
+}, {});
+
+const allCities = Object.keys(countByCity).sort((a, b) => a.localeCompare(b, "pl"));
+const topCities = Object.keys(countByCity)
+  .sort((a, b) => countByCity[b] - countByCity[a] || a.localeCompare(b, "pl"))
+  .slice(0, 12);
+const cities = ["Wszystkie", ...topCities];
+
 
 function Restauracje() {
   const [query, setQuery] = useState("");
