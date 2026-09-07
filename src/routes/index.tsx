@@ -236,7 +236,6 @@ function Index() {
             {[
               ["Magda Gessler", "ESP? Widzę wszystko. 10/10, ale więcej czosnku."],
               ["Gordon Ramsay", "The bunnyhop is crispy. Finally, some flavour."],
-              ["Adam Kurczak", "Wszedłem po config, zostałem dla shoutboxa."],
             ].map(([name, quote]) => <blockquote key={name} className="bg-card p-4 text-sm"><p className="text-muted-foreground">„{quote}”</p><footer className="mt-3 text-xs font-semibold text-primary">{name}</footer></blockquote>)}
           </div>
         </GsPanel>
