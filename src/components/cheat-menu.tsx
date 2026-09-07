@@ -317,8 +317,19 @@ export function CheatMenu() {
                   <GsSwitch on={isOn} />
                 </button>
               </div>
-              <GsSelect label={cfg.selects[0].label} options={cfg.selects[0].options} value={cfg.selects[0].value} />
-              <GsSelect label={cfg.selects[1].label} options={cfg.selects[1].options} value={cfg.selects[1].value} />
+              <GsSelect
+                label={cfg.selects[0].label}
+                options={cfg.selects[0].options}
+                value={selects[`${selected.slug}-0`] ?? cfg.selects[0].value}
+                onChange={(v) => setSelects((p) => ({ ...p, [`${selected.slug}-0`]: v }))}
+              />
+              <GsSelect
+                label={cfg.selects[1].label}
+                options={cfg.selects[1].options}
+                value={selects[`${selected.slug}-1`] ?? cfg.selects[1].value}
+                onChange={(v) => setSelects((p) => ({ ...p, [`${selected.slug}-1`]: v }))}
+              />
+
               <GsSlider
                 label={cfg.sliders[0].label}
                 value={sliders[`${selected.slug}-1`] ?? cfg.sliders[0].value}
