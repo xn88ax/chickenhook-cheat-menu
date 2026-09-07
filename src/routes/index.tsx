@@ -56,7 +56,7 @@ function Index() {
   const [bannerOpen, setBannerOpen] = useState(true);
   const [faqOpen, setFaqOpen] = useState<number | null>(0);
   const [chickens, setChickens] = useState<Chicken[]>([]);
-  const [adamFlash, setAdamFlash] = useState(false);
+  const [adamFlashUrl, setAdamFlashUrl] = useState<string | null>(null);
   const adamBuffer = useRef("");
   const adamTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
