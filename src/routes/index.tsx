@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Check, ChevronRight, X } from "lucide-react";
 
+import chickenAsset from "@/assets/chicken.png.asset.json";
 import { BanFeed } from "@/components/ban-feed";
 import { FeatureDialog } from "@/components/feature-dialog";
 import { OppList } from "@/components/opp-list";
@@ -42,16 +43,45 @@ const faq = [
   ["Czy mogę zmienić plan?", "Tak, w ciągu 48 godzin dopłacasz różnicę i przechodzisz na wyższy plan."],
 ] as const;
 
+type Chicken = { id: number; x: number; y: number; rotation: number; size: number };
+
 function Index() {
   const [bannerOpen, setBannerOpen] = useState(true);
   const [faqOpen, setFaqOpen] = useState<number | null>(0);
+  const [chickens, setChickens] = useState<Chicken[]>([]);
 
   useEffect(() => {
     if (sessionStorage.getItem("banners-closed")) setBannerOpen(false);
   }, []);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "a" || e.key === "A") {
+        const id = Date.now() + Math.random();
+        const x = Math.random() * 90 + 5;
+        const y = Math.random() * 80 + 10;
+        const rotation = Math.random() * 360;
+        const size = 48 + Math.random() * 80;
+        setChickens((prev) => [...prev, { id, x, y, rotation, size }]);
+        setTimeout(() => setChickens((prev) => prev.filter((c) => c.id !== id)), 2500);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   return (
     <GsShell>
+      {chickens.map((c) => (
+        <img
+          key={c.id}
+          src={chickenAsset.url}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none fixed z-50 animate-fade-in"
+          style={{ left: `${c.x}vw`, top: `${c.y}vh`, width: c.size, transform: `rotate(${c.rotation}deg)` }}
+        />
+      ))}
       <main className="mx-auto max-w-[1160px] space-y-6 px-5 py-6">
         {bannerOpen && (
           <div className="gs-banner flex min-h-11 flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5 pr-12 text-[13px]">
