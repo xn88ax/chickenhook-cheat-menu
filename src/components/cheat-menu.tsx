@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 
 import { features, type Feature } from "@/data/features";
+import { fallbackMenuConfig, menuOptions, type MenuControl } from "@/data/menu-options";
 import { cn } from "@/lib/utils";
 
 // ===== Struktura jak na screenie gamesense: sekcje -> pozycje w sidebarze =====
@@ -47,25 +48,6 @@ const SECTIONS = [
   { name: "Inne", icon: Sparkles },
 ] as const;
 
-// Deterministyczne "ustawienia" per moduł — jak kolumny opcji w gamesense
-function settingsFor(f: Feature) {
-  const h = [...f.slug].reduce((a, c) => a + c.charCodeAt(0), 0);
-  const selects = [
-    { label: "Tryb działania", options: ["Wyłączony", "Dynamiczny", "Agresywny", "Pełny sos"], value: (h % 3) + 1 },
-    { label: "Priorytet celu", options: ["Najbliższy", "Najdroższy zestaw", "Losowy kurczak"], value: h % 3 },
-    { label: "Funkcja dodatkowa", options: ["Brak", "Podwójna panierka", "Ekstra ostry"], value: (h >> 2) % 3 },
-  ];
-  const sliders = [
-    { label: "Czułość", value: 20 + (h % 61) },
-    { label: "Siła sosu", value: 30 + ((h >> 3) % 61) },
-  ];
-  const toggles = [
-    { label: "Włączone", on: true },
-    { label: "Automatyczny zapis", on: h % 2 === 0 },
-    { label: "Cichy tryb kuchni", on: h % 3 === 0 },
-  ];
-  return { selects, sliders, toggles, stepper: h % 4 };
-}
 
 // ===== Kontrolki w stylu gamesense =====
 
@@ -150,10 +132,12 @@ function GsSelect({
 function GsSlider({
   label,
   value,
+  unit,
   onChange,
 }: {
   label: string;
   value: number;
+  unit?: string;
   onChange: (v: number) => void;
 }) {
   return (
@@ -165,25 +149,60 @@ function GsSlider({
           min={0}
           max={100}
           value={value}
+          aria-label={label}
           onChange={(e) => onChange(Number(e.target.value))}
           className="gs-range h-0.5 flex-1 cursor-pointer appearance-none rounded-full"
           style={{
             background: `linear-gradient(to right, var(--color-menugreen) 0%, var(--color-menugreen) ${value}%, var(--border) ${value}%, var(--border) 100%)`,
           }}
         />
-        <span className="w-6 text-right text-[11px] tabular-nums text-muted-foreground">{value}</span>
+        <span className="w-10 text-right text-[11px] tabular-nums text-muted-foreground">
+          {value}
+          {unit ?? ""}
+        </span>
       </div>
     </div>
   );
 }
 
-function GsStepper({ value }: { value: number }) {
+function GsStepper({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange?: (v: number) => void;
+}) {
   return (
     <span className="inline-flex items-center rounded-sm border border-border bg-background/70 text-[11px]">
-      <span className="px-1.5 text-muted-foreground">‹</span>
-      <span className="min-w-5 text-center tabular-nums text-foreground/80">{value}</span>
-      <span className="px-1.5 text-muted-foreground">›</span>
+      <button
+        type="button"
+        aria-label="Mniej"
+        onClick={() => onChange?.(Math.max(0, value - 1))}
+        className="px-1.5 text-muted-foreground transition-colors hover:text-menugreen"
+      >
+        ‹
+      </button>
+      <span className="min-w-6 text-center tabular-nums text-foreground/80">{value}</span>
+      <button
+        type="button"
+        aria-label="Więcej"
+        onClick={() => onChange?.(value + 1)}
+        className="px-1.5 text-muted-foreground transition-colors hover:text-menugreen"
+      >
+        ›
+      </button>
     </span>
+  );
+}
+
+function GsKey({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-xs text-foreground/80">{label}</span>
+      <span className="rounded-sm border border-border bg-background/70 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide gs-glow text-menugreen">
+        {value}
+      </span>
+    </div>
   );
 }
 
@@ -198,9 +217,8 @@ export function CheatMenu() {
     wizualizacje: true,
     "kroliczy-skok": true,
   });
-  const [sliders, setSliders] = useState<Record<string, number>>({});
-  const [selects, setSelects] = useState<Record<string, number>>({});
-
+  const [nums, setNums] = useState<Record<string, number>>({});
+  const [switches, setSwitches] = useState<Record<string, boolean>>({});
 
   const bySection = useMemo(() => {
     const map = new Map<string, Feature[]>();
@@ -209,9 +227,70 @@ export function CheatMenu() {
     return map;
   }, []);
 
-  const cfg = settingsFor(selected);
+  const cfg = menuOptions[selected.slug] ?? fallbackMenuConfig;
   const activeCount = Object.values(enabled).filter(Boolean).length;
   const isOn = !!enabled[selected.slug];
+
+  const renderControl = (c: MenuControl, col: "l" | "r", i: number) => {
+    const key = `${selected.slug}-${col}${i}`;
+    const master = col === "l" && i === 0 && c.kind === "toggle";
+
+    switch (c.kind) {
+      case "toggle": {
+        const on = master ? isOn : (switches[key] ?? !!c.on);
+        return (
+          <div key={key} className="flex items-center justify-between gap-3">
+            <span className="text-xs text-foreground/80">{c.label}</span>
+            <button
+              type="button"
+              aria-label={`Przełącz: ${c.label}`}
+              aria-pressed={on}
+              onClick={() =>
+                master
+                  ? setEnabled((p) => ({ ...p, [selected.slug]: !isOn }))
+                  : setSwitches((p) => ({ ...p, [key]: !on }))
+              }
+            >
+              <GsSwitch on={on} />
+            </button>
+          </div>
+        );
+      }
+      case "select":
+        return (
+          <GsSelect
+            key={key}
+            label={c.label}
+            options={c.options}
+            value={nums[key] ?? c.value ?? 0}
+            onChange={(v) => setNums((p) => ({ ...p, [key]: v }))}
+          />
+        );
+      case "slider":
+        return (
+          <GsSlider
+            key={key}
+            label={c.label}
+            unit={c.unit}
+            value={nums[key] ?? c.value}
+            onChange={(v) => setNums((p) => ({ ...p, [key]: v }))}
+          />
+        );
+      case "stepper":
+        return (
+          <div key={key} className="flex items-center justify-between gap-3">
+            <span className="text-xs text-foreground/80">{c.label}</span>
+            <GsStepper
+              value={nums[key] ?? c.value}
+              onChange={(v) => setNums((p) => ({ ...p, [key]: v }))}
+            />
+          </div>
+        );
+      case "key":
+        return <GsKey key={key} label={c.label} value={c.value} />;
+    }
+  };
+
 
   return (
     <div className="overflow-hidden rounded-md border border-border bg-card/95 shadow-[0_24px_80px_-20px_rgba(0,0,0,0.8)]">
@@ -305,77 +384,15 @@ export function CheatMenu() {
           </div>
 
           <div className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
-            {/* Kolumna 1 */}
-            <div className="space-y-3.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-foreground/80">{cfg.toggles[0].label}</span>
-                <button
-                  type="button"
-                  aria-label={`Przełącz ${selected.title}`}
-                  onClick={() => setEnabled((p) => ({ ...p, [selected.slug]: !isOn }))}
-                >
-                  <GsSwitch on={isOn} />
-                </button>
-              </div>
-              <GsSelect
-                label={cfg.selects[0].label}
-                options={cfg.selects[0].options}
-                value={selects[`${selected.slug}-0`] ?? cfg.selects[0].value}
-                onChange={(v) => setSelects((p) => ({ ...p, [`${selected.slug}-0`]: v }))}
-              />
-              <GsSelect
-                label={cfg.selects[1].label}
-                options={cfg.selects[1].options}
-                value={selects[`${selected.slug}-1`] ?? cfg.selects[1].value}
-                onChange={(v) => setSelects((p) => ({ ...p, [`${selected.slug}-1`]: v }))}
-              />
-
-              <GsSlider
-                label={cfg.sliders[0].label}
-                value={sliders[`${selected.slug}-1`] ?? cfg.sliders[0].value}
-                onChange={(v) => setSliders((p) => ({ ...p, [`${selected.slug}-1`]: v }))}
-              />
-              <GsSlider
-                label={cfg.sliders[1].label}
-                value={sliders[`${selected.slug}-2`] ?? cfg.sliders[1].value}
-                onChange={(v) => setSliders((p) => ({ ...p, [`${selected.slug}-2`]: v }))}
-              />
-            </div>
-
-            {/* Kolumna 2 */}
-            <div className="space-y-3.5">
-              <GsSelect
-                label={cfg.selects[2].label}
-                options={cfg.selects[2].options}
-                value={selects[`${selected.slug}-2`] ?? cfg.selects[2].value}
-                onChange={(v) => setSelects((p) => ({ ...p, [`${selected.slug}-2`]: v }))}
-              />
-
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-foreground/80">{cfg.toggles[1].label}</span>
-                <GsSwitch on={cfg.toggles[1].on} />
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-foreground/80">{cfg.toggles[2].label}</span>
-                <GsSwitch on={cfg.toggles[2].on} />
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-foreground/80">Limit porcji</span>
-                <GsStepper value={cfg.stepper} />
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="flex items-center gap-1.5 text-xs text-foreground/80">
-                  <Gauge className="size-3 text-muted-foreground" />
-                  Prędkość animacji
-                </span>
-                <span className="text-[11px] gs-glow text-menugreen">2.0</span>
-              </div>
-            </div>
+            <div className="space-y-3.5">{cfg.left.map((c, i) => renderControl(c, "l", i))}</div>
+            <div className="space-y-3.5">{cfg.right.map((c, i) => renderControl(c, "r", i))}</div>
           </div>
 
-          <p className="mt-4 border-t border-border pt-3 text-[11px] leading-relaxed text-muted-foreground">
-            {selected.desc}
+          <p className="mt-4 flex items-start gap-1.5 border-t border-border pt-3 text-[11px] leading-relaxed text-muted-foreground">
+            <Gauge className="mt-0.5 size-3 shrink-0" />
+            <span>{cfg.note}</span>
           </p>
+
 
           {selected.restricted && (
             <Link
