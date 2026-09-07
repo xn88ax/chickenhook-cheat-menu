@@ -128,8 +128,8 @@ export function FeaturePreview({ kind }: { kind: PreviewKind }) {
   const youtube = video ? null : getClipYoutube(kind);
 
   return (
-    <div className="preview-stage">
-      <div className="relative h-[92px] w-full overflow-hidden rounded-lg border border-border/60 bg-background/40">
+    <div className="preview-stage w-full">
+      <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-border/60 bg-background/40">
         {video ? (
           <video
             src={video}
