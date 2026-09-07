@@ -17,6 +17,7 @@ const moreTabs = [
   { label: "Sklep", to: "/sklep" },
   { label: "O nas", to: "/o-nas" },
   { label: "Podanie", to: "/podanie" },
+  { label: "Panel admina", to: "/forum/../admin" },
 ] as const;
 
 /** Panel with a gamesense-style header bar and red underline. */
@@ -92,7 +93,7 @@ export function GsShell({
             </div>
           </details>
 
-          <Link to="/" hash="menu" className="px-2.5 py-3 font-bold text-primary hover:brightness-110 sm:px-3">
+          <Link to="/" hash="menu" className="px-2.5 py-3 gs-glow font-bold text-primary hover:brightness-110 sm:px-3">
             Premium
           </Link>
           <Link
@@ -115,7 +116,7 @@ export function GsShell({
             </Link>
           </p>
           <p className="text-muted-foreground">
-            Status: <span className="gs-lime font-bold">Undetected</span> · Build 4.12.0
+            Status: <span className="gs-lime gs-glow font-bold">Undetected</span> · Build 4.12.0
           </p>
         </div>
       </div>

@@ -182,7 +182,7 @@ export function CheatMenu() {
             <button
               key={i}
               type="button"
-              className="grid size-7 place-items-center rounded-sm text-muted-foreground transition-colors hover:bg-secondary hover:gs-glow text-menugreen"
+              className="grid size-7 place-items-center rounded-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-menugreen"
             >
               <Icon className="size-3.5" />
             </button>
