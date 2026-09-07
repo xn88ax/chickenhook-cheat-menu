@@ -85,19 +85,21 @@ export function Winamp() {
   const stepRef = useRef(0);
   const timerRef = useRef<number | null>(null);
   const rafRef = useRef<number | null>(null);
+  const playingRef = useRef(false);
+  const synthRef = useRef(false);
 
   const track = TRACKS[index]!;
   const isSynth = track.kind === "synth";
   const stepMs = isSynth ? 60000 / track.bpm / 2 : 0;
+  synthRef.current = isSynth;
 
   function stopClock() {
     if (timerRef.current) window.clearInterval(timerRef.current);
     timerRef.current = null;
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    rafRef.current = null;
   }
 
   useEffect(() => stopClock, []);
+
 
   useEffect(() => {
     if (gainRef.current && ctxRef.current) {
