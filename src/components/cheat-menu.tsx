@@ -199,6 +199,8 @@ export function CheatMenu() {
     "kroliczy-skok": true,
   });
   const [sliders, setSliders] = useState<Record<string, number>>({});
+  const [selects, setSelects] = useState<Record<string, number>>({});
+
 
   const bySection = useMemo(() => {
     const map = new Map<string, Feature[]>();
