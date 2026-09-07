@@ -87,8 +87,9 @@ function Index() {
         }
         if (adamBuffer.current.endsWith(ADAM_CODE)) {
           adamBuffer.current = "";
-          setAdamFlash(true);
-          setTimeout(() => setAdamFlash(false), 100);
+          const url = ADAM_IMAGES[Math.floor(Math.random() * ADAM_IMAGES.length)];
+          setAdamFlashUrl(url);
+          setTimeout(() => setAdamFlashUrl(null), 100);
         }
         if (adamTimer.current) clearTimeout(adamTimer.current);
         adamTimer.current = setTimeout(() => { adamBuffer.current = ""; }, 1500);
