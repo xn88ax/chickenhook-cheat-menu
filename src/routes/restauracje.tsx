@@ -123,6 +123,23 @@ function Restauracje() {
             ))}
           </div>
 
+          <label className="mt-3 block max-w-xs text-xs">
+            <span className="text-muted-foreground">Wszystkie miasta ({allCities.length})</span>
+            <select
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              className="mt-1 w-full rounded-sm border border-border bg-card/50 px-2 py-2 text-xs outline-none focus:border-primary/60"
+            >
+              <option value="Wszystkie">Wszystkie miasta</option>
+              {allCities.map((c) => (
+                <option key={c} value={c}>
+                  {c} ({countByCity[c]})
+                </option>
+              ))}
+            </select>
+          </label>
+
+
           <div className="mt-3 flex flex-wrap gap-2">
             {(Object.keys(tagLabels) as Tag[]).map((t) => {
               const Icon = tagLabels[t].icon;
