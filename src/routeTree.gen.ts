@@ -23,6 +23,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PoradnikiSlugRouteImport } from './routes/poradniki.$slug'
+import { Route as ApiScStreamRouteImport } from './routes/api/sc-stream'
 import { Route as AuthenticatedForumRouteImport } from './routes/_authenticated/forum'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedForumIndexRouteImport } from './routes/_authenticated/forum.index'
@@ -98,6 +99,11 @@ const PoradnikiSlugRoute = PoradnikiSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => PoradnikiRoute,
 } as any)
+const ApiScStreamRoute = ApiScStreamRouteImport.update({
+  id: '/api/sc-stream',
+  path: '/api/sc-stream',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedForumRoute = AuthenticatedForumRouteImport.update({
   id: '/forum',
   path: '/forum',
@@ -141,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/sponsorzy': typeof SponsorzyRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/forum': typeof AuthenticatedForumRouteWithChildren
+  '/api/sc-stream': typeof ApiScStreamRoute
   '/poradniki/$slug': typeof PoradnikiSlugRoute
   '/forum/': typeof AuthenticatedForumIndexRoute
   '/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
@@ -160,6 +167,7 @@ export interface FileRoutesByTo {
   '/sklep': typeof SklepRoute
   '/sponsorzy': typeof SponsorzyRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/api/sc-stream': typeof ApiScStreamRoute
   '/poradniki/$slug': typeof PoradnikiSlugRoute
   '/forum': typeof AuthenticatedForumIndexRoute
   '/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
@@ -182,6 +190,7 @@ export interface FileRoutesById {
   '/sponsorzy': typeof SponsorzyRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/forum': typeof AuthenticatedForumRouteWithChildren
+  '/api/sc-stream': typeof ApiScStreamRoute
   '/poradniki/$slug': typeof PoradnikiSlugRoute
   '/_authenticated/forum/': typeof AuthenticatedForumIndexRoute
   '/_authenticated/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
@@ -204,6 +213,7 @@ export interface FileRouteTypes {
     | '/sponsorzy'
     | '/admin'
     | '/forum'
+    | '/api/sc-stream'
     | '/poradniki/$slug'
     | '/forum/'
     | '/forum/dzial/$slug'
@@ -223,6 +233,7 @@ export interface FileRouteTypes {
     | '/sklep'
     | '/sponsorzy'
     | '/admin'
+    | '/api/sc-stream'
     | '/poradniki/$slug'
     | '/forum'
     | '/forum/dzial/$slug'
@@ -244,6 +255,7 @@ export interface FileRouteTypes {
     | '/sponsorzy'
     | '/_authenticated/admin'
     | '/_authenticated/forum'
+    | '/api/sc-stream'
     | '/poradniki/$slug'
     | '/_authenticated/forum/'
     | '/_authenticated/forum/dzial/$slug'
@@ -264,6 +276,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SklepRoute: typeof SklepRoute
   SponsorzyRoute: typeof SponsorzyRoute
+  ApiScStreamRoute: typeof ApiScStreamRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -366,6 +379,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PoradnikiSlugRouteImport
       parentRoute: typeof PoradnikiRoute
     }
+    '/api/sc-stream': {
+      id: '/api/sc-stream'
+      path: '/api/sc-stream'
+      fullPath: '/api/sc-stream'
+      preLoaderRoute: typeof ApiScStreamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/forum': {
       id: '/_authenticated/forum'
       path: '/forum'
@@ -458,6 +478,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SklepRoute: SklepRoute,
   SponsorzyRoute: SponsorzyRoute,
+  ApiScStreamRoute: ApiScStreamRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

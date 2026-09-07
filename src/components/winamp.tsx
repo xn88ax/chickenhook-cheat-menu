@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Music2, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward, Square } from "lucide-react";
+import { Cloud, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward, Square } from "lucide-react";
+import { SOUNDCLOUD_TRACKS, type SoundcloudTrack } from "@/data/soundcloud";
 
 type SynthTrack = {
   kind: "synth";
@@ -10,39 +11,11 @@ type SynthTrack = {
   bass: (number | null)[];
 };
 
-type SpotifyTrack = {
-  kind: "spotify";
-  title: string;
-  /** Spotify track id */
-  spotifyId: string;
-};
+type ScTrack = SoundcloudTrack & { kind: "sc" };
 
-type Track = SynthTrack | SpotifyTrack;
+type Track = SynthTrack | ScTrack;
 
-const TRACKS: Track[] = [
-  { kind: "spotify", title: "xn88ax - PROMETHAZINE", spotifyId: "6DTqemry14eOoHRNkSnMSG" },
-  { kind: "spotify", title: "Akucum, xn88ax - never ending story", spotifyId: "6mjFHZizlvfsXTTkDQxPKr" },
-  { kind: "spotify", title: "xn88ax, 11eter - POLANDSTRONKBAGUETTE", spotifyId: "4XqImVR5TRY4JSuYTkNjaC" },
-  { kind: "spotify", title: "Akucum, xn88ax - shy type", spotifyId: "19ra9hRnCPHuBehkJYnqrU" },
-  { kind: "spotify", title: "xn88ax - ALLEYESONYOU", spotifyId: "7k5sHL9hegoWIoEAuHFsC7" },
-  {
-    kind: "spotify",
-    title: "xn88ax, Frostekk - BORDERLINE (frostekk Remix)",
-    spotifyId: "1DckBYNtjT7FZ9IVa8Ugcm",
-  },
-  {
-    kind: "spotify",
-    title: "xn88ax, 11eter, Frostekk - RIFTWALK",
-    spotifyId: "75HNY2VWNNnVBuwvxVHEQQ",
-  },
-  { kind: "spotify", title: "mst200, xn88ax - P250", spotifyId: "1Mvbhgyd07STFB4VoKwhMp" },
-  {
-    kind: "spotify",
-    title: "r0pss, xn88ax, szczvras - All The Things She Said",
-    spotifyId: "3LktBB9ms4SYNWCXiTcB8j",
-  },
-  { kind: "spotify", title: "heimi, xn88ax - ОТПУСТИ МЕНЯ", spotifyId: "4B8qpanj9jiJERqcelHGrG" },
-
+const SYNTH_TRACKS: SynthTrack[] = [
   {
     kind: "synth",
     title: "ChickenHook - Kurnik Anthem (chiptune)",
@@ -66,11 +39,17 @@ const TRACKS: Track[] = [
   },
 ];
 
+const TRACKS: Track[] = [
+  ...SOUNDCLOUD_TRACKS.map((t): ScTrack => ({ ...t, kind: "sc" })),
+  ...SYNTH_TRACKS,
+];
+
 const midi = (n: number) => 440 * Math.pow(2, (n - 69) / 12);
 
 export function Winamp() {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [volume, setVolume] = useState(70);
   const [balance, setBalance] = useState(0);
   const [loop, setLoop] = useState(true);
@@ -82,24 +61,35 @@ export function Winamp() {
   const gainRef = useRef<GainNode | null>(null);
   const panRef = useRef<StereoPannerNode | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const mediaSrcRef = useRef<MediaElementAudioSourceNode | null>(null);
   const stepRef = useRef(0);
   const timerRef = useRef<number | null>(null);
   const rafRef = useRef<number | null>(null);
   const playingRef = useRef(false);
-  const synthRef = useRef(false);
+  const indexRef = useRef(0);
+  const loopRef = useRef(true);
+  const shuffleRef = useRef(false);
 
   const track = TRACKS[index]!;
   const isSynth = track.kind === "synth";
   const stepMs = isSynth ? 60000 / track.bpm / 2 : 0;
-  synthRef.current = isSynth;
+  indexRef.current = index;
+  loopRef.current = loop;
+  shuffleRef.current = shuffle;
 
   function stopClock() {
     if (timerRef.current) window.clearInterval(timerRef.current);
     timerRef.current = null;
   }
 
-  useEffect(() => stopClock, []);
-
+  useEffect(
+    () => () => {
+      stopClock();
+      audioRef.current?.pause();
+    },
+    [],
+  );
 
   useEffect(() => {
     if (gainRef.current && ctxRef.current) {
@@ -114,21 +104,44 @@ export function Winamp() {
   }, [balance]);
 
   function ensureAudio() {
-    if (ctxRef.current) return ctxRef.current;
-    const ctx = new AudioContext();
-    const gain = ctx.createGain();
-    gain.gain.value = volume / 250;
-    const pan = ctx.createStereoPanner();
-    const analyser = ctx.createAnalyser();
-    analyser.fftSize = 2048;
-    gain.connect(pan);
-    pan.connect(analyser);
-    analyser.connect(ctx.destination);
-    ctxRef.current = ctx;
-    gainRef.current = gain;
-    panRef.current = pan;
-    analyserRef.current = analyser;
-    return ctx;
+    if (!ctxRef.current) {
+      const ctx = new AudioContext();
+      const gain = ctx.createGain();
+      gain.gain.value = volume / 250;
+      const pan = ctx.createStereoPanner();
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 2048;
+      gain.connect(pan);
+      pan.connect(analyser);
+      analyser.connect(ctx.destination);
+      ctxRef.current = ctx;
+      gainRef.current = gain;
+      panRef.current = pan;
+      analyserRef.current = analyser;
+    }
+    if (!audioRef.current) {
+      const audio = new Audio();
+      audio.crossOrigin = "anonymous";
+      audio.preload = "auto";
+      audio.addEventListener("timeupdate", () => {
+        setElapsed(Math.floor(audio.currentTime));
+      });
+      audio.addEventListener("ended", () => {
+        if (loopRef.current) {
+          audio.currentTime = 0;
+          void audio.play();
+        } else {
+          jumpRef.current?.(1);
+        }
+      });
+      audioRef.current = audio;
+    }
+    if (!mediaSrcRef.current) {
+      const src = ctxRef.current.createMediaElementSource(audioRef.current);
+      src.connect(gainRef.current!);
+      mediaSrcRef.current = src;
+    }
+    return ctxRef.current;
   }
 
   function blip(freq: number, dur: number, type: OscillatorType, level: number) {
@@ -148,7 +161,7 @@ export function Winamp() {
   }
 
   function tick() {
-    const t = TRACKS[index]!;
+    const t = TRACKS[indexRef.current]!;
     if (t.kind !== "synth") return;
     const s = stepRef.current % t.notes.length;
     const lead = t.notes[s];
@@ -160,7 +173,7 @@ export function Winamp() {
     setElapsed(Math.floor((stepRef.current * stepMs) / 1000));
 
     if (stepRef.current % t.notes.length === 0) {
-      if (!loop) next();
+      if (!loopRef.current) jumpRef.current?.(1);
     }
   }
 
@@ -193,8 +206,8 @@ export function Winamp() {
           g.shadowBlur = 6;
           g.beginPath();
 
-          if (analyser && synthRef.current && playingRef.current) {
-            // prawdziwa fala z sygnału audio (kurnikowe chiptune'y)
+          if (analyser && playingRef.current) {
+            // prawdziwa fala z sygnału audio (SoundCloud i chiptune'y)
             const buf = new Uint8Array(analyser.fftSize);
             analyser.getByteTimeDomainData(buf);
             const step = w / buf.length;
@@ -205,18 +218,8 @@ export function Winamp() {
               else g.lineTo(i * step, y);
             }
           } else {
-            // brak dostępu do sygnału (player Spotify) — animowana linia
-            const t = performance.now() / 260;
-            for (let x = 0; x <= w; x += 2) {
-              const p = x / w;
-              const amp = 0.3;
-              const y =
-                h / 2 +
-                Math.sin(p * 22 + t) * h * amp * 0.6 +
-                Math.sin(p * 7 - t * 1.7) * h * amp * 0.4;
-              if (x === 0) g.moveTo(0, y);
-              else g.lineTo(x, y);
-            }
+            g.moveTo(0, h / 2);
+            g.lineTo(w, h / 2);
           }
           g.stroke();
           g.shadowBlur = 0;
@@ -227,7 +230,7 @@ export function Winamp() {
     rafRef.current = requestAnimationFrame(draw);
   }
 
-  // rysuj zawsze — także gdy nic nie leci (płaska linia / animacja)
+  // rysuj zawsze — także gdy nic nie leci (płaska linia)
   useEffect(() => {
     startDraw();
     return () => {
@@ -237,31 +240,48 @@ export function Winamp() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function start() {
-    if (!isSynth) {
+  async function start() {
+    const t = TRACKS[indexRef.current]!;
+    if (t.kind === "sc") {
+      const ctx = ensureAudio();
+      void ctx.resume();
+      const audio = audioRef.current!;
+      const want = `sc:${t.trackId}`;
+      if (audio.dataset.track !== want) {
+        setLoading(true);
+        // adres MP3 rozwiązuje nasz serwer (API SoundCloud blokuje CORS),
+        // końcowy strumień z cf-media.sndcdn.com ma CORS otwarty — fala działa
+        audio.dataset.track = want;
+        audio.src = `/api/sc-stream?u=${encodeURIComponent(t.stream)}`;
+        setLoading(false);
+      }
+      stopClock();
+      await audio.play();
       playingRef.current = true;
       setPlaying(true);
       return;
     }
+    // syntezator chiptune
+    audioRef.current?.pause();
     const ctx = ensureAudio();
     void ctx.resume();
-    if (timerRef.current) window.clearInterval(timerRef.current);
+    stopClock();
     timerRef.current = window.setInterval(tick, stepMs);
     playingRef.current = true;
     setPlaying(true);
   }
 
   function pause() {
-    if (timerRef.current) window.clearInterval(timerRef.current);
-    timerRef.current = null;
+    stopClock();
+    audioRef.current?.pause();
     playingRef.current = false;
     setPlaying(false);
   }
 
-
   function stop() {
     pause();
     stepRef.current = 0;
+    if (audioRef.current) audioRef.current.currentTime = 0;
     setElapsed(0);
   }
 
@@ -273,15 +293,26 @@ export function Winamp() {
   }
 
   function jump(delta: number) {
-    const nextIndex = shuffle
+    const nextIndex = shuffleRef.current
       ? Math.floor(Math.random() * TRACKS.length)
-      : (index + delta + TRACKS.length) % TRACKS.length;
+      : (indexRef.current + delta + TRACKS.length) % TRACKS.length;
     select(nextIndex);
   }
+  const jumpRef = useRef<((d: number) => void) | null>(null);
+  jumpRef.current = jump;
 
   const next = () => jump(1);
 
-  const mmss = `${String(Math.floor(elapsed / 60)).padStart(2, "0")}:${String(elapsed % 60).padStart(2, "0")}`;
+  function seek(to: number) {
+    if (audioRef.current && track.kind === "sc") {
+      audioRef.current.currentTime = to;
+      setElapsed(to);
+    }
+  }
+
+  const mmss = (s: number) =>
+    `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+  const duration = track.kind === "sc" ? track.duration : 0;
 
   return (
     <div className="px-4 py-3">
@@ -306,7 +337,9 @@ export function Winamp() {
 
         {/* Wyświetlacz */}
         <div className="flex gap-2 border-b border-border bg-background px-2 py-2">
-          <div className="gs-glow font-mono text-2xl tabular-nums text-primary">{mmss}</div>
+          <div className="gs-glow font-mono text-2xl tabular-nums text-primary">
+            {mmss(elapsed)}
+          </div>
           <div className="min-w-0 flex-1">
             <canvas
               ref={canvasRef}
@@ -317,29 +350,31 @@ export function Winamp() {
             />
             <p className="mt-1 truncate font-mono text-[10px] text-primary/90">
               {index + 1}. {track.title}
-              {isSynth ? ` · ${track.bpm} BPM` : " · Spotify"}
+              {isSynth ? ` · ${track.bpm} BPM` : " · SoundCloud"}
+              {loading ? " · ładowanie…" : ""}
             </p>
           </div>
         </div>
 
-        {/* Wbudowany player Spotify dla prawdziwych utworów */}
-        {track.kind === "spotify" && (
-          <div className="border-b border-border bg-background px-2 py-2">
-            <iframe
-              key={track.spotifyId}
-              src={`https://open.spotify.com/embed/track/${track.spotifyId}?utm_source=generator&theme=0`}
-              width="100%"
-              height="152"
-              frameBorder="0"
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              title={`Spotify: ${track.title}`}
-              className="block w-full border border-border/60"
+        {/* Pasek postępu dla utworów ze SoundCloud */}
+        {track.kind === "sc" && (
+          <div className="border-b border-border px-2 py-1.5">
+            <input
+              type="range"
+              min={0}
+              max={duration}
+              value={Math.min(elapsed, duration)}
+              onChange={(e) => seek(Number(e.target.value))}
+              aria-label="Przewijanie utworu"
+              className="gs-range h-0.5 w-full cursor-pointer appearance-none rounded-full"
+              style={{
+                background: `linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) ${(Math.min(elapsed, duration) / duration) * 100}%, var(--border) ${(Math.min(elapsed, duration) / duration) * 100}%, var(--border) 100%)`,
+              }}
             />
-            <p className="mt-1 flex items-center gap-1 text-[10px] text-muted-foreground">
-              <Music2 className="size-3" /> Odtwarzanie obsługuje player Spotify — zalogowani słyszą
-              pełną wersję.
-            </p>
+            <div className="mt-0.5 flex justify-between font-mono text-[9px] text-muted-foreground">
+              <span>{mmss(elapsed)}</span>
+              <span>{mmss(duration)}</span>
+            </div>
           </div>
         )}
 
@@ -378,29 +413,26 @@ export function Winamp() {
         {/* Transport */}
         <div className="flex flex-wrap items-center gap-1 px-2 py-2">
           {[
-            { icon: SkipBack, label: "Poprzedni", onClick: () => jump(-1), active: false, disabled: false },
+            { icon: SkipBack, label: "Poprzedni", onClick: () => jump(-1), active: false },
             {
               icon: playing ? Pause : Play,
               label: playing ? "Pauza" : "Odtwarzaj",
-              onClick: () => (playing ? pause() : start()),
+              onClick: () => (playing ? pause() : void start()),
               active: playing,
-              disabled: !isSynth,
             },
-            { icon: Square, label: "Stop", onClick: stop, active: false, disabled: !isSynth },
-            { icon: SkipForward, label: "Następny", onClick: next, active: false, disabled: false },
+            { icon: Square, label: "Stop", onClick: stop, active: false },
+            { icon: SkipForward, label: "Następny", onClick: next, active: false },
             {
               icon: Shuffle,
               label: "Losowo",
               onClick: () => setShuffle((s) => !s),
               active: shuffle,
-              disabled: false,
             },
             {
               icon: Repeat,
               label: "Powtarzaj",
               onClick: () => setLoop((l) => !l),
               active: loop,
-              disabled: false,
             },
           ].map((b) => (
             <button
@@ -408,23 +440,17 @@ export function Winamp() {
               type="button"
               aria-label={b.label}
               onClick={b.onClick}
-              disabled={b.disabled}
-              className={`grid size-7 place-items-center border border-border transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-30 ${
+              className={`grid size-7 place-items-center border border-border transition-colors hover:border-primary hover:text-primary ${
                 b.active ? "gs-glow border-primary/60 text-primary" : "text-muted-foreground"
               }`}
             >
               <b.icon className="size-3.5" />
             </button>
           ))}
-          {!isSynth && (
-            <span className="ml-1 text-[10px] text-muted-foreground">
-              Play/pauza w playerze Spotify powyżej
-            </span>
-          )}
         </div>
 
         {/* Playlista */}
-        <div className="border-t border-border">
+        <div className="max-h-64 overflow-y-auto border-t border-border">
           {TRACKS.map((t, i) => (
             <button
               key={t.title}
@@ -435,15 +461,16 @@ export function Winamp() {
               }`}
             >
               {i + 1}. {t.title}
-              {t.kind === "spotify" ? " · Spotify" : " · chiptune"}
+              {t.kind === "sc" ? " · SoundCloud" : " · chiptune"}
             </button>
           ))}
         </div>
       </div>
 
-      <p className="mt-2 text-center text-[10px] text-muted-foreground">
-        Prawdziwe utwory xn88ax lecą z playera Spotify, a kurnikowe chiptune'y są syntezowane na
-        żywo — fala na wyświetlaczu rysuje się z faktycznego sygnału.
+      <p className="mt-2 flex items-center justify-center gap-1 text-center text-[10px] text-muted-foreground">
+        <Cloud className="size-3" /> Wszystkie 42 utwory xn88ax lecą wprost z SoundClouda we własnym
+        odtwarzaczu — fala na wyświetlaczu rysuje się z faktycznego dźwięku, a głośność i balans
+        działają na każdy utwór.
       </p>
     </div>
   );
