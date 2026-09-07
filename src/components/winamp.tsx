@@ -81,7 +81,7 @@ export function Winamp() {
     gain.gain.value = volume / 250;
     const pan = ctx.createStereoPanner();
     const analyser = ctx.createAnalyser();
-    analyser.fftSize = 64;
+    analyser.fftSize = 2048;
     gain.connect(pan);
     pan.connect(analyser);
     analyser.connect(ctx.destination);
@@ -131,10 +131,39 @@ export function Winamp() {
     timerRef.current = window.setInterval(tick, stepMs);
     const draw = () => {
       const analyser = analyserRef.current;
-      if (analyser) {
-        const buf = new Uint8Array(analyser.frequencyBinCount);
-        analyser.getByteFrequencyData(buf);
-        setBars(Array.from(buf.slice(0, 20), (v) => v / 255));
+      const canvas = canvasRef.current;
+      if (analyser && canvas) {
+        const g = canvas.getContext("2d");
+        if (g) {
+          const w = canvas.width;
+          const h = canvas.height;
+          const buf = new Uint8Array(analyser.fftSize);
+          analyser.getByteTimeDomainData(buf);
+          const styles = getComputedStyle(canvas);
+          const accent = styles.getPropertyValue("--color-primary").trim() || "#e5484d";
+          g.fillStyle = "rgba(0,0,0,0.35)";
+          g.fillRect(0, 0, w, h);
+          // linia środka
+          g.strokeStyle = "rgba(255,255,255,0.08)";
+          g.lineWidth = 1;
+          g.beginPath();
+          g.moveTo(0, h / 2);
+          g.lineTo(w, h / 2);
+          g.stroke();
+          // prawdziwa fala z sygnału audio
+          g.strokeStyle = accent;
+          g.lineWidth = 1.5;
+          g.shadowColor = accent;
+          g.shadowBlur = 6;
+          g.beginPath();
+          const step = w / buf.length;
+          for (let i = 0; i < buf.length; i += 1) {
+            const y = ((buf[i] ?? 128) / 255) * h;
+            if (i === 0) g.moveTo(0, y);
+            else g.lineTo(i * step, y);
+          }
+          g.stroke();
+        }
       }
       rafRef.current = requestAnimationFrame(draw);
     };
