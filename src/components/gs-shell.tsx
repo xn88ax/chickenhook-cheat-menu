@@ -63,6 +63,25 @@ export function GsShell({
     return () => document.removeEventListener("mousedown", onDown);
   }, [moreOpen]);
 
+  useEffect(() => {
+    let raf = 0;
+    let latest = 0;
+    function update() {
+      raf = 0;
+      document.documentElement.style.setProperty("--bg-scroll", `${latest}px`);
+    }
+    function onScroll() {
+      latest = window.scrollY;
+      if (!raf) raf = requestAnimationFrame(update);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
 
     <div className="relative min-h-screen font-sans text-foreground">

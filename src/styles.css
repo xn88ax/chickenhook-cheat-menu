@@ -683,6 +683,8 @@
   pointer-events: none;
   overflow: hidden;
   background: var(--color-background);
+  transform: translate3d(0, calc(var(--bg-scroll, 0px) * 0.12), 0);
+  will-change: transform;
 }
 
 .site-bg-photo {
@@ -695,6 +697,12 @@
   animation: ken-burns 36s ease-in-out infinite alternate;
   mask-image: radial-gradient(ellipse 90% 80% at 50% 35%, black 40%, transparent 95%);
   box-shadow: inset 0 0 120px 80px oklch(0.145 0.003 285);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-bg {
+    transform: none;
+  }
 }
 
 /* przyciemnienie, żeby karty były czytelne — obniżone o 50% */
