@@ -199,7 +199,8 @@ export function Winamp() {
             analyser.getByteTimeDomainData(buf);
             const step = w / buf.length;
             for (let i = 0; i < buf.length; i += 1) {
-              const y = ((buf[i] ?? 128) / 255) * h;
+              const dev = ((buf[i] ?? 128) - 128) / 128;
+              const y = Math.max(1, Math.min(h - 1, h / 2 - dev * 2.6 * (h / 2)));
               if (i === 0) g.moveTo(0, y);
               else g.lineTo(i * step, y);
             }
