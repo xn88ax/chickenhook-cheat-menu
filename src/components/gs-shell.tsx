@@ -160,9 +160,6 @@ export function GsShell({
             <Link to="/auth" search={{ next: pathname }} className="text-xs font-medium text-muted-foreground hover:text-foreground">
               Zaloguj
             </Link>
-            <Link to="/" hash="menu" className="inline-flex h-9 items-center rounded-lg bg-primary px-4 text-xs font-semibold text-primary-foreground transition-colors hover:bg-accent">
-              Kup
-            </Link>
           </div>
           <Button variant="ghost" size="icon" className="ml-auto min-[860px]:hidden" aria-label={mobileOpen ? "Zamknij menu" : "Otwórz menu"} aria-expanded={mobileOpen} onClick={() => setMobileOpen((v) => !v)}>
             {mobileOpen ? <X /> : <Menu />}
@@ -172,9 +169,8 @@ export function GsShell({
               {[...tabs, ...moreTabs].map((t) => (
                 <Link key={t.label} to={t.to} onClick={() => setMobileOpen(false)} className="block rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground">{t.label}</Link>
               ))}
-              <div className="mt-2 grid grid-cols-2 gap-2 border-t border-border pt-2">
-                <Link to="/auth" search={{ next: pathname }} onClick={() => setMobileOpen(false)} className="inline-flex h-9 items-center justify-center rounded-lg border border-border text-xs font-semibold">Zaloguj</Link>
-                <Link to="/" hash="menu" onClick={() => setMobileOpen(false)} className="inline-flex h-9 items-center justify-center rounded-lg bg-primary text-xs font-semibold text-primary-foreground">Kup</Link>
+              <div className="mt-2 border-t border-border pt-2">
+                <Link to="/auth" search={{ next: pathname }} onClick={() => setMobileOpen(false)} className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-border text-xs font-semibold">Zaloguj</Link>
               </div>
             </nav>
           )}
