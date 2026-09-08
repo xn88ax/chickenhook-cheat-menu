@@ -51,8 +51,10 @@ export function GsShell({
 }) {
   const [moreOpen, setMoreOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     if (!moreOpen) return;
@@ -80,6 +82,25 @@ export function GsShell({
       window.removeEventListener("scroll", onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
+  }, []);
+
+  useEffect(() => {
+    let raf = 0;
+    function onScroll() {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (y > lastScrollY.current && y > 80) {
+          setHidden(true);
+        } else if (y < lastScrollY.current || y <= 0) {
+          setHidden(false);
+        }
+        lastScrollY.current = y;
+        raf = 0;
+      });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
