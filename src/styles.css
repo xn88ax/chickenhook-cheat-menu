@@ -367,7 +367,7 @@
 
 @utility route-transition {
   animation: route-enter 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
-  will-change: opacity, transform, filter;
+  will-change: opacity, filter;
 }
 
 @keyframes route-enter {
