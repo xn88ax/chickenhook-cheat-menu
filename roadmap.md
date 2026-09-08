@@ -9,3 +9,4 @@
 
 ## Ukończone (dodatkowo)
 - [x] Naprawa błędów typechecka po usunięciu zakładki Index
+- [x] Rozbudowa zakładki Narzędzia o crosshair, sensitivity, teksty i wymówki
