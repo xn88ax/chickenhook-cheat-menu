@@ -10,3 +10,4 @@
 ## Ukończone (dodatkowo)
 - [x] Naprawa błędów typechecka po usunięciu zakładki Index
 - [x] Rozbudowa zakładki Narzędzia o crosshair, sensitivity, teksty i wymówki
+- [x] Oczyszczenie changelogu ze zmian strony — zostawione tylko zmiany w menu cheata
