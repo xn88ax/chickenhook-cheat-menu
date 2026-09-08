@@ -5,7 +5,6 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const tabs = [
-  { label: "Index", to: "/" },
   { label: "Funkcje", to: "/opcje" },
   { label: "Forum", to: "/forum" },
   { label: "Narzędzia", to: "/narzedzia" },
@@ -121,7 +120,7 @@ export function GsShell({
             <Link
               key={t.label}
               to={t.to}
-              className={`px-2 py-2 text-xs font-medium transition-colors hover:text-foreground ${pathname === t.to || (t.to !== "/" && pathname.startsWith(t.to)) ? "text-primary" : "text-muted-foreground"}`}
+              className={`px-2 py-2 text-xs font-medium transition-colors hover:text-foreground ${pathname === t.to || pathname.startsWith(t.to) ? "text-primary" : "text-muted-foreground"}`}
             >
               {t.label}
             </Link>

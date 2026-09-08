@@ -6,3 +6,6 @@
 - [x] Statystyki, shoutbox, feed banów, skrócona lista oppsów i funkcji
 - [x] Kompaktowy cennik, statusy, trzy opinie i dostępne FAQ
 - [x] Widoki desktop/mobile oraz kontrola działania interakcji
+
+## Ukończone (dodatkowo)
+- [x] Naprawa błędów typechecka po usunięciu zakładki Index
