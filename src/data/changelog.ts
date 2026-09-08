@@ -120,7 +120,7 @@ export const builds: Build[] = [
     date: "20 kwietnia 2026",
     tag: "Archiwalny",
     notes: [
-      "Nowy moduł: Auto-gg wyświetla „gg wp" po każdej rundzie, niezależnie od wyniku.",
+      "Nowy moduł: Auto-gg wyświetla „gg wp” po każdej rundzie, niezależnie od wyniku.",
       "Triggerbot obsługuje teraz shotguny — używaj na własną odpowiedzialność.",
     ],
   },
