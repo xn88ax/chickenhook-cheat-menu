@@ -120,9 +120,8 @@ export const builds: Build[] = [
     date: "20 kwietnia 2026",
     tag: "Archiwalny",
     notes: [
-      "Nowy moduł: Auto-gg wyświetla „gg wp” po każdej rundzie, niezależnie od wyniku.",
+      "Nowy moduł: Auto-gg wyświetla „gg wp" po każdej rundzie, niezależnie od wyniku.",
       "Triggerbot obsługuje teraz shotguny — używaj na własną odpowiedzialność.",
-      "Przepisano cały backend shoutboxa, żeby goście mogli pisać głupoty.",
     ],
   },
   {
@@ -130,9 +129,7 @@ export const builds: Build[] = [
     date: "3 kwietnia 2026",
     tag: "Archiwalny",
     notes: [
-      "Dodano pierwszą wersję shoutboxa — wiadomości znikały po odświeżeniu, jak przystało.",
       "ESP Healthbar pokazuje teraz procent zamiast nastroju przeciwnika.",
-      "Zmieniono logo z koguta na kurczaka — mniej agresywnie, bardziej rodzinnie.",
     ],
   },
   {
