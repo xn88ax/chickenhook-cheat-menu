@@ -2,24 +2,28 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { CompetitorTable } from "@/components/competitor-table";
 import { ConfigGenerator } from "@/components/config-generator";
+import { CrosshairGenerator } from "@/components/crosshair-generator";
 import { FortuneWheel } from "@/components/fortune-wheel";
 import { GsPanel, GsShell } from "@/components/gs-shell";
+import { RageQuitGenerator } from "@/components/rage-quit-generator";
+import { SensitivityConverter } from "@/components/sensitivity-converter";
+import { TrashTalkGenerator } from "@/components/trash-talk-generator";
 import { Winamp } from "@/components/winamp";
 import { VacScanner } from "@/components/vac-scanner";
 
 export const Route = createFileRoute("/narzedzia")({
   head: () => ({
     meta: [
-      { title: "Narzędzia — generator configu i skaner | ChickenHook.ru" },
+      { title: "Narzędzia — generator configu i skaner | ChickenHook.wtf" },
       {
         name: "description",
         content:
-          "Generator configu HvH, skaner bezpieczeństwa konta, koło fortuny z nagrodami i porównanie ChickenHook z konkurencją.",
+          "Generator configu HvH, crosshair, przelicznik sensitivity, skaner bezpieczeństwa konta, koło fortuny, gotowe teksty i porównanie z konkurencją.",
       },
-      { property: "og:title", content: "Narzędzia ChickenHook.ru" },
+      { property: "og:title", content: "Narzędzia ChickenHook.wtf" },
       {
         property: "og:description",
-        content: "Wylosuj config, przeskanuj konto, zakręć kołem i sprawdź, jak wypadamy przy konkurencji.",
+        content: "Wylosuj config, zakręć kołem, przeskanuj konto i sprawdź, jak wypadamy przy konkurencji.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -30,7 +34,7 @@ export const Route = createFileRoute("/narzedzia")({
 
 function Narzedzia() {
   return (
-    <GsShell crumbs={[{ label: "Narzędzia" }]}>
+    <GsShell crumbs={[{ label: "Narzedzia" }]}>
       <main className="mx-auto max-w-6xl space-y-4 px-5 py-4">
         <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
           Narzędzia kurnika — wszystko losowe, wszystko dla beki
@@ -44,6 +48,18 @@ function Narzedzia() {
           </GsPanel>
           <GsPanel title="Skaner bezpieczeństwa konta">
             <VacScanner />
+          </GsPanel>
+          <GsPanel title="Generator crosshaira">
+            <CrosshairGenerator />
+          </GsPanel>
+          <GsPanel title="Przelicznik sensitivity">
+            <SensitivityConverter />
+          </GsPanel>
+          <GsPanel title="Generator tekstów HvH">
+            <TrashTalkGenerator />
+          </GsPanel>
+          <GsPanel title="Generator wymówek rage quit">
+            <RageQuitGenerator />
           </GsPanel>
         </div>
 
