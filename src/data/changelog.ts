@@ -63,8 +63,6 @@ export const builds: Build[] = [
     tag: "Archiwalny",
     notes: [
       "Pierwszy build z menu w nowym stylu.",
-      "Dodano licznik użytkowników online (na razie pokazuje 6 albo 7).",
-      "Support na Discordzie dostał drugiego admina — cześć, Grzegorz.",
     ],
   },
   {
