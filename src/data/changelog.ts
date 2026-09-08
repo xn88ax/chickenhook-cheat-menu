@@ -11,29 +11,7 @@ export const builds: Build[] = [
     date: "8 września 2026",
     tag: "Aktualny",
     notes: [
-      "Wielka przebudowa strony w stylu ciemnego forum 2026: karty zamiast ścian tekstu, cichsze tło, accordion FAQ i mniej czerwieni.",
-      "Tło strony to teraz animowany GIF w stylu HUD — czerwony raster na czerni z wolnym Ken Burnsem i winietą.",
-      "GIF w tle reaguje na scroll: lekko się przesuwa, więc przestał być sztywny jak fryzura przed spotkaniem.",
-      "Nowe logo: chicken i .wtf na biało, hook na czerwono — wiadomo, co jest najważniejsze.",
-      "Dodano strony: Sponsorzy, Restauracje, Changelog, Poradniki, Sklep, O nas i Podanie — wszystko pod jednym dachem kurnika.",
-      "Shoutbox to teraz prawdziwy czat: wiadomości zapisują się w bazie, podpisane nickiem z konta; goście też mogą pisać, ale admin może usuwać głupoty.",
-      "Usunięto logowanie Google — zostaje tylko login hasłem i aktywacja kodem zaproszenia, jak za starych dobrych czasów.",
       "Każda funkcja w menu ma teraz własne opcje po polsku: aimbot (FOV, smooth, kość, RCS), ESP (ramka, szkielet, radar), bhop i exploity.",
-      "Podgląd funkcji ma teraz normalny rozmiar 16:9 i nie wygląda jak okienko z Windows 95.",
-      "Wizualizator dźwięku to już prawdziwy oscyloskop podpięty pod audio, a nie udawane słupki.",
-      "Własny odtwarzacz muzyczny ChickenAmp z 42 utworami xn88ax z SoundClouda: play, pauza, stop, przewijanie, głośność, balans, losowo i powtarzanie.",
-      "Wszystkie 13 funkcji w panelu dostaje losowe filmy z kanału @ksiazulo — każde wejście to inna dawka kontentu.",
-      "Lista oppsów zastąpiona rzeczywistymi zbanowanymi kontami konkurencji z datami i numerem fali banów.",
-      "Feed VAC banów pokazuje prawdziwe daty i statystyki, żebyś wiedział, kogo nie żałować.",
-      "Sponsorzy wrócili do menu: KFC, MUALA, Popeyes i reszta kurnika znowu widoczna.",
-      "Dodano zamykane czerwone belki z krzyżykiem — kliknij X i zapomnij do końca sesji.",
-      "Animowany GIF trafił też do podglądu linka (og:image) i małej ikonki karty (favicon).",
-      "Klawisz „a” lub „A” wyrzuca na stronę losowego, maleńkiego kurczaka w losowym miejscu — bo czemu nie.",
-      "Tryb kurczaka (Konami code) zmienia kursor w 🐔 i puszcza latające kurczaki przez cały ekran.",
-      "Panel opinii klientów zawiera teraz 39 prawdziwych recenzji z oryginalnymi nickami, datami i średnią 2,1.",
-      "Zespół powiększył się o jajeczko1 — pierwszego użytkownika, który awansował na moderatora.",
-      "Domena w menu to teraz chickenhook.wtf; .ru poszedł na emeryturę.",
-      "Strona główna ma nowy hero, sekcję ostatniego buildu i skrócone, bardziej przejrzyste opisy.",
       "Poprawki stabilności: aimbot już nie strzela w kurczaki, a loader nie otwiera menu po arabsku.",
     ],
   },
@@ -85,8 +63,6 @@ export const builds: Build[] = [
     tag: "Archiwalny",
     notes: [
       "Pierwszy build z menu w nowym stylu.",
-      "Dodano licznik użytkowników online (na razie pokazuje 6 albo 7).",
-      "Support na Discordzie dostał drugiego admina — cześć, Grzegorz.",
     ],
   },
   {
@@ -146,7 +122,6 @@ export const builds: Build[] = [
     notes: [
       "Nowy moduł: Auto-gg wyświetla „gg wp” po każdej rundzie, niezależnie od wyniku.",
       "Triggerbot obsługuje teraz shotguny — używaj na własną odpowiedzialność.",
-      "Przepisano cały backend shoutboxa, żeby goście mogli pisać głupoty.",
     ],
   },
   {
@@ -154,9 +129,7 @@ export const builds: Build[] = [
     date: "3 kwietnia 2026",
     tag: "Archiwalny",
     notes: [
-      "Dodano pierwszą wersję shoutboxa — wiadomości znikały po odświeżeniu, jak przystało.",
       "ESP Healthbar pokazuje teraz procent zamiast nastroju przeciwnika.",
-      "Zmieniono logo z koguta na kurczaka — mniej agresywnie, bardziej rodzinnie.",
     ],
   },
   {
