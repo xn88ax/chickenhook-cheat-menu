@@ -182,7 +182,7 @@ export function GsShell({
         <div className="gs-bar absolute inset-x-0 bottom-0" aria-hidden="true" />
       </header>
 
-      <div className="relative z-10">
+      <div className="relative z-10 pt-20 min-[860px]:pt-24">
         {crumbs.length > 0 && (
           <div className="mx-auto max-w-[1160px] px-5 pt-4 text-xs text-muted-foreground">
             <Link to="/" className="hover:text-primary">Start</Link>
