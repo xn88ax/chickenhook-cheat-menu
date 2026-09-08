@@ -51,8 +51,10 @@ export function GsShell({
 }) {
   const [moreOpen, setMoreOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     if (!moreOpen) return;
@@ -82,14 +84,35 @@ export function GsShell({
     };
   }, []);
 
+  useEffect(() => {
+    let raf = 0;
+    function onScroll() {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (y > lastScrollY.current && y > 80) {
+          setHidden(true);
+        } else if (y < lastScrollY.current || y <= 0) {
+          setHidden(false);
+        }
+        lastScrollY.current = y;
+        raf = 0;
+      });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
 
     <div className="relative min-h-screen font-sans text-foreground">
       <div className="site-bg" aria-hidden="true">
         <div className="site-bg-photo" />
       </div>
-      <header className="sticky top-0 z-50 h-14 border-b border-border bg-secondary/95 backdrop-blur-md">
-        <div className="relative z-10 mx-auto flex h-full max-w-[1160px] items-center gap-5 px-5">
+      <header
+        className={`fixed left-1/2 top-3 z-50 h-14 w-[calc(100%-1.5rem)] max-w-[1160px] -translate-x-1/2 rounded-xl border border-border bg-secondary/95 shadow-lg backdrop-blur-md transition-[translate,opacity] duration-300 ease-out min-[860px]:top-4 min-[860px]:w-[calc(100%-2rem)] ${hidden ? "pointer-events-none -translate-y-24 opacity-0" : "-translate-y-0 opacity-100"}`}
+      >
+        <div className="relative z-10 mx-auto flex h-full max-w-[1160px] items-center gap-5 px-4 min-[860px]:px-5">
           <Link to="/" className="font-display text-[25px] leading-none tracking-normal">
             <span className="text-foreground">chicken</span><span className="text-primary">hook</span><span className="text-foreground">.wtf</span>
           </Link>
@@ -159,7 +182,7 @@ export function GsShell({
         <div className="gs-bar absolute inset-x-0 bottom-0" aria-hidden="true" />
       </header>
 
-      <div className="relative z-10">
+      <div className="relative z-10 pt-20 min-[860px]:pt-24">
         {crumbs.length > 0 && (
           <div className="mx-auto max-w-[1160px] px-5 pt-4 text-xs text-muted-foreground">
             <Link to="/" className="hover:text-primary">Start</Link>
