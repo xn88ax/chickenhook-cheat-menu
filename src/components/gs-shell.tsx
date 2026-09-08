@@ -5,7 +5,6 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const tabs = [
-  { label: "Index", to: "/" },
   { label: "Funkcje", to: "/opcje" },
   { label: "Forum", to: "/forum" },
   { label: "Narzędzia", to: "/narzedzia" },
