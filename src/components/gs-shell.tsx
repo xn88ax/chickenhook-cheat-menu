@@ -110,7 +110,7 @@ export function GsShell({
         <div className="site-bg-photo" />
       </div>
       <header
-        className={`fixed left-1/2 top-3 z-50 h-14 w-[calc(100%-1.5rem)] max-w-[1160px] -translate-x-1/2 rounded-xl border border-border bg-secondary/95 shadow-lg backdrop-blur-md transition-[transform,opacity] duration-300 ease-out min-[860px]:top-4 min-[860px]:w-[calc(100%-2rem)] ${hidden ? "pointer-events-none -translate-y-24 opacity-0" : "-translate-y-0 opacity-100"}`}
+        className={`fixed left-1/2 top-3 z-50 h-14 w-[calc(100%-1.5rem)] max-w-[1160px] -translate-x-1/2 rounded-xl border border-border bg-secondary/95 shadow-lg backdrop-blur-md transition-[translate,opacity] duration-300 ease-out min-[860px]:top-4 min-[860px]:w-[calc(100%-2rem)] ${hidden ? "pointer-events-none -translate-y-24 opacity-0" : "-translate-y-0 opacity-100"}`}
       >
         <div className="relative z-10 mx-auto flex h-full max-w-[1160px] items-center gap-5 px-4 min-[860px]:px-5">
           <Link to="/" className="font-display text-[25px] leading-none tracking-normal">
