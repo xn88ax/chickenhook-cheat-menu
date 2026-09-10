@@ -466,6 +466,26 @@ export const menuOptions: Record<string, MenuConfig> = {
     ],
   },
 
+  "auto-plant": {
+    note: "Auto plant usuwa ograniczenie strefy plantu — bomba wchodzi w ziemię w dowolnym punkcie mapy, także w skoku.",
+    left: [
+      { kind: "toggle", label: "Włącz auto plant", on: true },
+      { kind: "toggle", label: "Plant poza site'em", on: true },
+      { kind: "toggle", label: "Plant w powietrzu", on: false },
+      { kind: "toggle", label: "Losowy punkt planta w promieniu", on: false },
+      { kind: "slider", label: "Promień losowania", value: 400, unit: "u" },
+      { kind: "select", label: "Preferowana strefa", options: ["Dowolna", "Blisko siebie", "Za plecami CT", "Spawn CT"], value: 0 },
+    ],
+    right: [
+      { kind: "toggle", label: "Alert na HUD po plantach", on: true },
+      { kind: "toggle", label: "Pokaż timer bomby", on: true },
+      { kind: "toggle", label: "Głośniejsze beep paczki", on: true },
+      { kind: "toggle", label: "Licznik plantów w meczu", on: true },
+      { kind: "select", label: "Aktywacja", options: ["Automatyczna", "Przytrzymanie klawisza"], value: 0 },
+      { kind: "key", label: "Klawisz ręczny", value: "E" },
+    ],
+  },
+
   "pyszne-kfc": {
     note: "Panel Pyszne.pl podpięty pod najbliższe KFC. Zamówienie składasz w podglądzie obok — koszyk liczy się na żywo, a przy 39 zł dostawa jest darmowa.",
     left: [
