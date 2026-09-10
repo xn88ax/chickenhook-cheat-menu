@@ -464,8 +464,6 @@ function PysznePanel() {
 
 // ===== Główny komponent =====
 
-// ===== Główny komponent =====
-
 export function CheatMenu() {
   const [selected, setSelected] = useState<Feature>(
     features.find((f) => f.slug === "robot-celu") ?? features[0],
