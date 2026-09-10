@@ -19,13 +19,13 @@ import marshmelloLogo from "@/assets/marshmello.jpg";
 export const Route = createFileRoute("/sponsorzy")({
   head: () => ({
     meta: [
-      { title: "Sponsorzy — ChickenHook.ru | CS2" },
+      { title: "Sponsorzy — chickenhook.wtf | CS2" },
       {
         name: "description",
         content:
           "Partnerzy i sponsorzy ChickenHook: KFC, Pepsi, Popeyes, MUALA, Los Pollos Hermanos, Drob-Pol, Chick-fil-A, Dave's Hot Chicken, Wendy's, SpaceX, Twitter.",
       },
-      { property: "og:title", content: "Sponsorzy — ChickenHook.ru" },
+      { property: "og:title", content: "Sponsorzy — chickenhook.wtf" },
       {
         property: "og:description",
         content:

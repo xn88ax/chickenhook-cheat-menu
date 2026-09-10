@@ -8,9 +8,9 @@ import { Avatar, ForumShell, timeAgo } from "@/components/forum/forum-shell";
 export const Route = createFileRoute("/_authenticated/forum/watek/$id")({
   head: () => ({
     meta: [
-      { title: "Wątek — Forum ChickenHook.ru" },
+      { title: "Wątek — Forum chickenhook.wtf" },
       { name: "description", content: "Dyskusja społeczności ChickenHook o CS2, configach i pomocy." },
-      { property: "og:title", content: "Wątek na forum ChickenHook.ru" },
+      { property: "og:title", content: "Wątek na forum chickenhook.wtf" },
       { property: "og:description", content: "Czytaj i odpowiadaj w wątku forum ChickenHook." },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },

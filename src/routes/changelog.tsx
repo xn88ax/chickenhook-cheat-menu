@@ -6,13 +6,13 @@ import { builds } from "@/data/changelog";
 export const Route = createFileRoute("/changelog")({
   head: () => ({
     meta: [
-      { title: "Changelog buildów — ChickenHook.ru | CS2" },
+      { title: "Changelog buildów — chickenhook.wtf | CS2" },
       {
         name: "description",
         content:
           "Lista zmian w kolejnych buildach ChickenHook: co naprawiliśmy, co dodaliśmy i co zepsuliśmy po drodze.",
       },
-      { property: "og:title", content: "Changelog buildów — ChickenHook.ru" },
+      { property: "og:title", content: "Changelog buildów — chickenhook.wtf" },
       {
         property: "og:description",
         content: "Build 4.chkn i wcześniejsze — pełna historia zmian naszego kurczaka.",

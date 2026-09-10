@@ -10,12 +10,12 @@ import { deleteInviteCode, generateInviteCodes, getAdminData } from "@/lib/admin
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
     meta: [
-      { title: "Panel admina — kurnik ChickenHook.ru" },
+      { title: "Panel admina — kurnik chickenhook.wtf" },
       {
         name: "description",
         content: "Panel administracyjny kurnika: generowanie kodów zaproszeń i lista członków.",
       },
-      { property: "og:title", content: "Panel admina ChickenHook.ru" },
+      { property: "og:title", content: "Panel admina chickenhook.wtf" },
       { property: "og:description", content: "Generowanie kodów zaproszeń i lista członków." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

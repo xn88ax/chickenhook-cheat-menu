@@ -11,13 +11,13 @@ export const Route = createFileRoute("/podanie")({
   }),
   head: () => ({
     meta: [
-      { title: "Podanie o moduły Elite — ChickenHook.ru" },
+      { title: "Podanie o moduły Elite — chickenhook.wtf" },
       {
         name: "description",
         content:
           "Złóż podanie o dostęp do modułów Elite ChickenHook: tryb boga, brak klipu, teleport, awaria serwera i glitch kasy.",
       },
-      { property: "og:title", content: "Podanie o moduły Elite — ChickenHook.ru" },
+      { property: "og:title", content: "Podanie o moduły Elite — chickenhook.wtf" },
       {
         property: "og:description",
         content: "Moduły ryzykowne dostajesz tylko w planie Elite i po zaakceptowanym podaniu.",

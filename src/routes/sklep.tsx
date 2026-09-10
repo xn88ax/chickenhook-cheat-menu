@@ -6,13 +6,13 @@ import { merch } from "@/data/merch";
 export const Route = createFileRoute("/sklep")({
   head: () => ({
     meta: [
-      { title: "Sklep z merchem — ChickenHook.ru" },
+      { title: "Sklep z merchem — chickenhook.wtf" },
       {
         name: "description",
         content:
           "Koszulki, kubki, naklejki i poduszki-kurczaki ChickenHook. Wszystko wyprzedane albo tylko dla planu Elite.",
       },
-      { property: "og:title", content: "Sklep z merchem — ChickenHook.ru" },
+      { property: "og:title", content: "Sklep z merchem — chickenhook.wtf" },
       {
         property: "og:description",
         content: "Merch kurnika: koszulki, kubki, naklejki. Nic nie da się kupić i to jest część żartu.",

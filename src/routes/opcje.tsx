@@ -11,13 +11,13 @@ import { GsPanel, GsShell } from "@/components/gs-shell";
 export const Route = createFileRoute("/opcje")({
   head: () => ({
     meta: [
-      { title: "Opcje cheata — ChickenHook.ru | CS2" },
+      { title: "Opcje cheata — chickenhook.wtf | CS2" },
       {
         name: "description",
         content:
           "Pełna lista opcji ChickenHook: brak klipu, tryb boga, króliczy skok, robot celu, robot spustu, wizualizacje, zmieniacz skórek, ruch i różne.",
       },
-      { property: "og:title", content: "Opcje cheata — ChickenHook.ru" },
+      { property: "og:title", content: "Opcje cheata — chickenhook.wtf" },
       {
         property: "og:description",
         content:

@@ -7,13 +7,13 @@ import { guides } from "@/data/guides";
 export const Route = createFileRoute("/poradniki")({
   head: () => ({
     meta: [
-      { title: "Poradniki dla kurczaków — ChickenHook.ru" },
+      { title: "Poradniki dla kurczaków — chickenhook.wtf" },
       {
         name: "description",
         content:
           "Poradniki ChickenHook: jak nie dostać bana, HvH dla początkujących, aim jak Magda Gessler i pierwsze kroki po zakupie.",
       },
-      { property: "og:title", content: "Poradniki — ChickenHook.ru" },
+      { property: "og:title", content: "Poradniki — chickenhook.wtf" },
       {
         property: "og:description",
         content: "Krótkie, żartobliwe poradniki o cheatach w CS2 — od pierwszego configu po etykietę w HvH.",

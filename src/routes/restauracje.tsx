@@ -7,13 +7,13 @@ import { Car, Clock, MapPin, Search, Truck, Utensils, X } from "lucide-react";
 export const Route = createFileRoute("/restauracje")({
   head: () => ({
     meta: [
-      { title: "Restauracje KFC — ChickenHook.ru | Lokalizacje" },
+      { title: "Restauracje KFC — chickenhook.wtf | Lokalizacje" },
       {
         name: "description",
         content:
           "Znajdź restaurację KFC w swoim mieście — adresy, godziny otwarcia, drive-thru, dostawa i całodobowe lokale. Wyszukiwarka lokalizacji ChickenHook.",
       },
-      { property: "og:title", content: "Restauracje KFC — ChickenHook.ru" },
+      { property: "og:title", content: "Restauracje KFC — chickenhook.wtf" },
       {
         property: "og:description",
         content:

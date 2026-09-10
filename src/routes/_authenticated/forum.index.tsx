@@ -9,13 +9,13 @@ import { Avatar, ForumShell, timeAgo } from "@/components/forum/forum-shell";
 export const Route = createFileRoute("/_authenticated/forum/")({
   head: () => ({
     meta: [
-      { title: "Forum ChickenHook.ru — społeczność cheatów do CS2" },
+      { title: "Forum chickenhook.wtf — społeczność cheatów do CS2" },
       {
         name: "description",
         content:
           "Forum ChickenHook: ogłoszenia, configi, pomoc techniczna i dyskusje graczy CS2. Załóż konto i pisz.",
       },
-      { property: "og:title", content: "Forum ChickenHook.ru" },
+      { property: "og:title", content: "Forum chickenhook.wtf" },
       {
         property: "og:description",
         content: "Ogłoszenia, configi, support i dyskusje społeczności ChickenHook.",
