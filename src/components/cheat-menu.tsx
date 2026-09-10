@@ -730,13 +730,22 @@ export function CheatMenu() {
   });
   const [nums, setNums] = useState<Record<string, number>>({});
   const [switches, setSwitches] = useState<Record<string, boolean>>({});
+  const [query, setQuery] = useState("");
+  const [closed, setClosed] = useState<Record<string, boolean>>({});
 
   const bySection = useMemo(() => {
     const map = new Map<string, Feature[]>();
+    const q = query.trim().toLowerCase();
     for (const s of SECTIONS) map.set(s.name, []);
-    for (const f of features) map.get(GROUPS[f.slug] ?? "Inne")?.push(f);
+    for (const f of features) {
+      if (q && !f.title.toLowerCase().includes(q)) continue;
+      map.get(GROUPS[f.slug] ?? "Inne")?.push(f);
+    }
+    for (const s of SECTIONS) {
+      map.get(s.name)?.sort((a, b) => a.title.localeCompare(b.title, "pl"));
+    }
     return map;
-  }, []);
+  }, [query]);
 
   const cfg = menuOptions[selected.slug] ?? fallbackMenuConfig;
   const activeCount = Object.values(enabled).filter(Boolean).length;
@@ -819,12 +828,25 @@ export function CheatMenu() {
 
   return (
     <div className="overflow-hidden rounded-md border border-border bg-card/95 shadow-[0_24px_80px_-20px_rgba(0,0,0,0.8)]">
-      {/* Pasek tytułu — CHICKENHOOK + Save + ikony */}
-      <div className="flex items-center justify-between border-b border-border bg-secondary/40 px-3 py-2">
+      {/* Pasek tytułu — ClickGUI */}
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-secondary/40 px-3 py-2">
         <span className="text-sm font-extrabold tracking-wide">
           CHICKEN<span className="gs-glow text-menugreen">HOOK</span>
+          <span className="ml-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            ClickGUI
+          </span>
         </span>
         <div className="flex items-center gap-1.5">
+          <label className="flex h-7 items-center gap-1.5 rounded-sm border border-border bg-background/60 px-2">
+            <Search className="size-3 text-muted-foreground" />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Szukaj funkcji…"
+              aria-label="Szukaj funkcji"
+              className="w-[130px] bg-transparent text-[11px] outline-none placeholder:text-muted-foreground"
+            />
+          </label>
           <button
             type="button"
             className="inline-flex items-center gap-1.5 rounded-sm border border-border bg-background/60 px-2.5 py-1 text-[11px] font-semibold text-foreground/90 transition-colors hover:border-menugreen/50"
@@ -832,7 +854,7 @@ export function CheatMenu() {
             <Save className="size-3 text-muted-foreground" />
             Zapisz
           </button>
-          {[Puzzle, Settings2, Search].map((Icon, i) => (
+          {[Puzzle, Settings2].map((Icon, i) => (
             <button
               key={i}
               type="button"
@@ -844,51 +866,97 @@ export function CheatMenu() {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-[190px_1fr]">
-        {/* Sidebar sekcji */}
-        <div className="flex flex-col border-b border-border bg-secondary/25 md:border-b-0 md:border-r">
-          <div className="max-h-[120px] flex-1 overflow-y-auto p-1.5 md:max-h-none">
+      <div className="grid lg:grid-cols-[440px_1fr]">
+        {/* Kolumna okienek kategorii — jak ClickGUI Wursta */}
+        <div className="border-b border-border bg-background/30 p-2.5 lg:border-b-0 lg:border-r">
+          <div className="columns-1 gap-2.5 sm:columns-2 [&>*]:mb-2.5">
             {SECTIONS.map((s) => {
               const items = bySection.get(s.name) ?? [];
               if (!items.length) return null;
+              const isClosed = !!closed[s.name];
+              const onCount = items.filter((f) => enabled[f.slug]).length;
               return (
-                <div key={s.name} className="mb-1">
-                  <div className="flex items-center gap-1.5 px-2 pb-1 pt-2 text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">
+                <div
+                  key={s.name}
+                  className="break-inside-avoid overflow-hidden rounded-sm border border-menugreen/25 bg-card/70 shadow-[0_10px_24px_-16px_rgba(0,0,0,0.9)]"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setClosed((p) => ({ ...p, [s.name]: !isClosed }))}
+                    aria-expanded={!isClosed}
+                    className="flex w-full items-center gap-1.5 border-b border-menugreen/25 bg-menugreen/15 px-2 py-1.5 text-left"
+                  >
                     <s.icon className="size-3 gs-glow text-menugreen" />
-                    {s.name}
-                  </div>
-                  {items.map((f) => {
-                    const on = !!enabled[f.slug];
-                    const active = selected.slug === f.slug;
-                    return (
-                      <button
-                        key={f.slug}
-                        type="button"
-                        onClick={() => setSelected(f)}
-                        className={cn(
-                          "flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-xs transition-colors",
-                          active
-                            ? "bg-menugreen/15 text-foreground"
-                            : "text-muted-foreground hover:bg-secondary hover:text-foreground",
-                        )}
-                      >
-                        {on ? (
-                          <Check className="size-3.5 shrink-0 gs-glow text-menugreen" />
-                        ) : (
-                          <span className="size-3.5 shrink-0" />
-                        )}
-                        <span className="flex-1 truncate">{f.title}</span>
-                        {f.restricted && <Lock className="gs-gold size-3 shrink-0" />}
-                      </button>
-                    );
-                  })}
+                    <span className="flex-1 text-[10px] font-bold uppercase tracking-[0.16em] text-foreground/90">
+                      {s.name}
+                    </span>
+                    <span className="text-[10px] tabular-nums text-muted-foreground">
+                      {onCount}/{items.length}
+                    </span>
+                    <ChevronDown
+                      className={cn(
+                        "size-3 text-muted-foreground transition-transform",
+                        isClosed && "-rotate-90",
+                      )}
+                    />
+                  </button>
+                  {!isClosed && (
+                    <div className="p-1">
+                      {items.map((f) => {
+                        const on = !!enabled[f.slug];
+                        const active = selected.slug === f.slug;
+                        return (
+                          <div
+                            key={f.slug}
+                            className={cn(
+                              "flex items-center gap-1.5 rounded-sm px-1.5 py-1 transition-colors",
+                              active ? "bg-menugreen/15" : "hover:bg-secondary/70",
+                            )}
+                          >
+                            <button
+                              type="button"
+                              aria-label={`Włącz: ${f.title}`}
+                              aria-pressed={on}
+                              onClick={() =>
+                                setEnabled((p) => ({ ...p, [f.slug]: !p[f.slug] }))
+                              }
+                              className={cn(
+                                "grid size-3.5 shrink-0 place-items-center rounded-[2px] border transition-colors",
+                                on
+                                  ? "border-menugreen bg-menugreen/80 text-background shadow-[0_0_8px_1px_var(--color-menugreen)]"
+                                  : "border-border bg-background/70",
+                              )}
+                            >
+                              {on && <Check className="size-2.5" />}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setSelected(f)}
+                              className={cn(
+                                "flex-1 truncate text-left text-[11px] transition-colors",
+                                on ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+                              )}
+                            >
+                              {f.title}
+                            </button>
+                            {f.restricted && <Lock className="gs-gold size-3 shrink-0" />}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               );
             })}
+            {[...bySection.values()].every((v) => !v.length) && (
+              <p className="px-1 py-4 text-[11px] text-muted-foreground">
+                Brak funkcji dla „{query}”.
+              </p>
+            )}
           </div>
 
-          {/* Profil użytkownika jak w rogu gamesense */}
-          <div className="flex items-center gap-2 border-t border-border p-2">
+          {/* Profil użytkownika */}
+          <div className="mt-1 flex items-center gap-2 rounded-sm border border-border bg-card/60 p-2">
             <span className="grid size-7 place-items-center rounded-sm bg-menugreen/15">
               <User className="size-4 gs-glow text-menugreen" />
             </span>
@@ -899,45 +967,48 @@ export function CheatMenu() {
           </div>
         </div>
 
-        {/* Panel konfiguracji — dwie kolumny jak na screenie */}
-        <div className="p-4">
-          <div className="mb-3 flex items-center justify-between">
-            <h3 className="text-sm font-bold">{selected.title}</h3>
-            <span className="text-[11px] text-muted-foreground">
-              {activeCount} aktywnych modułów · INS = menu
-            </span>
-          </div>
+        {/* Okno ustawień wybranego modułu */}
+        <div className="p-2.5">
+          <div className="overflow-hidden rounded-sm border border-menugreen/25 bg-card/70">
+            <div className="flex items-center justify-between border-b border-menugreen/25 bg-menugreen/15 px-2 py-1.5">
+              <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground/90">
+                {selected.title} — ustawienia
+              </span>
+              <span className="text-[10px] text-muted-foreground">
+                {activeCount} aktywnych · INS = menu
+              </span>
+            </div>
 
-          {["custom-skin", "czat-glosowy", "radio", "2pacalypse", "pyszne-kfc"].includes(
-            selected.slug,
-          ) && (
-            <GsPreviewPanel slug={selected.slug} />
-          )}
+            <div className="p-4">
+              {["custom-skin", "czat-glosowy", "radio", "2pacalypse", "pyszne-kfc"].includes(
+                selected.slug,
+              ) && <GsPreviewPanel slug={selected.slug} />}
 
-          <div className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
-            <div className="space-y-3.5">{cfg.left.map((c, i) => renderControl(c, "l", i))}</div>
-            <div className="space-y-3.5">{cfg.right.map((c, i) => renderControl(c, "r", i))}</div>
-          </div>
+              <div className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+                <div className="space-y-3.5">{cfg.left.map((c, i) => renderControl(c, "l", i))}</div>
+                <div className="space-y-3.5">{cfg.right.map((c, i) => renderControl(c, "r", i))}</div>
+              </div>
 
-          <p className="mt-4 flex items-start gap-1.5 border-t border-border pt-3 text-[11px] leading-relaxed text-muted-foreground">
-            <Gauge className="mt-0.5 size-3 shrink-0" />
-            <span>{cfg.note}</span>
-          </p>
+              <p className="mt-4 flex items-start gap-1.5 border-t border-border pt-3 text-[11px] leading-relaxed text-muted-foreground">
+                <Gauge className="mt-0.5 size-3 shrink-0" />
+                <span>{cfg.note}</span>
+              </p>
 
-
-          {selected.restricted && (
-            <Link
-              to="/podanie"
-              search={{ modul: selected.slug }}
-              className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-sm border border-menugreen/40 bg-menugreen/10 px-3 py-2 text-[11px] font-bold uppercase tracking-wide gs-glow text-menugreen transition-colors hover:bg-menugreen/20"
-            >
-              <Lock className="size-3" />
-              Elite — złóż podanie
-            </Link>
-          )}
-          <div className="mt-3 flex items-center gap-1.5 text-[10px] text-muted-foreground">
-            <Wand2 className="size-3" />
-            chickenhook.wtf © 2016–2026 · Build 4.chkn · Alpha
+              {selected.restricted && (
+                <Link
+                  to="/podanie"
+                  search={{ modul: selected.slug }}
+                  className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-sm border border-menugreen/40 bg-menugreen/10 px-3 py-2 text-[11px] font-bold uppercase tracking-wide gs-glow text-menugreen transition-colors hover:bg-menugreen/20"
+                >
+                  <Lock className="size-3" />
+                  Elite — złóż podanie
+                </Link>
+              )}
+              <div className="mt-3 flex items-center gap-1.5 text-[10px] text-muted-foreground">
+                <Wand2 className="size-3" />
+                chickenhook.wtf © 2016–2026 · Build 4.chkn · Alpha
+              </div>
+            </div>
           </div>
         </div>
       </div>
