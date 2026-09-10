@@ -376,26 +376,133 @@ function TwoPacalypsePanel() {
   );
 }
 
-const KFC_MENU = [
-  { name: "Kubełek Wielki 20 szt.", price: 89.99 },
-  { name: "Twister Original", price: 21.99 },
-  { name: "Hot Wings 9 szt.", price: 24.99 },
-  { name: "Stripsy 5 szt.", price: 26.99 },
-  { name: "Zinger Burger", price: 22.99 },
-  { name: "Frytki duże", price: 11.99 },
-  { name: "Sos serowy", price: 3.5 },
-  { name: "Pepsi Max 0,5 l", price: 8.99 },
+const KFC_CATEGORIES: { cat: string; items: { name: string; price: number }[] }[] = [
+  {
+    cat: "Promocje",
+    items: [
+      { name: "Boxmaster Zestaw", price: 33.99 },
+      { name: "2x Zinger Burger", price: 39.99 },
+      { name: "Kubełek 9 kawałków + 2 frytki", price: 74.99 },
+      { name: "Twister Zestaw", price: 31.99 },
+      { name: "Duo Box (2 burgery + 2 frytki + 2 napoje)", price: 59.99 },
+    ],
+  },
+  {
+    cat: "Kubełki",
+    items: [
+      { name: "Kubełek 6 kawałków", price: 44.99 },
+      { name: "Kubełek 9 kawałków", price: 59.99 },
+      { name: "Kubełek 15 kawałków", price: 89.99 },
+      { name: "Kubełek 20 kawałków", price: 114.99 },
+      { name: "Kubełek Hot Wings 20 szt.", price: 54.99 },
+      { name: "Kubełek Stripsów 10 szt.", price: 59.99 },
+      { name: "Bucket Party 30 szt.", price: 159.99 },
+    ],
+  },
+  {
+    cat: "Kanapki",
+    items: [
+      { name: "Zinger Burger", price: 22.99 },
+      { name: "Zinger Burger Cheese", price: 24.99 },
+      { name: "Boxmaster", price: 27.99 },
+      { name: "Boxmaster Spicy", price: 28.99 },
+      { name: "Twister Original", price: 21.99 },
+      { name: "Twister Spicy", price: 22.99 },
+      { name: "Twister Cheese", price: 23.99 },
+      { name: "Burger Kentucky BBQ", price: 25.99 },
+      { name: "Chicken Burger", price: 15.99 },
+      { name: "Cheeseburger", price: 12.99 },
+      { name: "Fillet Burger", price: 24.99 },
+    ],
+  },
+  {
+    cat: "Kurczak",
+    items: [
+      { name: "Hot Wings 5 szt.", price: 16.99 },
+      { name: "Hot Wings 9 szt.", price: 24.99 },
+      { name: "Hot Wings 15 szt.", price: 39.99 },
+      { name: "Stripsy 3 szt.", price: 17.99 },
+      { name: "Stripsy 5 szt.", price: 26.99 },
+      { name: "Stripsy 9 szt.", price: 44.99 },
+      { name: "Nuggetsy 5 szt.", price: 14.99 },
+      { name: "Nuggetsy 9 szt.", price: 22.99 },
+      { name: "Kurczak w kawałkach 2 szt.", price: 19.99 },
+      { name: "Kurczak w kawałkach 3 szt.", price: 26.99 },
+    ],
+  },
+  {
+    cat: "Wrapy i sałatki",
+    items: [
+      { name: "Wrap Original", price: 17.99 },
+      { name: "Wrap Spicy", price: 18.99 },
+      { name: "Wrap Cheese", price: 18.99 },
+      { name: "Sałatka Coleslaw mała", price: 8.99 },
+      { name: "Sałatka Coleslaw duża", price: 13.99 },
+      { name: "Sałatka z kurczakiem", price: 22.99 },
+    ],
+  },
+  {
+    cat: "Dodatki",
+    items: [
+      { name: "Frytki małe", price: 8.99 },
+      { name: "Frytki średnie", price: 10.99 },
+      { name: "Frytki duże", price: 12.99 },
+      { name: "Frytki z serem", price: 15.99 },
+      { name: "Cheese Fries Bacon", price: 18.99 },
+      { name: "Kukurydza", price: 8.99 },
+      { name: "Bułka", price: 3.49 },
+    ],
+  },
+  {
+    cat: "Sosy",
+    items: [
+      { name: "Sos serowy", price: 3.5 },
+      { name: "Sos BBQ", price: 2.5 },
+      { name: "Sos czosnkowy", price: 2.5 },
+      { name: "Sos musztardowo-miodowy", price: 2.5 },
+      { name: "Sos sweet chilli", price: 2.5 },
+      { name: "Sos Hot Pepper", price: 2.5 },
+    ],
+  },
+  {
+    cat: "Napoje",
+    items: [
+      { name: "Pepsi 0,4 l", price: 8.99 },
+      { name: "Pepsi Max 0,5 l", price: 9.49 },
+      { name: "Mirinda 0,4 l", price: 8.99 },
+      { name: "7up 0,4 l", price: 8.99 },
+      { name: "Lipton Ice Tea 0,4 l", price: 9.49 },
+      { name: "Woda niegazowana 0,5 l", price: 6.99 },
+      { name: "Sok pomarańczowy", price: 8.49 },
+      { name: "Kawa Americano", price: 9.99 },
+    ],
+  },
+  {
+    cat: "Desery",
+    items: [
+      { name: "Lodowy Shake truskawkowy", price: 13.99 },
+      { name: "Lodowy Shake czekoladowy", price: 13.99 },
+      { name: "Sundae z sosem", price: 9.99 },
+      { name: "Ciastko czekoladowe", price: 7.99 },
+      { name: "Muffin", price: 8.99 },
+    ],
+  },
 ];
+
+const KFC_MENU = KFC_CATEGORIES.flatMap((c) => c.items);
+
 
 const FREE_DELIVERY = 39;
 
 function PysznePanel() {
   const [cart, setCart] = useState<Record<string, number>>({ "Twister Original": 1 });
   const [sent, setSent] = useState(false);
+  const [cat, setCat] = useState(KFC_CATEGORIES[0]!.cat);
 
   const total = KFC_MENU.reduce((sum, it) => sum + (cart[it.name] ?? 0) * it.price, 0);
   const items = Object.values(cart).reduce((a, b) => a + b, 0);
   const progress = Math.min(100, (total / FREE_DELIVERY) * 100);
+  const active = KFC_CATEGORIES.find((c) => c.cat === cat) ?? KFC_CATEGORIES[0]!;
 
   const add = (name: string, delta: number) =>
     setCart((p) => {
@@ -410,11 +517,28 @@ function PysznePanel() {
     <div className="absolute inset-0 flex flex-col bg-[#0d0d0d]">
       <div className="flex items-center justify-between border-b border-border bg-[#ff8000]/15 px-2 py-1">
         <span className="text-[10px] font-black tracking-tight text-[#ff8000]">pyszne.pl</span>
-        <span className="text-[9px] text-muted-foreground">KFC · 25–35 min</span>
+        <span className="text-[9px] text-muted-foreground">KFC Korona · 25–35 min</span>
+      </div>
+
+      <div className="flex gap-1 overflow-x-auto border-b border-border px-2 py-1">
+        {KFC_CATEGORIES.map((c) => (
+          <button
+            key={c.cat}
+            type="button"
+            onClick={() => setCat(c.cat)}
+            className={`whitespace-nowrap rounded-sm border px-1.5 py-0.5 text-[9px] transition-colors ${
+              c.cat === cat
+                ? "border-[#ff8000] bg-[#ff8000]/20 text-[#ff8000]"
+                : "border-border/60 text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {c.cat}
+          </button>
+        ))}
       </div>
 
       <div className="flex-1 space-y-1 overflow-y-auto px-2 py-1.5">
-        {KFC_MENU.map((it) => {
+        {active.items.map((it) => {
           const qty = cart[it.name] ?? 0;
           return (
             <div
@@ -448,6 +572,7 @@ function PysznePanel() {
           );
         })}
       </div>
+
 
       <div className="border-t border-border px-2 py-1.5">
         <div className="h-1 overflow-hidden rounded-full bg-border">
