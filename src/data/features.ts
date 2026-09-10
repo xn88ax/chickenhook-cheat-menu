@@ -3,6 +3,7 @@ import {
   Coins,
   Crosshair,
   Eye,
+  Flame,
   Gauge,
   Heart,
   Mic,
@@ -279,6 +280,20 @@ export const features: Feature[] = [
     ],
     preview: "ddos",
     restricted: true,
+  },
+  {
+    slug: "auto-strazak",
+    icon: Flame,
+    title: "Auto strażak",
+    desc: "Automatycznie gasi molotovy i koktajle — ogień pod tobą znika sam.",
+    long: "Modul pilnuje tylko jednej rzeczy: ognia. Kiedy pod twoimi stopami lub na trasie ruchu pojawia sie molotov albo incendiary, auto strazak natychmiast go gasi — bez smoke'a w rece, bez czekania na kolege. Nie rusza zadnej innej mechaniki gry.",
+    bullets: [
+      "Gasi molotov i incendiary w promieniu wokol gracza",
+      "Reaguje w chwili wybuchu, przed pierwszym tickiem obrazen",
+      "Priorytet: ogien pod toba, potem ogien na trasie ruchu",
+      "Alert na HUD i licznik ugaszonych molotovow w rundzie",
+    ],
+    preview: "strazak",
   },
   {
     slug: "pyszne-kfc",
