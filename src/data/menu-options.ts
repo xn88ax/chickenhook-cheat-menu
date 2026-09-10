@@ -319,22 +319,22 @@ export const menuOptions: Record<string, MenuConfig> = {
   },
 
   "auto-strazak": {
-    note: "Auto strazak zajmuje sie wylacznie ogniem: gasi molotovy i incendiary. Nie dotyka aimu, ruchu ani niczego innego.",
+    note: "Auto strażak zajmuje się wyłącznie ogniem: gasi molotovy i incendiary. Nie dotyka aimu, ruchu ani niczego innego.",
     left: [
-      { kind: "toggle", label: "Wlacz auto strazaka", on: true },
-      { kind: "toggle", label: "Gas molotovy", on: true },
-      { kind: "toggle", label: "Gas incendiary", on: true },
-      { kind: "slider", label: "Promien reakcji", value: 240, unit: "u" },
-      { kind: "slider", label: "Opoznienie reakcji", value: 12, unit: "ms" },
-      { kind: "select", label: "Priorytet", options: ["Ogien pod toba", "Ogien na trasie ruchu", "Najblizszy plomien"], value: 0 },
+      { kind: "toggle", label: "Włącz auto strażaka", on: true },
+      { kind: "toggle", label: "Gaś molotovy", on: true },
+      { kind: "toggle", label: "Gaś incendiary", on: true },
+      { kind: "slider", label: "Promień reakcji", value: 240, unit: "u" },
+      { kind: "slider", label: "Opóźnienie reakcji", value: 12, unit: "ms" },
+      { kind: "select", label: "Priorytet", options: ["Ogień pod tobą", "Ogień na trasie ruchu", "Najbliższy płomień"], value: 0 },
     ],
     right: [
-      { kind: "toggle", label: "Gas tylko wlasne obrazenia", on: true },
-      { kind: "toggle", label: "Gas ogien kolegom z druzyny", on: false },
+      { kind: "toggle", label: "Gaś tylko własne obrażenia", on: true },
+      { kind: "toggle", label: "Gaś ogień kolegom z drużyny", on: false },
       { kind: "toggle", label: "Alert na HUD", on: true },
       { kind: "toggle", label: "Licznik ugaszonych w rundzie", on: true },
       { kind: "select", label: "Tryb pracy", options: ["Automatyczny", "Przytrzymanie klawisza"], value: 0 },
-      { kind: "key", label: "Klawisz reczny", value: "F" },
+      { kind: "key", label: "Klawisz ręczny", value: "F" },
     ],
   },
 
