@@ -44,6 +44,7 @@ const labels: Record<PreviewKind, string> = {
   radio: "RADIO",
   ddos: "2PACALYPSE 2.3",
   strazak: "AUTO STRAŻAK",
+  flashassist: "AUTO FLASH ASSIST",
   nade: "NADE HELPER",
   pyszne: "PYSZNE.PL — KFC",
 };
