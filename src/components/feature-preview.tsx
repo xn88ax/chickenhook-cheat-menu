@@ -24,6 +24,7 @@ export type PreviewKind =
   | "flashassist"
   | "nade"
   | "plant"
+  | "pojazdy"
   | "pyszne";
 
 const labels: Record<PreviewKind, string> = {
@@ -48,6 +49,7 @@ const labels: Record<PreviewKind, string> = {
   flashassist: "AUTO FLASH ASSIST",
   nade: "NADE HELPER",
   plant: "AUTO PLANT",
+  pojazdy: "SPAWNER POJAZDÓW",
   pyszne: "PYSZNE.PL — KFC",
 };
 
@@ -197,6 +199,17 @@ function Scene({ kind }: { kind: PreviewKind }) {
           <div className="preview-box absolute inset-3 border border-dashed border-primary/40" />
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[10px] font-bold text-primary">
             PLANTED
+          </div>
+        </>
+      );
+    case "pojazdy":
+      return (
+        <>
+          <div className="preview-slide absolute top-1/2 h-4 w-12 -translate-y-1/2 rounded-sm bg-primary/70 shadow-[0_0_14px_hsl(var(--primary))]" />
+          <div className="preview-slide absolute top-1/2 mt-2 h-1.5 w-1.5 rounded-full bg-foreground/50" />
+          <div className="preview-box absolute inset-3 border border-dashed border-primary/40" />
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[10px] font-bold text-primary">
+            SPAWNED
           </div>
         </>
       );

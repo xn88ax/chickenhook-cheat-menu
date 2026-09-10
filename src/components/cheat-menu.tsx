@@ -51,6 +51,7 @@ const GROUPS: Record<string, string> = {
   "auto-flash": "Inne",
   "nade-helper": "Inne",
   "auto-plant": "Inne",
+  "spawner-pojazdow": "Inne",
 
 };
 

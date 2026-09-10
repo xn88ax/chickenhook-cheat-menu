@@ -486,6 +486,27 @@ export const menuOptions: Record<string, MenuConfig> = {
     ],
   },
 
+  "spawner-pojazdow": {
+    note: "Spawner wrzuca na mapę jeżdżące modele pojazdów. Wsiadasz klawiszem użycia, hitbox gracza zostaje w środku.",
+    left: [
+      { kind: "toggle", label: "Włącz spawner pojazdów", on: true },
+      { kind: "select", label: "Pojazd", options: ["Fiat 126p", "Radiowóz CT", "Quad", "Traktor", "Czołg (chikn edition)", "Kurczak na kółkach"], value: 0 },
+      { kind: "select", label: "Miejsce spawnu", options: ["Pod crosshairem", "Przede mną", "Mój spawn", "Losowe na mapie"], value: 0 },
+      { kind: "stepper", label: "Limit pojazdów na mapie", value: 4 },
+      { kind: "slider", label: "Prędkość maksymalna", value: 320, unit: "u/s" },
+      { kind: "slider", label: "Przyczepność", value: 70, unit: "%" },
+    ],
+    right: [
+      { kind: "toggle", label: "Automatyczne wsiadanie po spawnie", on: true },
+      { kind: "toggle", label: "Kolizja z graczami (rozjeżdżanie)", on: true },
+      { kind: "toggle", label: "Klakson na kurczaka", on: true },
+      { kind: "toggle", label: "Dym z rury wydechowej", on: false },
+      { kind: "toggle", label: "Usuń pojazdy po rundzie", on: true },
+      { kind: "key", label: "Klawisz spawnu", value: "V" },
+      { kind: "key", label: "Usuń ostatni pojazd", value: "B" },
+    ],
+  },
+
   "pyszne-kfc": {
     note: "Panel Pyszne.pl podpięty pod najbliższe KFC. Zamówienie składasz w podglądzie obok — koszyk liczy się na żywo, a przy 39 zł dostawa jest darmowa.",
     left: [
