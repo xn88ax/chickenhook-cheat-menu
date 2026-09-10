@@ -214,7 +214,7 @@ function GsKey({ label, value }: { label: string; value: string }) {
 
 function GsPreviewPanel({ slug }: { slug: string }) {
   return (
-    <div className="mb-4 overflow-hidden rounded-sm border border-border bg-background/60">
+    <div className="mb-4 max-w-[320px] overflow-hidden rounded-sm border border-border bg-background/60">
       <div className="flex items-center justify-between border-b border-border bg-secondary/40 px-2 py-1">
         <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-foreground/80">
           Podgląd
@@ -222,7 +222,7 @@ function GsPreviewPanel({ slug }: { slug: string }) {
         <Settings2 className="size-3 text-muted-foreground" />
       </div>
 
-      <div className="chkn-preview-grid relative h-[190px] overflow-hidden">
+      <div className="chkn-preview-grid relative h-[240px] overflow-hidden">
         {slug === "custom-skin" && (
           <>
             <div className="absolute left-2 top-2 space-y-1 text-[9px] font-bold uppercase tracking-wide">
@@ -233,14 +233,14 @@ function GsPreviewPanel({ slug }: { slug: string }) {
                 <span className="size-2 bg-foreground/30" /> T
               </span>
             </div>
-            <div className="chkn-model-light absolute inset-0 bg-[radial-gradient(220px_180px_at_50%_20%,var(--color-menugreen),transparent_70%)] opacity-40" />
+            <div className="chkn-model-light absolute inset-0 bg-[radial-gradient(220px_180px_at_50%_20%,var(--color-menugreen),transparent_70%)] opacity-20" />
             <img
               src={ctModel.url}
               alt="Podgląd modelu postaci z własną skórką"
               loading="lazy"
               width={640}
               height={1024}
-              className="chkn-model absolute bottom-1 left-1/2 h-[175px] w-auto -translate-x-1/2"
+              className="chkn-model absolute bottom-2 left-1/2 h-[210px] w-auto -translate-x-1/2"
             />
           </>
         )}
