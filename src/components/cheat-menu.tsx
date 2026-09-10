@@ -39,7 +39,6 @@ const GROUPS: Record<string, string> = {
   "awaria-serwera": "Exploity",
   "glitch-kasy": "Exploity",
   rozne: "Inne",
-  rozne: "Inne",
   "custom-skin": "Wizualizacje",
   "czat-glosowy": "Inne",
   radio: "Inne",
