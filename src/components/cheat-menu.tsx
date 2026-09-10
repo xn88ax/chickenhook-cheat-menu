@@ -292,6 +292,8 @@ function GsPreviewPanel({ slug }: { slug: string }) {
         )}
 
         {slug === "2pacalypse" && <TwoPacalypsePanel />}
+
+        {slug === "pyszne-kfc" && <PysznePanel />}
       </div>
     </div>
   );
@@ -548,7 +550,9 @@ export function CheatMenu() {
             </span>
           </div>
 
-          {["custom-skin", "czat-glosowy", "radio", "2pacalypse"].includes(selected.slug) && (
+          {["custom-skin", "czat-glosowy", "radio", "2pacalypse", "pyszne-kfc"].includes(
+            selected.slug,
+          ) && (
             <GsPreviewPanel slug={selected.slug} />
           )}
 
