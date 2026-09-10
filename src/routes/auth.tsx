@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 
 import { registerWithInvite } from "@/lib/invite.functions";
 import { isRememberSession, setRememberSession } from "@/lib/session-persistence";
-import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
+import { GsShell } from "@/components/gs-shell";
 
 
 export const Route = createFileRoute("/auth")({
