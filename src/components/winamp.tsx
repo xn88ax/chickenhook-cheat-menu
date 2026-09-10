@@ -468,7 +468,7 @@ export function Winamp() {
       </div>
 
       <p className="mt-2 flex items-center justify-center gap-1 text-center text-[10px] text-muted-foreground">
-        <Cloud className="size-3" /> Wszystkie 42 utwory xn88ax lecą wprost z SoundClouda we własnym
+        <Cloud className="size-3" /> Wszystkie {SOUNDCLOUD_TRACKS.length} utworów xn88ax lecą wprost z SoundClouda we własnym
         odtwarzaczu — fala na wyświetlaczu rysuje się z faktycznego dźwięku, a głośność i balans
         działają na każdy utwór.
       </p>
