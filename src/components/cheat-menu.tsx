@@ -298,6 +298,18 @@ function GsPreviewPanel({ slug }: { slug: string }) {
         {slug === "2pacalypse" && <TwoPacalypsePanel />}
 
         {slug === "pyszne-kfc" && <PysznePanel />}
+
+        {slug === "glitch-kasy" && (
+          <>
+            <div className="absolute inset-0 z-10 bg-black/40" />
+            <img
+              src={glitchKasynoAsset.url}
+              alt=""
+              className="absolute inset-0 z-0 h-full w-full object-cover opacity-50"
+            />
+            <div className="absolute left-3 top-3 z-20 text-[11px] font-bold text-primary">$16000</div>
+          </>
+        )}
       </div>
     </div>
   );
