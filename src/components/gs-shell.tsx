@@ -199,9 +199,17 @@ export function GsShell({
               {[...tabs, ...moreTabs].map((t) => (
                 <Link key={t.label} to={t.to} onClick={() => setMobileOpen(false)} className="block rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground">{t.label}</Link>
               ))}
-              <div className="mt-2 border-t border-border pt-2">
-                <Link to="/auth" search={{ next: pathname }} onClick={() => setMobileOpen(false)} className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-border text-xs font-semibold">Zaloguj</Link>
+              <div className="mt-2 space-y-2 border-t border-border pt-2">
+                {isAdmin && (
+                  <Link to="/admin" onClick={() => setMobileOpen(false)} className="block rounded-md px-3 py-2.5 text-sm font-semibold text-primary">Panel admina</Link>
+                )}
+                {user ? (
+                  <button type="button" onClick={() => { setMobileOpen(false); void signOut(); }} className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-border text-xs font-semibold">Wyloguj ({displayName(user)})</button>
+                ) : (
+                  <Link to="/auth" search={{ next: pathname }} onClick={() => setMobileOpen(false)} className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-border text-xs font-semibold">Zaloguj</Link>
+                )}
               </div>
+
             </nav>
           )}
         </div>
