@@ -317,6 +317,25 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "key", label: "Klawisz DDoS", value: "F" },
     ],
   },
+
+  "pyszne-kfc": {
+    note: "Panel Pyszne.pl podpięty pod najbliższe KFC. Zamówienie składasz w podglądzie obok — koszyk liczy się na żywo, a przy 39 zł dostawa jest darmowa.",
+    left: [
+      { kind: "toggle", label: "Włącz panel Pyszne.pl", on: true },
+      { kind: "text", label: "Adres dostawy", value: "ul. Kurza 88/2, Warszawa", placeholder: "ulica, numer, miasto" },
+      { kind: "select", label: "Restauracja", options: ["KFC Złote Tarasy", "KFC Dworzec Centralny", "KFC Marszałkowska", "KFC Blue City"], value: 0 },
+      { kind: "select", label: "Płatność", options: ["BLIK", "Karta", "Gotówka u kuriera", "Skiny z inwentarza"], value: 0 },
+      { kind: "text", label: "Kod promocyjny", value: "CHICKENHOOK", placeholder: "kod rabatowy" },
+    ],
+    right: [
+      { kind: "toggle", label: "Podwójna panierka", on: true },
+      { kind: "toggle", label: "Bez sałaty", on: false },
+      { kind: "stepper", label: "Sosy dodatkowe", value: 4 },
+      { kind: "select", label: "Napój", options: ["Pepsi", "Pepsi Max", "Mirinda", "Lipton", "Woda (po co)"], value: 1 },
+      { kind: "toggle", label: "Zamów po przegranej rundzie", on: false },
+      { kind: "key", label: "Powtórz zamówienie", value: "F9" },
+    ],
+  },
 };
 
 

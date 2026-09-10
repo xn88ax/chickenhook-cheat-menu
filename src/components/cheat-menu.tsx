@@ -43,6 +43,7 @@ const GROUPS: Record<string, string> = {
   "czat-glosowy": "Inne",
   radio: "Inne",
   "2pacalypse": "Exploity",
+  "pyszne-kfc": "Inne",
 
 };
 
@@ -292,6 +293,8 @@ function GsPreviewPanel({ slug }: { slug: string }) {
         )}
 
         {slug === "2pacalypse" && <TwoPacalypsePanel />}
+
+        {slug === "pyszne-kfc" && <PysznePanel />}
       </div>
     </div>
   );
@@ -355,7 +358,109 @@ function TwoPacalypsePanel() {
   );
 }
 
+const KFC_MENU = [
+  { name: "Kubełek Wielki 20 szt.", price: 89.99 },
+  { name: "Twister Original", price: 21.99 },
+  { name: "Hot Wings 9 szt.", price: 24.99 },
+  { name: "Stripsy 5 szt.", price: 26.99 },
+  { name: "Zinger Burger", price: 22.99 },
+  { name: "Frytki duże", price: 11.99 },
+  { name: "Sos serowy", price: 3.5 },
+  { name: "Pepsi Max 0,5 l", price: 8.99 },
+];
 
+const FREE_DELIVERY = 39;
+
+function PysznePanel() {
+  const [cart, setCart] = useState<Record<string, number>>({ "Twister Original": 1 });
+  const [sent, setSent] = useState(false);
+
+  const total = KFC_MENU.reduce((sum, it) => sum + (cart[it.name] ?? 0) * it.price, 0);
+  const items = Object.values(cart).reduce((a, b) => a + b, 0);
+  const progress = Math.min(100, (total / FREE_DELIVERY) * 100);
+
+  const add = (name: string, delta: number) =>
+    setCart((p) => {
+      const next = Math.max(0, (p[name] ?? 0) + delta);
+      const copy = { ...p };
+      if (next === 0) delete copy[name];
+      else copy[name] = next;
+      return copy;
+    });
+
+  return (
+    <div className="absolute inset-0 flex flex-col bg-[#0d0d0d]">
+      <div className="flex items-center justify-between border-b border-border bg-[#ff8000]/15 px-2 py-1">
+        <span className="text-[10px] font-black tracking-tight text-[#ff8000]">pyszne.pl</span>
+        <span className="text-[9px] text-muted-foreground">KFC · 25–35 min</span>
+      </div>
+
+      <div className="flex-1 space-y-1 overflow-y-auto px-2 py-1.5">
+        {KFC_MENU.map((it) => {
+          const qty = cart[it.name] ?? 0;
+          return (
+            <div
+              key={it.name}
+              className="flex items-center gap-2 rounded-sm border border-border/60 bg-background/40 px-1.5 py-1"
+            >
+              <span className="min-w-0 flex-1 truncate text-[10px] text-foreground/90">{it.name}</span>
+              <span className="text-[10px] tabular-nums text-muted-foreground">
+                {it.price.toFixed(2)} zł
+              </span>
+              <span className="inline-flex items-center rounded-sm border border-border text-[10px]">
+                <button
+                  type="button"
+                  aria-label={`Usuń ${it.name}`}
+                  onClick={() => add(it.name, -1)}
+                  className="px-1 text-muted-foreground hover:text-[#ff8000]"
+                >
+                  −
+                </button>
+                <span className="min-w-4 text-center tabular-nums">{qty}</span>
+                <button
+                  type="button"
+                  aria-label={`Dodaj ${it.name}`}
+                  onClick={() => add(it.name, 1)}
+                  className="px-1 text-muted-foreground hover:text-[#ff8000]"
+                >
+                  +
+                </button>
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="border-t border-border px-2 py-1.5">
+        <div className="h-1 overflow-hidden rounded-full bg-border">
+          <span
+            className="block h-full bg-[#ff8000] transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <div className="mt-1 flex items-center justify-between text-[9px] text-muted-foreground">
+          <span>
+            {total >= FREE_DELIVERY
+              ? "Dostawa darmowa"
+              : `Jeszcze ${(FREE_DELIVERY - total).toFixed(2)} zł do darmowej dostawy`}
+          </span>
+          <span className="font-bold tabular-nums text-foreground">{total.toFixed(2)} zł</span>
+        </div>
+        <button
+          type="button"
+          disabled={items === 0}
+          onClick={() => {
+            setSent(true);
+            window.setTimeout(() => setSent(false), 2200);
+          }}
+          className="mt-1.5 w-full rounded-sm bg-[#ff8000] py-1 text-[10px] font-black uppercase tracking-wide text-black transition-opacity hover:opacity-90 disabled:opacity-40"
+        >
+          {sent ? "Zamówione — kurier w drodze" : `Zamów (${items})`}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 // ===== Główny komponent =====
 
@@ -548,7 +653,9 @@ export function CheatMenu() {
             </span>
           </div>
 
-          {["custom-skin", "czat-glosowy", "radio", "2pacalypse"].includes(selected.slug) && (
+          {["custom-skin", "czat-glosowy", "radio", "2pacalypse", "pyszne-kfc"].includes(
+            selected.slug,
+          ) && (
             <GsPreviewPanel slug={selected.slug} />
           )}
 
