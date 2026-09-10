@@ -113,7 +113,7 @@ export const getModerationData = createServerFn({ method: "GET" })
         .limit(40),
       supabaseAdmin
         .from("shouts")
-        .select("id,body,nickname,created_at")
+        .select("id,nick,text,created_at")
         .order("created_at", { ascending: false })
         .limit(40),
       supabaseAdmin.from("profiles").select("id,username"),
