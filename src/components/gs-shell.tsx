@@ -66,7 +66,10 @@ export function GsShell({
     navigate({ to: "/" });
   }
 
+  useEffect(() => {
+    if (!moreOpen) return;
     function onDown(e: MouseEvent) {
+
       if (!moreRef.current?.contains(e.target as Node)) setMoreOpen(false);
     }
     document.addEventListener("mousedown", onDown);
