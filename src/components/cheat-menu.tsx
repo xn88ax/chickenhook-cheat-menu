@@ -43,6 +43,7 @@ const GROUPS: Record<string, string> = {
   "czat-glosowy": "Inne",
   radio: "Inne",
   "2pacalypse": "Exploity",
+  "pyszne-kfc": "Inne",
 
 };
 
