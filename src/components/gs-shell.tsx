@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { ChevronDown, Menu, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { displayName } from "@/hooks/use-auth";
+import { useIsAdmin } from "@/hooks/use-is-admin";
+
 
 const tabs = [
   { label: "Funkcje", to: "/opcje" },
