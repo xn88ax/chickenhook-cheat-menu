@@ -7,9 +7,21 @@ export type Build = {
 
 export const builds: Build[] = [
   {
+    version: "4.chkn.1",
+    date: "28 sierpnia 2026",
+    tag: "Aktualny",
+    notes: [
+      "Aktualizacja pod CS2 z 28.08.2026: wskaźnik obrażeń odświeżony i bardziej czytelny.",
+      "Predykcja granatów: dodano opcję przywracania starych linii dla fanów retro.",
+      "Radar: nowa mapa ciepła obrażeń, wsparcie map z Workshopa i map pionowych.",
+      "Ikona C4 na radarze naprawiona dla podłożonej i upuszczonej bomby.",
+      "Zmieniacz regionów: dodano brakujące centra danych.",
+    ],
+  },
+  {
     version: "4.chkn",
     date: "8 września 2026",
-    tag: "Aktualny",
+    tag: "Stabilny",
     notes: [
       "Każda funkcja w menu ma teraz własne opcje po polsku: aimbot (FOV, smooth, kość, RCS), ESP (ramka, szkielet, radar), bhop i exploity.",
       "Poprawki stabilności: aimbot już nie strzela w kurczaki, a loader nie otwiera menu po arabsku.",
