@@ -21,6 +21,7 @@ export type PreviewKind =
   | "radio"
   | "ddos"
   | "strazak"
+  | "flashassist"
   | "nade"
   | "pyszne";
 
