@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import glitchKasynoAsset from "@/assets/glitch-kasyno.gif.asset.json";
 import twoPacAsset from "@/assets/2pac.png.asset.json";
 
 import { Link } from "@tanstack/react-router";
