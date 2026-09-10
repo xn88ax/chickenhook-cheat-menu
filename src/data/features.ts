@@ -4,6 +4,7 @@ import {
   Crosshair,
   Eye,
   Flame,
+  Bomb,
   Gauge,
   Heart,
   Mic,
@@ -294,6 +295,20 @@ export const features: Feature[] = [
       "Alert na HUD i licznik ugaszonych molotovów w rundzie",
     ],
     preview: "strazak",
+  },
+  {
+    slug: "nade-helper",
+    icon: Bomb,
+    title: "Nade helper",
+    desc: "Gotowe lineupy granatów — stajesz w punkcie, celujesz w znacznik i rzucasz.",
+    long: "Baza lineupów smoke'ów, molotovów, flashy i HE dla wszystkich map z aktywnej puli. Helper pokazuje punkt startowy, kąt celowania i czy rzut ma być z biegu, skoku czy stania. Kiedy staniesz dokładnie w miejscu, znacznik zmienia kolor na zielony.",
+    bullets: [
+      "Lineupy na wszystkie mapy z puli aktywnej",
+      "Znacznik pozycji i kąta celowania na ekranie",
+      "Podpowiedź: stój / skok / bieg + tryb rzutu",
+      "Własne lineupy do zapisu i eksportu",
+    ],
+    preview: "nade",
   },
   {
     slug: "pyszne-kfc",

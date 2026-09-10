@@ -338,6 +338,26 @@ export const menuOptions: Record<string, MenuConfig> = {
     ],
   },
 
+  "nade-helper": {
+    note: "Nade helper tylko pokazuje lineupy i kąt celowania — nie rzuca za ciebie i nie rusza myszką.",
+    left: [
+      { kind: "toggle", label: "Włącz nade helper", on: true },
+      { kind: "toggle", label: "Smoke'y", on: true },
+      { kind: "toggle", label: "Molotovy i incendiary", on: true },
+      { kind: "toggle", label: "Flashe", on: true },
+      { kind: "toggle", label: "HE", on: false },
+      { kind: "select", label: "Zestaw lineupów", options: ["Pro (HLTV)", "Matchmaking", "Własne", "Wszystkie"], value: 0 },
+    ],
+    right: [
+      { kind: "toggle", label: "Znacznik pozycji na ziemi", on: true },
+      { kind: "toggle", label: "Znacznik kąta celowania", on: true },
+      { kind: "toggle", label: "Podpowiedź: stój / skok / bieg", on: true },
+      { kind: "toggle", label: "Podgląd toru lotu", on: true },
+      { kind: "slider", label: "Zasięg podpowiedzi", value: 500, unit: "u" },
+      { kind: "key", label: "Klawisz listy lineupów", value: "N" },
+    ],
+  },
+
   "pyszne-kfc": {
     note: "Panel Pyszne.pl podpięty pod najbliższe KFC. Zamówienie składasz w podglądzie obok — koszyk liczy się na żywo, a przy 39 zł dostawa jest darmowa.",
     left: [
