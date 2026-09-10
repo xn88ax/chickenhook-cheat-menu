@@ -21,6 +21,7 @@ export type PreviewKind =
   | "radio"
   | "ddos"
   | "strazak"
+  | "nade"
   | "pyszne";
 
 const labels: Record<PreviewKind, string> = {
@@ -42,6 +43,7 @@ const labels: Record<PreviewKind, string> = {
   radio: "RADIO",
   ddos: "2PACALYPSE 2.3",
   strazak: "AUTO STRAŻAK",
+  nade: "NADE HELPER",
   pyszne: "PYSZNE.PL — KFC",
 };
 
@@ -151,6 +153,17 @@ function Scene({ kind }: { kind: PreviewKind }) {
     case "customskin":
       return (
         <div className="preview-skin absolute left-1/2 top-1/2 h-16 w-10 -translate-x-1/2 -translate-y-1/2 rounded bg-gradient-to-b from-primary/70 via-accent/60 to-primary/70" />
+      );
+    case "nade":
+      return (
+        <>
+          <div className="preview-slide absolute top-1/3 h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_10px_hsl(var(--accent))]" />
+          <div className="absolute inset-4 rounded border border-dashed border-accent/40" />
+          <div className="preview-fov absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary/60" />
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[10px] font-bold text-accent">
+            LINEUP OK
+          </div>
+        </>
       );
     case "strazak":
       return (
