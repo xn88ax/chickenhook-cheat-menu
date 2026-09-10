@@ -376,133 +376,178 @@ function TwoPacalypsePanel() {
   );
 }
 
-const KFC_CATEGORIES: { cat: string; items: { name: string; price: number }[] }[] = [
+const KFC_CATEGORIES: { cat: string; items: { name: string; price: number; from?: boolean }[] }[] = [
   {
-    cat: "Promocje",
+    cat: "Wyróżnione",
     items: [
-      { name: "Boxmaster Zestaw", price: 33.99 },
-      { name: "2x Zinger Burger", price: 39.99 },
-      { name: "Kubełek 9 kawałków + 2 frytki", price: 74.99 },
-      { name: "Twister Zestaw", price: 31.99 },
-      { name: "Duo Box (2 burgery + 2 frytki + 2 napoje)", price: 59.99 },
+      { name: "Kubełek 15 Strips", price: 65.72, from: true },
+      { name: "Kubełek 15 Hot Wings", price: 49.72, from: true },
+      { name: "Qurrito Grande", price: 29.99 },
+      { name: "Grander Burger", price: 29.99 },
+      { name: "Twister", price: 23.99 },
     ],
   },
   {
-    cat: "Kubełki",
+    cat: "Doritos Loaded",
     items: [
-      { name: "Kubełek 6 kawałków", price: 44.99 },
-      { name: "Kubełek 9 kawałków", price: 59.99 },
-      { name: "Kubełek 15 kawałków", price: 89.99 },
-      { name: "Kubełek 20 kawałków", price: 114.99 },
-      { name: "Kubełek Hot Wings 20 szt.", price: 54.99 },
-      { name: "Kubełek Stripsów 10 szt.", price: 59.99 },
-      { name: "Bucket Party 30 szt.", price: 159.99 },
+      { name: "Loaded Doritos & Bubble Tea by Yoshi", price: 35.74, from: true },
+      { name: "Loaded Doritos & Bubble Tea by Czarek", price: 35.74, from: true },
+      { name: "Loaded Doritos Tex-Mex & Bubble Tea", price: 37.74, from: true },
+      { name: "Loaded Doritos Extra Spicy & Bubble Tea", price: 37.74, from: true },
+      { name: "Loaded Doritos by Yoshi", price: 27.99 },
+      { name: "Loaded Doritos by Czarek", price: 27.99 },
+      { name: "Loaded Doritos Tex-Mex", price: 29.99 },
+      { name: "Loaded Doritos Extra Spicy", price: 29.99 },
+      { name: "Loaded Doritos Extra Spicy & Napój", price: 34.99 },
+      { name: "Loaded Doritos Tex-Mex & Napój", price: 34.99 },
     ],
   },
   {
-    cat: "Kanapki",
+    cat: "KUBEŁKI",
     items: [
-      { name: "Zinger Burger", price: 22.99 },
-      { name: "Zinger Burger Cheese", price: 24.99 },
-      { name: "Boxmaster", price: 27.99 },
-      { name: "Boxmaster Spicy", price: 28.99 },
-      { name: "Twister Original", price: 21.99 },
-      { name: "Twister Spicy", price: 22.99 },
-      { name: "Twister Cheese", price: 23.99 },
-      { name: "Burger Kentucky BBQ", price: 25.99 },
-      { name: "Chicken Burger", price: 15.99 },
-      { name: "Cheeseburger", price: 12.99 },
-      { name: "Fillet Burger", price: 24.99 },
+      { name: "Kubełek 15 Hot Wings", price: 49.72, from: true },
+      { name: "Kubełek 30 Hot Wings", price: 85.72, from: true },
+      { name: "Kubełek 50 Hot Wings", price: 105.72, from: true },
+      { name: "Kubełek 11 Hot Wings / 11 Strips", price: 69.72, from: true },
+      { name: "Kubełek Strips&Bites dla 2 osób", price: 51.72, from: true },
+      { name: "Kubełek Strips&Bites dla 4 osób", price: 79.72, from: true },
+      { name: "Kubełek 15 Strips", price: 65.72, from: true },
+      { name: "Kubełek 30 Strips", price: 95.72, from: true },
     ],
   },
   {
-    cat: "Kurczak",
+    cat: "Popcorn Chicken",
     items: [
-      { name: "Hot Wings 5 szt.", price: 16.99 },
-      { name: "Hot Wings 9 szt.", price: 24.99 },
-      { name: "Hot Wings 15 szt.", price: 39.99 },
-      { name: "Stripsy 3 szt.", price: 17.99 },
-      { name: "Stripsy 5 szt.", price: 26.99 },
-      { name: "Stripsy 9 szt.", price: 44.99 },
-      { name: "Nuggetsy 5 szt.", price: 14.99 },
-      { name: "Nuggetsy 9 szt.", price: 22.99 },
-      { name: "Kurczak w kawałkach 2 szt.", price: 19.99 },
-      { name: "Kurczak w kawałkach 3 szt.", price: 26.99 },
+      { name: "Popcorn Chicken Mały", price: 15.99 },
+      { name: "Popcorn Chicken Duży", price: 24.99 },
+      { name: "Popcorn Chicken & Napój", price: 29.99 },
+      { name: "Popcorn Chicken Box", price: 34.99, from: true },
     ],
   },
   {
-    cat: "Wrapy i sałatki",
+    cat: "WRAPY",
     items: [
-      { name: "Wrap Original", price: 17.99 },
-      { name: "Wrap Spicy", price: 18.99 },
-      { name: "Wrap Cheese", price: 18.99 },
-      { name: "Sałatka Coleslaw mała", price: 8.99 },
-      { name: "Sałatka Coleslaw duża", price: 13.99 },
-      { name: "Sałatka z kurczakiem", price: 22.99 },
+      { name: "Twister", price: 23.99 },
+      { name: "Twister Spicy", price: 23.99 },
+      { name: "Qurrito Grande", price: 29.99 },
+      { name: "Qurrito Grande Spicy", price: 29.99 },
+      { name: "Wrap Original", price: 19.99 },
+      { name: "Wrap Hot", price: 19.99 },
     ],
   },
   {
-    cat: "Dodatki",
+    cat: "BURGERY",
     items: [
-      { name: "Frytki małe", price: 8.99 },
-      { name: "Frytki średnie", price: 10.99 },
-      { name: "Frytki duże", price: 12.99 },
-      { name: "Frytki z serem", price: 15.99 },
-      { name: "Cheese Fries Bacon", price: 18.99 },
-      { name: "Kukurydza", price: 8.99 },
-      { name: "Bułka", price: 3.49 },
+      { name: "Grander Burger", price: 29.99 },
+      { name: "Grander Burger Spicy", price: 29.99 },
+      { name: "Zinger Burger", price: 25.99 },
+      { name: "Zinger Burger Cheese", price: 27.99 },
+      { name: "Kanapka Kentucky BBQ", price: 26.99 },
+      { name: "Burger Klasyczny", price: 17.99 },
+      { name: "Cheeseburger", price: 14.99 },
     ],
   },
   {
-    cat: "Sosy",
+    cat: "BIG BOXY",
     items: [
-      { name: "Sos serowy", price: 3.5 },
-      { name: "Sos BBQ", price: 2.5 },
-      { name: "Sos czosnkowy", price: 2.5 },
-      { name: "Sos musztardowo-miodowy", price: 2.5 },
-      { name: "Sos sweet chilli", price: 2.5 },
-      { name: "Sos Hot Pepper", price: 2.5 },
+      { name: "Big Box Grander", price: 44.99, from: true },
+      { name: "Big Box Zinger", price: 41.99, from: true },
+      { name: "Big Box Strips", price: 42.99, from: true },
+      { name: "Big Box Hot Wings", price: 41.99, from: true },
     ],
   },
   {
-    cat: "Napoje",
+    cat: "ZESTAWY",
     items: [
-      { name: "Pepsi 0,4 l", price: 8.99 },
-      { name: "Pepsi Max 0,5 l", price: 9.49 },
-      { name: "Mirinda 0,4 l", price: 8.99 },
-      { name: "7up 0,4 l", price: 8.99 },
-      { name: "Lipton Ice Tea 0,4 l", price: 9.49 },
-      { name: "Woda niegazowana 0,5 l", price: 6.99 },
-      { name: "Sok pomarańczowy", price: 8.49 },
-      { name: "Kawa Americano", price: 9.99 },
+      { name: "Zestaw Twister", price: 33.99, from: true },
+      { name: "Zestaw Zinger Burger", price: 35.99, from: true },
+      { name: "Zestaw Grander Burger", price: 39.99, from: true },
+      { name: "Zestaw 5 Strips", price: 37.99, from: true },
+      { name: "Zestaw 9 Hot Wings", price: 36.99, from: true },
     ],
   },
   {
-    cat: "Desery",
+    cat: "POKÉ BOWL",
     items: [
-      { name: "Lodowy Shake truskawkowy", price: 13.99 },
-      { name: "Lodowy Shake czekoladowy", price: 13.99 },
-      { name: "Sundae z sosem", price: 9.99 },
-      { name: "Ciastko czekoladowe", price: 7.99 },
-      { name: "Muffin", price: 8.99 },
+      { name: "Poké Bowl Strips", price: 32.99 },
+      { name: "Poké Bowl Popcorn Chicken", price: 31.99 },
+      { name: "Poké Bowl Vege", price: 28.99 },
+    ],
+  },
+  {
+    cat: "SHAKES DELUXE & BUBBLE TEA",
+    items: [
+      { name: "Shake Deluxe Oreo", price: 18.99 },
+      { name: "Shake Deluxe Truskawkowy", price: 17.99 },
+      { name: "Shake Deluxe Czekoladowy", price: 17.99 },
+      { name: "Bubble Tea Mango 300 ml", price: 13.99 },
+      { name: "Bubble Tea Truskawka 300 ml", price: 13.99 },
+    ],
+  },
+  {
+    cat: "DODATKI",
+    items: [
+      { name: "Frytki Małe", price: 9.99 },
+      { name: "Frytki Duże", price: 13.99 },
+      { name: "Frytki z serem", price: 16.99 },
+      { name: "Surówka Coleslaw Mała", price: 9.99 },
+      { name: "Surówka Coleslaw Duża", price: 14.99 },
+      { name: "Kukurydza", price: 9.49 },
+      { name: "Sos (do wyboru)", price: 3.49 },
+    ],
+  },
+  {
+    cat: "KAWAŁKI KURCZAKA",
+    items: [
+      { name: "Hot Wings 5 szt.", price: 18.99 },
+      { name: "Hot Wings 9 szt.", price: 27.99 },
+      { name: "Strips 3 szt.", price: 19.99 },
+      { name: "Strips 5 szt.", price: 29.99 },
+      { name: "Kawałki kurczaka 2 szt.", price: 21.99 },
+      { name: "Kawałki kurczaka 4 szt.", price: 38.99 },
+    ],
+  },
+  {
+    cat: "NAPOJE",
+    items: [
+      { name: "Pepsi 0,4 l", price: 9.49 },
+      { name: "Pepsi Max 0,4 l", price: 9.49 },
+      { name: "Mirinda 0,4 l", price: 9.49 },
+      { name: "7up 0,4 l", price: 9.49 },
+      { name: "Lipton Ice Tea 0,4 l", price: 9.99 },
+      { name: "Woda niegazowana 0,5 l", price: 7.49 },
+      { name: "Kawa Americano", price: 10.99 },
+    ],
+  },
+  {
+    cat: "LODY I DESERY",
+    items: [
+      { name: "Sundae z sosem", price: 11.99 },
+      { name: "Lody w wafelku", price: 7.99 },
+      { name: "Ciastko czekoladowe", price: 8.99 },
+      { name: "Muffin", price: 9.99 },
     ],
   },
 ];
 
 const KFC_MENU = KFC_CATEGORIES.flatMap((c) => c.items);
 
-
 const FREE_DELIVERY = 39;
 
 function PysznePanel() {
-  const [cart, setCart] = useState<Record<string, number>>({ "Twister Original": 1 });
+  const [cart, setCart] = useState<Record<string, number>>({ Twister: 1 });
   const [sent, setSent] = useState(false);
   const [cat, setCat] = useState(KFC_CATEGORIES[0]!.cat);
+  const [query, setQuery] = useState("");
 
   const total = KFC_MENU.reduce((sum, it) => sum + (cart[it.name] ?? 0) * it.price, 0);
   const items = Object.values(cart).reduce((a, b) => a + b, 0);
   const progress = Math.min(100, (total / FREE_DELIVERY) * 100);
   const active = KFC_CATEGORIES.find((c) => c.cat === cat) ?? KFC_CATEGORIES[0]!;
+  const q = query.trim().toLowerCase();
+  const shown = q
+    ? KFC_MENU.filter((it) => it.name.toLowerCase().includes(q))
+    : active.items;
 
   const add = (name: string, delta: number) =>
     setCart((p) => {
@@ -514,80 +559,141 @@ function PysznePanel() {
     });
 
   return (
-    <div className="absolute inset-0 flex flex-col bg-[#0d0d0d]">
-      <div className="flex items-center justify-between border-b border-border bg-[#ff8000]/15 px-2 py-1">
-        <span className="text-[10px] font-black tracking-tight text-[#ff8000]">pyszne.pl</span>
-        <span className="text-[9px] text-muted-foreground">KFC Korona · 25–35 min</span>
+    <div className="absolute inset-0 flex flex-col overflow-hidden bg-[#f7f4f0] font-sans text-[#313131]">
+      {/* pasek jak na pyszne.pl */}
+      <div className="flex items-center justify-between border-b border-black/10 bg-white px-2 py-1">
+        <span className="flex items-center gap-1">
+          <span className="grid h-4 w-4 place-items-center rounded-[3px] bg-[#ff8000] text-[8px] font-black text-white">
+            P
+          </span>
+          <span className="text-[11px] font-extrabold tracking-tight text-[#ff8000]">
+            Pyszne<span className="text-[#313131]">.pl</span>
+          </span>
+        </span>
+        <span className="text-[9px] text-black/50">Dostawa · 25–35 min</span>
       </div>
 
-      <div className="flex gap-1 overflow-x-auto border-b border-border px-2 py-1">
-        {KFC_CATEGORIES.map((c) => (
-          <button
-            key={c.cat}
-            type="button"
-            onClick={() => setCat(c.cat)}
-            className={`whitespace-nowrap rounded-sm border px-1.5 py-0.5 text-[9px] transition-colors ${
-              c.cat === cat
-                ? "border-[#ff8000] bg-[#ff8000]/20 text-[#ff8000]"
-                : "border-border/60 text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {c.cat}
-          </button>
-        ))}
+      {/* nagłówek restauracji */}
+      <div className="relative border-b border-black/10 bg-[#e4002b] px-2 pb-1.5 pt-1.5">
+        <div className="flex items-center gap-1.5">
+          <span className="grid h-6 w-6 shrink-0 place-items-center rounded-[3px] bg-white text-[7px] font-black leading-none text-[#e4002b]">
+            KFC
+          </span>
+          <span className="min-w-0">
+            <span className="block truncate text-[11px] font-extrabold text-white">KFC, Korona</span>
+            <span className="block text-[8px] text-white/80">
+              ★ 4 (180+) · Dostarczone przez Pyszne.pl
+            </span>
+          </span>
+        </div>
+        <div className="mt-1.5 flex items-center gap-1 rounded-full bg-white px-2 py-[3px]">
+          <span className="text-[9px] text-black/40">⌕</span>
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="KFC, Korona"
+            className="min-w-0 flex-1 bg-transparent text-[9px] text-[#313131] outline-none placeholder:text-black/35"
+          />
+        </div>
       </div>
 
-      <div className="flex-1 space-y-1 overflow-y-auto px-2 py-1.5">
-        {active.items.map((it) => {
-          const qty = cart[it.name] ?? 0;
-          return (
-            <div
-              key={it.name}
-              className="flex items-center gap-2 rounded-sm border border-border/60 bg-background/40 px-1.5 py-1"
+      <div className="flex min-h-0 flex-1">
+        {/* lista kategorii */}
+        <div className="w-[92px] shrink-0 overflow-y-auto border-r border-black/10 bg-[#f7f4f0] py-1">
+          {KFC_CATEGORIES.map((c) => (
+            <button
+              key={c.cat}
+              type="button"
+              onClick={() => {
+                setCat(c.cat);
+                setQuery("");
+              }}
+              className={`flex w-full items-center gap-1 border-l-2 px-1.5 py-[5px] text-left text-[9px] leading-tight transition-colors ${
+                c.cat === cat && !q
+                  ? "border-[#ff8000] font-bold text-[#313131]"
+                  : "border-transparent text-black/60 hover:text-[#313131]"
+              }`}
             >
-              <span className="min-w-0 flex-1 truncate text-[10px] text-foreground/90">{it.name}</span>
-              <span className="text-[10px] tabular-nums text-muted-foreground">
-                {it.price.toFixed(2)} zł
-              </span>
-              <span className="inline-flex items-center rounded-sm border border-border text-[10px]">
-                <button
-                  type="button"
-                  aria-label={`Usuń ${it.name}`}
-                  onClick={() => add(it.name, -1)}
-                  className="px-1 text-muted-foreground hover:text-[#ff8000]"
+              <span className="truncate">{c.cat}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* pozycje menu jako karty */}
+        <div className="min-w-0 flex-1 overflow-y-auto px-2 py-1.5">
+          <h4 className="mb-1 text-[11px] font-extrabold text-[#313131]">
+            {q ? `Wyniki: „${query}”` : active.cat}
+          </h4>
+          <div className="space-y-1.5">
+            {shown.map((it) => {
+              const qty = cart[it.name] ?? 0;
+              return (
+                <div
+                  key={`${active.cat}-${it.name}`}
+                  className="flex items-stretch gap-2 rounded-md border border-black/10 bg-white p-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.06)]"
                 >
-                  −
-                </button>
-                <span className="min-w-4 text-center tabular-nums">{qty}</span>
-                <button
-                  type="button"
-                  aria-label={`Dodaj ${it.name}`}
-                  onClick={() => add(it.name, 1)}
-                  className="px-1 text-muted-foreground hover:text-[#ff8000]"
-                >
-                  +
-                </button>
-              </span>
-            </div>
-          );
-        })}
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[7px] font-bold uppercase tracking-wide text-black/40">
+                      {q ? "KFC" : active.cat}
+                    </span>
+                    <span className="block truncate text-[10px] font-bold text-[#313131]">
+                      {it.name}
+                    </span>
+                    <span className="mt-[2px] block text-[9px] text-black/60">
+                      {it.from ? "od " : ""}
+                      <span className="font-bold text-[#313131]">
+                        {it.price.toFixed(2).replace(".", ",")} zł
+                      </span>
+                    </span>
+                  </span>
+                  <span className="h-11 w-11 shrink-0 rounded-md bg-[#f0ece7]" aria-hidden />
+                  <span className="flex flex-col items-center justify-center gap-[2px]">
+                    {qty > 0 && (
+                      <button
+                        type="button"
+                        aria-label={`Usuń ${it.name}`}
+                        onClick={() => add(it.name, -1)}
+                        className="grid h-4 w-4 place-items-center rounded-full border border-[#ff8000] text-[10px] font-bold leading-none text-[#ff8000]"
+                      >
+                        −
+                      </button>
+                    )}
+                    {qty > 0 && (
+                      <span className="text-[9px] font-bold tabular-nums">{qty}</span>
+                    )}
+                    <button
+                      type="button"
+                      aria-label={`Dodaj ${it.name}`}
+                      onClick={() => add(it.name, 1)}
+                      className="grid h-4 w-4 place-items-center rounded-full border border-[#ff8000] text-[10px] font-bold leading-none text-[#ff8000] hover:bg-[#ff8000] hover:text-white"
+                    >
+                      +
+                    </button>
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
-
-      <div className="border-t border-border px-2 py-1.5">
-        <div className="h-1 overflow-hidden rounded-full bg-border">
+      {/* koszyk */}
+      <div className="border-t border-black/10 bg-white px-2 py-1.5">
+        <div className="h-1 overflow-hidden rounded-full bg-black/10">
           <span
             className="block h-full bg-[#ff8000] transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
-        <div className="mt-1 flex items-center justify-between text-[9px] text-muted-foreground">
+        <div className="mt-1 flex items-center justify-between text-[9px] text-black/60">
           <span>
             {total >= FREE_DELIVERY
               ? "Dostawa darmowa"
-              : `Jeszcze ${(FREE_DELIVERY - total).toFixed(2)} zł do darmowej dostawy`}
+              : `Jeszcze ${(FREE_DELIVERY - total).toFixed(2).replace(".", ",")} zł do darmowej dostawy`}
           </span>
-          <span className="font-bold tabular-nums text-foreground">{total.toFixed(2)} zł</span>
+          <span className="font-bold tabular-nums text-[#313131]">
+            {total.toFixed(2).replace(".", ",")} zł
+          </span>
         </div>
         <button
           type="button"
@@ -596,9 +702,9 @@ function PysznePanel() {
             setSent(true);
             window.setTimeout(() => setSent(false), 2200);
           }}
-          className="mt-1.5 w-full rounded-sm bg-[#ff8000] py-1 text-[10px] font-black uppercase tracking-wide text-black transition-opacity hover:opacity-90 disabled:opacity-40"
+          className="mt-1.5 w-full rounded-full bg-[#ff8000] py-1 text-[10px] font-extrabold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
         >
-          {sent ? "Zamówione — kurier w drodze" : `Zamów (${items})`}
+          {sent ? "Zamówione — kurier w drodze" : `Przejdź do koszyka (${items})`}
         </button>
       </div>
     </div>
