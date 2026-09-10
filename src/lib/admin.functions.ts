@@ -92,3 +92,103 @@ export const deleteInviteCode = createServerFn({ method: "POST" })
     if (error) return { ok: false as const, error: "Nie udało się usunąć kodu." };
     return { ok: true as const };
   });
+
+/** Recent forum + shoutbox content for moderation. */
+export const getModerationData = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const [threads, posts, shouts, profiles] = await Promise.all([
+      supabaseAdmin
+        .from("forum_threads")
+        .select("id,title,pinned,created_at,author_id")
+        .order("created_at", { ascending: false })
+        .limit(40),
+      supabaseAdmin
+        .from("forum_posts")
+        .select("id,body,created_at,author_id,thread_id")
+        .order("created_at", { ascending: false })
+        .limit(40),
+      supabaseAdmin
+        .from("shouts")
+        .select("id,nick,text,created_at")
+        .order("created_at", { ascending: false })
+        .limit(40),
+      supabaseAdmin.from("profiles").select("id,username"),
+    ]);
+
+    const nameOf = (id: string | null) =>
+      (profiles.data ?? []).find((p) => p.id === id)?.username ?? "gość";
+
+    return {
+      threads: (threads.data ?? []).map((t) => ({ ...t, author: nameOf(t.author_id) })),
+      posts: (posts.data ?? []).map((p) => ({ ...p, author: nameOf(p.author_id) })),
+      shouts: shouts.data ?? [],
+    };
+  });
+
+export const setUserRole = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z
+      .object({
+        userId: z.string().uuid(),
+        role: z.enum(["admin", "moderator"]),
+        grant: z.boolean(),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    if (data.userId === context.userId && data.role === "admin" && !data.grant) {
+      return { ok: false as const, error: "Nie możesz odebrać uprawnień sobie." };
+    }
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { error } = data.grant
+      ? await supabaseAdmin
+          .from("user_roles")
+          .upsert({ user_id: data.userId, role: data.role }, { onConflict: "user_id,role" })
+      : await supabaseAdmin
+          .from("user_roles")
+          .delete()
+          .eq("user_id", data.userId)
+          .eq("role", data.role);
+
+    if (error) return { ok: false as const, error: "Nie udało się zmienić roli." };
+    return { ok: true as const };
+  });
+
+export const moderateContent = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z
+      .object({
+        kind: z.enum(["thread", "post", "shout"]),
+        id: z.string().uuid(),
+        action: z.enum(["delete", "pin", "unpin"]).default("delete"),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    if (data.kind === "thread" && data.action !== "delete") {
+      const { error } = await supabaseAdmin
+        .from("forum_threads")
+        .update({ pinned: data.action === "pin" })
+        .eq("id", data.id);
+      if (error) return { ok: false as const, error: "Nie udało się zmienić wątku." };
+      return { ok: true as const };
+    }
+
+    const table =
+      data.kind === "thread" ? "forum_threads" : data.kind === "post" ? "forum_posts" : "shouts";
+    const { error } = await supabaseAdmin.from(table).delete().eq("id", data.id);
+    if (error) return { ok: false as const, error: "Nie udało się usunąć treści." };
+    return { ok: true as const };
+  });
+

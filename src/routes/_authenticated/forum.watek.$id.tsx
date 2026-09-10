@@ -3,7 +3,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { Avatar, ForumShell, timeAgo } from "@/components/forum/forum-shell";
+import { GsPanel, GsShell } from "@/components/gs-shell";
+import { Avatar, timeAgo } from "@/components/forum/forum-shell";
 
 export const Route = createFileRoute("/_authenticated/forum/watek/$id")({
   head: () => ({
@@ -81,8 +82,8 @@ function ThreadPage() {
   const thread = threadQuery.data;
 
   return (
-    <ForumShell crumbs={thread ? [{ label: thread.title }] : []}>
-      <main className="mx-auto max-w-4xl space-y-4 px-5 py-6">
+    <GsShell crumbs={thread ? [{ label: "Forum" }, { label: thread.title }] : [{ label: "Forum" }]}>
+      <main className="mx-auto max-w-[1160px] space-y-4 px-5 py-6">
         {threadQuery.isLoading && <p className="text-sm text-muted-foreground">Ładowanie…</p>}
         {!threadQuery.isLoading && !thread && (
           <p className="text-sm text-muted-foreground">
@@ -95,7 +96,7 @@ function ThreadPage() {
 
         {thread && (
           <>
-            <h1 className="text-display text-3xl uppercase">{thread.title}</h1>
+            <h1 className="font-display text-3xl">{thread.title}</h1>
 
             <article className="gs-panel">
               <header className="flex items-center gap-3 gs-head border-b border-border px-4 py-2.5">
@@ -146,7 +147,7 @@ function ThreadPage() {
                 <button
                   type="submit"
                   disabled={addPost.isPending}
-                  className="rounded-sm bucket-gradient px-4 py-2 text-xs font-bold uppercase text-primary-foreground disabled:opacity-60"
+                  className="rounded-sm bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-60"
                 >
                   Odpowiedz
                 </button>
@@ -163,6 +164,6 @@ function ThreadPage() {
           </>
         )}
       </main>
-    </ForumShell>
+    </GsShell>
   );
 }

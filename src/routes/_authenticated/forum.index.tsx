@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { MessageSquare, Pin } from "lucide-react";
+import { MessageSquare, Pin, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { Avatar, ForumShell, timeAgo } from "@/components/forum/forum-shell";
+import { GsPanel, GsShell } from "@/components/gs-shell";
+import { Avatar, timeAgo } from "@/components/forum/forum-shell";
 
 export const Route = createFileRoute("/_authenticated/forum/")({
   head: () => ({
@@ -142,229 +143,184 @@ function Forum() {
       .filter((t) => t.category_id === categoryId)
       .sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
 
+  const inputClass =
+    "w-full rounded-lg border border-border bg-background/60 px-3 py-2 text-sm outline-none focus:border-primary";
+
   return (
-    <ForumShell>
-      <main className="mx-auto max-w-6xl space-y-4 px-5 py-4">
-        {/* Banners */}
-        <div className="space-y-2">
-          <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
-            Masz nieużyte kody zaproszeń!
-          </p>
-          <p className="gs-banner px-4 py-2.5 text-center text-xs font-bold">
-            Dostępny jest nowy klient — build 4.chkn!
-          </p>
-        </div>
-
-        {/* Welcome notice (iniuria-style) */}
-        <p className="gs-panel px-4 py-3 text-xs leading-relaxed text-muted-foreground">
-          Jeśli jesteś tu pierwszy raz, przeczytaj{" "}
-          <Link to="/" hash="faq" className="text-primary hover:underline">
-            FAQ
-          </Link>
-          . Aby pisać na forum, musisz mieć konto z aktywną subskrypcją — po opłaceniu
-          zamówienia konto aktywuje się automatycznie. Wybierz dział z listy poniżej i
-          działaj.
-        </p>
-
-        {/* Big glossy action buttons */}
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-          <a href="#faq" className="gs-action">
-            Pobierz
-          </a>
-          <Link to="/opcje" className="gs-action">
-            Tutorial
-          </Link>
-          <a href="#faq" className="gs-action">
-            Support
-          </a>
-        </div>
-
-        {/* Announcement */}
-        <section className="gs-panel">
-          <h2 className="gs-head border-b border-border px-4 py-2 text-xs font-bold">
-            Ogłoszenie
-          </h2>
-          <div className="px-4 py-3 text-xs leading-relaxed">
-            <p className="font-bold text-primary">UWAGA, WAŻNA WIADOMOŚĆ:</p>
-            <p className="mt-1 text-muted-foreground">
-              Po zakupie subskrypcji załóż ticket na naszym{" "}
-              <Link to="/" hash="faq" className="text-primary hover:underline">
-                SUPPORCIE
-              </Link>
-              , aby otrzymać dane do konta i aktywować subskrypcję.
+    <GsShell crumbs={[{ label: "Forum" }]}>
+      <main className="mx-auto max-w-[1160px] space-y-6 px-5 py-6">
+        <header className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1 className="font-display text-3xl leading-none">Forum</h1>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Ogłoszenia, configi, support i dyskusje społeczności.
             </p>
           </div>
-        </section>
-
-        {/* New thread */}
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-muted-foreground">
-            Wątki:{" "}
-            <span className="cursor-pointer text-primary hover:underline">Napisane</span> |{" "}
-            <span className="cursor-pointer text-primary hover:underline">Nowe</span> |{" "}
-            <span className="cursor-pointer text-primary hover:underline">Aktywne</span>
-          </span>
           {user && (
             <button
+              type="button"
               onClick={() => setOpen((v) => !v)}
-              className="bucket-gradient px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-primary-foreground"
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-secondary/70 px-4 py-2 text-xs font-semibold hover:border-primary"
             >
+              <Plus className="size-3.5" />
               {open ? "Anuluj" : "Nowy wątek"}
             </button>
           )}
-        </div>
+        </header>
 
-        {open && user && (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setError(null);
-              createThread.mutate();
-            }}
-            className="space-y-3 gs-panel p-4"
-          >
-            <select
-              required
-              value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
-              className="w-full border border-border gs-bg px-3 py-2 text-sm"
-            >
-              <option value="">Wybierz dział…</option>
-              {categories.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-            <input
-              required
-              maxLength={140}
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Tytuł wątku"
-              className="w-full border border-border gs-bg px-3 py-2 text-sm"
-            />
-            <textarea
-              required
-              rows={4}
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              placeholder="Treść pierwszego posta"
-              className="w-full border border-border gs-bg px-3 py-2 text-sm"
-            />
-            {error && <p className="text-xs text-primary">{error}</p>}
-            <button
-              type="submit"
-              disabled={createThread.isPending}
-              className="bucket-gradient px-4 py-2 text-xs font-bold uppercase text-primary-foreground disabled:opacity-60"
-            >
-              Opublikuj wątek
-            </button>
-          </form>
-        )}
+        <div className="grid gap-4 min-[860px]:grid-cols-[1.4fr_1fr]">
+          <div className="space-y-4">
+            {open && user && (
+              <GsPanel title="Nowy wątek">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setError(null);
+                    createThread.mutate();
+                  }}
+                  className="space-y-3 px-4 py-4"
+                >
+                  <select
+                    required
+                    value={categoryId}
+                    onChange={(e) => setCategoryId(e.target.value)}
+                    className={inputClass}
+                  >
+                    <option value="">Wybierz dział…</option>
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    required
+                    maxLength={140}
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Tytuł wątku"
+                    className={inputClass}
+                  />
+                  <textarea
+                    required
+                    rows={4}
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
+                    placeholder="Treść pierwszego posta"
+                    className={inputClass}
+                  />
+                  {error && <p className="text-xs text-primary">{error}</p>}
+                  <button
+                    type="submit"
+                    disabled={createThread.isPending}
+                    className="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-60"
+                  >
+                    Opublikuj wątek
+                  </button>
+                </form>
+              </GsPanel>
+            )}
 
-        {/* Sections */}
-        {sections.map((section) => (
-          <section key={section} className="gs-panel">
-            <h2 className="gs-head px-4 py-2 text-xs font-bold">{section}</h2>
-            <div className="border-b-2" style={{ borderColor: "oklch(0.62 0.23 26)" }} />
-            <div className="divide-y divide-border">
-              {categories
-                .filter((c) => c.section === section)
-                .map((c, i) => {
-                  const last = lastFor(c.id);
-                  return (
-                    <Link
-                      key={c.id}
-                      to="/forum/dzial/$slug"
-                      params={{ slug: c.slug }}
-                      className="flex items-center gap-4 px-4 py-3 transition-colors hover:bg-white/5"
-                    >
-                      <MessageSquare className="size-5 shrink-0 text-muted-foreground" aria-hidden />
-                      <div className="min-w-0 flex-1">
-                        <h3 className="text-sm font-bold text-foreground">
-                          {c.name}{" "}
-                          <span className="text-xs font-normal text-muted-foreground">
-                            ({2 + ((i * 3) % 7)} ogląda)
+            {sections.map((section) => (
+              <GsPanel key={section} title={section}>
+                <div className="divide-y divide-border/60">
+                  {categories
+                    .filter((c) => c.section === section)
+                    .map((c) => {
+                      const last = lastFor(c.id);
+                      return (
+                        <Link
+                          key={c.id}
+                          to="/forum/dzial/$slug"
+                          params={{ slug: c.slug }}
+                          className="flex items-center gap-4 px-4 py-3 transition-colors hover:bg-white/5"
+                        >
+                          <MessageSquare className="size-4 shrink-0 text-muted-foreground" aria-hidden />
+                          <div className="min-w-0 flex-1">
+                            <h3 className="text-sm font-semibold text-foreground">{c.name}</h3>
+                            <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                              {c.description}
+                            </p>
+                          </div>
+                          <span className="hidden w-20 shrink-0 text-right text-xs text-muted-foreground sm:block">
+                            {countFor(c.id)} wątków
                           </span>
-                        </h3>
-                        <p className="mt-0.5 text-xs text-muted-foreground">{c.description}</p>
-                      </div>
-                      <span className="hidden w-24 shrink-0 text-right text-xs text-muted-foreground sm:block">
-                        Wątki: <span className="font-bold text-foreground">{countFor(c.id)}</span>
-                      </span>
-                      <span className="hidden w-48 shrink-0 text-right text-xs text-muted-foreground md:block">
-                        {last ? (
-                          <>
-                            <span className="block truncate text-foreground">{last.title}</span>
-                            <span className="text-primary">{nameOf(last.author_id)}</span> ·{" "}
-                            {timeAgo(last.created_at)}
-                          </>
-                        ) : (
-                          "Brak postów"
-                        )}
-                      </span>
-                    </Link>
-                  );
-                })}
-            </div>
-          </section>
-        ))}
-
-        {/* Latest threads */}
-        <section className="gs-panel">
-          <h2 className="gs-head px-4 py-2 text-xs font-bold">Ostatnie wątki</h2>
-          <div className="border-b-2" style={{ borderColor: "oklch(0.62 0.23 26)" }} />
-          <div className="divide-y divide-border">
-            {threadsQuery.isLoading && (
-              <p className="px-4 py-6 text-xs text-muted-foreground">Ładowanie…</p>
-            )}
-            {!threadsQuery.isLoading && threads.length === 0 && (
-              <p className="px-4 py-6 text-xs text-muted-foreground">
-                Brak wątków. Załóż pierwszy.
-              </p>
-            )}
-            {threads.map((t) => (
-              <Link
-                key={t.id}
-                to="/forum/watek/$id"
-                params={{ id: t.id }}
-                className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-white/5"
-              >
-                <Avatar name={nameOf(t.author_id)} className="size-8" />
-                <div className="min-w-0 flex-1">
-                  <h3 className="flex items-center gap-1.5 text-sm font-semibold">
-                    {t.pinned && <Pin className="size-3.5 shrink-0 gs-lime" />}
-                    <span className="truncate">{t.title}</span>
-                  </h3>
-                  <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                    <span className="text-primary">{nameOf(t.author_id)}</span> ·{" "}
-                    {timeAgo(t.created_at)}
-                  </p>
+                          <span className="hidden w-44 shrink-0 text-right text-xs text-muted-foreground md:block">
+                            {last ? (
+                              <>
+                                <span className="block truncate text-foreground">{last.title}</span>
+                                {nameOf(last.author_id)} · {timeAgo(last.created_at)}
+                              </>
+                            ) : (
+                              "brak postów"
+                            )}
+                          </span>
+                        </Link>
+                      );
+                    })}
                 </div>
-                <MessageSquare className="size-4 shrink-0 gs-lime" />
-              </Link>
+              </GsPanel>
             ))}
           </div>
-        </section>
 
-        {/* Stats strip */}
-        <section className="gs-panel">
-          <h2 className="gs-head px-4 py-2 text-xs font-bold">Statystyki forum</h2>
-          <dl className="flex flex-wrap gap-6 px-4 py-3 text-xs">
-            {[
-              ["Wątki", statsQuery.data?.threads ?? 0],
-              ["Posty", statsQuery.data?.posts ?? 0],
-              ["Członkowie", statsQuery.data?.members ?? 0],
-            ].map(([l, v]) => (
-              <div key={l as string} className="flex items-baseline gap-2">
-                <dt className="uppercase tracking-wide text-muted-foreground">{l}</dt>
-                <dd className="text-sm font-bold gs-lime">{v}</dd>
+          <div className="space-y-4">
+            <GsPanel title="Ostatnie wątki">
+              <div className="divide-y divide-border/60">
+                {threadsQuery.isLoading && (
+                  <p className="px-4 py-6 text-xs text-muted-foreground">Ładowanie…</p>
+                )}
+                {!threadsQuery.isLoading && threads.length === 0 && (
+                  <p className="px-4 py-6 text-xs text-muted-foreground">
+                    Brak wątków. Załóż pierwszy.
+                  </p>
+                )}
+                {threads.slice(0, 8).map((t) => (
+                  <Link
+                    key={t.id}
+                    to="/forum/watek/$id"
+                    params={{ id: t.id }}
+                    className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-white/5"
+                  >
+                    <Avatar name={nameOf(t.author_id)} className="size-8" />
+                    <div className="min-w-0 flex-1">
+                      <h3 className="flex items-center gap-1.5 text-sm font-medium">
+                        {t.pinned && <Pin className="size-3 shrink-0 text-primary" />}
+                        <span className="truncate">{t.title}</span>
+                      </h3>
+                      <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                        {nameOf(t.author_id)} · {timeAgo(t.created_at)}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
               </div>
-            ))}
-          </dl>
-        </section>
+            </GsPanel>
+
+            <GsPanel title="Statystyki">
+              <dl className="grid grid-cols-3 gap-2 px-4 py-4 text-center">
+                {[
+                  ["Wątki", statsQuery.data?.threads ?? 0],
+                  ["Posty", statsQuery.data?.posts ?? 0],
+                  ["Członkowie", statsQuery.data?.members ?? 0],
+                ].map(([l, v]) => (
+                  <div key={l as string}>
+                    <dd className="text-lg font-semibold text-foreground">{v}</dd>
+                    <dt className="text-[11px] uppercase tracking-wide text-muted-foreground">{l}</dt>
+                  </div>
+                ))}
+              </dl>
+            </GsPanel>
+
+            <GsPanel title="Zasady">
+              <ul className="space-y-2 px-4 py-4 text-xs text-muted-foreground">
+                <li>Bez spamu i reklam obcych cheatów.</li>
+                <li>Problemy techniczne zgłaszaj w dziale support.</li>
+                <li>To strona parodystyczna, demo bez prawdziwego oprogramowania.</li>
+              </ul>
+            </GsPanel>
+          </div>
+        </div>
       </main>
-    </ForumShell>
+    </GsShell>
   );
 }

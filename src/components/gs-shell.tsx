@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { ChevronDown, Menu, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { displayName } from "@/hooks/use-auth";
+import { useIsAdmin } from "@/hooks/use-is-admin";
+
 
 const tabs = [
   { label: "Funkcje", to: "/opcje" },
@@ -54,10 +58,18 @@ export function GsShell({
   const moreRef = useRef<HTMLDivElement>(null);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const lastScrollY = useRef(0);
+  const { isAdmin, user } = useIsAdmin();
+  const navigate = useNavigate();
+
+  async function signOut() {
+    await supabase.auth.signOut();
+    navigate({ to: "/" });
+  }
 
   useEffect(() => {
     if (!moreOpen) return;
     function onDown(e: MouseEvent) {
+
       if (!moreRef.current?.contains(e.target as Node)) setMoreOpen(false);
     }
     document.addEventListener("mousedown", onDown);
@@ -156,10 +168,29 @@ export function GsShell({
             <span className="rounded-full border border-border bg-background/40 px-3 py-1.5 text-xs text-muted-foreground">
               <span className="text-[var(--status-ok)]">Undetected</span> · 4.chkn
             </span>
-            <Link to="/auth" search={{ next: pathname }} className="text-xs font-medium text-muted-foreground hover:text-foreground">
-              Zaloguj
-            </Link>
+            {isAdmin && (
+              <Link to="/admin" className="text-xs font-semibold text-primary hover:brightness-110">
+                Panel
+              </Link>
+            )}
+            {user ? (
+              <>
+                <span className="text-xs font-medium text-foreground">{displayName(user)}</span>
+                <button
+                  type="button"
+                  onClick={signOut}
+                  className="text-xs font-medium text-muted-foreground hover:text-foreground"
+                >
+                  Wyloguj
+                </button>
+              </>
+            ) : (
+              <Link to="/auth" search={{ next: pathname }} className="text-xs font-medium text-muted-foreground hover:text-foreground">
+                Zaloguj
+              </Link>
+            )}
           </div>
+
           <Button variant="ghost" size="icon" className="ml-auto min-[860px]:hidden" aria-label={mobileOpen ? "Zamknij menu" : "Otwórz menu"} aria-expanded={mobileOpen} onClick={() => setMobileOpen((v) => !v)}>
             {mobileOpen ? <X /> : <Menu />}
           </Button>
@@ -168,9 +199,17 @@ export function GsShell({
               {[...tabs, ...moreTabs].map((t) => (
                 <Link key={t.label} to={t.to} onClick={() => setMobileOpen(false)} className="block rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground">{t.label}</Link>
               ))}
-              <div className="mt-2 border-t border-border pt-2">
-                <Link to="/auth" search={{ next: pathname }} onClick={() => setMobileOpen(false)} className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-border text-xs font-semibold">Zaloguj</Link>
+              <div className="mt-2 space-y-2 border-t border-border pt-2">
+                {isAdmin && (
+                  <Link to="/admin" onClick={() => setMobileOpen(false)} className="block rounded-md px-3 py-2.5 text-sm font-semibold text-primary">Panel admina</Link>
+                )}
+                {user ? (
+                  <button type="button" onClick={() => { setMobileOpen(false); void signOut(); }} className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-border text-xs font-semibold">Wyloguj ({displayName(user)})</button>
+                ) : (
+                  <Link to="/auth" search={{ next: pathname }} onClick={() => setMobileOpen(false)} className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-border text-xs font-semibold">Zaloguj</Link>
+                )}
               </div>
+
             </nav>
           )}
         </div>
