@@ -32,6 +32,7 @@ export const clipYoutube: Partial<Record<PreviewKind, string>> = {
   nade: "h1E-Ti_mWBo",
   plant: "AfLUwMCCBGU",
   pojazdy: "tRs9UswCijc",
+  zacinka: "AfLUwMCCBGU",
   // ddos: pokazujemy własny panel 2PACALYPSE zamiast filmu
 };
 

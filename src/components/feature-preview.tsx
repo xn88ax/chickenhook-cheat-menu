@@ -25,6 +25,7 @@ export type PreviewKind =
   | "nade"
   | "plant"
   | "pojazdy"
+  | "zacinka"
   | "pyszne";
 
 const labels: Record<PreviewKind, string> = {
@@ -50,6 +51,7 @@ const labels: Record<PreviewKind, string> = {
   nade: "NADE HELPER",
   plant: "AUTO PLANT",
   pojazdy: "SPAWNER POJAZDÓW",
+  zacinka: "ZACINKA BRONI WROGA",
   pyszne: "PYSZNE.PL — KFC",
 };
 
