@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import twoPacAsset from "@/assets/2pac.png.asset.json";
+
 import { Link } from "@tanstack/react-router";
 import {
   Check,
@@ -350,7 +352,13 @@ function TwoPacalypsePanel() {
             DDoS Niggas
           </button>
         </div>
+        <img
+          src={twoPacAsset.url}
+          alt="2Pac"
+          className="pointer-events-none absolute bottom-0 right-1 h-[62%] w-auto select-none object-contain"
+        />
       </div>
+
     </div>
   );
 }
