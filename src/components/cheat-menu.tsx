@@ -47,6 +47,9 @@ const GROUPS: Record<string, string> = {
   radio: "Inne",
   "2pacalypse": "Exploity",
   "pyszne-kfc": "Inne",
+  "auto-strazak": "Inne",
+  "auto-flash": "Inne",
+  "nade-helper": "Inne",
 
 };
 
