@@ -62,10 +62,17 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "toggle", label: "Blokada przez dym", on: true },
       { kind: "toggle", label: "Blokada po flashu", on: true },
       { kind: "toggle", label: "Tryb burst", on: false },
+      { kind: "toggle", label: "Sprawdzanie przebicia (autowall)", on: true },
+      { kind: "slider", label: "Szansa trafienia (hitchance)", value: 65, unit: "%" },
+      { kind: "toggle", label: "Strzelaj tylko po zatrzymaniu", on: true },
+      { kind: "toggle", label: "Strzelaj przy noclipie wroga", on: false },
+      { kind: "toggle", label: "Ignoruj drużynę", on: true },
+      { kind: "toggle", label: "Auto strzał w scope", on: false },
       { kind: "stepper", label: "Pociski w serii", value: 3 },
       { kind: "select", label: "Tryb pracy", options: ["Przytrzymanie", "Przełącznik", "Zawsze"], value: 0 },
       { kind: "key", label: "Klawisz", value: "ALT" },
     ],
+
   },
 
   wizualizacje: {
@@ -83,9 +90,21 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "select", label: "Podświetlenie (glow)", options: ["Wyłączone", "Delikatne", "Mocne"], value: 1 },
       { kind: "toggle", label: "Radar 2D", on: true },
       { kind: "toggle", label: "Dystans do celu", on: false },
+      { kind: "toggle", label: "Strzałki poza ekranem (out of FOV)", on: true, hint: "Pokazuje wrogów za plecami" },
+      { kind: "toggle", label: "Porzucone bronie i zestaw saperski", on: true },
+      { kind: "toggle", label: "ESP granatów i toru lotu", on: true },
+      { kind: "toggle", label: "Timer bomby i czas defuse", on: true },
+      { kind: "toggle", label: "Dźwięki wrogów (sound ESP)", on: false },
+      { kind: "toggle", label: "Znacznik trafienia (hitmarker)", on: true },
+      { kind: "toggle", label: "Liczby obrażeń", on: true },
+      { kind: "toggle", label: "Linia patrzenia wroga", on: false },
+      { kind: "toggle", label: "Wskaźnik lunety i przeładowania", on: true },
+      { kind: "toggle", label: "Celownik przebicia ścian", on: true },
+      { kind: "toggle", label: "Podgląd ostatniej pozycji (backtrack)", on: false },
       { kind: "slider", label: "Zasięg rysowania", value: 75, unit: "m" },
       { kind: "slider", label: "Przezroczystość", value: 80, unit: "%" },
     ],
+
   },
 
   "zmieniacz-skorek": {
@@ -101,8 +120,14 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "toggle", label: "Naklejki", on: true },
       { kind: "toggle", label: "Brelok", on: false },
       { kind: "toggle", label: "Własne modele noży", on: true },
+      { kind: "select", label: "Agent (model gracza)", options: ["Domyślny", "Cmdr. Mae", "Sir Bloody Darryl", "Kurczak w kominiarce"], value: 3 },
+      { kind: "select", label: "Zestaw muzyczny", options: ["Domyślny", "AWOLNATION", "Kurnik FM", "xn88ax"], value: 3 },
+      { kind: "slider", label: "Zużycie naklejek", value: 12, unit: "%" },
+      { kind: "toggle", label: "Podmiana medali i odznak", on: true },
+      { kind: "toggle", label: "Auto odświeżanie ekwipunku", on: true },
       { kind: "select", label: "Preset ekwipunku", options: ["Codzienny", "Turniejowy", "Bogaty kurczak"], value: 2 },
     ],
+
   },
 
   ruch: {
@@ -119,8 +144,16 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "slider", label: "Dystans peeka", value: 45 },
       { kind: "toggle", label: "Optymalizacja długich skoków", on: true },
       { kind: "toggle", label: "Auto slide", on: false },
+      { kind: "toggle", label: "Slow walk (ciche podejście)", on: true },
+      { kind: "toggle", label: "Edge bug", on: false },
+      { kind: "toggle", label: "Strafe na drabinie", on: true },
+      { kind: "toggle", label: "Air duck (kucanie w powietrzu)", on: false },
+      { kind: "toggle", label: "Bind jump throw", on: true },
+      { kind: "toggle", label: "Auto unduck po skoku", on: true },
       { kind: "key", label: "Klawisz peeka", value: "SHIFT" },
+      { kind: "key", label: "Klawisz slow walk", value: "CTRL" },
     ],
+
   },
 
   "kroliczy-skok": {
@@ -248,9 +281,21 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "toggle", label: "Night mode", on: true },
       { kind: "toggle", label: "Lista obserwujących", on: true },
       { kind: "toggle", label: "Czysta konsola", on: true },
+      { kind: "toggle", label: "Auto akceptacja meczu", on: true },
+      { kind: "toggle", label: "Auto defuse i auto plant", on: true },
+      { kind: "toggle", label: "Bot zakupów (buy bot)", on: false },
+      { kind: "toggle", label: "Kill say na czacie", on: false, hint: "Wysyła tekst po fragu" },
+      { kind: "toggle", label: "Spamer clan tagu", on: false },
+      { kind: "toggle", label: "Zmieniacz nicku", on: false },
+      { kind: "toggle", label: "Usuń dym, flasha i scope", on: true },
+      { kind: "select", label: "Skybox", options: ["Domyślny", "Nocny", "Kurczak orange", "Vertigo blue"], value: 2 },
+      { kind: "select", label: "Kolory świata", options: ["Domyślne", "Szare", "Neon", "Panierka"], value: 0 },
+      { kind: "toggle", label: "Lista bindów na HUD", on: true },
+      { kind: "toggle", label: "Watermark z FPS i pingiem", on: true },
       { kind: "select", label: "Viewmodel", options: ["Domyślny", "Bliski", "Daleki", "Ukryty"], value: 1 },
       { kind: "key", label: "Klawisz zoomu", value: "C" },
     ],
+
   },
 
   "czat-glosowy": {
