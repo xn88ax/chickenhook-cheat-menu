@@ -763,8 +763,8 @@ export function CheatMenu() {
       case "toggle": {
         const on = master ? isOn : (switches[key] ?? !!c.on);
         return (
-          <div key={key} className="flex items-center justify-between gap-3">
-            <span className="text-xs text-foreground/80">{c.label}</span>
+          <div key={key} className="flex items-center justify-between gap-2 py-0.5">
+            <span className="text-[11px] text-foreground/80">{c.label}</span>
             <button
               type="button"
               aria-label={`Przełącz: ${c.label}`}
@@ -802,8 +802,8 @@ export function CheatMenu() {
         );
       case "stepper":
         return (
-          <div key={key} className="flex items-center justify-between gap-3">
-            <span className="text-xs text-foreground/80">{c.label}</span>
+          <div key={key} className="flex items-center justify-between gap-2 py-0.5">
+            <span className="text-[11px] text-foreground/80">{c.label}</span>
             <GsStepper
               value={nums[key] ?? c.value}
               onChange={(v) => setNums((p) => ({ ...p, [key]: v }))}
@@ -1016,17 +1016,14 @@ export function CheatMenu() {
             </div>
 
 
-            <div className="p-2.5">
-              {["custom-skin", "czat-glosowy", "radio", "2pacalypse", "pyszne-kfc"].includes(
-                selected.slug,
-              ) && <GsPreviewPanel slug={selected.slug} />}
-
-              <div className="grid gap-x-4 gap-y-2 sm:grid-cols-2">
-                <div className="space-y-2">{cfg.left.map((c, i) => renderControl(c, "l", i))}</div>
-                <div className="space-y-2">{cfg.right.map((c, i) => renderControl(c, "r", i))}</div>
+            <div className="p-1.5">
+...
+              <div className="grid gap-x-3 gap-y-1 sm:grid-cols-2">
+                <div className="space-y-1">{cfg.left.map((c, i) => renderControl(c, "l", i))}</div>
+                <div className="space-y-1">{cfg.right.map((c, i) => renderControl(c, "r", i))}</div>
               </div>
 
-              <p className="mt-2.5 flex items-start gap-1.5 border-t border-border pt-2 text-[11px] leading-relaxed text-muted-foreground">
+              <p className="mt-2 flex items-start gap-1.5 border-t border-border pt-1.5 text-[10px] leading-snug text-muted-foreground">
                 <Gauge className="mt-0.5 size-3 shrink-0" />
                 <span>{cfg.note}</span>
               </p>
