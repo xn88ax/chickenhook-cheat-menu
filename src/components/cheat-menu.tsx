@@ -734,6 +734,8 @@ export function CheatMenu() {
   const [switches, setSwitches] = useState<Record<string, boolean>>({});
   const [query, setQuery] = useState("");
   const [closed, setClosed] = useState<Record<string, boolean>>({});
+  const [openSettings, setOpenSettings] = useState(false);
+
 
   const bySection = useMemo(() => {
     const map = new Map<string, Feature[]>();
