@@ -57,6 +57,10 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "toggle", label: "Kurczak resolver", on: true, hint: "Naprawia desync animacji modelu" },
       { kind: "toggle", label: "Celowanie w powietrzu (in air)", on: false },
       { kind: "toggle", label: "Wymuś celność (force accuracy)", on: true },
+      { kind: "toggle", label: "Celowanie w pięty wroga", on: false, hint: "Tryb szacunek" },
+      { kind: "toggle", label: "Auto headshot na babci z sklepu", on: false, hint: "Nieaktualne od 2024" },
+      { kind: "slider", label: "Szacunek do przeciwnika", value: 0, unit: "%", hint: "100% = sam skończy" },
+      { kind: "toggle", label: "Strzelaj tylko gdy mama patrzy", on: false },
     ],
   },
 
@@ -82,6 +86,8 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "stepper", label: "Pociski w serii", value: 3 },
       { kind: "select", label: "Tryb pracy", options: ["Przytrzymanie", "Przełącznik", "Zawsze"], value: 0 },
       { kind: "key", label: "Klawisz", value: "ALT" },
+      { kind: "toggle", label: "Nie strzelaj do kurczaków", on: true, hint: "Nasze zwierzaki" },
+      { kind: "toggle", label: "Przeproś po każdym fragu", on: false },
     ],
 
   },
@@ -114,6 +120,9 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "toggle", label: "Podgląd ostatniej pozycji (backtrack)", on: false },
       { kind: "slider", label: "Zasięg rysowania", value: 75, unit: "m" },
       { kind: "slider", label: "Przezroczystość", value: 80, unit: "%" },
+      { kind: "toggle", label: "Pokaż kto gra na laptopie mamy", on: false },
+      { kind: "toggle", label: "ESP marzeń wroga", on: false, hint: "Widzisz, o czym śpi w nocy" },
+      { kind: "toggle", label: "Korona nad najlepszym kurczakiem", on: true },
     ],
 
   },
@@ -163,6 +172,8 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "toggle", label: "Auto unduck po skoku", on: true },
       { kind: "key", label: "Klawisz peeka", value: "SHIFT" },
       { kind: "key", label: "Klawisz slow walk", value: "CTRL" },
+      { kind: "toggle", label: "Moonwalk (chodzenie tyłem)", on: false, hint: "Jak Michael Jackson" },
+      { kind: "toggle", label: "Krok kurczaka", on: true, hint: "Dziobanie przy każdym kroku" },
     ],
 
   },
@@ -312,6 +323,10 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "toggle", label: "Watermark z FPS i pingiem", on: true },
       { kind: "select", label: "Viewmodel", options: ["Domyślny", "Bliski", "Daleki", "Ukryty"], value: 1 },
       { kind: "key", label: "Klawisz zoomu", value: "C" },
+      { kind: "toggle", label: "Auto GG po meczu", on: true },
+      { kind: "toggle", label: "Zgłoś wroga za granie lepiej", on: false, hint: "Oczywiście żartobliwie" },
+      { kind: "toggle", label: "Kokardka na grzbiecie", on: true },
+      { kind: "select", label: "Wymówka po przegranej", options: ["Lagi", "Myszka się zacięła", "Kot skoczył na klawiaturę", "Brak wymówek (rage)"], value: 2 },
     ],
 
   },
