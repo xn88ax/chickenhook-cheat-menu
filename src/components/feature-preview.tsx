@@ -20,6 +20,7 @@ export type PreviewKind =
   | "customskin"
   | "radio"
   | "ddos"
+  | "strazak"
   | "pyszne";
 
 const labels: Record<PreviewKind, string> = {
@@ -40,6 +41,7 @@ const labels: Record<PreviewKind, string> = {
   customskin: "CUSTOM SKIN",
   radio: "RADIO",
   ddos: "2PACALYPSE 2.3",
+  strazak: "AUTO STRAŻAK",
   pyszne: "PYSZNE.PL — KFC",
 };
 
@@ -149,6 +151,16 @@ function Scene({ kind }: { kind: PreviewKind }) {
     case "customskin":
       return (
         <div className="preview-skin absolute left-1/2 top-1/2 h-16 w-10 -translate-x-1/2 -translate-y-1/2 rounded bg-gradient-to-b from-primary/70 via-accent/60 to-primary/70" />
+      );
+    case "strazak":
+      return (
+        <>
+          <div className="preview-fire absolute bottom-5 left-1/2 h-6 w-10 -translate-x-1/2 rounded-t-full bg-gradient-to-t from-primary/80 to-accent/70 blur-[1px]" />
+          <div className="preview-slide absolute top-1/2 h-1 w-8 rounded bg-sky-400/80" />
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[10px] font-bold text-sky-300">
+            MOLOTOV OFF
+          </div>
+        </>
       );
     case "misc":
     default:

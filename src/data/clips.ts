@@ -27,6 +27,7 @@ export const clipYoutube: Partial<Record<PreviewKind, string>> = {
   voice: "dmrU6iSq4uI",
   customskin: "S6I5RnfvskU",
   radio: "tRs9UswCijc",
+  strazak: "3X-WJM2RYvo",
   // ddos: pokazujemy własny panel 2PACALYPSE zamiast filmu
 };
 
