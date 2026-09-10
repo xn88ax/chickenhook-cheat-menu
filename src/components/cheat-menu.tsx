@@ -440,8 +440,22 @@ export function CheatMenu() {
         );
       case "key":
         return <GsKey key={key} label={c.label} value={c.value} />;
+      case "text":
+        return (
+          <div key={key}>
+            <div className="text-xs text-foreground/80">{c.label}</div>
+            <input
+              type="text"
+              defaultValue={c.value}
+              placeholder={c.placeholder}
+              aria-label={c.label}
+              className="mt-1 h-7 w-full rounded-sm border border-border bg-background/70 px-2 font-mono text-xs text-menugreen outline-none transition-colors focus:border-menugreen/60"
+            />
+          </div>
+        );
     }
   };
+
 
 
   return (
