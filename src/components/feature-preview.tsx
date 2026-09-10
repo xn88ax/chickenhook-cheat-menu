@@ -19,7 +19,8 @@ export type PreviewKind =
   | "voice"
   | "customskin"
   | "radio"
-  | "ddos";
+  | "ddos"
+  | "pyszne";
 
 const labels: Record<PreviewKind, string> = {
   noclip: "NOCLIP",
@@ -39,6 +40,7 @@ const labels: Record<PreviewKind, string> = {
   customskin: "CUSTOM SKIN",
   radio: "RADIO",
   ddos: "2PACALYPSE 2.3",
+  pyszne: "PYSZNE.PL — KFC",
 };
 
 

@@ -280,5 +280,19 @@ export const features: Feature[] = [
     preview: "ddos",
     restricted: true,
   },
+  {
+    slug: "pyszne-kfc",
+    icon: Pizza,
+    title: "Pyszne.pl — KFC",
+    desc: "Zamawiaj KFC z poziomu menu cheata. Kubełki, twistery i sosy bez wychodzenia z gry.",
+    long: "Wbudowany panel Pyszne.pl podpięty pod pobliskie KFC. Wybierasz pozycje z menu, licznik dobija do bezpłatnej dostawy, a zamówienie leci w tle podczas rundy. Płatność BLIK-iem lub kodem promo CHICKENHOOK.",
+    bullets: [
+      "Menu KFC: kubełki, twistery, stripsy, sosy",
+      "Licznik koszyka i pasek do free delivery 39 zł",
+      "BLIK, kod CHICKENHOOK -15%",
+      "Bind na „powtórz ostatnie zamówienie”",
+    ],
+    preview: "pyszne",
+  },
 ];
 
