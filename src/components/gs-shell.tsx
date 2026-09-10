@@ -58,9 +58,14 @@ export function GsShell({
   const moreRef = useRef<HTMLDivElement>(null);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const lastScrollY = useRef(0);
+  const { isAdmin, user } = useIsAdmin();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!moreOpen) return;
+  async function signOut() {
+    await supabase.auth.signOut();
+    navigate({ to: "/" });
+  }
+
     function onDown(e: MouseEvent) {
       if (!moreRef.current?.contains(e.target as Node)) setMoreOpen(false);
     }
