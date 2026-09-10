@@ -6,7 +6,9 @@ export type MenuControl =
   | { kind: "select"; label: string; options: string[]; value?: number; hint?: string }
   | { kind: "slider"; label: string; value: number; unit?: string; hint?: string }
   | { kind: "stepper"; label: string; value: number; hint?: string }
-  | { kind: "key"; label: string; value: string; hint?: string };
+  | { kind: "key"; label: string; value: string; hint?: string }
+  | { kind: "text"; label: string; value: string; placeholder?: string; hint?: string };
+
 
 export type MenuConfig = {
   /** Krótki podpis pod panelem — wyjaśnienie funkcji. */
@@ -296,7 +298,27 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "key", label: "Następny utwór", value: "]" },
     ],
   },
+
+  "2pacalypse": {
+    note: "Panel-parodia legendarnego bootera 2PACALYPSE 2.3 z 2011. Nic naprawdę nie wysyła — botnety są udawane, a licznik i sylwetka 2Paca to hołd dla ery skiddie.",
+    left: [
+      { kind: "toggle", label: "Uzbrój 2PACALYPSE", on: false },
+      { kind: "text", label: "IP celu", value: "64.231.75.201", placeholder: "0.0.0.0" },
+      { kind: "text", label: "Port", value: "80", placeholder: "80" },
+      { kind: "select", label: "Typ ataku", options: ["UDP flood", "SYN flood", "HTTP GET", "Slowloris", "Ping of Death"], value: 0 },
+      { kind: "slider", label: "Intensywność", value: 88, unit: "%" },
+    ],
+    right: [
+      { kind: "stepper", label: "Botnets online", value: 22 },
+      { kind: "toggle", label: "Losuj port", on: false },
+      { kind: "toggle", label: "Spoof źródła", on: true },
+      { kind: "toggle", label: "Odtwórz „Hit 'Em Up”", on: true },
+      { kind: "select", label: "Dedykacja", options: ["r.i.p 2pac", "Moneymack forever", "West Side", "1996"], value: 0 },
+      { kind: "key", label: "Klawisz DDoS", value: "F" },
+    ],
+  },
 };
+
 
 export const fallbackMenuConfig: MenuConfig = {
   note: "Ten moduł nie ma jeszcze własnych ustawień w tym buildzie.",
