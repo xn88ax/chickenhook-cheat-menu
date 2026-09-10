@@ -18,7 +18,9 @@ import {
   Sparkles,
   User,
   Wand2,
+  X,
   Zap,
+
 } from "lucide-react";
 
 import ctModel from "@/assets/ct-model.png.asset.json";
