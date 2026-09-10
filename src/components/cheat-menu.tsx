@@ -497,10 +497,12 @@ const FREE_DELIVERY = 39;
 function PysznePanel() {
   const [cart, setCart] = useState<Record<string, number>>({ "Twister Original": 1 });
   const [sent, setSent] = useState(false);
+  const [cat, setCat] = useState(KFC_CATEGORIES[0]!.cat);
 
   const total = KFC_MENU.reduce((sum, it) => sum + (cart[it.name] ?? 0) * it.price, 0);
   const items = Object.values(cart).reduce((a, b) => a + b, 0);
   const progress = Math.min(100, (total / FREE_DELIVERY) * 100);
+  const active = KFC_CATEGORIES.find((c) => c.cat === cat) ?? KFC_CATEGORIES[0]!;
 
   const add = (name: string, delta: number) =>
     setCart((p) => {
@@ -515,11 +517,28 @@ function PysznePanel() {
     <div className="absolute inset-0 flex flex-col bg-[#0d0d0d]">
       <div className="flex items-center justify-between border-b border-border bg-[#ff8000]/15 px-2 py-1">
         <span className="text-[10px] font-black tracking-tight text-[#ff8000]">pyszne.pl</span>
-        <span className="text-[9px] text-muted-foreground">KFC · 25–35 min</span>
+        <span className="text-[9px] text-muted-foreground">KFC Korona · 25–35 min</span>
+      </div>
+
+      <div className="flex gap-1 overflow-x-auto border-b border-border px-2 py-1">
+        {KFC_CATEGORIES.map((c) => (
+          <button
+            key={c.cat}
+            type="button"
+            onClick={() => setCat(c.cat)}
+            className={`whitespace-nowrap rounded-sm border px-1.5 py-0.5 text-[9px] transition-colors ${
+              c.cat === cat
+                ? "border-[#ff8000] bg-[#ff8000]/20 text-[#ff8000]"
+                : "border-border/60 text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {c.cat}
+          </button>
+        ))}
       </div>
 
       <div className="flex-1 space-y-1 overflow-y-auto px-2 py-1.5">
-        {KFC_MENU.map((it) => {
+        {active.items.map((it) => {
           const qty = cart[it.name] ?? 0;
           return (
             <div
@@ -553,6 +572,7 @@ function PysznePanel() {
           );
         })}
       </div>
+
 
       <div className="border-t border-border px-2 py-1.5">
         <div className="h-1 overflow-hidden rounded-full bg-border">
