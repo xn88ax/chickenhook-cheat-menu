@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 
 import { registerWithInvite } from "@/lib/invite.functions";
 import { isRememberSession, setRememberSession } from "@/lib/session-persistence";
-import chickenhookLogo from "@/assets/chickenhook-logo.png.asset.json";
+import { GsShell } from "@/components/gs-shell";
 
 
 export const Route = createFileRoute("/auth")({
@@ -96,22 +96,7 @@ function AuthPage() {
 
 
   return (
-    <div className="flex min-h-screen flex-col bg-background font-sans text-foreground">
-      <header className="border-b border-border glass-bar">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5">
-          <Link to="/" className="flex items-center gap-2">
-            <img src={chickenhookLogo.url} alt="Herb ChickenHook" className="h-9 w-auto" />
-            <span className="text-display text-xl">
-              CHICKEN<span className="text-primary">HOOK</span>
-              <span className="text-muted-foreground">.RU</span>
-            </span>
-          </Link>
-          <Link to="/forum" className="text-xs font-bold uppercase text-muted-foreground">
-            Wróć na forum
-          </Link>
-        </div>
-      </header>
-
+    <GsShell>
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-5 py-12">
         <div className="overflow-hidden rounded-sm border border-border">
           <h1 className="bucket-gradient px-4 py-3 text-sm font-bold uppercase tracking-wide text-primary-foreground">
@@ -226,6 +211,6 @@ function AuthPage() {
           </form>
         </div>
       </main>
-    </div>
+    </GsShell>
   );
 }
