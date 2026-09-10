@@ -724,3 +724,55 @@
   .site-bg-photo { animation: none; }
 }
 
+
+/* ===== Animowany podgląd modelu w menu cheata ===== */
+.chkn-preview-grid {
+  background-image:
+    linear-gradient(oklch(1 0 0 / 4%) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(1 0 0 / 4%) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.chkn-model {
+  animation: chkn-model-turn 7s ease-in-out infinite;
+  transform-origin: 50% 90%;
+  filter: drop-shadow(0 12px 26px oklch(0 0 0 / 60%));
+}
+
+@keyframes chkn-model-turn {
+  0%   { transform: perspective(700px) rotateY(-24deg) translateY(0); }
+  50%  { transform: perspective(700px) rotateY(24deg) translateY(-6px); }
+  100% { transform: perspective(700px) rotateY(-24deg) translateY(0); }
+}
+
+.chkn-model-light {
+  animation: chkn-light 7s ease-in-out infinite;
+}
+
+@keyframes chkn-light {
+  0%, 100% { opacity: 0.35; transform: translateX(-14%); }
+  50%      { opacity: 0.7; transform: translateX(14%); }
+}
+
+.chkn-eq-bar {
+  animation: chkn-eq 900ms ease-in-out infinite alternate;
+  transform-origin: bottom;
+}
+
+@keyframes chkn-eq {
+  from { transform: scaleY(0.25); }
+  to   { transform: scaleY(1); }
+}
+
+.chkn-wave {
+  animation: chkn-wave 1.1s ease-in-out infinite alternate;
+}
+
+@keyframes chkn-wave {
+  from { transform: scaleY(0.2); opacity: 0.5; }
+  to   { transform: scaleY(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chkn-model, .chkn-model-light, .chkn-eq-bar, .chkn-wave { animation: none; }
+}

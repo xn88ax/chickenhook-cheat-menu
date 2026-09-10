@@ -15,7 +15,10 @@ export type PreviewKind =
   | "teleport"
   | "crash"
   | "speed"
-  | "money";
+  | "money"
+  | "voice"
+  | "customskin"
+  | "radio";
 
 const labels: Record<PreviewKind, string> = {
   noclip: "NOCLIP",
@@ -31,6 +34,9 @@ const labels: Record<PreviewKind, string> = {
   crash: "AWARIA SERWERA",
   speed: "PRZYSPIESZENIE",
   money: "GLITCH KASY",
+  voice: "CZAT GŁOSOWY",
+  customskin: "CUSTOM SKIN",
+  radio: "RADIO",
 };
 
 function Scene({ kind }: { kind: PreviewKind }) {
@@ -111,6 +117,33 @@ function Scene({ kind }: { kind: PreviewKind }) {
           <div className="preview-hp absolute left-3 top-3 text-[11px] font-bold text-primary">$16000</div>
           <div className="preview-slide absolute top-1/2 h-1 w-6 rounded bg-primary/70" />
         </>
+      );
+    case "voice":
+      return (
+        <>
+          <div className="preview-fire absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] font-bold text-primary">
+            MIC
+          </div>
+          <div className="preview-slide absolute bottom-4 h-1 w-10 rounded bg-primary/70" />
+        </>
+      );
+    case "radio":
+      return (
+        <>
+          <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-end gap-1">
+            {[0, 1, 2, 3, 4].map((i) => (
+              <span
+                key={i}
+                className="preview-hop w-1 rounded-sm bg-primary"
+                style={{ height: `${8 + ((i * 7) % 18)}px`, animationDelay: `${i * 0.12}s` }}
+              />
+            ))}
+          </div>
+        </>
+      );
+    case "customskin":
+      return (
+        <div className="preview-skin absolute left-1/2 top-1/2 h-16 w-10 -translate-x-1/2 -translate-y-1/2 rounded bg-gradient-to-b from-primary/70 via-accent/60 to-primary/70" />
       );
     case "misc":
     default:

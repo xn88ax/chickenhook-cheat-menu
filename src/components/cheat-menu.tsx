@@ -18,6 +18,7 @@ import {
   Zap,
 } from "lucide-react";
 
+import ctModel from "@/assets/ct-model.png.asset.json";
 import { features, type Feature } from "@/data/features";
 import { fallbackMenuConfig, menuOptions, type MenuControl } from "@/data/menu-options";
 import { cn } from "@/lib/utils";
@@ -38,6 +39,9 @@ const GROUPS: Record<string, string> = {
   "awaria-serwera": "Exploity",
   "glitch-kasy": "Exploity",
   rozne: "Inne",
+  "custom-skin": "Wizualizacje",
+  "czat-glosowy": "Inne",
+  radio: "Inne",
 };
 
 const SECTIONS = [
@@ -202,6 +206,89 @@ function GsKey({ label, value }: { label: string; value: string }) {
       <span className="rounded-sm border border-border bg-background/70 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide gs-glow text-menugreen">
         {value}
       </span>
+    </div>
+  );
+}
+
+// ===== Animowany podgląd (jak okno "Preview" w grze) =====
+
+function GsPreviewPanel({ slug }: { slug: string }) {
+  return (
+    <div className="mb-4 max-w-[320px] overflow-hidden rounded-sm border border-border bg-background/60">
+      <div className="flex items-center justify-between border-b border-border bg-secondary/40 px-2 py-1">
+        <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-foreground/80">
+          Podgląd
+        </span>
+        <Settings2 className="size-3 text-muted-foreground" />
+      </div>
+
+      <div className="chkn-preview-grid relative h-[240px] overflow-hidden">
+        {slug === "custom-skin" && (
+          <>
+            <div className="absolute left-2 top-2 space-y-1 text-[9px] font-bold uppercase tracking-wide">
+              <span className="flex items-center gap-1.5 text-foreground/80">
+                <span className="size-2 bg-menugreen" /> CT
+              </span>
+              <span className="flex items-center gap-1.5 text-muted-foreground">
+                <span className="size-2 bg-foreground/30" /> T
+              </span>
+            </div>
+            <div className="chkn-model-light absolute inset-0 bg-[radial-gradient(220px_180px_at_50%_20%,var(--color-menugreen),transparent_70%)] opacity-20" />
+            <img
+              src={ctModel.url}
+              alt="Podgląd modelu postaci z własną skórką"
+              loading="lazy"
+              width={640}
+              height={1024}
+              className="chkn-model absolute bottom-2 left-1/2 h-[210px] w-auto -translate-x-1/2"
+            />
+          </>
+        )}
+
+        {slug === "czat-glosowy" && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] gs-glow text-menugreen">
+              Mikrofon aktywny
+            </span>
+            <div className="flex h-16 items-center gap-1">
+              {Array.from({ length: 28 }).map((_, i) => (
+                <span
+                  key={i}
+                  className="chkn-wave w-1 rounded-full bg-menugreen"
+                  style={{
+                    height: `${14 + ((i * 13) % 44)}px`,
+                    animationDelay: `${(i % 7) * 90}ms`,
+                  }}
+                />
+              ))}
+            </div>
+            <span className="text-[10px] text-muted-foreground">Barwa: kurczak · opóźnienie 12 ms</span>
+          </div>
+        )}
+
+        {slug === "radio" && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/80">
+              xn88ax — kurnik tape
+            </span>
+            <div className="flex h-16 items-end gap-1.5">
+              {Array.from({ length: 22 }).map((_, i) => (
+                <span
+                  key={i}
+                  className="chkn-eq-bar w-1.5 rounded-sm bg-menugreen"
+                  style={{
+                    height: `${18 + ((i * 17) % 42)}px`,
+                    animationDelay: `${(i % 9) * 80}ms`,
+                  }}
+                />
+              ))}
+            </div>
+            <div className="h-0.5 w-40 overflow-hidden rounded bg-border">
+              <span className="chkn-model-light block h-full w-1/3 bg-menugreen" />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -382,6 +469,10 @@ export function CheatMenu() {
               {activeCount} aktywnych modułów · INS = menu
             </span>
           </div>
+
+          {["custom-skin", "czat-glosowy", "radio"].includes(selected.slug) && (
+            <GsPreviewPanel slug={selected.slug} />
+          )}
 
           <div className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
             <div className="space-y-3.5">{cfg.left.map((c, i) => renderControl(c, "l", i))}</div>
