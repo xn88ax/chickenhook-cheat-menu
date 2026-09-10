@@ -336,7 +336,7 @@ function TwoPacalypsePanel() {
             className="h-5 w-[44px] rounded-none border border-[#39ff14]/60 bg-black px-1 text-[10px] text-[#39ff14] outline-none focus:border-[#39ff14]"
           />
         </div>
-        <div className="mt-3 flex justify-center">
+        <div className="mt-3 flex justify-start pl-6">
           <button
             type="button"
             onClick={() => {
