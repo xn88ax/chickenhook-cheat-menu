@@ -39,9 +39,12 @@ const GROUPS: Record<string, string> = {
   "awaria-serwera": "Exploity",
   "glitch-kasy": "Exploity",
   rozne: "Inne",
+  rozne: "Inne",
   "custom-skin": "Wizualizacje",
   "czat-glosowy": "Inne",
   radio: "Inne",
+  "2pacalypse": "Exploity",
+
 };
 
 const SECTIONS = [
@@ -288,10 +291,72 @@ function GsPreviewPanel({ slug }: { slug: string }) {
             </div>
           </div>
         )}
+
+        {slug === "2pacalypse" && <TwoPacalypsePanel />}
       </div>
     </div>
   );
 }
+
+function TwoPacalypsePanel() {
+  const [ip, setIp] = useState("64.231.75.201");
+  const [port, setPort] = useState("80");
+  const [firing, setFiring] = useState(false);
+  const [bots, setBots] = useState(22);
+
+  return (
+    <div className="chkn-2pac absolute inset-0 flex flex-col bg-black font-mono text-[#39ff14]">
+      <div className="flex items-center justify-between border-b border-[#39ff14]/40 bg-black px-2 py-1 text-[9px] uppercase tracking-widest">
+        <span className="truncate text-[#39ff14]/80">C:\Windows\System32\2PACALYPSE 2.3.exe</span>
+        <span className="text-[#39ff14]/60">- □ ✕</span>
+      </div>
+      <div className="relative flex-1 px-3 pt-2">
+        <div className="text-center text-[13px] font-bold tracking-wider">
+          2PACALYPSE 2.3
+          <span className="ml-2 text-[9px] font-normal text-[#39ff14]/70">-Coded by Moneymack</span>
+        </div>
+        <div className="absolute right-2 top-8 max-w-[110px] text-right text-[8px] leading-tight text-[#39ff14]/80">
+          r.i.p 2pac<br />u were the meanin<br />of lyfe -moneymack
+        </div>
+        <div className="mt-4 flex items-center gap-2 text-[10px]">
+          <label className="font-bold">IP:</label>
+          <input
+            value={ip}
+            onChange={(e) => setIp(e.target.value)}
+            className="h-5 w-[110px] rounded-none border border-[#39ff14]/60 bg-black px-1 text-[10px] text-[#39ff14] outline-none focus:border-[#39ff14]"
+          />
+          <label className="ml-2 font-bold">Port:</label>
+          <input
+            value={port}
+            onChange={(e) => setPort(e.target.value)}
+            className="h-5 w-[44px] rounded-none border border-[#39ff14]/60 bg-black px-1 text-[10px] text-[#39ff14] outline-none focus:border-[#39ff14]"
+          />
+        </div>
+        <div className="mt-3 flex justify-center">
+          <button
+            type="button"
+            onClick={() => {
+              setFiring(true);
+              setBots((b) => b + Math.floor(Math.random() * 7) + 1);
+              window.setTimeout(() => setFiring(false), 900);
+            }}
+            className={cn(
+              "rounded-[14px] border-2 border-[#39ff14] px-6 py-1 text-[16px] font-black tracking-widest transition-all",
+              firing ? "chkn-2pac-fire bg-[#39ff14] text-black" : "text-[#39ff14] hover:bg-[#39ff14]/10",
+            )}
+          >
+            DDoS
+          </button>
+        </div>
+        <div className="absolute bottom-1 left-2 text-[10px] font-bold">
+          Botnets Online: <span className="tabular-nums">{bots}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
 
 // ===== Główny komponent =====
 
