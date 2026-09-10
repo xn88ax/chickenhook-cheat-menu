@@ -350,9 +350,6 @@ function TwoPacalypsePanel() {
             DDoS Niggas
           </button>
         </div>
-        <div className="absolute bottom-1 left-2 text-[10px] font-bold">
-          Botnets Online: <span className="tabular-nums">{bots}</span>
-        </div>
       </div>
     </div>
   );
