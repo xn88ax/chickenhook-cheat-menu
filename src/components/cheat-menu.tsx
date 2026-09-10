@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import twoPacAsset from "@/assets/2pac.png.asset.json";
+
 import { Link } from "@tanstack/react-router";
 import {
   Check,
