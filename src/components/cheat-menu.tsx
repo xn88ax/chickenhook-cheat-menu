@@ -984,16 +984,33 @@ export function CheatMenu() {
         </div>
 
         {/* Okno ustawień wybranego modułu */}
-        <div className="p-2.5">
+        <div
+          className={cn(
+            "p-2.5",
+            "max-lg:fixed max-lg:inset-x-2 max-lg:bottom-2 max-lg:top-14 max-lg:z-50 max-lg:overflow-y-auto max-lg:rounded-md max-lg:border max-lg:border-menugreen/30 max-lg:bg-background/95 max-lg:shadow-2xl max-lg:backdrop-blur",
+            !openSettings && "max-lg:hidden",
+          )}
+        >
           <div className="overflow-hidden rounded-sm border border-menugreen/25 bg-card/70">
-            <div className="flex items-center justify-between border-b border-menugreen/25 bg-menugreen/15 px-2 py-1.5">
+            <div className="flex items-center justify-between gap-2 border-b border-menugreen/25 bg-menugreen/15 px-2 py-1.5">
               <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground/90">
                 {selected.title} — ustawienia
               </span>
-              <span className="text-[10px] text-muted-foreground">
-                {activeCount} aktywnych · INS = menu
+              <span className="flex items-center gap-2">
+                <span className="text-[10px] text-muted-foreground">
+                  {activeCount} aktywnych · INS = menu
+                </span>
+                <button
+                  type="button"
+                  aria-label="Zamknij ustawienia"
+                  onClick={() => setOpenSettings(false)}
+                  className="grid size-5 place-items-center rounded-sm text-muted-foreground transition-colors hover:text-menugreen lg:hidden"
+                >
+                  <X className="size-3.5" />
+                </button>
               </span>
             </div>
+
 
             <div className="p-4">
               {["custom-skin", "czat-glosowy", "radio", "2pacalypse", "pyszne-kfc"].includes(
