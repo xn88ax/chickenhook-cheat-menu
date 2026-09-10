@@ -8,6 +8,7 @@ import {
   Mic,
   MousePointerClick,
   PaintBucket,
+  Pizza,
   Rabbit,
   Radio,
   ServerCrash,
