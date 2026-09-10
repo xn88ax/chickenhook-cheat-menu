@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Pin } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { Avatar, ForumShell, timeAgo } from "@/components/forum/forum-shell";
+import { GsPanel, GsShell } from "@/components/gs-shell";
+import { Avatar, timeAgo } from "@/components/forum/forum-shell";
 
 export const Route = createFileRoute("/_authenticated/forum/dzial/$slug")({
   head: () => ({
@@ -63,8 +64,8 @@ function CategoryPage() {
     profilesQuery.data?.find((p) => p.id === uid)?.username ?? "użytkownik";
 
   return (
-    <ForumShell crumbs={category ? [{ label: category.name }] : []}>
-      <main className="mx-auto max-w-4xl space-y-4 px-5 py-6">
+    <GsShell crumbs={category ? [{ label: "Forum" }, { label: category.name }] : [{ label: "Forum" }]}>
+      <main className="mx-auto max-w-[1160px] space-y-4 px-5 py-6">
         {categoryQuery.isLoading && <p className="text-sm text-muted-foreground">Ładowanie…</p>}
         {!categoryQuery.isLoading && !category && (
           <p className="text-sm text-muted-foreground">
@@ -78,7 +79,7 @@ function CategoryPage() {
         {category && (
           <>
             <div>
-              <h1 className="text-display text-3xl uppercase">{category.name}</h1>
+              <h1 className="font-display text-3xl">{category.name}</h1>
               <p className="mt-1 text-sm text-muted-foreground">{category.description}</p>
             </div>
 
@@ -86,8 +87,7 @@ function CategoryPage() {
               <h2 className="gs-head px-4 py-2 text-xs font-bold">
                 Wątki
               </h2>
-              <div className="border-b-2" style={{ borderColor: "oklch(0.62 0.23 26)" }} />
-              <div className="divide-y divide-border">
+                            <div className="divide-y divide-border/60">
                 {(threadsQuery.data ?? []).length === 0 && (
                   <p className="px-4 py-6 text-xs text-muted-foreground">
                     Brak wątków w tym dziale.
@@ -117,6 +117,6 @@ function CategoryPage() {
           </>
         )}
       </main>
-    </ForumShell>
+    </GsShell>
   );
 }
