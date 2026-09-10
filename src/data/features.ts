@@ -1,5 +1,6 @@
 import {
   Bug,
+  Car,
   Coins,
   Crosshair,
   Eye,
@@ -339,6 +340,20 @@ export const features: Feature[] = [
       "Opcjonalny losowy punkt planta w promieniu od ciebie",
     ],
     preview: "plant",
+  },
+  {
+    slug: "spawner-pojazdow",
+    icon: Car,
+    title: "Spawner pojazdów",
+    desc: "Wrzuć na mapę jeżdżący pojazd i przejedź mid maluchem.",
+    long: "Moduł wstrzykuje na mapę modele pojazdów z fizyką jazdy: malucha, radiowóz, quada, traktor i czołg w wersji chikn. Wsiadasz klawiszem użycia, jeździsz normalnie klawiszami ruchu, a hitbox gracza zostaje w kabinie. Pojazdy można kasować jednym klawiszem albo automatycznie po rundzie.",
+    bullets: [
+      "Sześć modeli pojazdów z fizyką jazdy",
+      "Spawn pod crosshairem, przed sobą albo losowo na mapie",
+      "Rozjeżdżanie przeciwników i klakson na kurczaka",
+      "Limit pojazdów, auto-czyszczenie po rundzie",
+    ],
+    preview: "pojazdy",
   },
   {
     slug: "pyszne-kfc",
