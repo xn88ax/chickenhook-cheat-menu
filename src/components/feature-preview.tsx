@@ -21,6 +21,7 @@ export type PreviewKind =
   | "radio"
   | "ddos"
   | "strazak"
+  | "flashassist"
   | "nade"
   | "pyszne";
 
@@ -43,6 +44,7 @@ const labels: Record<PreviewKind, string> = {
   radio: "RADIO",
   ddos: "2PACALYPSE 2.3",
   strazak: "AUTO STRAŻAK",
+  flashassist: "AUTO FLASH ASSIST",
   nade: "NADE HELPER",
   pyszne: "PYSZNE.PL — KFC",
 };
@@ -172,6 +174,16 @@ function Scene({ kind }: { kind: PreviewKind }) {
           <div className="preview-slide absolute top-1/2 h-1 w-8 rounded bg-sky-400/80" />
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[10px] font-bold text-sky-300">
             MOLOTOV OFF
+          </div>
+        </>
+      );
+    case "flashassist":
+      return (
+        <>
+          <div className="preview-fire absolute left-1/2 top-1/3 h-5 w-5 -translate-x-1/2 rounded-full bg-yellow-300/90 shadow-[0_0_16px_hsl(48_100%_60%)]" />
+          <div className="preview-slide absolute top-1/2 h-1 w-10 rounded bg-yellow-200/70" />
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[10px] font-bold text-yellow-200">
+            FLASH IN
           </div>
         </>
       );

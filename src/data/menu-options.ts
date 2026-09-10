@@ -426,6 +426,26 @@ export const menuOptions: Record<string, MenuConfig> = {
     ],
   },
 
+  "auto-flash": {
+    note: "Auto flash assist podaje flashbangi dla teammate'ów. Sam liczy czas lotu i wybuchu, żeby wspierać wypad bez oślepiania własnych.",
+    left: [
+      { kind: "toggle", label: "Włącz auto flash assist", on: true },
+      { kind: "toggle", label: "Tylko na callout teammate'a", on: false },
+      { kind: "slider", label: "Promień detekcji wsparcia", value: 320, unit: "u" },
+      { kind: "slider", label: "Czas lotu flasha", value: 900, unit: "ms" },
+      { kind: "select", label: "Tryb rzutu", options: ["Stojąc", "Z biegu", "Skok", "Podkręcony (run-boost)"], value: 1 },
+      { kind: "select", label: "Cel rzutu", options: ["Przed teammate'a", "Za plecy wroga", "Nad głowę", "Na ziemię"], value: 0 },
+    ],
+    right: [
+      { kind: "toggle", label: "Nie oślepiaj drużyny", on: true },
+      { kind: "toggle", label: "Unikaj oślepienia siebie", on: true },
+      { kind: "toggle", label: "Alert na HUD", on: true },
+      { kind: "toggle", label: "Licznik asyst flashowych", on: true },
+      { kind: "select", label: "Aktywacja", options: ["Automatyczna", "Przytrzymanie klawisza"], value: 1 },
+      { kind: "key", label: "Klawisz ręczny", value: "G" },
+    ],
+  },
+
   "nade-helper": {
     note: "Nade helper tylko pokazuje lineupy i kąt celowania — nie rzuca za ciebie i nie rusza myszką.",
     left: [

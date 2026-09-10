@@ -17,6 +17,7 @@ import {
   Shirt,
   Skull,
   Sparkles,
+  Sun,
   Wind,
   Zap,
 
@@ -295,6 +296,20 @@ export const features: Feature[] = [
       "Alert na HUD i licznik ugaszonych molotovów w rundzie",
     ],
     preview: "strazak",
+  },
+  {
+    slug: "auto-flash",
+    icon: Sun,
+    title: "Auto flash assist",
+    desc: "Automatycznie podaje flasha dla wchodzącego teammate'a — timing wybuchu idealnie wspiera wypad.",
+    long: "Moduł śledzi pozycję i ruch kolegów z drużyny. Kiedy ktoś wchodzi na site albo wykonuje peek, auto flash assist rzuca flashbang tak, żeby wybuchł tuż przed twarzą wroga, nie rażąc własnego. Wystarczy przytrzymać klawisz lub ustawić pełną automatykę.",
+    bullets: [
+      "Detekcja ruchu teammate'a w promieniu wsparcia",
+      "Obliczanie timingu wybuchu flasha przed wrogiem",
+      "Tryb ręczny i pełna automatyzacja",
+      "Licznik asyst flashowych w rundzie",
+    ],
+    preview: "flashassist",
   },
   {
     slug: "nade-helper",

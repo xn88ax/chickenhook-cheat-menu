@@ -46,6 +46,11 @@ const GROUPS: Record<string, string> = {
   "custom-skin": "Wizualizacje",
   "czat-glosowy": "Inne",
   radio: "Inne",
+  "auto-strazak": "Inne",
+  "auto-flash": "Inne",
+  "nade-helper": "Inne",
+  "2pacalypse": "Exploity",
+  "pyszne-kfc": "Inne",
 };
 
 const TABS = ["Wszystkie", "Celowanie", "Wizualizacje", "Ruch", "Exploity", "Inne"] as const;
