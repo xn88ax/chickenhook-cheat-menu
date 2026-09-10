@@ -211,6 +211,6 @@ function AuthPage() {
           </form>
         </div>
       </main>
-    </div>
+    </GsShell>
   );
 }
