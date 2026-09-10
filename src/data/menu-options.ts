@@ -36,6 +36,17 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "toggle", label: "Ignoruj oślepionych", on: true },
       { kind: "select", label: "Profil broni", options: ["Wspólny", "Snajperki", "Automaty", "Pistolety"], value: 2 },
       { kind: "key", label: "Klawisz aimbota", value: "MOUSE5" },
+      { kind: "toggle", label: "Anti-aim (kręcenie modelem)", on: false, hint: "Tylko HvH" },
+      { kind: "select", label: "Kierunek anti-aimu", options: ["Tył", "Boki", "Losowy jitter", "Desync"], value: 2 },
+      { kind: "toggle", label: "Fake lag", on: false },
+      { kind: "stepper", label: "Wstrzymane ticki (choke)", value: 14 },
+      { kind: "toggle", label: "Fake duck", on: false },
+      { kind: "toggle", label: "Auto slow walk przy anti-aimie", on: true },
+      { kind: "toggle", label: "Bezpieczne punkty (hitbox safe point)", on: true },
+      { kind: "toggle", label: "Priorytet na najsłabszego wroga", on: false },
+      { kind: "toggle", label: "Auto scope przy snajperce", on: true },
+      { kind: "toggle", label: "Sprawdzanie przebicia ścian (autowall)", on: true },
+
       { kind: "toggle", label: "Brak rozrzutu (no spread)", on: true },
       { kind: "toggle", label: "Szybki ostrzał (rapid fire)", on: true },
       { kind: "toggle", label: "Podwójny strzał (double tap)", on: false, hint: "Dwa pociski w jednym ticku" },
@@ -167,6 +178,10 @@ export const menuOptions: Record<string, MenuConfig> = {
     right: [
       { kind: "toggle", label: "Limit prędkości", on: true },
       { kind: "slider", label: "Maksymalna prędkość", value: 55, unit: "u/s" },
+      { kind: "toggle", label: "Skok na drabinie", on: false },
+      { kind: "toggle", label: "Auto długi skok (long jump)", on: true },
+      { kind: "toggle", label: "Pomiar prędkości w rogu ekranu", on: true },
+
       { kind: "toggle", label: "Wskaźnik prędkości", on: true },
       { kind: "select", label: "Tryb", options: ["Przytrzymanie spacji", "Przełącznik"], value: 0 },
     ],
@@ -184,6 +199,9 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "select", label: "Tryb pracy", options: ["Przytrzymanie", "Przełącznik"], value: 0 },
       { kind: "toggle", label: "Wyłącz przy strzale", on: true },
       { kind: "toggle", label: "Płynne narastanie", on: true },
+      { kind: "toggle", label: "Przyspieszenie tylko w powietrzu", on: false },
+      { kind: "toggle", label: "Wyłącz przy sapowaniu bomby", on: true },
+
       { kind: "key", label: "Klawisz", value: "MOUSE4" },
     ],
   },
