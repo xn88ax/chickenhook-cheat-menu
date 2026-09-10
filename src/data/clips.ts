@@ -24,6 +24,9 @@ export const clipYoutube: Partial<Record<PreviewKind, string>> = {
   crash: "pQrILbrmbTo",
   speed: "tRs9UswCijc",
   money: "zMowx68Ta-I",
+  voice: "dmrU6iSq4uI",
+  customskin: "S6I5RnfvskU",
+  radio: "tRs9UswCijc",
 };
 
 export function getClipVideo(kind: PreviewKind): string | null {

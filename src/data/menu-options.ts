@@ -240,6 +240,62 @@ export const menuOptions: Record<string, MenuConfig> = {
       { kind: "key", label: "Klawisz zoomu", value: "C" },
     ],
   },
+
+  "czat-glosowy": {
+    note: "Modulator przetwarza mikrofon w czasie rzeczywistym. Soundboard puszcza pliki wprost do kanału głosowego.",
+    left: [
+      { kind: "toggle", label: "Włącz modulator", on: true },
+      { kind: "select", label: "Barwa głosu", options: ["Kurczak", "Robot", "Bas", "Dziecko", "Radio CB"], value: 0 },
+      { kind: "slider", label: "Wysokość tonu", value: 58 },
+      { kind: "slider", label: "Głośność mikrofonu", value: 74, unit: "%" },
+      { kind: "toggle", label: "Filtr szumu", on: true },
+    ],
+    right: [
+      { kind: "toggle", label: "Soundboard", on: true },
+      { kind: "select", label: "Zestaw dźwięków", options: ["Kurnik", "Memy", "Krzyki", "Reklamy"], value: 0 },
+      { kind: "slider", label: "Głośność dźwięków", value: 60, unit: "%" },
+      { kind: "toggle", label: "Nagrywaj kanał wroga", on: false },
+      { kind: "toggle", label: "Podsłuch drużyny przeciwnej", on: false },
+      { kind: "key", label: "Klawisz push-to-talk", value: "K" },
+    ],
+  },
+
+  "custom-skin": {
+    note: "Podgląd pokazuje wgrany model na obracającej się postaci. Zmiany widzisz tylko Ty — serwer dostaje oryginalne pliki.",
+    left: [
+      { kind: "toggle", label: "Włącz własne modele", on: true },
+      { kind: "select", label: "Postać w podglądzie", options: ["CT — SAS", "CT — SEAL", "T — Phoenix", "T — Balkan"], value: 0 },
+      { kind: "select", label: "Zestaw tekstur", options: ["Kurczak gold", "Camo panierka", "Neon", "Własny plik"], value: 0 },
+      { kind: "slider", label: "Metaliczność", value: 55, unit: "%" },
+      { kind: "slider", label: "Zużycie (float)", value: 6, unit: "%" },
+    ],
+    right: [
+      { kind: "toggle", label: "Animowany podgląd", on: true },
+      { kind: "slider", label: "Prędkość obrotu", value: 45 },
+      { kind: "toggle", label: "Światło studyjne", on: true },
+      { kind: "toggle", label: "Pokaż siatkę modelu", on: false },
+      { kind: "stepper", label: "Slot presetu", value: 1 },
+      { kind: "key", label: "Klawisz podglądu", value: "P" },
+    ],
+  },
+
+  radio: {
+    note: "Radio miksuje muzykę z dźwiękiem gry. Auto ciszej ścisza utwór, gdy zaczyna się runda, żeby słyszeć kroki.",
+    left: [
+      { kind: "toggle", label: "Włącz radio", on: true },
+      { kind: "select", label: "Playlista", options: ["xn88ax", "HvH classics", "Kurnik FM", "Własny strumień"], value: 0 },
+      { kind: "slider", label: "Głośność", value: 42, unit: "%" },
+      { kind: "toggle", label: "Losowa kolejność", on: true },
+      { kind: "toggle", label: "Powtarzanie", on: false },
+    ],
+    right: [
+      { kind: "toggle", label: "Wizualizator na HUD", on: true },
+      { kind: "select", label: "Equalizer", options: ["Płaski", "Bass boost", "Vocal", "Nocny"], value: 1 },
+      { kind: "toggle", label: "Auto ciszej w rundzie", on: true },
+      { kind: "toggle", label: "Nakładka z tytułem", on: true },
+      { kind: "key", label: "Następny utwór", value: "]" },
+    ],
+  },
 };
 
 export const fallbackMenuConfig: MenuConfig = {
