@@ -730,13 +730,22 @@ export function CheatMenu() {
   });
   const [nums, setNums] = useState<Record<string, number>>({});
   const [switches, setSwitches] = useState<Record<string, boolean>>({});
+  const [query, setQuery] = useState("");
+  const [closed, setClosed] = useState<Record<string, boolean>>({});
 
   const bySection = useMemo(() => {
     const map = new Map<string, Feature[]>();
+    const q = query.trim().toLowerCase();
     for (const s of SECTIONS) map.set(s.name, []);
-    for (const f of features) map.get(GROUPS[f.slug] ?? "Inne")?.push(f);
+    for (const f of features) {
+      if (q && !f.title.toLowerCase().includes(q)) continue;
+      map.get(GROUPS[f.slug] ?? "Inne")?.push(f);
+    }
+    for (const s of SECTIONS) {
+      map.get(s.name)?.sort((a, b) => a.title.localeCompare(b.title, "pl"));
+    }
     return map;
-  }, []);
+  }, [query]);
 
   const cfg = menuOptions[selected.slug] ?? fallbackMenuConfig;
   const activeCount = Object.values(enabled).filter(Boolean).length;
