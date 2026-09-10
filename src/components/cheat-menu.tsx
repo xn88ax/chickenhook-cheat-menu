@@ -108,7 +108,7 @@ function GsSelect({
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
         onBlur={() => window.setTimeout(() => setOpen(false), 120)}
-        className="mt-1 flex h-7 w-full items-center justify-between rounded-sm border border-border bg-background/70 px-2 text-xs transition-colors hover:border-menugreen/50"
+        className="mt-1 flex h-6 w-full items-center justify-between rounded-sm border border-border bg-background/70 px-2 text-xs transition-colors hover:border-menugreen/50"
       >
         <span className="gs-glow truncate text-menugreen">{options[value] ?? options[0]}</span>
         <ChevronDown
@@ -161,7 +161,7 @@ function GsSlider({
   return (
     <div>
       <div className="text-xs text-foreground/80">{label}</div>
-      <div className="mt-2 flex items-center gap-2">
+      <div className="mt-1 flex items-center gap-2">
         <input
           type="range"
           min={0}
@@ -228,7 +228,7 @@ function GsKey({ label, value }: { label: string; value: string }) {
 
 function GsPreviewPanel({ slug }: { slug: string }) {
   return (
-    <div className="mb-4 max-w-[320px] overflow-hidden rounded-sm border border-border bg-background/60">
+    <div className="mb-2.5 max-w-[320px] overflow-hidden rounded-sm border border-border bg-background/60">
       <div className="flex items-center justify-between border-b border-border bg-secondary/40 px-2 py-1">
         <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-foreground/80">
           Podgląd
@@ -821,7 +821,7 @@ export function CheatMenu() {
               defaultValue={c.value}
               placeholder={c.placeholder}
               aria-label={c.label}
-              className="mt-1 h-7 w-full rounded-sm border border-border bg-background/70 px-2 font-mono text-xs text-menugreen outline-none transition-colors focus:border-menugreen/60"
+              className="mt-1 h-6 w-full rounded-sm border border-border bg-background/70 px-2 font-mono text-xs text-menugreen outline-none transition-colors focus:border-menugreen/60"
             />
           </div>
         );
@@ -833,7 +833,7 @@ export function CheatMenu() {
   return (
     <div className="overflow-hidden rounded-md border border-border bg-card/95 shadow-[0_24px_80px_-20px_rgba(0,0,0,0.8)]">
       {/* Pasek tytułu — ClickGUI */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-secondary/40 px-3 py-2">
+      <div className="flex flex-wrap items-center justify-between gap-1.5 border-b border-border bg-secondary/40 px-2.5 py-1.5">
         <span className="text-sm font-extrabold tracking-wide">
           CHICKEN<span className="gs-glow text-menugreen">HOOK</span>
           <span className="ml-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
@@ -870,10 +870,10 @@ export function CheatMenu() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-[440px_1fr]">
+      <div className="grid lg:grid-cols-[400px_1fr]">
         {/* Kolumna okienek kategorii — jak ClickGUI Wursta */}
-        <div className="border-b border-border bg-background/30 p-2.5 lg:border-b-0 lg:border-r">
-          <div className="columns-1 gap-2.5 sm:columns-2 [&>*]:mb-2.5">
+        <div className="border-b border-border bg-background/30 p-1.5 lg:border-b-0 lg:border-r">
+          <div className="columns-1 gap-1.5 sm:columns-2 [&>*]:mb-1.5">
             {SECTIONS.map((s) => {
               const items = bySection.get(s.name) ?? [];
               if (!items.length) return null;
@@ -888,7 +888,7 @@ export function CheatMenu() {
                     type="button"
                     onClick={() => setClosed((p) => ({ ...p, [s.name]: !isClosed }))}
                     aria-expanded={!isClosed}
-                    className="flex w-full items-center gap-1.5 border-b border-menugreen/25 bg-menugreen/15 px-2 py-1.5 text-left"
+                    className="flex w-full items-center gap-1.5 border-b border-menugreen/25 bg-menugreen/15 px-1.5 py-1 text-left"
                   >
                     <s.icon className="size-3 gs-glow text-menugreen" />
                     <span className="flex-1 text-[10px] font-bold uppercase tracking-[0.16em] text-foreground/90">
@@ -905,7 +905,7 @@ export function CheatMenu() {
                     />
                   </button>
                   {!isClosed && (
-                    <div className="p-1">
+                    <div className="p-0.5">
                       {items.map((f) => {
                         const on = !!enabled[f.slug];
                         const active = selected.slug === f.slug;
@@ -913,7 +913,7 @@ export function CheatMenu() {
                           <div
                             key={f.slug}
                             className={cn(
-                              "flex items-center gap-1.5 rounded-sm px-1.5 py-1 transition-colors",
+                              "flex items-center gap-1.5 rounded-sm px-1.5 py-0.5 transition-colors",
                               active ? "bg-menugreen/15" : "hover:bg-secondary/70",
                             )}
                           >
@@ -976,7 +976,7 @@ export function CheatMenu() {
           </div>
 
           {/* Profil użytkownika */}
-          <div className="mt-1 flex items-center gap-2 rounded-sm border border-border bg-card/60 p-2">
+          <div className="mt-1.5 flex items-center gap-2 rounded-sm border border-border bg-card/60 p-1.5">
             <span className="grid size-7 place-items-center rounded-sm bg-menugreen/15">
               <User className="size-4 gs-glow text-menugreen" />
             </span>
@@ -990,13 +990,13 @@ export function CheatMenu() {
         {/* Okno ustawień wybranego modułu */}
         <div
           className={cn(
-            "p-2.5",
+            "p-1.5",
             "max-lg:fixed max-lg:inset-x-2 max-lg:bottom-2 max-lg:top-14 max-lg:z-50 max-lg:overflow-y-auto max-lg:rounded-md max-lg:border max-lg:border-menugreen/30 max-lg:bg-background/95 max-lg:shadow-2xl max-lg:backdrop-blur",
             !openSettings && "max-lg:hidden",
           )}
         >
           <div className="overflow-hidden rounded-sm border border-menugreen/25 bg-card/70">
-            <div className="flex items-center justify-between gap-2 border-b border-menugreen/25 bg-menugreen/15 px-2 py-1.5">
+            <div className="flex items-center justify-between gap-2 border-b border-menugreen/25 bg-menugreen/15 px-1.5 py-1">
               <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground/90">
                 {selected.title} — ustawienia
               </span>
@@ -1016,17 +1016,17 @@ export function CheatMenu() {
             </div>
 
 
-            <div className="p-4">
+            <div className="p-2.5">
               {["custom-skin", "czat-glosowy", "radio", "2pacalypse", "pyszne-kfc"].includes(
                 selected.slug,
               ) && <GsPreviewPanel slug={selected.slug} />}
 
-              <div className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
-                <div className="space-y-3.5">{cfg.left.map((c, i) => renderControl(c, "l", i))}</div>
-                <div className="space-y-3.5">{cfg.right.map((c, i) => renderControl(c, "r", i))}</div>
+              <div className="grid gap-x-4 gap-y-2 sm:grid-cols-2">
+                <div className="space-y-2">{cfg.left.map((c, i) => renderControl(c, "l", i))}</div>
+                <div className="space-y-2">{cfg.right.map((c, i) => renderControl(c, "r", i))}</div>
               </div>
 
-              <p className="mt-4 flex items-start gap-1.5 border-t border-border pt-3 text-[11px] leading-relaxed text-muted-foreground">
+              <p className="mt-2.5 flex items-start gap-1.5 border-t border-border pt-2 text-[11px] leading-relaxed text-muted-foreground">
                 <Gauge className="mt-0.5 size-3 shrink-0" />
                 <span>{cfg.note}</span>
               </p>
