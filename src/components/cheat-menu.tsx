@@ -549,7 +549,7 @@ export function CheatMenu() {
             </span>
           </div>
 
-          {["custom-skin", "czat-glosowy", "radio"].includes(selected.slug) && (
+          {["custom-skin", "czat-glosowy", "radio", "2pacalypse"].includes(selected.slug) && (
             <GsPreviewPanel slug={selected.slug} />
           )}
 
