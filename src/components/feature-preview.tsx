@@ -215,6 +215,17 @@ function Scene({ kind }: { kind: PreviewKind }) {
           </div>
         </>
       );
+    case "zacinka":
+      return (
+        <>
+          <div className="preview-box absolute left-1/2 top-1/2 h-3 w-14 -translate-x-1/2 -translate-y-1/2 rounded-sm bg-foreground/30" />
+          <div className="preview-fire absolute left-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-primary/70" />
+          <div className="absolute left-1/2 top-1/2 h-8 w-0.5 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-primary" />
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[10px] font-bold text-primary">
+            JAMMED
+          </div>
+        </>
+      );
     case "misc":
     default:
       return (
