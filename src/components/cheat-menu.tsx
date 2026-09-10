@@ -18,7 +18,9 @@ import {
   Sparkles,
   User,
   Wand2,
+  X,
   Zap,
+
 } from "lucide-react";
 
 import ctModel from "@/assets/ct-model.png.asset.json";
@@ -732,6 +734,8 @@ export function CheatMenu() {
   const [switches, setSwitches] = useState<Record<string, boolean>>({});
   const [query, setQuery] = useState("");
   const [closed, setClosed] = useState<Record<string, boolean>>({});
+  const [openSettings, setOpenSettings] = useState(false);
+
 
   const bySection = useMemo(() => {
     const map = new Map<string, Feature[]>();
@@ -931,7 +935,11 @@ export function CheatMenu() {
                             </button>
                             <button
                               type="button"
-                              onClick={() => setSelected(f)}
+                              onClick={() => {
+                                setSelected(f);
+                                setOpenSettings(true);
+                              }}
+                              title="Otwórz ustawienia"
                               className={cn(
                                 "flex-1 truncate text-left text-[11px] transition-colors",
                                 on ? "text-foreground" : "text-muted-foreground hover:text-foreground",
@@ -939,6 +947,18 @@ export function CheatMenu() {
                             >
                               {f.title}
                             </button>
+                            <button
+                              type="button"
+                              aria-label={`Ustawienia: ${f.title}`}
+                              onClick={() => {
+                                setSelected(f);
+                                setOpenSettings(true);
+                              }}
+                              className="grid size-4 shrink-0 place-items-center rounded-[2px] text-muted-foreground transition-colors hover:text-menugreen"
+                            >
+                              <Settings2 className="size-3" />
+                            </button>
+
                             {f.restricted && <Lock className="gs-gold size-3 shrink-0" />}
                           </div>
                         );
@@ -968,16 +988,33 @@ export function CheatMenu() {
         </div>
 
         {/* Okno ustawień wybranego modułu */}
-        <div className="p-2.5">
+        <div
+          className={cn(
+            "p-2.5",
+            "max-lg:fixed max-lg:inset-x-2 max-lg:bottom-2 max-lg:top-14 max-lg:z-50 max-lg:overflow-y-auto max-lg:rounded-md max-lg:border max-lg:border-menugreen/30 max-lg:bg-background/95 max-lg:shadow-2xl max-lg:backdrop-blur",
+            !openSettings && "max-lg:hidden",
+          )}
+        >
           <div className="overflow-hidden rounded-sm border border-menugreen/25 bg-card/70">
-            <div className="flex items-center justify-between border-b border-menugreen/25 bg-menugreen/15 px-2 py-1.5">
+            <div className="flex items-center justify-between gap-2 border-b border-menugreen/25 bg-menugreen/15 px-2 py-1.5">
               <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-foreground/90">
                 {selected.title} — ustawienia
               </span>
-              <span className="text-[10px] text-muted-foreground">
-                {activeCount} aktywnych · INS = menu
+              <span className="flex items-center gap-2">
+                <span className="text-[10px] text-muted-foreground">
+                  {activeCount} aktywnych · INS = menu
+                </span>
+                <button
+                  type="button"
+                  aria-label="Zamknij ustawienia"
+                  onClick={() => setOpenSettings(false)}
+                  className="grid size-5 place-items-center rounded-sm text-muted-foreground transition-colors hover:text-menugreen lg:hidden"
+                >
+                  <X className="size-3.5" />
+                </button>
               </span>
             </div>
+
 
             <div className="p-4">
               {["custom-skin", "czat-glosowy", "radio", "2pacalypse", "pyszne-kfc"].includes(
