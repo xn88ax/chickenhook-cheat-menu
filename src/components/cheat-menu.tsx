@@ -931,7 +931,11 @@ export function CheatMenu() {
                             </button>
                             <button
                               type="button"
-                              onClick={() => setSelected(f)}
+                              onClick={() => {
+                                setSelected(f);
+                                setOpenSettings(true);
+                              }}
+                              title="Otwórz ustawienia"
                               className={cn(
                                 "flex-1 truncate text-left text-[11px] transition-colors",
                                 on ? "text-foreground" : "text-muted-foreground hover:text-foreground",
@@ -939,6 +943,18 @@ export function CheatMenu() {
                             >
                               {f.title}
                             </button>
+                            <button
+                              type="button"
+                              aria-label={`Ustawienia: ${f.title}`}
+                              onClick={() => {
+                                setSelected(f);
+                                setOpenSettings(true);
+                              }}
+                              className="grid size-4 shrink-0 place-items-center rounded-[2px] text-muted-foreground transition-colors hover:text-menugreen"
+                            >
+                              <Settings2 className="size-3" />
+                            </button>
+
                             {f.restricted && <Lock className="gs-gold size-3 shrink-0" />}
                           </div>
                         );
