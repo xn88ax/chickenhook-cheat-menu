@@ -168,10 +168,29 @@ export function GsShell({
             <span className="rounded-full border border-border bg-background/40 px-3 py-1.5 text-xs text-muted-foreground">
               <span className="text-[var(--status-ok)]">Undetected</span> · 4.chkn
             </span>
-            <Link to="/auth" search={{ next: pathname }} className="text-xs font-medium text-muted-foreground hover:text-foreground">
-              Zaloguj
-            </Link>
+            {isAdmin && (
+              <Link to="/admin" className="text-xs font-semibold text-primary hover:brightness-110">
+                Panel
+              </Link>
+            )}
+            {user ? (
+              <>
+                <span className="text-xs font-medium text-foreground">{displayName(user)}</span>
+                <button
+                  type="button"
+                  onClick={signOut}
+                  className="text-xs font-medium text-muted-foreground hover:text-foreground"
+                >
+                  Wyloguj
+                </button>
+              </>
+            ) : (
+              <Link to="/auth" search={{ next: pathname }} className="text-xs font-medium text-muted-foreground hover:text-foreground">
+                Zaloguj
+              </Link>
+            )}
           </div>
+
           <Button variant="ghost" size="icon" className="ml-auto min-[860px]:hidden" aria-label={mobileOpen ? "Zamknij menu" : "Otwórz menu"} aria-expanded={mobileOpen} onClick={() => setMobileOpen((v) => !v)}>
             {mobileOpen ? <X /> : <Menu />}
           </Button>
