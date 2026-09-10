@@ -1023,7 +1023,7 @@ export function CheatMenu() {
                 <div className="space-y-1">{cfg.right.map((c, i) => renderControl(c, "r", i))}</div>
               </div>
 
-              <p className="mt-2.5 flex items-start gap-1.5 border-t border-border pt-2 text-[11px] leading-relaxed text-muted-foreground">
+              <p className="mt-2 flex items-start gap-1.5 border-t border-border pt-1.5 text-[10px] leading-snug text-muted-foreground">
                 <Gauge className="mt-0.5 size-3 shrink-0" />
                 <span>{cfg.note}</span>
               </p>
