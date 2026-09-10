@@ -14,13 +14,13 @@ export const Route = createFileRoute("/auth")({
   }),
   head: () => ({
     meta: [
-      { title: "Logowanie — Forum ChickenHook.ru (invite only)" },
+      { title: "Logowanie — Forum chickenhook.wtf (invite only)" },
       {
         name: "description",
         content:
           "Forum ChickenHook działa w trybie invite only. Zaloguj się lub aktywuj konto kodem zaproszenia.",
       },
-      { property: "og:title", content: "Logowanie — Forum ChickenHook.ru" },
+      { property: "og:title", content: "Logowanie — Forum chickenhook.wtf" },
       {
         property: "og:description",
         content: "Dostęp do forum ChickenHook wyłącznie z kodem zaproszenia.",

@@ -12,13 +12,13 @@ export const Route = createFileRoute("/poradniki/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Nie znaleziono poradnika — ChickenHook.ru" }, { name: "robots", content: "noindex" }],
+        meta: [{ title: "Nie znaleziono poradnika — chickenhook.wtf" }, { name: "robots", content: "noindex" }],
       };
     }
     const { guide } = loaderData;
     return {
       meta: [
-        { title: `${guide.title} — ChickenHook.ru` },
+        { title: `${guide.title} — chickenhook.wtf` },
         { name: "description", content: guide.excerpt },
         { property: "og:title", content: guide.title },
         { property: "og:description", content: guide.excerpt },

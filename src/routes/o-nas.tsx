@@ -5,13 +5,13 @@ import { GsPanel, GsShell } from "@/components/gs-shell";
 export const Route = createFileRoute("/o-nas")({
   head: () => ({
     meta: [
-      { title: "O nas — historia ChickenHook.ru" },
+      { title: "O nas — historia chickenhook.wtf" },
       {
         name: "description",
         content:
           "Jak powstał ChickenHook: kubełek skrzydełek, dwa laptopy i jedna zła decyzja o 3 w nocy. Kalendarium i zespół kurnika.",
       },
-      { property: "og:title", content: "O nas — historia ChickenHook.ru" },
+      { property: "og:title", content: "O nas — historia chickenhook.wtf" },
       {
         property: "og:description",
         content: "Legenda o powstaniu kurnika, kalendarium i zespół, którego nikt nigdy nie widział.",

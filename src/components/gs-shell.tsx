@@ -188,7 +188,7 @@ export function GsShell({
       </div>
 
       <footer className="relative z-10 mx-auto max-w-[1160px] px-5 py-10">
-        <p className="text-xs text-muted-foreground">© 2026 ChickenHook.ru · Demo, strona parodystyczna.</p>
+        <p className="text-xs text-muted-foreground">© 2026 chickenhook.wtf · Demo, strona parodystyczna.</p>
       </footer>
     </div>
   );
