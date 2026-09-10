@@ -376,16 +376,121 @@ function TwoPacalypsePanel() {
   );
 }
 
-const KFC_MENU = [
-  { name: "Kubełek Wielki 20 szt.", price: 89.99 },
-  { name: "Twister Original", price: 21.99 },
-  { name: "Hot Wings 9 szt.", price: 24.99 },
-  { name: "Stripsy 5 szt.", price: 26.99 },
-  { name: "Zinger Burger", price: 22.99 },
-  { name: "Frytki duże", price: 11.99 },
-  { name: "Sos serowy", price: 3.5 },
-  { name: "Pepsi Max 0,5 l", price: 8.99 },
+const KFC_CATEGORIES: { cat: string; items: { name: string; price: number }[] }[] = [
+  {
+    cat: "Promocje",
+    items: [
+      { name: "Boxmaster Zestaw", price: 33.99 },
+      { name: "2x Zinger Burger", price: 39.99 },
+      { name: "Kubełek 9 kawałków + 2 frytki", price: 74.99 },
+      { name: "Twister Zestaw", price: 31.99 },
+      { name: "Duo Box (2 burgery + 2 frytki + 2 napoje)", price: 59.99 },
+    ],
+  },
+  {
+    cat: "Kubełki",
+    items: [
+      { name: "Kubełek 6 kawałków", price: 44.99 },
+      { name: "Kubełek 9 kawałków", price: 59.99 },
+      { name: "Kubełek 15 kawałków", price: 89.99 },
+      { name: "Kubełek 20 kawałków", price: 114.99 },
+      { name: "Kubełek Hot Wings 20 szt.", price: 54.99 },
+      { name: "Kubełek Stripsów 10 szt.", price: 59.99 },
+      { name: "Bucket Party 30 szt.", price: 159.99 },
+    ],
+  },
+  {
+    cat: "Kanapki",
+    items: [
+      { name: "Zinger Burger", price: 22.99 },
+      { name: "Zinger Burger Cheese", price: 24.99 },
+      { name: "Boxmaster", price: 27.99 },
+      { name: "Boxmaster Spicy", price: 28.99 },
+      { name: "Twister Original", price: 21.99 },
+      { name: "Twister Spicy", price: 22.99 },
+      { name: "Twister Cheese", price: 23.99 },
+      { name: "Burger Kentucky BBQ", price: 25.99 },
+      { name: "Chicken Burger", price: 15.99 },
+      { name: "Cheeseburger", price: 12.99 },
+      { name: "Fillet Burger", price: 24.99 },
+    ],
+  },
+  {
+    cat: "Kurczak",
+    items: [
+      { name: "Hot Wings 5 szt.", price: 16.99 },
+      { name: "Hot Wings 9 szt.", price: 24.99 },
+      { name: "Hot Wings 15 szt.", price: 39.99 },
+      { name: "Stripsy 3 szt.", price: 17.99 },
+      { name: "Stripsy 5 szt.", price: 26.99 },
+      { name: "Stripsy 9 szt.", price: 44.99 },
+      { name: "Nuggetsy 5 szt.", price: 14.99 },
+      { name: "Nuggetsy 9 szt.", price: 22.99 },
+      { name: "Kurczak w kawałkach 2 szt.", price: 19.99 },
+      { name: "Kurczak w kawałkach 3 szt.", price: 26.99 },
+    ],
+  },
+  {
+    cat: "Wrapy i sałatki",
+    items: [
+      { name: "Wrap Original", price: 17.99 },
+      { name: "Wrap Spicy", price: 18.99 },
+      { name: "Wrap Cheese", price: 18.99 },
+      { name: "Sałatka Coleslaw mała", price: 8.99 },
+      { name: "Sałatka Coleslaw duża", price: 13.99 },
+      { name: "Sałatka z kurczakiem", price: 22.99 },
+    ],
+  },
+  {
+    cat: "Dodatki",
+    items: [
+      { name: "Frytki małe", price: 8.99 },
+      { name: "Frytki średnie", price: 10.99 },
+      { name: "Frytki duże", price: 12.99 },
+      { name: "Frytki z serem", price: 15.99 },
+      { name: "Cheese Fries Bacon", price: 18.99 },
+      { name: "Kukurydza", price: 8.99 },
+      { name: "Bułka", price: 3.49 },
+    ],
+  },
+  {
+    cat: "Sosy",
+    items: [
+      { name: "Sos serowy", price: 3.5 },
+      { name: "Sos BBQ", price: 2.5 },
+      { name: "Sos czosnkowy", price: 2.5 },
+      { name: "Sos musztardowo-miodowy", price: 2.5 },
+      { name: "Sos sweet chilli", price: 2.5 },
+      { name: "Sos Hot Pepper", price: 2.5 },
+    ],
+  },
+  {
+    cat: "Napoje",
+    items: [
+      { name: "Pepsi 0,4 l", price: 8.99 },
+      { name: "Pepsi Max 0,5 l", price: 9.49 },
+      { name: "Mirinda 0,4 l", price: 8.99 },
+      { name: "7up 0,4 l", price: 8.99 },
+      { name: "Lipton Ice Tea 0,4 l", price: 9.49 },
+      { name: "Woda niegazowana 0,5 l", price: 6.99 },
+      { name: "Sok pomarańczowy", price: 8.49 },
+      { name: "Kawa Americano", price: 9.99 },
+    ],
+  },
+  {
+    cat: "Desery",
+    items: [
+      { name: "Lodowy Shake truskawkowy", price: 13.99 },
+      { name: "Lodowy Shake czekoladowy", price: 13.99 },
+      { name: "Sundae z sosem", price: 9.99 },
+      { name: "Ciastko czekoladowe", price: 7.99 },
+      { name: "Muffin", price: 8.99 },
+    ],
+  },
 ];
+
+const KFC_MENU = KFC_CATEGORIES.flatMap((c) => c.items);
+
 
 const FREE_DELIVERY = 39;
 
