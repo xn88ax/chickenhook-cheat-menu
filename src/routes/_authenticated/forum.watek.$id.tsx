@@ -89,7 +89,7 @@ function ThreadPage() {
           <p className="text-sm text-muted-foreground">
             Nie ma takiego wątku.{" "}
             <Link to="/forum" className="text-primary underline">
-              Wróć na forum
+              Powrót
             </Link>
           </p>
         )}

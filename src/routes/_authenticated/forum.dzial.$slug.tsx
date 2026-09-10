@@ -71,7 +71,7 @@ function CategoryPage() {
           <p className="text-sm text-muted-foreground">
             Nie ma takiego działu.{" "}
             <Link to="/forum" className="text-primary underline">
-              Wróć na forum
+              Powrót
             </Link>
           </p>
         )}
