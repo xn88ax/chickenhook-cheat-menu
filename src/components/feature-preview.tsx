@@ -18,7 +18,8 @@ export type PreviewKind =
   | "money"
   | "voice"
   | "customskin"
-  | "radio";
+  | "radio"
+  | "ddos";
 
 const labels: Record<PreviewKind, string> = {
   noclip: "NOCLIP",
@@ -37,7 +38,9 @@ const labels: Record<PreviewKind, string> = {
   voice: "CZAT GŁOSOWY",
   customskin: "CUSTOM SKIN",
   radio: "RADIO",
+  ddos: "2PACALYPSE 2.3",
 };
+
 
 function Scene({ kind }: { kind: PreviewKind }) {
   switch (kind) {

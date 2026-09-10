@@ -12,9 +12,11 @@ import {
   Radio,
   ServerCrash,
   Shirt,
+  Skull,
   Sparkles,
   Wind,
   Zap,
+
   type LucideIcon,
 } from "lucide-react";
 
@@ -262,4 +264,20 @@ export const features: Feature[] = [
     ],
     preview: "radio",
   },
+  {
+    slug: "2pacalypse",
+    icon: Skull,
+    title: "2PACALYPSE 2.3",
+    desc: "Legendarny booter z 2011 — wpisujesz IP, port i klikasz DDoS. Kod: Moneymack.",
+    long: "Rekonstrukcja kultowego okienka 2PACALYPSE 2.3. Panel udaje starą aplikację z Windowsa: pole IP, pole port, wielki przycisk DDoS i licznik podłączonych botnetów. Nie wysyła żadnych pakietów — to czysta parodia sceny skiddie z lat 2010–2012.",
+    bullets: [
+      "Pole IP i port jak w oryginale",
+      "Wielki przycisk DDoS z animacją",
+      "Licznik „Botnets Online” liczy w górę",
+      "Sylwetka 2Paca w rogu, dedykacja Moneymacka",
+    ],
+    preview: "ddos",
+    restricted: true,
+  },
 ];
+
