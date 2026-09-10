@@ -347,7 +347,7 @@ function TwoPacalypsePanel() {
               firing ? "chkn-2pac-fire bg-[#39ff14] text-black" : "text-[#39ff14] hover:bg-[#39ff14]/10",
             )}
           >
-            DDoS
+            DDoS Niggas
           </button>
         </div>
         <div className="absolute bottom-1 left-2 text-[10px] font-bold">
