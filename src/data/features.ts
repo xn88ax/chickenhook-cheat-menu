@@ -17,6 +17,7 @@ import {
   Shirt,
   Skull,
   Sparkles,
+  Sun,
   Wind,
   Zap,
 
