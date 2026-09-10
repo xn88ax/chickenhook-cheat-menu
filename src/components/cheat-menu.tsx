@@ -52,6 +52,7 @@ const GROUPS: Record<string, string> = {
   "nade-helper": "Inne",
   "auto-plant": "Inne",
   "spawner-pojazdow": "Inne",
+  "zacinka-broni": "Exploity",
 
 };
 

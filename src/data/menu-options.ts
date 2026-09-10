@@ -507,6 +507,27 @@ export const menuOptions: Record<string, MenuConfig> = {
     ],
   },
 
+  "zacinka-broni": {
+    note: "Zacinka blokuje spust przeciwnikom — ich broń nie chce wystrzelić, a na HUD widzisz kto właśnie klika w pustkę.",
+    left: [
+      { kind: "toggle", label: "Włącz zacinkę broni wroga", on: true },
+      { kind: "select", label: "Cele", options: ["Wszyscy wrogowie", "Tylko widoczni", "Tylko celujący we mnie", "Najbliższy"], value: 0 },
+      { kind: "slider", label: "Zasięg działania", value: 1200, unit: "u" },
+      { kind: "slider", label: "Czas zacięcia", value: 1500, unit: "ms" },
+      { kind: "slider", label: "Szansa zacięcia", value: 85, unit: "%" },
+      { kind: "select", label: "Typ blokady", options: ["Blokada spustu", "Wieczne przeładowanie", "Pusty magazynek", "Zwiększony odrzut"], value: 0 },
+    ],
+    right: [
+      { kind: "toggle", label: "Blokuj też granaty i noża", on: false },
+      { kind: "toggle", label: "Dźwięk kliknięcia w pustkę", on: true },
+      { kind: "toggle", label: "Alert na HUD o zaciętym wrogu", on: true },
+      { kind: "toggle", label: "Nie zacinaj kurczaków", on: true },
+      { kind: "toggle", label: "Licznik zacięć w meczu", on: true },
+      { kind: "select", label: "Aktywacja", options: ["Automatyczna", "Przytrzymanie klawisza"], value: 0 },
+      { kind: "key", label: "Klawisz zacinki", value: "G" },
+    ],
+  },
+
   "pyszne-kfc": {
     note: "Panel Pyszne.pl podpięty pod najbliższe KFC. Zamówienie składasz w podglądzie obok — koszyk liczy się na żywo, a przy 39 zł dostawa jest darmowa.",
     left: [

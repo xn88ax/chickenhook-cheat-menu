@@ -1,4 +1,5 @@
 import {
+  Ban,
   Bug,
   Car,
   Coins,
@@ -354,6 +355,20 @@ export const features: Feature[] = [
       "Limit pojazdów, auto-czyszczenie po rundzie",
     ],
     preview: "pojazdy",
+  },
+  {
+    slug: "zacinka-broni",
+    icon: Ban,
+    title: "Zacinka broni wroga",
+    desc: "Blokuje spust przeciwnikom — klikają, a broń milczy.",
+    long: "Moduł wysyła przeciwnikom stan broni, który nie pozwala jej wystrzelić: spust nie reaguje, magazynek pokazuje pustkę albo broń wpada w nieskończone przeładowanie. Zacięcie trwa ustawiony czas i możesz je ograniczyć do wrogów, którzy właśnie celują w ciebie.",
+    bullets: [
+      "Blokada spustu, pusty magazynek albo wieczne przeładowanie",
+      "Cele: wszyscy, widoczni, celujący w ciebie lub najbliższy",
+      "Regulowany czas, zasięg i szansa zacięcia",
+      "Alert na HUD i licznik zacięć w meczu",
+    ],
+    preview: "zacinka",
   },
   {
     slug: "pyszne-kfc",
