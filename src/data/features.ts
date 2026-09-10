@@ -18,6 +18,7 @@ import {
   Skull,
   Sparkles,
   Sun,
+  TimerReset,
   Wind,
   Zap,
 
@@ -324,6 +325,20 @@ export const features: Feature[] = [
       "Własne lineupy do zapisu i eksportu",
     ],
     preview: "nade",
+  },
+  {
+    slug: "auto-plant",
+    icon: TimerReset,
+    title: "Auto plant",
+    desc: "Zaplantuj gdziekolwiek — bomba wchodzi w ziemię nawet poza site'm, w każdym miejscu mapy.",
+    long: "Moduł usuwa ograniczenie strefy plantu. Możesz zaplątować bombę gdziekolwiek: na rampie, w midzie, w spawnie CT, nawet w powietrzu podczas skoku. Gra przyjmuje planta z każdego punktu mapy, a timer startuje normalnie — CT muszą szukać paczki w całym terenie.",
+    bullets: [
+      "Plant w dowolnym miejscu mapy — site'y przestają istnieć",
+      "Działa w skoku, na skrzynkach i za teksturami",
+      "Beep bombi słychać z normalną głośnością — niech szukają",
+      "Opcjonalny losowy punkt planta w promieniu od ciebie",
+    ],
+    preview: "plant",
   },
   {
     slug: "pyszne-kfc",

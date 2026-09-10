@@ -50,6 +50,7 @@ const GROUPS: Record<string, string> = {
   "auto-strazak": "Inne",
   "auto-flash": "Inne",
   "nade-helper": "Inne",
+  "auto-plant": "Inne",
 
 };
 

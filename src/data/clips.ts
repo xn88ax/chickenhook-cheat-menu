@@ -30,6 +30,7 @@ export const clipYoutube: Partial<Record<PreviewKind, string>> = {
   strazak: "3X-WJM2RYvo",
   flashassist: "JZL9ddTF4LY",
   nade: "h1E-Ti_mWBo",
+  plant: "AfLUwMCCBGU",
   // ddos: pokazujemy własny panel 2PACALYPSE zamiast filmu
 };
 
