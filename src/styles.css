@@ -2,6 +2,13 @@
 @source "../src";
 @import "tw-animate-css";
 
+@keyframes chkn-2pac-fire {
+  0%, 100% { box-shadow: 0 0 0 0 #39ff14; }
+  50% { box-shadow: 0 0 24px 4px #39ff14; }
+}
+.chkn-2pac-fire { animation: chkn-2pac-fire 0.3s ease-in-out infinite; }
+
+
 @custom-variant dark (&:is(.dark *));
 
 /*

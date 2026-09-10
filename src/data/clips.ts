@@ -27,7 +27,9 @@ export const clipYoutube: Partial<Record<PreviewKind, string>> = {
   voice: "dmrU6iSq4uI",
   customskin: "S6I5RnfvskU",
   radio: "tRs9UswCijc",
+  // ddos: pokazujemy własny panel 2PACALYPSE zamiast filmu
 };
+
 
 export function getClipVideo(kind: PreviewKind): string | null {
   const url = clipVideos[kind];
