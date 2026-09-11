@@ -841,13 +841,17 @@ export function OverlayMenu() {
                             {r.items.map((i) => (
                               <div
                                 key={i.id}
-                                className="flex h-[26px] items-center justify-between gap-2"
+                                onDoubleClick={() => openWindow(i.id)}
+                                className="flex h-[26px] cursor-default items-center justify-between gap-2"
                               >
                                 <span
-                                  title={i.label}
+                                  title={PARAMS[i.id] ? `${i.label} — 2× klik = parametry` : i.label}
                                   className="truncate text-[11px] text-foreground/85"
                                 >
                                   {i.label}
+                                  {PARAMS[i.id] && (
+                                    <span className="ml-1 text-[9px] text-muted-foreground">⋯</span>
+                                  )}
                                 </span>
                                 <Pill
                                   on={Boolean(toggles[i.id])}
@@ -864,77 +868,23 @@ export function OverlayMenu() {
                       return (
                         <div
                           key={r.id}
-                          className="flex h-[32px] items-center justify-between gap-3"
+                          onDoubleClick={() => openWindow(r.id)}
+                          className="flex h-[32px] cursor-default items-center justify-between gap-3"
                         >
                           <span
-                            title={r.label}
+                            title={PARAMS[r.id] ? `${r.label} — 2× klik = parametry` : r.label}
                             className="flex min-w-0 items-center gap-1.5 truncate text-[11px] text-foreground/85"
                           >
                             {r.kind === "toggle" && r.warn && (
                               <TriangleAlert className="size-3 shrink-0 text-amber-500" />
                             )}
                             {r.label}
+                            {PARAMS[r.id] && (
+                              <span className="text-[9px] text-muted-foreground">⋯</span>
+                            )}
                           </span>
 
-                          {r.kind === "toggle" && (
-                            <Pill
-                              on={Boolean(toggles[r.id])}
-                              onClick={() =>
-                                setToggles((t) => ({ ...t, [r.id]: !t[r.id] }))
-                              }
-                            />
-                          )}
-
-                          {r.kind === "select" && (
-                            <Compact
-                              options={r.options}
-                              value={selects[r.id] ?? r.def ?? 0}
-                              onChange={(v) => setSelects((s2) => ({ ...s2, [r.id]: v }))}
-                            />
-                          )}
-
-                          {r.kind === "slider" && (
-                            <div className="flex shrink-0 items-center gap-2">
-                              <Thin
-                                min={r.min}
-                                max={r.max}
-                                value={sliders[r.id] ?? r.def}
-                                onChange={(v) => setSliders((s2) => ({ ...s2, [r.id]: v }))}
-                                className="w-[132px]"
-                              />
-                              <span className="w-[42px] text-right text-[10px] tabular-nums text-ovl-accent">
-                                {sliders[r.id] ?? r.def}
-                                {r.unit ?? ""}
-                              </span>
-                            </div>
-                          )}
-
-                          {r.kind === "dual" && (
-                            <div className="flex shrink-0 items-center gap-2">
-                              {(["y", "x"] as const).map((axis) => (
-                                <div key={axis} className="flex items-center gap-1">
-                                  <Thin
-                                    min={0}
-                                    max={100}
-                                    value={sliders[`${r.id}-${axis}`] ?? 0}
-                                    onChange={(v) =>
-                                      setSliders((s2) => ({ ...s2, [`${r.id}-${axis}`]: v }))
-                                    }
-                                    className="w-[58px]"
-                                  />
-                                  <span className="w-[30px] text-right text-[10px] tabular-nums text-ovl-accent">
-                                    {sliders[`${r.id}-${axis}`] ?? 0}%
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-
-                          {r.kind === "key" && (
-                            <span className="rounded-md border border-border bg-background/70 px-2 py-[2px] text-[10px] font-bold tracking-wide text-foreground/90">
-                              {r.value}
-                            </span>
-                          )}
+                          {renderControl(r)}
                         </div>
                       );
                     })}
