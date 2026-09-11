@@ -169,10 +169,8 @@ function Index() {
           <div className="gs-panel mt-3"><OnlineCounter /></div>
         </section>
 
-        <div className="grid gap-4 min-[860px]:grid-cols-[1.4fr_1fr]">
-          <GsPanel title="Shoutbox"><Shoutbox /></GsPanel>
-          <GsPanel title="Fala banów — konkurencja"><BanFeed /></GsPanel>
-        </div>
+        <GsPanel title="Shoutbox"><Shoutbox /></GsPanel>
+
 
         <GsPanel title="Lista oppsów — zbanowani"><OppList /></GsPanel>
 
