@@ -2,16 +2,28 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Copy, KeyRound, Loader2, Pin, PinOff, ShieldAlert, Trash2 } from "lucide-react";
+import {
+  Ban,
+  Copy,
+  KeyRound,
+  Loader2,
+  Pin,
+  PinOff,
+  ShieldAlert,
+  ShieldCheck,
+  Trash2,
+} from "lucide-react";
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import {
+  banUser,
   deleteInviteCode,
   generateInviteCodes,
   getAdminData,
   getModerationData,
   moderateContent,
   setUserRole,
+  unbanUser,
 } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/_authenticated/admin")({
