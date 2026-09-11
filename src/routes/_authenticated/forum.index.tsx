@@ -50,6 +50,7 @@ type ThreadRow = {
 
 function Forum() {
   const { user } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
@@ -189,7 +190,7 @@ function Forum() {
                     className={inputClass}
                   >
                     <option value="">Wybierz dział…</option>
-                    {categories.map((c) => (
+                    {categories.filter((c) => !c.locked || isAdmin).map((c) => (
                       <option key={c.id} value={c.id}>
                         {c.name}
                       </option>
@@ -239,7 +240,10 @@ function Forum() {
                         >
                           <MessageSquare className="size-4 shrink-0 text-muted-foreground" aria-hidden />
                           <div className="min-w-0 flex-1">
-                            <h3 className="text-sm font-semibold text-foreground">{c.name}</h3>
+                            <h3 className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
+                              {c.locked && <Lock className="size-3.5 shrink-0 text-primary" aria-hidden />}
+                              {c.name}
+                            </h3>
                             <p className="mt-0.5 truncate text-xs text-muted-foreground">
                               {c.description}
                             </p>
