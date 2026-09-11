@@ -417,6 +417,13 @@ const ALL_ROWS: Row[] = [
   ...Object.values(PARAMS).flatMap((p) => p.rows),
 ];
 
+const MODULE_IDS: string[] = SECTIONS.flatMap((s) =>
+  s.rows.flatMap((r) =>
+    r.kind === "toggle" ? [r.id] : r.kind === "grid" ? r.items.map((i) => i.id) : [],
+  ),
+);
+
+
 const DEFAULT_TOGGLES = (() => {
   const map: Record<string, boolean> = {};
   for (const r of ALL_ROWS) {
