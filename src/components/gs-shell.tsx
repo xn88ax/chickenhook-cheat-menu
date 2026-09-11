@@ -11,13 +11,13 @@ import { useIsAdmin } from "@/hooks/use-is-admin";
 const tabs = [
   { label: "Funkcje", to: "/opcje" },
   { label: "Forum", to: "/forum" },
-  { label: "Narzędzia", to: "/narzedzia" },
+  { label: "Changelog", to: "/changelog" },
 ] as const;
 
 const moreTabs = [
   { label: "Sponsorzy", to: "/sponsorzy" },
   { label: "Restauracje", to: "/restauracje" },
-  { label: "Changelog", to: "/changelog" },
+  { label: "Narzędzia", to: "/narzedzia" },
   { label: "O nas", to: "/o-nas" },
   { label: "Podanie", to: "/podanie" },
 ] as const;
