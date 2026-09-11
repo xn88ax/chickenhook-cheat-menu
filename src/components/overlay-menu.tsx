@@ -620,6 +620,16 @@ export function OverlayMenu() {
 
   const [wins, setWins] = useState<{ id: string; x: number; y: number; z: number }[]>([]);
   const zTop = useRef(50);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const clampWin = (x: number, y: number) => {
+    const rect = panelRef.current?.getBoundingClientRect();
+    if (!rect) return { x: Math.max(0, x), y: Math.max(0, y) };
+    return {
+      x: Math.max(0, Math.min(x, Math.floor(rect.width) - 270)),
+      y: Math.max(0, Math.min(y, Math.floor(rect.height) - 120)),
+    };
+  };
 
   const openWindow = (id: string) => {
     if (!PARAMS[id]) return;
@@ -629,10 +639,8 @@ export function OverlayMenu() {
       if (found)
         return w.map((x) => (x.id === id ? { ...x, z: zTop.current } : x));
       const n = w.length;
-      return [
-        ...w,
-        { id, x: 60 + n * 26, y: 90 + n * 24, z: zTop.current },
-      ];
+      const pos = clampWin(60 + n * 26, 90 + n * 24);
+      return [...w, { id, x: pos.x, y: pos.y, z: zTop.current }];
     });
   };
 
@@ -642,19 +650,27 @@ export function OverlayMenu() {
 
   const startDrag = (id: string, e: React.PointerEvent) => {
     const win = wins.find((w) => w.id === id);
-    if (!win) return;
+    if (!win || !panelRef.current) return;
     zTop.current += 1;
     setWins((w) => w.map((x) => (x.id === id ? { ...x, z: zTop.current } : x)));
-    dragRef.current = { id, dx: e.clientX - win.x, dy: e.clientY - win.y };
+    const rect = panelRef.current.getBoundingClientRect();
+    dragRef.current = {
+      id,
+      dx: e.clientX - rect.left - win.x,
+      dy: e.clientY - rect.top - win.y,
+    };
     const onMove = (ev: PointerEvent) => {
       const d = dragRef.current;
       if (!d) return;
+      const r = panelRef.current?.getBoundingClientRect();
+      if (!r) return;
       setWins((w) =>
-        w.map((x) =>
-          x.id === d.id
-            ? { ...x, x: Math.max(0, ev.clientX - d.dx), y: Math.max(0, ev.clientY - d.dy) }
-            : x,
-        ),
+        w.map((x) => {
+          if (x.id !== d.id) return x;
+          const nx = Math.max(0, Math.min(Math.floor(r.width) - 270, ev.clientX - r.left - d.dx));
+          const ny = Math.max(0, Math.min(Math.floor(r.height) - 120, ev.clientY - r.top - d.dy));
+          return { ...x, x: nx, y: ny };
+        }),
       );
     };
     const onUp = () => {
