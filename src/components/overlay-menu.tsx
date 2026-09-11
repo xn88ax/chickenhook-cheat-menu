@@ -581,9 +581,10 @@ export function OverlayMenu() {
 
   const needle = q.trim().toLowerCase();
   const activeCount = useMemo(
-    () => Object.values(toggles).filter(Boolean).length,
+    () => MODULE_IDS.filter((id) => toggles[id]).length,
     [toggles],
   );
+
 
   const matches = (label: string) => !needle || label.toLowerCase().includes(needle);
 
