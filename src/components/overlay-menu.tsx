@@ -620,6 +620,16 @@ export function OverlayMenu() {
 
   const [wins, setWins] = useState<{ id: string; x: number; y: number; z: number }[]>([]);
   const zTop = useRef(50);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const clampWin = (x: number, y: number) => {
+    const rect = panelRef.current?.getBoundingClientRect();
+    if (!rect) return { x: Math.max(0, x), y: Math.max(0, y) };
+    return {
+      x: Math.max(0, Math.min(x, Math.floor(rect.width) - 270)),
+      y: Math.max(0, Math.min(y, Math.floor(rect.height) - 120)),
+    };
+  };
 
   const openWindow = (id: string) => {
     if (!PARAMS[id]) return;
@@ -629,10 +639,8 @@ export function OverlayMenu() {
       if (found)
         return w.map((x) => (x.id === id ? { ...x, z: zTop.current } : x));
       const n = w.length;
-      return [
-        ...w,
-        { id, x: 60 + n * 26, y: 90 + n * 24, z: zTop.current },
-      ];
+      const pos = clampWin(60 + n * 26, 90 + n * 24);
+      return [...w, { id, x: pos.x, y: pos.y, z: zTop.current }];
     });
   };
 
@@ -642,19 +650,27 @@ export function OverlayMenu() {
 
   const startDrag = (id: string, e: React.PointerEvent) => {
     const win = wins.find((w) => w.id === id);
-    if (!win) return;
+    if (!win || !panelRef.current) return;
     zTop.current += 1;
     setWins((w) => w.map((x) => (x.id === id ? { ...x, z: zTop.current } : x)));
-    dragRef.current = { id, dx: e.clientX - win.x, dy: e.clientY - win.y };
+    const rect = panelRef.current.getBoundingClientRect();
+    dragRef.current = {
+      id,
+      dx: e.clientX - rect.left - win.x,
+      dy: e.clientY - rect.top - win.y,
+    };
     const onMove = (ev: PointerEvent) => {
       const d = dragRef.current;
       if (!d) return;
+      const r = panelRef.current?.getBoundingClientRect();
+      if (!r) return;
       setWins((w) =>
-        w.map((x) =>
-          x.id === d.id
-            ? { ...x, x: Math.max(0, ev.clientX - d.dx), y: Math.max(0, ev.clientY - d.dy) }
-            : x,
-        ),
+        w.map((x) => {
+          if (x.id !== d.id) return x;
+          const nx = Math.max(0, Math.min(Math.floor(r.width) - 270, ev.clientX - r.left - d.dx));
+          const ny = Math.max(0, Math.min(Math.floor(r.height) - 120, ev.clientY - r.top - d.dy));
+          return { ...x, x: nx, y: ny };
+        }),
       );
     };
     const onUp = () => {
@@ -741,7 +757,10 @@ export function OverlayMenu() {
 
   return (
     <div className="ovl-stage relative flex justify-center overflow-hidden rounded-lg p-4 sm:p-6">
-      <div className="ovl-panel relative z-10 flex h-[720px] w-full max-w-[880px] flex-col overflow-hidden rounded-[10px] border border-border/80 bg-ovl-panel/95 font-sans">
+      <div
+        ref={panelRef}
+        className="ovl-panel relative z-10 flex h-[720px] w-full max-w-[880px] flex-col overflow-hidden rounded-[10px] border border-border/80 bg-ovl-panel/95 font-sans"
+      >
         {/* top bar */}
         <header className="flex h-10 shrink-0 items-center gap-3 border-b border-border/70 px-3">
           <span className="select-none text-[13px] font-bold uppercase tracking-tight">
@@ -930,6 +949,54 @@ export function OverlayMenu() {
           </span>
         </footer>
 
+        {wins.map((w) => {
+          const p = PARAMS[w.id];
+          if (!p) return null;
+          return (
+            <div
+              key={w.id}
+              style={{ left: w.x, top: w.y, zIndex: w.z }}
+              className="ovl-panel absolute w-[270px] overflow-hidden rounded-[10px] border border-ovl-accent/50 bg-ovl-panel/98"
+            >
+              <div
+                onPointerDown={(e) => startDrag(w.id, e)}
+                className="flex h-[26px] cursor-move items-center gap-2 border-b border-border/70 bg-background/60 px-2 select-none"
+              >
+                <span className="truncate text-[10px] font-bold uppercase tracking-widest text-foreground/90">
+                  {p.title}
+                </span>
+                <button
+                  type="button"
+                  aria-label="Zamknij parametry"
+                  onClick={() => closeWindow(w.id)}
+                  onPointerDown={(e) => e.stopPropagation()}
+                  className="ml-auto grid size-[16px] place-items-center rounded text-muted-foreground transition-colors hover:text-ovl-accent"
+                >
+                  <X className="size-3" />
+                </button>
+              </div>
+              <div className="px-2 py-1">
+                {p.rows.map((r) =>
+                  r.kind === "grid" ? null : (
+                    <div
+                      key={r.id}
+                      className="flex min-h-[28px] items-center justify-between gap-2"
+                    >
+                      <span
+                        title={r.label}
+                        className="min-w-0 truncate text-[11px] text-foreground/85"
+                      >
+                        {r.label}
+                      </span>
+                      {renderControl(r, true)}
+                    </div>
+                  ),
+                )}
+              </div>
+            </div>
+          );
+        })}
+
         {toast && (
           <div
             role="status"
@@ -939,54 +1006,6 @@ export function OverlayMenu() {
           </div>
         )}
       </div>
-
-      {wins.map((w) => {
-        const p = PARAMS[w.id];
-        if (!p) return null;
-        return (
-          <div
-            key={w.id}
-            style={{ left: w.x, top: w.y, zIndex: w.z }}
-            className="ovl-panel fixed w-[270px] overflow-hidden rounded-[10px] border border-ovl-accent/50 bg-ovl-panel/98"
-          >
-            <div
-              onPointerDown={(e) => startDrag(w.id, e)}
-              className="flex h-[26px] cursor-move items-center gap-2 border-b border-border/70 bg-background/60 px-2 select-none"
-            >
-              <span className="truncate text-[10px] font-bold uppercase tracking-widest text-foreground/90">
-                {p.title}
-              </span>
-              <button
-                type="button"
-                aria-label="Zamknij parametry"
-                onClick={() => closeWindow(w.id)}
-                onPointerDown={(e) => e.stopPropagation()}
-                className="ml-auto grid size-[16px] place-items-center rounded text-muted-foreground transition-colors hover:text-ovl-accent"
-              >
-                <X className="size-3" />
-              </button>
-            </div>
-            <div className="px-2 py-1">
-              {p.rows.map((r) =>
-                r.kind === "grid" ? null : (
-                  <div
-                    key={r.id}
-                    className="flex min-h-[28px] items-center justify-between gap-2"
-                  >
-                    <span
-                      title={r.label}
-                      className="min-w-0 truncate text-[11px] text-foreground/85"
-                    >
-                      {r.label}
-                    </span>
-                    {renderControl(r, true)}
-                  </div>
-                ),
-              )}
-            </div>
-          </div>
-        );
-      })}
     </div>
   );
 }
