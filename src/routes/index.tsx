@@ -172,7 +172,7 @@ function Index() {
         <GsPanel title="Shoutbox"><Shoutbox /></GsPanel>
 
 
-        <GsPanel title="Lista oppsów — zbanowani"><OppList /></GsPanel>
+        <GsPanel title="Lista oppsów — bany z forum"><OppList /></GsPanel>
 
         <div className="grid gap-4 min-[860px]:grid-cols-[1.4fr_1fr]">
           <GsPanel title="Funkcje">
