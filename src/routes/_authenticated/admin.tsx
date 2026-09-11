@@ -66,6 +66,8 @@ function Admin() {
   const del = useServerFn(deleteInviteCode);
   const role = useServerFn(setUserRole);
   const moderate = useServerFn(moderateContent);
+  const banFn = useServerFn(banUser);
+  const unbanFn = useServerFn(unbanUser);
   const qc = useQueryClient();
 
   const [tab, setTab] = useState<Tab>("overview");
@@ -74,6 +76,10 @@ function Admin() {
   const [days, setDays] = useState(30);
   const [fresh, setFresh] = useState<string[]>([]);
   const [copied, setCopied] = useState<string | null>(null);
+  const [banTarget, setBanTarget] = useState<string | null>(null);
+  const [banReason, setBanReason] = useState("");
+  const [banUntil, setBanUntil] = useState("");
+  const [banError, setBanError] = useState<string | null>(null);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin-data"],
