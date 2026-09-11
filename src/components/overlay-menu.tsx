@@ -928,6 +928,54 @@ export function OverlayMenu() {
           </div>
         )}
       </div>
+
+      {wins.map((w) => {
+        const p = PARAMS[w.id];
+        if (!p) return null;
+        return (
+          <div
+            key={w.id}
+            style={{ left: w.x, top: w.y, zIndex: w.z }}
+            className="ovl-panel fixed w-[270px] overflow-hidden rounded-[10px] border border-ovl-accent/50 bg-ovl-panel/98"
+          >
+            <div
+              onPointerDown={(e) => startDrag(w.id, e)}
+              className="flex h-[26px] cursor-move items-center gap-2 border-b border-border/70 bg-background/60 px-2 select-none"
+            >
+              <span className="truncate text-[10px] font-bold uppercase tracking-widest text-foreground/90">
+                {p.title}
+              </span>
+              <button
+                type="button"
+                aria-label="Zamknij parametry"
+                onClick={() => closeWindow(w.id)}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="ml-auto grid size-[16px] place-items-center rounded text-muted-foreground transition-colors hover:text-ovl-accent"
+              >
+                <X className="size-3" />
+              </button>
+            </div>
+            <div className="px-2 py-1">
+              {p.rows.map((r) =>
+                r.kind === "grid" ? null : (
+                  <div
+                    key={r.id}
+                    className="flex min-h-[28px] items-center justify-between gap-2"
+                  >
+                    <span
+                      title={r.label}
+                      className="min-w-0 truncate text-[11px] text-foreground/85"
+                    >
+                      {r.label}
+                    </span>
+                    {renderControl(r)}
+                  </div>
+                ),
+              )}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
