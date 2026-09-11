@@ -189,7 +189,7 @@ function Pill({ on, onClick }: { on: boolean; onClick: () => void }) {
       type="button"
       role="switch"
       aria-checked={on}
-      onClick={onClick}
+      onClick={() => { console.log("PILL CLICK"); onClick(); }}
       className={cn(
         "relative h-[14px] w-[26px] shrink-0 rounded-full border transition-colors",
         on
