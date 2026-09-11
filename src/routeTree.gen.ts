@@ -10,10 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SponsorzyRouteImport } from './routes/sponsorzy'
-import { Route as SklepRouteImport } from './routes/sklep'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RestauracjeRouteImport } from './routes/restauracje'
-import { Route as PoradnikiRouteImport } from './routes/poradniki'
 import { Route as PodanieRouteImport } from './routes/podanie'
 import { Route as OpcjeRouteImport } from './routes/opcje'
 import { Route as ONasRouteImport } from './routes/o-nas'
@@ -22,7 +20,6 @@ import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PoradnikiSlugRouteImport } from './routes/poradniki.$slug'
 import { Route as ApiScStreamRouteImport } from './routes/api/sc-stream'
 import { Route as AuthenticatedForumRouteImport } from './routes/_authenticated/forum'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -35,11 +32,6 @@ const SponsorzyRoute = SponsorzyRouteImport.update({
   path: '/sponsorzy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SklepRoute = SklepRouteImport.update({
-  id: '/sklep',
-  path: '/sklep',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -48,11 +40,6 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const RestauracjeRoute = RestauracjeRouteImport.update({
   id: '/restauracje',
   path: '/restauracje',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PoradnikiRoute = PoradnikiRouteImport.update({
-  id: '/poradniki',
-  path: '/poradniki',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PodanieRoute = PodanieRouteImport.update({
@@ -93,11 +80,6 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const PoradnikiSlugRoute = PoradnikiSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => PoradnikiRoute,
 } as any)
 const ApiScStreamRoute = ApiScStreamRouteImport.update({
   id: '/api/sc-stream',
@@ -140,15 +122,12 @@ export interface FileRoutesByFullPath {
   '/o-nas': typeof ONasRoute
   '/opcje': typeof OpcjeRoute
   '/podanie': typeof PodanieRoute
-  '/poradniki': typeof PoradnikiRouteWithChildren
   '/restauracje': typeof RestauracjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/sklep': typeof SklepRoute
   '/sponsorzy': typeof SponsorzyRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/forum': typeof AuthenticatedForumRouteWithChildren
   '/api/sc-stream': typeof ApiScStreamRoute
-  '/poradniki/$slug': typeof PoradnikiSlugRoute
   '/forum/': typeof AuthenticatedForumIndexRoute
   '/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
   '/forum/watek/$id': typeof AuthenticatedForumWatekIdRoute
@@ -161,14 +140,11 @@ export interface FileRoutesByTo {
   '/o-nas': typeof ONasRoute
   '/opcje': typeof OpcjeRoute
   '/podanie': typeof PodanieRoute
-  '/poradniki': typeof PoradnikiRouteWithChildren
   '/restauracje': typeof RestauracjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/sklep': typeof SklepRoute
   '/sponsorzy': typeof SponsorzyRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/sc-stream': typeof ApiScStreamRoute
-  '/poradniki/$slug': typeof PoradnikiSlugRoute
   '/forum': typeof AuthenticatedForumIndexRoute
   '/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
   '/forum/watek/$id': typeof AuthenticatedForumWatekIdRoute
@@ -183,15 +159,12 @@ export interface FileRoutesById {
   '/o-nas': typeof ONasRoute
   '/opcje': typeof OpcjeRoute
   '/podanie': typeof PodanieRoute
-  '/poradniki': typeof PoradnikiRouteWithChildren
   '/restauracje': typeof RestauracjeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/sklep': typeof SklepRoute
   '/sponsorzy': typeof SponsorzyRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/forum': typeof AuthenticatedForumRouteWithChildren
   '/api/sc-stream': typeof ApiScStreamRoute
-  '/poradniki/$slug': typeof PoradnikiSlugRoute
   '/_authenticated/forum/': typeof AuthenticatedForumIndexRoute
   '/_authenticated/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
   '/_authenticated/forum/watek/$id': typeof AuthenticatedForumWatekIdRoute
@@ -206,15 +179,12 @@ export interface FileRouteTypes {
     | '/o-nas'
     | '/opcje'
     | '/podanie'
-    | '/poradniki'
     | '/restauracje'
     | '/sitemap.xml'
-    | '/sklep'
     | '/sponsorzy'
     | '/admin'
     | '/forum'
     | '/api/sc-stream'
-    | '/poradniki/$slug'
     | '/forum/'
     | '/forum/dzial/$slug'
     | '/forum/watek/$id'
@@ -227,14 +197,11 @@ export interface FileRouteTypes {
     | '/o-nas'
     | '/opcje'
     | '/podanie'
-    | '/poradniki'
     | '/restauracje'
     | '/sitemap.xml'
-    | '/sklep'
     | '/sponsorzy'
     | '/admin'
     | '/api/sc-stream'
-    | '/poradniki/$slug'
     | '/forum'
     | '/forum/dzial/$slug'
     | '/forum/watek/$id'
@@ -248,15 +215,12 @@ export interface FileRouteTypes {
     | '/o-nas'
     | '/opcje'
     | '/podanie'
-    | '/poradniki'
     | '/restauracje'
     | '/sitemap.xml'
-    | '/sklep'
     | '/sponsorzy'
     | '/_authenticated/admin'
     | '/_authenticated/forum'
     | '/api/sc-stream'
-    | '/poradniki/$slug'
     | '/_authenticated/forum/'
     | '/_authenticated/forum/dzial/$slug'
     | '/_authenticated/forum/watek/$id'
@@ -271,10 +235,8 @@ export interface RootRouteChildren {
   ONasRoute: typeof ONasRoute
   OpcjeRoute: typeof OpcjeRoute
   PodanieRoute: typeof PodanieRoute
-  PoradnikiRoute: typeof PoradnikiRouteWithChildren
   RestauracjeRoute: typeof RestauracjeRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  SklepRoute: typeof SklepRoute
   SponsorzyRoute: typeof SponsorzyRoute
   ApiScStreamRoute: typeof ApiScStreamRoute
 }
@@ -286,13 +248,6 @@ declare module '@tanstack/react-router' {
       path: '/sponsorzy'
       fullPath: '/sponsorzy'
       preLoaderRoute: typeof SponsorzyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sklep': {
-      id: '/sklep'
-      path: '/sklep'
-      fullPath: '/sklep'
-      preLoaderRoute: typeof SklepRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -307,13 +262,6 @@ declare module '@tanstack/react-router' {
       path: '/restauracje'
       fullPath: '/restauracje'
       preLoaderRoute: typeof RestauracjeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/poradniki': {
-      id: '/poradniki'
-      path: '/poradniki'
-      fullPath: '/poradniki'
-      preLoaderRoute: typeof PoradnikiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/podanie': {
@@ -371,13 +319,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/poradniki/$slug': {
-      id: '/poradniki/$slug'
-      path: '/$slug'
-      fullPath: '/poradniki/$slug'
-      preLoaderRoute: typeof PoradnikiSlugRouteImport
-      parentRoute: typeof PoradnikiRoute
     }
     '/api/sc-stream': {
       id: '/api/sc-stream'
@@ -452,18 +393,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
-interface PoradnikiRouteChildren {
-  PoradnikiSlugRoute: typeof PoradnikiSlugRoute
-}
-
-const PoradnikiRouteChildren: PoradnikiRouteChildren = {
-  PoradnikiSlugRoute: PoradnikiSlugRoute,
-}
-
-const PoradnikiRouteWithChildren = PoradnikiRoute._addFileChildren(
-  PoradnikiRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -473,10 +402,8 @@ const rootRouteChildren: RootRouteChildren = {
   ONasRoute: ONasRoute,
   OpcjeRoute: OpcjeRoute,
   PodanieRoute: PodanieRoute,
-  PoradnikiRoute: PoradnikiRouteWithChildren,
   RestauracjeRoute: RestauracjeRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  SklepRoute: SklepRoute,
   SponsorzyRoute: SponsorzyRoute,
   ApiScStreamRoute: ApiScStreamRoute,
 }
