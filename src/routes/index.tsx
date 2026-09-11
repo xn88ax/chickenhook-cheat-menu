@@ -43,10 +43,30 @@ const plans = [
 ];
 
 const faq = [
-  ["Czy dostanę bana?", "Nasz loader jest aktualizowany po każdym patchu. Zero banów od stycznia 2026 — ale zawsze graj z głową."],
-  ["Jak szybko dostanę dostęp?", "Loader i klucz lądują na Twoim koncie natychmiast po opłaceniu zamówienia."],
-  ["Jakie są wymagania?", "Windows 10/11, wyłączony Secure Boot i około 5 minut na konfigurację."],
-  ["Czy mogę zmienić plan?", "Tak, w ciągu 48 godzin dopłacasz różnicę i przechodzisz na wyższy plan."],
+  [
+    "Czy mogę udostępniać lub przenosić konto?",
+    "Nie. Udostępnianie lub przenoszenie konta na osoby trzecie jest zabronione. Naruszenie tej zasady jest pogwałceniem Regulaminu i może skutkować trwałym i nieodwracalnym zawieszeniem konta. Konto jest przypisane do komputera użytkownika. Aby zmienić urządzenie, musisz zgłosić prośbę o reset HWID.",
+  ],
+  [
+    "Czy mogę korzystać z oprogramowania w kawiarni internetowej lub na publicznych urządzeniach?",
+    "Nie. Konto przeznaczone jest wyłącznie do użytku na osobistym komputerze. Korzystanie z oprogramowania w kawiarniach internetowych lub na współdzielonych/publicznych urządzeniach jest zabronione. Częste prośby o reset HWID mogą być interpretowane jako udostępnianie konta i prowadzić do zawieszenia.",
+  ],
+  [
+    "Jakie systemy operacyjne są obsługiwane?",
+    "Obsługiwane są wyłącznie oficjalne, stabilne wersje Windows 10 i Windows 11, które nadal otrzymują wsparcie od Microsoftu. Aktualną listę obsługiwanych wersji znajdziesz na oficjalnej stronie Microsoftu: Supported versions of Windows client. Buildy Windows Insider Preview oraz inne systemy operacyjne nie są obsługiwane.",
+  ],
+  [
+    "Jak długo trzeba czekać na dostęp po zakupie subskrypcji?",
+    "Po pomyślnym zakończeniu płatności dostęp do pobierania jest przyznawany automatycznie. Pamiętaj: czas przetwarzania płatności zależy od wybranej metody płatności. Zakupy dokonywane przez resellerów mogą dodatkowo zależeć od czasu przetwarzania przez reseller.",
+  ],
+  [
+    "Co się stanie, jeśli gra zostanie zaktualizowana i oprogramowanie przestanie działać?",
+    "Oprogramowanie jest aktualizowane, aby zachować zgodność z najnowszymi wersjami gry. W przypadku większej aktualizacji gry mogą wystąpić tymczasowe zakłócenia. Deweloperzy naprawią problem tak szybko, jak to możliwe. Jeśli naprawa zajmie dłużej, subskrybenci otrzymają rekompensatę. Aktualny status oprogramowania publikowany jest na forum oraz w oficjalnych kanałach social media.",
+  ],
+  [
+    "Czy dostępna jest darmowa wersja próbna?",
+    "Nie. Nie udostępniamy darmowych wersji próbnych oprogramowania. Użytkownik może zakupić subskrypcję na dowolny z dostępnych okresów.",
+  ],
 ] as const;
 
 type Chicken = { id: number; x: number; y: number; rotation: number; size: number };
