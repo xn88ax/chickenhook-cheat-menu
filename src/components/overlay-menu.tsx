@@ -493,10 +493,12 @@ function Compact({
   options,
   value,
   onChange,
+  narrow,
 }: {
   options: string[];
   value: number;
   onChange: (v: number) => void;
+  narrow?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -507,7 +509,7 @@ function Compact({
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
         onBlur={() => window.setTimeout(() => setOpen(false), 120)}
-        className="flex h-[22px] w-[132px] items-center justify-between gap-1 rounded-md border border-border bg-background/70 px-2 text-[11px] text-foreground/90 transition-colors hover:border-ovl-accent/60"
+        className={cn("flex h-[22px] items-center justify-between gap-1 rounded-md border border-border bg-background/70 px-2 text-[11px] text-foreground/90 transition-colors hover:border-ovl-accent/60", narrow ? "w-[112px]" : "w-[132px]")}
       >
         <span className="truncate">{options[value] ?? options[0]}</span>
         <ChevronDown className={cn("size-3 shrink-0 text-muted-foreground transition-transform", open && "rotate-180")} />
@@ -656,7 +658,7 @@ export function OverlayMenu() {
     window.addEventListener("pointerup", onUp);
   };
 
-  const renderControl = (r: Row) => (
+  const renderControl = (r: Row, narrow = false) => (
     <>
       {r.kind === "toggle" && (
         <Pill
@@ -669,6 +671,7 @@ export function OverlayMenu() {
           options={r.options}
           value={selects[r.id] ?? r.def ?? 0}
           onChange={(v) => setSelects((s2) => ({ ...s2, [r.id]: v }))}
+          narrow={narrow}
         />
       )}
       {r.kind === "slider" && (
@@ -678,7 +681,7 @@ export function OverlayMenu() {
             max={r.max}
             value={sliders[r.id] ?? r.def}
             onChange={(v) => setSliders((s2) => ({ ...s2, [r.id]: v }))}
-            className="w-[132px]"
+            className={narrow ? "w-[96px]" : "w-[132px]"}
           />
           <span className="w-[46px] text-right text-[10px] tabular-nums text-ovl-accent">
             {sliders[r.id] ?? r.def}
@@ -968,7 +971,7 @@ export function OverlayMenu() {
                     >
                       {r.label}
                     </span>
-                    {renderControl(r)}
+                    {renderControl(r, true)}
                   </div>
                 ),
               )}
