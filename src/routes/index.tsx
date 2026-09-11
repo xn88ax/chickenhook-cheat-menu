@@ -155,11 +155,6 @@ function Index() {
           </div>
         )}
 
-        <section className="gs-panel border-l-2 border-l-primary px-4 py-4">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-primary">Ogłoszenie</p>
-          <h1 className="mt-1 text-[13px] font-semibold">Nowy build jest gotowy do pobrania.</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Po zakupie załóż ticket na <a href="#faq" className="text-primary hover:text-accent">supporcie</a>, aby aktywować dostęp. Moduły ryzykowne wymagają <Link to="/podanie" search={{ modul: "" }} className="text-primary hover:text-accent">podania</Link>.</p>
-        </section>
 
         <section aria-labelledby="stats-heading">
           <h2 id="stats-heading" className="sr-only">Statystyki</h2>
