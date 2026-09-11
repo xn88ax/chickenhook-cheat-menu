@@ -9,7 +9,7 @@ import adamAsset3 from "@/assets/adam-kurczak-3.jpg.asset.json";
 import chickenAsset from "@/assets/chicken.png.asset.json";
 
 const ADAM_IMAGES = [adamAsset1.url, adamAsset2.url, adamAsset3.url];
-import { BanFeed } from "@/components/ban-feed";
+
 import { FeatureDialog } from "@/components/feature-dialog";
 import { OppList } from "@/components/opp-list";
 import { OnlineCounter } from "@/components/online-counter";
@@ -169,10 +169,8 @@ function Index() {
           <div className="gs-panel mt-3"><OnlineCounter /></div>
         </section>
 
-        <div className="grid gap-4 min-[860px]:grid-cols-[1.4fr_1fr]">
-          <GsPanel title="Shoutbox"><Shoutbox /></GsPanel>
-          <GsPanel title="Fala banów — konkurencja"><BanFeed /></GsPanel>
-        </div>
+        <GsPanel title="Shoutbox"><Shoutbox /></GsPanel>
+
 
         <GsPanel title="Lista oppsów — zbanowani"><OppList /></GsPanel>
 
