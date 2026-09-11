@@ -9,7 +9,7 @@ import adamAsset3 from "@/assets/adam-kurczak-3.jpg.asset.json";
 import chickenAsset from "@/assets/chicken.png.asset.json";
 
 const ADAM_IMAGES = [adamAsset1.url, adamAsset2.url, adamAsset3.url];
-import { BanFeed } from "@/components/ban-feed";
+
 import { FeatureDialog } from "@/components/feature-dialog";
 import { OppList } from "@/components/opp-list";
 import { OnlineCounter } from "@/components/online-counter";
