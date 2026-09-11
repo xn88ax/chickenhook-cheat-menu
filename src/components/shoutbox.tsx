@@ -14,9 +14,21 @@ type Shout = {
   user_id: string | null;
 };
 
-function clock(iso: string) {
+function isSameDay(a: Date, b: Date) {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
+}
+
+function formatTime(iso: string) {
   const d = new Date(iso);
-  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+  const now = new Date();
+  const time = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+  if (isSameDay(d, now)) return time;
+  const months = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"];
+  return `${d.getDate()} ${months[d.getMonth()]} ${time}`;
 }
 
 const NICK_KEY = "chickenhook_guest_nick";
