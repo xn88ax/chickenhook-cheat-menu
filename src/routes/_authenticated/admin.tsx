@@ -329,40 +329,139 @@ function Admin() {
               {members.map((m) => {
                 const isAdmin = m.roles.includes("admin");
                 const isMod = m.roles.includes("moderator");
+                const banned = Boolean(m.ban);
+                const open = banTarget === m.id;
                 return (
-                  <div
-                    key={m.id}
-                    className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 text-xs"
-                  >
-                    <div>
-                      <p className="font-semibold text-foreground">{m.username}</p>
-                      <p className="mt-0.5 text-muted-foreground">
-                        {m.roles.length ? m.roles.join(", ") : "user"} ·{" "}
-                        {new Date(m.created_at).toLocaleDateString("pl-PL")}
-                      </p>
+                  <div key={m.id} className="px-4 py-3 text-xs">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div>
+                        <p className="font-semibold text-foreground">
+                          {m.username}
+                          {banned && (
+                            <span className="ml-2 rounded border border-primary/50 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-primary">
+                              zbanowany
+                            </span>
+                          )}
+                        </p>
+                        <p className="mt-0.5 text-muted-foreground">
+                          {m.roles.length ? m.roles.join(", ") : "user"} ·{" "}
+                          {new Date(m.created_at).toLocaleDateString("pl-PL")}
+                        </p>
+                        {m.ban && (
+                          <p className="mt-1 text-primary">
+                            Powód: {m.ban.reason} ·{" "}
+                            {m.ban.banned_until
+                              ? `do ${new Date(m.ban.banned_until).toLocaleString("pl-PL")}`
+                              : "na zawsze"}
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          disabled={changeRole.isPending}
+                          onClick={() =>
+                            changeRole.mutate({ userId: m.id, role: "moderator", grant: !isMod })
+                          }
+                          className="rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary disabled:opacity-60"
+                        >
+                          {isMod ? "Odbierz moda" : "Nadaj moda"}
+                        </button>
+                        <button
+                          type="button"
+                          disabled={changeRole.isPending}
+                          onClick={() =>
+                            changeRole.mutate({ userId: m.id, role: "admin", grant: !isAdmin })
+                          }
+                          className="rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary disabled:opacity-60"
+                        >
+                          {isAdmin ? "Odbierz admina" : "Nadaj admina"}
+                        </button>
+                        {banned ? (
+                          <button
+                            type="button"
+                            disabled={unban.isPending}
+                            onClick={() => unban.mutate({ userId: m.id })}
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary disabled:opacity-60"
+                          >
+                            <ShieldCheck className="size-3" />
+                            Odbanuj
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setBanTarget(open ? null : m.id);
+                              setBanReason("");
+                              setBanUntil("");
+                              setBanError(null);
+                            }}
+                            className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 font-semibold text-primary-foreground"
+                          >
+                            <Ban className="size-3" />
+                            Zbanuj
+                          </button>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex gap-2">
-                      <button
-                        type="button"
-                        disabled={changeRole.isPending}
-                        onClick={() =>
-                          changeRole.mutate({ userId: m.id, role: "moderator", grant: !isMod })
-                        }
-                        className="rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary disabled:opacity-60"
+
+                    {open && !banned && (
+                      <form
+                        className="mt-3 grid gap-3 rounded-lg border border-primary/40 p-3 sm:grid-cols-[1fr_auto_auto]"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          setBanError(null);
+                          ban.mutate({
+                            userId: m.id,
+                            reason: banReason.trim(),
+                            until: banUntil || undefined,
+                          });
+                        }}
                       >
-                        {isMod ? "Odbierz moda" : "Nadaj moda"}
-                      </button>
-                      <button
-                        type="button"
-                        disabled={changeRole.isPending}
-                        onClick={() =>
-                          changeRole.mutate({ userId: m.id, role: "admin", grant: !isAdmin })
-                        }
-                        className="rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary disabled:opacity-60"
-                      >
-                        {isAdmin ? "Odbierz admina" : "Nadaj admina"}
-                      </button>
-                    </div>
+                        <label className="text-xs">
+                          <span className="text-muted-foreground">Powód bana</span>
+                          <input
+                            value={banReason}
+                            onChange={(e) => setBanReason(e.target.value)}
+                            required
+                            minLength={3}
+                            maxLength={300}
+                            placeholder="np. leakowanie loadera"
+                            className={inputClass}
+                          />
+                        </label>
+                        <label className="text-xs">
+                          <span className="text-muted-foreground">Do kiedy (puste = na zawsze)</span>
+                          <input
+                            type="datetime-local"
+                            value={banUntil}
+                            onChange={(e) => setBanUntil(e.target.value)}
+                            className={inputClass}
+                          />
+                        </label>
+                        <div className="flex items-end">
+                          <button
+                            type="submit"
+                            disabled={ban.isPending}
+                            className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-60"
+                          >
+                            {ban.isPending ? (
+                              <Loader2 className="size-3 animate-spin" />
+                            ) : (
+                              <Ban className="size-3" />
+                            )}
+                            Zamknij konto
+                          </button>
+                        </div>
+                        {banError && (
+                          <p className="sm:col-span-3 text-[11px] text-primary">{banError}</p>
+                        )}
+                        <p className="sm:col-span-3 text-[11px] text-muted-foreground">
+                          Ban natychmiast zamyka konto — użytkownik nie zaloguje się do wygaśnięcia
+                          bana.
+                        </p>
+                      </form>
+                    )}
                   </div>
                 );
               })}
