@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useIsAdmin } from "@/hooks/use-is-admin";
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { Avatar, timeAgo } from "@/components/forum/forum-shell";
 
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/_authenticated/forum/watek/$id")({
 function ThreadPage() {
   const { id } = Route.useParams();
   const { user } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const queryClient = useQueryClient();
   const [reply, setReply] = useState("");
   const [error, setError] = useState<string | null>(null);
