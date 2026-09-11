@@ -224,14 +224,6 @@ function Index() {
           </div>
         </GsPanel>
 
-        <GsPanel title="Opinie">
-          <div className="grid gap-px bg-border min-[760px]:grid-cols-3">
-            {[
-              ["Magda Gessler", "ESP? Widzę wszystko. 10/10, ale więcej czosnku."],
-              ["Gordon Ramsay", "The bunnyhop is crispy. Finally, some flavour."],
-            ].map(([name, quote]) => <blockquote key={name} className="bg-card p-4 text-sm"><p className="text-muted-foreground">„{quote}”</p><footer className="mt-3 text-xs font-semibold text-primary">{name}</footer></blockquote>)}
-          </div>
-        </GsPanel>
 
         <section id="faq" aria-labelledby="faq-heading">
           <p className="mb-3 text-[11px] uppercase tracking-[0.12em] text-[var(--text-subtle)]">Demo · strona parodystyczna</p>
