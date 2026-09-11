@@ -139,6 +139,260 @@ const SECTIONS: Section[] = [
   },
 ];
 
+/* ------------------------- parametry poszczególnych ------------------------ */
+
+const PARAMS: Record<string, { title: string; rows: Row[] }> = {
+  aim: {
+    title: "Robot celu",
+    rows: [
+      { kind: "slider", id: "aim.delay", label: "Opóźnienie reakcji", min: 0, max: 500, def: 120, unit: " ms" },
+      { kind: "slider", id: "aim.hitchance", label: "Szansa trafienia", min: 0, max: 100, def: 65, unit: "%" },
+      { kind: "select", id: "aim.target", label: "Wybór celu", options: ["Najbliższy", "Najniższe HP", "Krzyżyk", "Losowy kurczak"] },
+      { kind: "toggle", id: "aim.autowall", label: "Przebicie ścian", def: true },
+      { kind: "toggle", id: "aim.norecoil", label: "Brak odrzutu" },
+    ],
+  },
+  esp: {
+    title: "Wizualizacje",
+    rows: [
+      { kind: "slider", id: "esp.range", label: "Zasięg", min: 0, max: 2000, def: 900, unit: " u" },
+      { kind: "toggle", id: "esp.box", label: "Ramka", def: true },
+      { kind: "toggle", id: "esp.hp", label: "Pasek HP", def: true },
+      { kind: "toggle", id: "esp.nick", label: "Nick" },
+      { kind: "toggle", id: "esp.weapon", label: "Broń" },
+      { kind: "select", id: "esp.color", label: "Kolor", options: ["Czerwony", "Zielony", "Kurczakowy żółty"] },
+    ],
+  },
+  skins: {
+    title: "Zmieniacz skórek",
+    rows: [
+      { kind: "select", id: "skins.knife", label: "Nóż", options: ["Karambit", "Butterfly", "Tasak do kurczaka"] },
+      { kind: "slider", id: "skins.wear", label: "Zużycie", min: 0, max: 100, def: 3, unit: "%" },
+      { kind: "toggle", id: "skins.stattrak", label: "StatTrak", def: true },
+      { kind: "slider", id: "skins.kills", label: "Liczba zabójstw", min: 0, max: 9999, def: 1337 },
+    ],
+  },
+  customskin: {
+    title: "Custom skin",
+    rows: [
+      { kind: "select", id: "customskin.model", label: "Model", options: ["Kurczak CT", "Kurczak T", "Panierka"] },
+      { kind: "slider", id: "customskin.scale", label: "Skala", min: 50, max: 150, def: 100, unit: "%" },
+      { kind: "toggle", id: "customskin.glow", label: "Poświata" },
+    ],
+  },
+  noclip: {
+    title: "Noclip",
+    rows: [
+      { kind: "slider", id: "noclip.speed", label: "Prędkość", min: 1, max: 20, def: 6, unit: "x" },
+      { kind: "toggle", id: "noclip.vertical", label: "Lot pionowy", def: true },
+      { kind: "toggle", id: "noclip.collide", label: "Kolizja ze ścianami" },
+      { kind: "key", id: "noclip.key", label: "Klawisz", value: "MOUSE4" },
+    ],
+  },
+  bhop: {
+    title: "Króliczy skok",
+    rows: [
+      { kind: "slider", id: "bhop.chance", label: "Szansa skoku", min: 0, max: 100, def: 88, unit: "%" },
+      { kind: "toggle", id: "bhop.autostrafe", label: "Auto strafe", def: true },
+      { kind: "select", id: "bhop.mode", label: "Tryb", options: ["Legit", "Rage", "Kangur"] },
+    ],
+  },
+  move: {
+    title: "Ruch",
+    rows: [
+      { kind: "toggle", id: "move.slowwalk", label: "Cichy chód" },
+      { kind: "toggle", id: "move.edgebug", label: "Edge bug" },
+      { kind: "slider", id: "move.smooth", label: "Wygładzanie ruchu", min: 0, max: 100, def: 40 },
+    ],
+  },
+  speed: {
+    title: "Przyspieszenie",
+    rows: [
+      { kind: "slider", id: "speed.mult", label: "Mnożnik", min: 100, max: 400, def: 140, unit: "%" },
+      { kind: "toggle", id: "speed.smooth", label: "Ukrywaj przed anticheatem" },
+    ],
+  },
+  god: {
+    title: "Tryb boga",
+    rows: [
+      { kind: "slider", id: "god.hp", label: "HP", min: 100, max: 999, def: 999 },
+      { kind: "toggle", id: "god.nofall", label: "Brak obrażeń z upadku", def: true },
+      { kind: "toggle", id: "god.nofire", label: "Odporność na ogień" },
+    ],
+  },
+  tp: {
+    title: "Teleport",
+    rows: [
+      { kind: "slider", id: "tp.dist", label: "Dystans", min: 10, max: 500, def: 120, unit: " u" },
+      { kind: "select", id: "tp.mode", label: "Cel", options: ["Krzyżyk", "Bombsite A", "Bombsite B", "KFC"] },
+      { kind: "key", id: "tp.key", label: "Klawisz", value: "T" },
+    ],
+  },
+  crash: {
+    title: "Awaria serwera",
+    rows: [
+      { kind: "slider", id: "crash.rate", label: "Intensywność", min: 1, max: 10, def: 3 },
+      { kind: "toggle", id: "crash.mock", label: "Tryb czysto żartobliwy", def: true },
+    ],
+  },
+  money: {
+    title: "Glitch kasy",
+    rows: [
+      { kind: "slider", id: "money.amount", label: "Kwota", min: 0, max: 16000, def: 16000, unit: " $" },
+      { kind: "toggle", id: "money.auto", label: "Co rundę", def: true },
+    ],
+  },
+  "2pac": {
+    title: "2PACALYPSE 2.3",
+    rows: [
+      { kind: "slider", id: "2pac.power", label: "Moc", min: 1, max: 10, def: 7 },
+      { kind: "select", id: "2pac.track", label: "Podkład", options: ["Hit 'Em Up", "Changes", "Kurczak Anthem"] },
+      { kind: "toggle", id: "2pac.retro", label: "Retro zielony motyw", def: true },
+    ],
+  },
+  jam: {
+    title: "Zacinka broni wroga",
+    rows: [
+      { kind: "slider", id: "jam.chance", label: "Szansa zacięcia", min: 0, max: 100, def: 35, unit: "%" },
+      { kind: "slider", id: "jam.time", label: "Czas zacięcia", min: 100, max: 3000, def: 800, unit: " ms" },
+      { kind: "toggle", id: "jam.sound", label: "Dźwięk klik-klik", def: true },
+    ],
+  },
+  cars: {
+    title: "Spawner pojazdów",
+    rows: [
+      { kind: "select", id: "cars.model", label: "Model", options: ["Maluch", "Ferrari peek", "Traktor", "Rower kurczaka"] },
+      { kind: "slider", id: "cars.limit", label: "Limit pojazdów", min: 1, max: 20, def: 4 },
+      { kind: "toggle", id: "cars.collide", label: "Kolizja" },
+      { kind: "key", id: "cars.key", label: "Klawisz", value: "V" },
+    ],
+  },
+  kfc: {
+    title: "Pyszne.pl – KFC",
+    rows: [
+      { kind: "select", id: "kfc.meal", label: "Zestaw", options: ["Kubełek 9", "Zinger Box", "Hot Wings 20"] },
+      { kind: "slider", id: "kfc.sauce", label: "Sosy", min: 0, max: 10, def: 3 },
+      { kind: "toggle", id: "kfc.auto", label: "Zamów po przegranej rundzie" },
+    ],
+  },
+  voice: {
+    title: "Czat głosowy",
+    rows: [
+      { kind: "slider", id: "voice.gain", label: "Głośność mikrofonu", min: 0, max: 200, def: 100, unit: "%" },
+      { kind: "select", id: "voice.filter", label: "Filtr głosu", options: ["Brak", "Robot", "Kurczak", "Bass boost"] },
+      { kind: "toggle", id: "voice.spam", label: "Spam soundboardem" },
+    ],
+  },
+  radio: {
+    title: "Radio",
+    rows: [
+      { kind: "slider", id: "radio.vol", label: "Głośność", min: 0, max: 100, def: 45, unit: "%" },
+      { kind: "select", id: "radio.station", label: "Stacja", options: ["xn88ax", "Disco Polo", "HvH Phonk"] },
+      { kind: "toggle", id: "radio.shuffle", label: "Losowo", def: true },
+    ],
+  },
+  strazak: {
+    title: "Auto strażak",
+    rows: [
+      { kind: "slider", id: "strazak.reaction", label: "Reakcja", min: 0, max: 1000, def: 250, unit: " ms" },
+      { kind: "toggle", id: "strazak.smoke", label: "Używaj smoke", def: true },
+      { kind: "toggle", id: "strazak.teammate", label: "Gaś też kolegów" },
+    ],
+  },
+  flash: {
+    title: "Auto flash",
+    rows: [
+      { kind: "slider", id: "flash.throw", label: "Siła rzutu", min: 0, max: 100, def: 70, unit: "%" },
+      { kind: "toggle", id: "flash.popflash", label: "Popflash", def: true },
+      { kind: "toggle", id: "flash.warnteam", label: "Ostrzegaj drużynę" },
+    ],
+  },
+  nade: {
+    title: "Nade helper",
+    rows: [
+      { kind: "select", id: "nade.map", label: "Mapa", options: ["Mirage", "Inferno", "Dust2", "Kurnik"] },
+      { kind: "toggle", id: "nade.lines", label: "Pokaż linie lotu", def: true },
+      { kind: "toggle", id: "nade.jumpthrow", label: "Jump throw" },
+    ],
+  },
+  plant: {
+    title: "Auto plant",
+    rows: [
+      { kind: "select", id: "plant.spot", label: "Miejsce", options: ["Domyślne", "Default A", "Pit", "Za kurczakiem"] },
+      { kind: "slider", id: "plant.delay", label: "Opóźnienie", min: 0, max: 2000, def: 300, unit: " ms" },
+      { kind: "toggle", id: "plant.safe", label: "Tylko gdy bezpiecznie", def: true },
+    ],
+  },
+  resolver: {
+    title: "Kurczak resolver",
+    rows: [
+      { kind: "select", id: "resolver.mode", label: "Tryb", options: ["Auto", "Brute force", "Kurczak logic"] },
+      { kind: "slider", id: "resolver.acc", label: "Dokładność", min: 0, max: 100, def: 72, unit: "%" },
+      { kind: "toggle", id: "resolver.desync", label: "Koryguj desync", def: true },
+    ],
+  },
+  babcia: {
+    title: "Auto headshot na babci z sklepu",
+    rows: [
+      { kind: "slider", id: "babcia.respect", label: "Szacunek", min: 0, max: 100, def: 100, unit: "%" },
+      { kind: "toggle", id: "babcia.greet", label: "Powiedz dzień dobry", def: true },
+      { kind: "select", id: "babcia.item", label: "Zakupy", options: ["Bułki", "Kurczak", "Mleko"] },
+    ],
+  },
+  antiaim: {
+    title: "Anti-aim",
+    rows: [
+      { kind: "select", id: "antiaim.yaw", label: "Yaw", options: ["Backward", "Jitter", "Spin", "Kurczak dance"] },
+      { kind: "slider", id: "antiaim.jitter", label: "Jitter", min: 0, max: 180, def: 45, unit: "°" },
+      { kind: "toggle", id: "antiaim.desync", label: "Desync", def: true },
+    ],
+  },
+  fakelag: {
+    title: "Fake lag",
+    rows: [
+      { kind: "slider", id: "fakelag.ticks", label: "Choke ticks", min: 1, max: 16, def: 8 },
+      { kind: "select", id: "fakelag.mode", label: "Tryb", options: ["Stały", "Adaptacyjny", "Losowy"] },
+      { kind: "toggle", id: "fakelag.air", label: "Tylko w powietrzu" },
+    ],
+  },
+  fakeduck: {
+    title: "Fake duck",
+    rows: [
+      { kind: "slider", id: "fakeduck.speed", label: "Prędkość kucania", min: 1, max: 10, def: 5 },
+      { kind: "key", id: "fakeduck.key", label: "Klawisz", value: "MOUSE3" },
+    ],
+  },
+  silent: {
+    title: "Silent aim",
+    rows: [
+      { kind: "slider", id: "silent.fov", label: "FOV", min: 0, max: 90, def: 18, unit: "°" },
+      { kind: "toggle", id: "silent.pitch", label: "Ukryj pitch", def: true },
+    ],
+  },
+  autoshot: {
+    title: "Auto strzał",
+    rows: [
+      { kind: "slider", id: "autoshot.hitchance", label: "Hitchance", min: 0, max: 100, def: 60, unit: "%" },
+      { kind: "toggle", id: "autoshot.scope", label: "Auto scope", def: true },
+    ],
+  },
+  forceacc: {
+    title: "Force accuracy",
+    rows: [
+      { kind: "slider", id: "forceacc.spread", label: "Maks. rozrzut", min: 0, max: 100, def: 15, unit: "%" },
+      { kind: "toggle", id: "forceacc.air", label: "Także w powietrzu" },
+    ],
+  },
+  mama: {
+    title: "Strzelaj tylko gdy mama patrzy",
+    rows: [
+      { kind: "slider", id: "mama.window", label: "Okno czasu", min: 1, max: 30, def: 5, unit: " s" },
+      { kind: "toggle", id: "mama.hide", label: "Ukryj menu gdy wchodzi", def: true },
+    ],
+  },
+};
+
+
 const PRESETS: Record<string, { on: string[]; off: string[] }> = {
   Legit: {
     on: ["aim", "esp", "bhop"],
