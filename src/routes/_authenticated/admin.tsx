@@ -122,6 +122,28 @@ function Admin() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-moderation"] }),
   });
 
+  const ban = useMutation({
+    mutationFn: (v: { userId: string; reason: string; until?: string }) => banFn({ data: v }),
+    onSuccess: (res) => {
+      if (!res.ok) {
+        setBanError(res.error);
+        return;
+      }
+      setBanTarget(null);
+      setBanReason("");
+      setBanUntil("");
+      setBanError(null);
+      qc.invalidateQueries({ queryKey: ["admin-data"] });
+    },
+    onError: () => setBanError("Nie udało się zbanować użytkownika."),
+  });
+
+  const unban = useMutation({
+    mutationFn: (v: { userId: string }) => unbanFn({ data: v }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-data"] }),
+  });
+
+
   function copy(code: string) {
     void navigator.clipboard.writeText(code);
     setCopied(code);
