@@ -132,9 +132,9 @@ export function Shoutbox() {
           shouts.map((s) => {
             const mine = !!user && s.user_id === user.id;
             return (
-              <p key={s.id} className="group grid grid-cols-[44px_auto_1fr_auto] items-baseline gap-2 border-b border-border/50 py-1.5 leading-relaxed last:border-0">
+              <p key={s.id} className="group grid grid-cols-[auto_auto_1fr_auto] items-baseline gap-2 border-b border-border/50 py-1.5 leading-relaxed last:border-0">
                 <span className="text-xs text-[var(--text-subtle)] tabular-nums">
-                  {clock(s.created_at)}
+                  {formatTime(s.created_at)}
                 </span>
                 <span className="font-semibold text-primary">{s.nick}</span>
                 <span className="min-w-0 break-words text-muted-foreground">{s.text}</span>
