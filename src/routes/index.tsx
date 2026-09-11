@@ -226,7 +226,6 @@ function Index() {
 
 
         <section id="faq" aria-labelledby="faq-heading">
-          <p className="mb-3 text-[11px] uppercase tracking-[0.12em] text-[var(--text-subtle)]">Demo · strona parodystyczna</p>
           <GsPanel title="FAQ">
             <div>
               {faq.map(([question, answer], index) => {
