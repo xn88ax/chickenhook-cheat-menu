@@ -66,7 +66,7 @@ const SECTIONS: Section[] = [
         unit: " HP",
       },
       { kind: "dual", id: "rcs", label: "RCS Y / RCS X", a: 85, b: 70 },
-      { kind: "key", id: "aim-key", label: "Klawisz aimbota XZ", value: "MOUSE5" },
+      { kind: "key", id: "aim-key", label: "Klawisz aimbota", value: "MOUSE5" },
       {
         kind: "grid",
         id: "aim-grid",
@@ -189,7 +189,7 @@ function Pill({ on, onClick }: { on: boolean; onClick: () => void }) {
       type="button"
       role="switch"
       aria-checked={on}
-      onClick={() => { console.log("PILL CLICK"); onClick(); }}
+      onClick={onClick}
       className={cn(
         "relative h-[14px] w-[26px] shrink-0 rounded-full border transition-colors",
         on
