@@ -412,26 +412,29 @@ const PRESETS: Record<string, { on: string[]; off: string[] }> = {
   },
 };
 
+const ALL_ROWS: Row[] = [
+  ...SECTIONS.flatMap((s) => s.rows),
+  ...Object.values(PARAMS).flatMap((p) => p.rows),
+];
+
 const DEFAULT_TOGGLES = (() => {
   const map: Record<string, boolean> = {};
-  for (const s of SECTIONS)
-    for (const r of s.rows) {
-      if (r.kind === "toggle") map[r.id] = Boolean(r.def);
-      if (r.kind === "grid") for (const i of r.items) map[i.id] = false;
-    }
+  for (const r of ALL_ROWS) {
+    if (r.kind === "toggle") map[r.id] = Boolean(r.def);
+    if (r.kind === "grid") for (const i of r.items) map[i.id] = false;
+  }
   return map;
 })();
 
 const DEFAULT_SLIDERS = (() => {
   const map: Record<string, number> = {};
-  for (const s of SECTIONS)
-    for (const r of s.rows) {
-      if (r.kind === "slider") map[r.id] = r.def;
-      if (r.kind === "dual") {
-        map[`${r.id}-y`] = r.a;
-        map[`${r.id}-x`] = r.b;
-      }
+  for (const r of ALL_ROWS) {
+    if (r.kind === "slider") map[r.id] = r.def;
+    if (r.kind === "dual") {
+      map[`${r.id}-y`] = r.a;
+      map[`${r.id}-x`] = r.b;
     }
+  }
   return map;
 })();
 
