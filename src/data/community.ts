@@ -36,31 +36,31 @@ export const shoutLines = [
 
 export type Opp = {
   nick: string;
-  cheat: string;
   reason: string;
+  bannedBy: string;
   date: string;
-  wave: string;
+  duration: string;
 };
 
 // Nicki sa wymyslone (parodia) - nie da sie legalnie wskazywac realnych osob.
-// Daty i nazwy fal odpowiadaja chronologii sezonu 2025/2026 na naszej osi czasu.
+// To rejestr banow forumowych chickenhook.wtf, od najnowszego.
 export const opps: Opp[] = [
-  { nick: "skeet_fanboy_99", cheat: "skeet.cc", reason: "fala VAC, loader wykryty po 6 h", date: "2026-08-12", wave: "Fala #17" },
-  { nick: "onetap_oliwier", cheat: "onetap.su", reason: "glow ESP widoczne na demku", date: "2026-08-09", wave: "Fala #17" },
-  { nick: "aimware_andrzej", cheat: "aimware.net", reason: "spinbot na Premier, 41 zgloszen", date: "2026-08-02", wave: "Fala #16" },
-  { nick: "free_cheats_krzys", cheat: "cheat z YouTube'a", reason: "uruchomil free_aim_2026.exe", date: "2026-07-28", wave: "Fala #16" },
-  { nick: "neverlose_norbert", cheat: "neverlose.cc", reason: "koniec subskrypcji = koniec szczescia", date: "2026-07-21", wave: "Fala #15" },
-  { nick: "kolega_ze_szkoly", cheat: "cheat od kolegi", reason: "kolega tez dostal bana", date: "2026-07-14", wave: "Fala #15" },
-  { nick: "gs_weteran", cheat: "gamesense.pub", reason: "nostalgia nie chroni przed VAC", date: "2026-07-05", wave: "Fala #14" },
-  { nick: "allegro_aimbot", cheat: "cheat z Allegro", reason: "sprzedawca mial 12% pozytywow", date: "2026-06-29", wave: "Fala #14" },
-  { nick: "primordial_pawel", cheat: "primordial.wtf", reason: "recoil control na streamie", date: "2026-06-18", wave: "Fala #13" },
-  { nick: "fatality_filip", cheat: "fatality.win", reason: "resolver ustawil go na scianie", date: "2026-06-11", wave: "Fala #13" },
-  { nick: "otc_ozzy", cheat: "otc.gg", reason: "trigger bot, 3 mecze z rzedu", date: "2026-05-30", wave: "Fala #12" },
-  { nick: "pandora_patryk", cheat: "pandora.gg", reason: "backtrack 400 ms, overwatch jednoglosnie", date: "2026-05-22", wave: "Fala #12" },
-  { nick: "nixware_nikodem", cheat: "nixware.cc", reason: "wallbang przez trzy sciany", date: "2026-05-14", wave: "Fala #11" },
-  { nick: "gamesense_gustaw", cheat: "gamesense.vip", reason: "config od \u201eproa\u201d z Discorda", date: "2026-05-03", wave: "Fala #11" },
-  { nick: "medal_maciek", cheat: "cheat z reklamy na TikToku", reason: "zamiast cheata dostal koparke", date: "2026-04-25", wave: "Fala #10" },
-  { nick: "hvh_hubert", cheat: "leaked source z forum", reason: "kompilowal sam, zbanowal sie sam", date: "2026-04-17", wave: "Fala #10" },
+  { nick: "leaker_lucjan", reason: "leakowanie loadera na zagraniczne forum", bannedBy: "adam chicken", date: "2026-08-12", duration: "na zawsze" },
+  { nick: "kod_sprzedawca", reason: "sprzedawanie kodow zaproszen na Allegro", bannedBy: "adam chicken", date: "2026-08-09", duration: "na zawsze" },
+  { nick: "scam_stefan", reason: "scamowanie czlonkow na \"darmowy config\"", bannedBy: "moderacja", date: "2026-08-02", duration: "na zawsze" },
+  { nick: "tajny_wspolpracownik", reason: "screeny z dzialu VIP wyslane konkurencji", bannedBy: "adam chicken", date: "2026-07-28", duration: "na zawsze" },
+  { nick: "ddos_daniel", reason: "grozby DDoS w strone serwera (doslownie wyslal namicie)", bannedBy: "adam chicken", date: "2026-07-21", duration: "na zawsze" },
+  { nick: "crack_karol", reason: "proba cracka loadera i chwalenie sie tym w shoutboxie", bannedBy: "moderacja", date: "2026-07-14", duration: "na zawsze" },
+  { nick: "multikonto_michal", reason: "12 multikont po poprzednim banie", bannedBy: "moderacja", date: "2026-07-05", duration: "na zawsze" },
+  { nick: "pytajacz_piotr", reason: "spam \"kiedy update\" x340 po 6 h od update'u", bannedBy: "moderacja", date: "2026-06-29", duration: "30 dni" },
+  { nick: "ratunkowy_radek", reason: "wrzucil config na pastebin z napisem \"chickenhook free\"", bannedBy: "adam chicken", date: "2026-06-18", duration: "na zawsze" },
+  { nick: "sympatyk_skeeta", reason: "reklama konkurencji w dziale ogolnym, 4. wysoki ton", bannedBy: "moderacja", date: "2026-06-11", duration: "14 dni" },
+  { nick: "wiek_wiktor", reason: "wyznal w ankiecie, ze ma 11 lat", bannedBy: "moderacja", date: "2026-05-30", duration: "do 18. urodzin" },
+  { nick: "bot_bartek", reason: "auto-odpowiadanie skryptem we wszystkich watkach", bannedBy: "moderacja", date: "2026-05-22", duration: "na zawsze" },
+  { nick: "klotnia_klaudia", reason: "flamewar w 9 watkach jednoczesnie, w tym o kebab", bannedBy: "moderacja", date: "2026-05-14", duration: "7 dni" },
+  { nick: "refund_robert", reason: "chargeback po 8 miesiacach grania", bannedBy: "adam chicken", date: "2026-05-03", duration: "na zawsze" },
+  { nick: "nudes_norbert", reason: "NSFW w dziale \"Problemy techniczne\"", bannedBy: "moderacja", date: "2026-04-25", duration: "na zawsze" },
+  { nick: "ratunek_roman", reason: "napisal \"pomozcie, VAC mnie nie wykrylo, sam sie zglaszam\"", bannedBy: "adam chicken", date: "2026-04-17", duration: "na zyczenie" },
 ];
 
 export type BanWave = {
