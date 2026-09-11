@@ -66,7 +66,7 @@ const SECTIONS: Section[] = [
         unit: " HP",
       },
       { kind: "dual", id: "rcs", label: "RCS Y / RCS X", a: 85, b: 70 },
-      { kind: "key", id: "aim-key", label: "Klawisz aimbota", value: "MOUSE5" },
+      { kind: "key", id: "aim-key", label: "Klawisz aimbota XZ", value: "MOUSE5" },
       {
         kind: "grid",
         id: "aim-grid",
