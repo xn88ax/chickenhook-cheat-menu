@@ -757,7 +757,10 @@ export function OverlayMenu() {
 
   return (
     <div className="ovl-stage relative flex justify-center overflow-hidden rounded-lg p-4 sm:p-6">
-      <div className="ovl-panel relative z-10 flex h-[720px] w-full max-w-[880px] flex-col overflow-hidden rounded-[10px] border border-border/80 bg-ovl-panel/95 font-sans">
+      <div
+        ref={panelRef}
+        className="ovl-panel relative z-10 flex h-[720px] w-full max-w-[880px] flex-col overflow-hidden rounded-[10px] border border-border/80 bg-ovl-panel/95 font-sans"
+      >
         {/* top bar */}
         <header className="flex h-10 shrink-0 items-center gap-3 border-b border-border/70 px-3">
           <span className="select-none text-[13px] font-bold uppercase tracking-tight">
