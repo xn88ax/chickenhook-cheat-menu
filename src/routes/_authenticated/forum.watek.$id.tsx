@@ -42,6 +42,21 @@ function ThreadPage() {
     },
   });
 
+  const categoryQuery = useQuery({
+    enabled: !!threadQuery.data?.category_id,
+    queryKey: ["forum", "thread-category", threadQuery.data?.category_id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("forum_categories")
+        .select("id,locked")
+        .eq("id", threadQuery.data!.category_id)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+  const locked = !!categoryQuery.data?.locked && !isAdmin;
+
   const postsQuery = useQuery({
     queryKey: ["forum", "posts", id],
     queryFn: async () => {
