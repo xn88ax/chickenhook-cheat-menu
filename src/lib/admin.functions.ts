@@ -192,3 +192,73 @@ export const moderateContent = createServerFn({ method: "POST" })
     return { ok: true as const };
   });
 
+
+/** Ban a member: closes their account in auth and logs reason + date. */
+export const banUser = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z
+      .object({
+        userId: z.string().uuid(),
+        reason: z.string().trim().min(3).max(300),
+        until: z.string().trim().max(40).optional(),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    if (data.userId === context.userId) {
+      return { ok: false as const, error: "Nie możesz zbanować samego siebie." };
+    }
+
+    let hours = 876000; // ~100 lat = ban permanentny
+    let bannedUntil: string | null = null;
+    if (data.until) {
+      const ts = new Date(data.until).getTime();
+      if (Number.isNaN(ts)) return { ok: false as const, error: "Nieprawidłowa data bana." };
+      if (ts <= Date.now()) return { ok: false as const, error: "Data bana musi być w przyszłości." };
+      hours = Math.max(1, Math.ceil((ts - Date.now()) / 3600000));
+      bannedUntil = new Date(ts).toISOString();
+    }
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(data.userId, {
+      ban_duration: `${hours}h`,
+    });
+    if (authError) return { ok: false as const, error: "Nie udało się zamknąć konta." };
+
+    await supabaseAdmin.from("user_bans").update({ active: false }).eq("user_id", data.userId);
+    const { error } = await supabaseAdmin.from("user_bans").insert({
+      user_id: data.userId,
+      reason: data.reason,
+      banned_until: bannedUntil,
+      banned_by: context.userId,
+      active: true,
+    });
+    if (error) return { ok: false as const, error: "Nie udało się zapisać bana." };
+
+    return { ok: true as const };
+  });
+
+/** Lift a ban and reopen the account. */
+export const unbanUser = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) => z.object({ userId: z.string().uuid() }).parse(data))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(data.userId, {
+      ban_duration: "none",
+    });
+    if (authError) return { ok: false as const, error: "Nie udało się odblokować konta." };
+
+    await supabaseAdmin
+      .from("user_bans")
+      .update({ active: false })
+      .eq("user_id", data.userId)
+      .eq("active", true);
+
+    return { ok: true as const };
+  });
