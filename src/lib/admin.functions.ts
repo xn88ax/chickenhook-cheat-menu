@@ -32,7 +32,7 @@ export const getAdminData = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     await assertAdmin(context.supabase, context.userId);
 
-    const [codes, profiles, roles] = await Promise.all([
+    const [codes, profiles, roles, bans] = await Promise.all([
       context.supabase
         .from("invite_codes")
         .select("id,code,note,used_by,used_at,expires_at,created_at")
@@ -40,6 +40,10 @@ export const getAdminData = createServerFn({ method: "GET" })
         .limit(200),
       context.supabase.from("profiles").select("id,username,created_at").order("created_at"),
       context.supabase.from("user_roles").select("user_id,role"),
+      context.supabase
+        .from("user_bans")
+        .select("user_id,reason,banned_until,created_at,active")
+        .eq("active", true),
     ]);
 
     return {
@@ -47,6 +51,7 @@ export const getAdminData = createServerFn({ method: "GET" })
       members: (profiles.data ?? []).map((p) => ({
         ...p,
         roles: (roles.data ?? []).filter((r) => r.user_id === p.id).map((r) => r.role),
+        ban: (bans.data ?? []).find((b) => b.user_id === p.id) ?? null,
       })),
     };
   });
