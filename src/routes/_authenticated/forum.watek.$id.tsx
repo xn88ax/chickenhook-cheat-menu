@@ -143,7 +143,11 @@ function ThreadPage() {
               </article>
             ))}
 
-            {user ? (
+            {locked ? (
+              <p className="rounded-sm border border-border gs-panel px-4 py-3 text-xs text-muted-foreground">
+                Ten dział jest tylko do odczytu — pisać mogą tu wyłącznie administratorzy.
+              </p>
+            ) : user ? (
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
