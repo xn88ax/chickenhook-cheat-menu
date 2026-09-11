@@ -608,6 +608,112 @@ export function OverlayMenu() {
     showToast(`Preset ${name} załadowany`);
   };
 
+  const [wins, setWins] = useState<{ id: string; x: number; y: number; z: number }[]>([]);
+  const zTop = useRef(50);
+
+  const openWindow = (id: string) => {
+    if (!PARAMS[id]) return;
+    zTop.current += 1;
+    setWins((w) => {
+      const found = w.find((x) => x.id === id);
+      if (found)
+        return w.map((x) => (x.id === id ? { ...x, z: zTop.current } : x));
+      const n = w.length;
+      return [
+        ...w,
+        { id, x: 60 + n * 26, y: 90 + n * 24, z: zTop.current },
+      ];
+    });
+  };
+
+  const closeWindow = (id: string) => setWins((w) => w.filter((x) => x.id !== id));
+
+  const dragRef = useRef<{ id: string; dx: number; dy: number } | null>(null);
+
+  const startDrag = (id: string, e: React.PointerEvent) => {
+    const win = wins.find((w) => w.id === id);
+    if (!win) return;
+    zTop.current += 1;
+    setWins((w) => w.map((x) => (x.id === id ? { ...x, z: zTop.current } : x)));
+    dragRef.current = { id, dx: e.clientX - win.x, dy: e.clientY - win.y };
+    const onMove = (ev: PointerEvent) => {
+      const d = dragRef.current;
+      if (!d) return;
+      setWins((w) =>
+        w.map((x) =>
+          x.id === d.id
+            ? { ...x, x: Math.max(0, ev.clientX - d.dx), y: Math.max(0, ev.clientY - d.dy) }
+            : x,
+        ),
+      );
+    };
+    const onUp = () => {
+      dragRef.current = null;
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+    };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+  };
+
+  const renderControl = (r: Row) => (
+    <>
+      {r.kind === "toggle" && (
+        <Pill
+          on={Boolean(toggles[r.id])}
+          onClick={() => setToggles((t) => ({ ...t, [r.id]: !t[r.id] }))}
+        />
+      )}
+      {r.kind === "select" && (
+        <Compact
+          options={r.options}
+          value={selects[r.id] ?? r.def ?? 0}
+          onChange={(v) => setSelects((s2) => ({ ...s2, [r.id]: v }))}
+        />
+      )}
+      {r.kind === "slider" && (
+        <div className="flex shrink-0 items-center gap-2">
+          <Thin
+            min={r.min}
+            max={r.max}
+            value={sliders[r.id] ?? r.def}
+            onChange={(v) => setSliders((s2) => ({ ...s2, [r.id]: v }))}
+            className="w-[132px]"
+          />
+          <span className="w-[46px] text-right text-[10px] tabular-nums text-ovl-accent">
+            {sliders[r.id] ?? r.def}
+            {r.unit ?? ""}
+          </span>
+        </div>
+      )}
+      {r.kind === "dual" && (
+        <div className="flex shrink-0 items-center gap-2">
+          {(["y", "x"] as const).map((axis) => (
+            <div key={axis} className="flex items-center gap-1">
+              <Thin
+                min={0}
+                max={100}
+                value={sliders[`${r.id}-${axis}`] ?? 0}
+                onChange={(v) => setSliders((s2) => ({ ...s2, [`${r.id}-${axis}`]: v }))}
+                className="w-[58px]"
+              />
+              <span className="w-[30px] text-right text-[10px] tabular-nums text-ovl-accent">
+                {sliders[`${r.id}-${axis}`] ?? 0}%
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+      {r.kind === "key" && (
+        <span className="rounded-md border border-border bg-background/70 px-2 py-[2px] text-[10px] font-bold tracking-wide text-foreground/90">
+          {r.value}
+        </span>
+      )}
+    </>
+  );
+
+
+
   if (hidden) {
     return (
       <div className="flex justify-center py-8">
