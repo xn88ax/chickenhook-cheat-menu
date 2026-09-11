@@ -18,8 +18,6 @@ const moreTabs = [
   { label: "Sponsorzy", to: "/sponsorzy" },
   { label: "Restauracje", to: "/restauracje" },
   { label: "Changelog", to: "/changelog" },
-  { label: "Poradniki", to: "/poradniki" },
-  { label: "Sklep", to: "/sklep" },
   { label: "O nas", to: "/o-nas" },
   { label: "Podanie", to: "/podanie" },
 ] as const;
