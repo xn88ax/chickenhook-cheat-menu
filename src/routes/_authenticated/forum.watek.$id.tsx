@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useIsAdmin } from "@/hooks/use-is-admin";
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { Avatar, timeAgo } from "@/components/forum/forum-shell";
 
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/_authenticated/forum/watek/$id")({
 function ThreadPage() {
   const { id } = Route.useParams();
   const { user } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const queryClient = useQueryClient();
   const [reply, setReply] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -39,6 +41,21 @@ function ThreadPage() {
       return data;
     },
   });
+
+  const categoryQuery = useQuery({
+    enabled: !!threadQuery.data?.category_id,
+    queryKey: ["forum", "thread-category", threadQuery.data?.category_id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("forum_categories")
+        .select("id,locked")
+        .eq("id", threadQuery.data!.category_id)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+  const locked = !!categoryQuery.data?.locked && !isAdmin;
 
   const postsQuery = useQuery({
     queryKey: ["forum", "posts", id],
@@ -126,7 +143,11 @@ function ThreadPage() {
               </article>
             ))}
 
-            {user ? (
+            {locked ? (
+              <p className="rounded-sm border border-border gs-panel px-4 py-3 text-xs text-muted-foreground">
+                Ten dział jest tylko do odczytu — pisać mogą tu wyłącznie administratorzy.
+              </p>
+            ) : user ? (
               <form
                 onSubmit={(e) => {
                   e.preventDefault();

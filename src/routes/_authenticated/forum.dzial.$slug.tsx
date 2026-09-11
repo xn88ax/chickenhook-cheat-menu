@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Pin } from "lucide-react";
+import { Lock, Pin } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { Avatar, timeAgo } from "@/components/forum/forum-shell";
@@ -27,7 +27,7 @@ function CategoryPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("forum_categories")
-        .select("id,name,description")
+        .select("id,name,description,locked")
         .eq("slug", slug)
         .maybeSingle();
       if (error) throw error;
@@ -79,8 +79,16 @@ function CategoryPage() {
         {category && (
           <>
             <div>
-              <h1 className="font-display text-3xl">{category.name}</h1>
+              <h1 className="flex items-center gap-2 font-display text-3xl">
+                {category.locked && <Lock className="size-5 text-primary" aria-hidden />}
+                {category.name}
+              </h1>
               <p className="mt-1 text-sm text-muted-foreground">{category.description}</p>
+              {category.locked && (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Dział tylko do odczytu — pisać mogą tu wyłącznie administratorzy.
+                </p>
+              )}
             </div>
 
             <section className="gs-panel">

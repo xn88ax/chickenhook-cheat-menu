@@ -19,6 +19,7 @@ export type Database = {
           created_at: string
           description: string
           id: string
+          locked: boolean
           name: string
           position: number
           section: string
@@ -28,6 +29,7 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
+          locked?: boolean
           name: string
           position?: number
           section?: string
@@ -37,6 +39,7 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
+          locked?: boolean
           name?: string
           position?: number
           section?: string
