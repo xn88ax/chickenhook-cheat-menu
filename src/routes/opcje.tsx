@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, Lock, Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 
-import { CheatMenu } from "@/components/cheat-menu";
+import { OverlayMenu } from "@/components/overlay-menu";
 import { FeaturePreview } from "@/components/feature-preview";
 import { features as options } from "@/data/features";
 import { GsPanel, GsShell } from "@/components/gs-shell";
@@ -79,10 +79,11 @@ function Opcje() {
         </p>
 
         <GsPanel title="Menu cheata">
-          <div className="p-4">
-            <CheatMenu />
+          <div className="p-2">
+            <OverlayMenu />
           </div>
         </GsPanel>
+
 
         <GsPanel title="Lista modułów">
         <div className="p-4">
