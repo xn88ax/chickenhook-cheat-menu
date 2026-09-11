@@ -14,9 +14,21 @@ type Shout = {
   user_id: string | null;
 };
 
-function clock(iso: string) {
+function isSameDay(a: Date, b: Date) {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
+}
+
+function formatTime(iso: string) {
   const d = new Date(iso);
-  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+  const now = new Date();
+  const time = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+  if (isSameDay(d, now)) return time;
+  const months = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"];
+  return `${d.getDate()} ${months[d.getMonth()]} ${time}`;
 }
 
 const NICK_KEY = "chickenhook_guest_nick";
@@ -120,9 +132,9 @@ export function Shoutbox() {
           shouts.map((s) => {
             const mine = !!user && s.user_id === user.id;
             return (
-              <p key={s.id} className="group grid grid-cols-[44px_auto_1fr_auto] items-baseline gap-2 border-b border-border/50 py-1.5 leading-relaxed last:border-0">
+              <p key={s.id} className="group grid grid-cols-[auto_auto_1fr_auto] items-baseline gap-2 border-b border-border/50 py-1.5 leading-relaxed last:border-0">
                 <span className="text-xs text-[var(--text-subtle)] tabular-nums">
-                  {clock(s.created_at)}
+                  {formatTime(s.created_at)}
                 </span>
                 <span className="font-semibold text-primary">{s.nick}</span>
                 <span className="min-w-0 break-words text-muted-foreground">{s.text}</span>
