@@ -191,7 +191,10 @@ export function Shoutbox() {
           </span>
         ) : (
           <>
-             <label className="flex items-center gap-2">Piszesz jako gość:<input value={guestNick} onChange={(e) => setGuestNick(e.target.value)} maxLength={32} aria-label="Twój nick" className="w-28 border-0 border-b border-border bg-transparent px-1 py-0.5 text-xs text-muted-foreground outline-none focus:border-primary" /></label>
+            <span>
+              Piszesz jako gość <span className="font-bold text-foreground">{guestNick}</span> —
+              własny nick tylko z kontem
+            </span>
             <Link
               to="/auth"
               search={{ next: "/" }}
