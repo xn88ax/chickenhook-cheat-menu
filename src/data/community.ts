@@ -53,7 +53,7 @@ export const opps: Opp[] = [
   { nick: "crack_karol", reason: "proba cracka loadera i chwalenie sie tym w shoutboxie", bannedBy: "moderacja", date: "2026-07-14", duration: "na zawsze" },
   { nick: "multikonto_michal", reason: "12 multikont po poprzednim banie", bannedBy: "moderacja", date: "2026-07-05", duration: "na zawsze" },
   { nick: "pytajacz_piotr", reason: "spam \"kiedy update\" x340 po 6 h od update'u", bannedBy: "moderacja", date: "2026-06-29", duration: "30 dni" },
-  { nick: "ratunkowy_radek", reason: "wrzucil config na pastebin z napisem \"chickenhook free\"", bannedBy: "adam chicken", date: "2026-06-18", duration: "na zawsze" },
+  { nick: "ratunkowy_radek", reason: "wrzucil fake loader z ratem na pastebina", bannedBy: "adam chicken", date: "2026-06-18", duration: "na zawsze" },
   { nick: "sympatyk_skeeta", reason: "reklama konkurencji w dziale ogolnym, 4. wysoki ton", bannedBy: "moderacja", date: "2026-06-11", duration: "14 dni" },
   { nick: "wiek_wiktor", reason: "wyznal w ankiecie, ze ma 11 lat", bannedBy: "moderacja", date: "2026-05-30", duration: "do 18. urodzin" },
   { nick: "bot_bartek", reason: "auto-odpowiadanie skryptem we wszystkich watkach", bannedBy: "moderacja", date: "2026-05-22", duration: "na zawsze" },
