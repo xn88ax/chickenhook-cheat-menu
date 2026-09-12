@@ -101,22 +101,86 @@ function Settings() {
 
   useEffect(() => setRemember(isRememberSession()), []);
 
+  const [bio, setBio] = useState("");
+  const [accent, setAccent] = useState("red");
+  const [profileState, setProfileState] = useState<{
+    busy: boolean;
+    msg: string | null;
+    err: boolean;
+  }>({ busy: false, msg: null, err: false });
+
   const { data: profile } = useQuery({
     enabled: !!user,
     queryKey: ["profile", user?.id],
     queryFn: async () => {
       const { data } = await supabase
         .from("profiles")
-        .select("username")
+        .select("username, bio, avatar_url, banner_url, accent, views")
         .eq("id", user!.id)
         .maybeSingle();
       return data ?? null;
     },
   });
 
+  const avatarUrl = useProfileMedia(profile?.avatar_url);
+  const bannerUrl = useProfileMedia(profile?.banner_url);
+
   useEffect(() => {
     if (profile?.username) setUsername(profile.username);
-  }, [profile?.username]);
+    if (profile) {
+      setBio(profile.bio ?? "");
+      setAccent(profile.accent ?? "red");
+    }
+  }, [profile]);
+
+  async function saveProfile(e: React.FormEvent) {
+    e.preventDefault();
+    setProfileState({ busy: true, msg: null, err: false });
+    const { error } = await supabase
+      .from("profiles")
+      .update({ bio: bio.slice(0, 500), accent })
+      .eq("id", user!.id);
+    await qc.invalidateQueries({ queryKey: ["profile", user?.id] });
+    setProfileState({
+      busy: false,
+      msg: error ? "Nie udało się zapisać profilu." : "Profil zapisany.",
+      err: !!error,
+    });
+  }
+
+  async function pickMedia(kind: "avatar" | "banner", file: File | null | undefined) {
+    if (!file || !user) return;
+    setProfileState({ busy: true, msg: null, err: false });
+    try {
+      const path = await uploadProfileMedia(user.id, kind, file);
+      const { error } = await supabase
+        .from("profiles")
+        .update(kind === "avatar" ? { avatar_url: path } : { banner_url: path })
+        .eq("id", user.id);
+      if (error) throw error;
+      await qc.invalidateQueries({ queryKey: ["profile", user.id] });
+      setProfileState({
+        busy: false,
+        msg: kind === "avatar" ? "Nowe zdjęcie profilowe." : "Nowy banner.",
+        err: false,
+      });
+    } catch {
+      setProfileState({
+        busy: false,
+        msg: "Nie udało się wgrać pliku (maks. 8 MB, obrazek lub GIF).",
+        err: true,
+      });
+    }
+  }
+
+  async function clearMedia(kind: "avatar" | "banner") {
+    if (!user) return;
+    await supabase
+      .from("profiles")
+      .update(kind === "avatar" ? { avatar_url: null } : { banner_url: null })
+      .eq("id", user.id);
+    await qc.invalidateQueries({ queryKey: ["profile", user.id] });
+  }
 
   async function saveUsername(e: React.FormEvent) {
     e.preventDefault();
