@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { Avatar, timeAgo } from "@/components/forum/forum-shell";
+import { moderateContent } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/_authenticated/forum/watek/$id")({
   head: () => ({
