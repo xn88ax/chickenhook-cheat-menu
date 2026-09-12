@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Check, Loader2, RotateCcw } from "lucide-react";
+import { Check, ExternalLink, ImagePlus, Loader2, RotateCcw } from "lucide-react";
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useSiteSettings } from "@/lib/site-settings";
 import { isRememberSession, setRememberSession } from "@/lib/session-persistence";
+import { ACCENTS, accentColor, uploadProfileMedia, useProfileMedia } from "@/lib/profile-media";
 
 export const Route = createFileRoute("/_authenticated/ustawienia")({
   head: () => ({
