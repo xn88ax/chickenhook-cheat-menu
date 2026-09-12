@@ -20,6 +20,7 @@ import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProfilUsernameRouteImport } from './routes/profil.$username'
 import { Route as ApiScStreamRouteImport } from './routes/api/sc-stream'
 import { Route as AuthenticatedUstawieniaRouteImport } from './routes/_authenticated/ustawienia'
 import { Route as AuthenticatedForumRouteImport } from './routes/_authenticated/forum'
@@ -82,6 +83,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfilUsernameRoute = ProfilUsernameRouteImport.update({
+  id: '/profil/$username',
+  path: '/profil/$username',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiScStreamRoute = ApiScStreamRouteImport.update({
@@ -147,6 +153,7 @@ export interface FileRoutesByFullPath {
   '/forum': typeof AuthenticatedForumRouteWithChildren
   '/ustawienia': typeof AuthenticatedUstawieniaRoute
   '/api/sc-stream': typeof ApiScStreamRoute
+  '/profil/$username': typeof ProfilUsernameRoute
   '/forum/': typeof AuthenticatedForumIndexRoute
   '/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
   '/forum/watek/$id': typeof AuthenticatedForumWatekIdRoute
@@ -167,6 +174,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/ustawienia': typeof AuthenticatedUstawieniaRoute
   '/api/sc-stream': typeof ApiScStreamRoute
+  '/profil/$username': typeof ProfilUsernameRoute
   '/forum': typeof AuthenticatedForumIndexRoute
   '/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
   '/forum/watek/$id': typeof AuthenticatedForumWatekIdRoute
@@ -190,6 +198,7 @@ export interface FileRoutesById {
   '/_authenticated/forum': typeof AuthenticatedForumRouteWithChildren
   '/_authenticated/ustawienia': typeof AuthenticatedUstawieniaRoute
   '/api/sc-stream': typeof ApiScStreamRoute
+  '/profil/$username': typeof ProfilUsernameRoute
   '/_authenticated/forum/': typeof AuthenticatedForumIndexRoute
   '/_authenticated/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
   '/_authenticated/forum/watek/$id': typeof AuthenticatedForumWatekIdRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/forum'
     | '/ustawienia'
     | '/api/sc-stream'
+    | '/profil/$username'
     | '/forum/'
     | '/forum/dzial/$slug'
     | '/forum/watek/$id'
@@ -233,6 +243,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/ustawienia'
     | '/api/sc-stream'
+    | '/profil/$username'
     | '/forum'
     | '/forum/dzial/$slug'
     | '/forum/watek/$id'
@@ -255,6 +266,7 @@ export interface FileRouteTypes {
     | '/_authenticated/forum'
     | '/_authenticated/ustawienia'
     | '/api/sc-stream'
+    | '/profil/$username'
     | '/_authenticated/forum/'
     | '/_authenticated/forum/dzial/$slug'
     | '/_authenticated/forum/watek/$id'
@@ -275,6 +287,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SponsorzyRoute: typeof SponsorzyRoute
   ApiScStreamRoute: typeof ApiScStreamRoute
+  ProfilUsernameRoute: typeof ProfilUsernameRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
 }
@@ -356,6 +369,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profil/$username': {
+      id: '/profil/$username'
+      path: '/profil/$username'
+      fullPath: '/profil/$username'
+      preLoaderRoute: typeof ProfilUsernameRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/sc-stream': {
@@ -467,6 +487,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SponsorzyRoute: SponsorzyRoute,
   ApiScStreamRoute: ApiScStreamRoute,
+  ProfilUsernameRoute: ProfilUsernameRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
 }

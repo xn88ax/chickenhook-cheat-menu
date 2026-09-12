@@ -42,15 +42,14 @@ export function Shoutbox() {
   const [error, setError] = useState<string | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
-  // Nick gościa trzymany lokalnie w przeglądarce.
+  // Nick gościa jest przydzielany automatycznie i nie da się go zmienić bez konta.
   useEffect(() => {
     const saved = localStorage.getItem(NICK_KEY);
-    setGuestNick(saved ?? `gosc_${Math.floor(1000 + Math.random() * 8999)}`);
+    const valid = saved && /^gosc_\d{4}$/.test(saved) ? saved : null;
+    const nick = valid ?? `gosc_${Math.floor(1000 + Math.random() * 8999)}`;
+    localStorage.setItem(NICK_KEY, nick);
+    setGuestNick(nick);
   }, []);
-
-  useEffect(() => {
-    if (guestNick) localStorage.setItem(NICK_KEY, guestNick);
-  }, [guestNick]);
 
   // Historia z bazy + wiadomości na żywo.
   useEffect(() => {
@@ -94,7 +93,13 @@ export function Shoutbox() {
   async function send(e: React.FormEvent) {
     e.preventDefault();
     const text = draft.trim();
-    const nick = (user ? displayName(user) : guestNick.trim() || "gosc").slice(0, 32);
+    const nick = (
+      user
+        ? displayName(user)
+        : /^gosc_\d{4}$/.test(guestNick)
+          ? guestNick
+          : `gosc_${Math.floor(1000 + Math.random() * 8999)}`
+    ).slice(0, 32);
     if (!text || sending) return;
     setSending(true);
     setError(null);
@@ -136,7 +141,17 @@ export function Shoutbox() {
                 <span className="text-xs text-[var(--text-subtle)] tabular-nums">
                   {formatTime(s.created_at)}
                 </span>
-                <span className="font-semibold text-primary">{s.nick}</span>
+                {s.user_id ? (
+                  <Link
+                    to="/profil/$username"
+                    params={{ username: s.nick }}
+                    className="font-semibold text-primary hover:underline"
+                  >
+                    {s.nick}
+                  </Link>
+                ) : (
+                  <span className="font-semibold text-muted-foreground">{s.nick}</span>
+                )}
                 <span className="min-w-0 break-words text-muted-foreground">{s.text}</span>
                 {mine ? (
                   <button
@@ -176,7 +191,10 @@ export function Shoutbox() {
           </span>
         ) : (
           <>
-             <label className="flex items-center gap-2">Piszesz jako gość:<input value={guestNick} onChange={(e) => setGuestNick(e.target.value)} maxLength={32} aria-label="Twój nick" className="w-28 border-0 border-b border-border bg-transparent px-1 py-0.5 text-xs text-muted-foreground outline-none focus:border-primary" /></label>
+            <span>
+              Piszesz jako gość <span className="font-bold text-foreground">{guestNick}</span> —
+              własny nick tylko z kontem
+            </span>
             <Link
               to="/auth"
               search={{ next: "/" }}

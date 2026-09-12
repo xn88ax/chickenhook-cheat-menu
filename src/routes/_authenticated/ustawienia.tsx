@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Check, Loader2, RotateCcw } from "lucide-react";
+import { Check, ExternalLink, ImagePlus, Loader2, RotateCcw } from "lucide-react";
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useSiteSettings } from "@/lib/site-settings";
 import { isRememberSession, setRememberSession } from "@/lib/session-persistence";
+import { ACCENTS, accentColor, uploadProfileMedia, useProfileMedia } from "@/lib/profile-media";
 
 export const Route = createFileRoute("/_authenticated/ustawienia")({
   head: () => ({
@@ -100,22 +101,86 @@ function Settings() {
 
   useEffect(() => setRemember(isRememberSession()), []);
 
+  const [bio, setBio] = useState("");
+  const [accent, setAccent] = useState("red");
+  const [profileState, setProfileState] = useState<{
+    busy: boolean;
+    msg: string | null;
+    err: boolean;
+  }>({ busy: false, msg: null, err: false });
+
   const { data: profile } = useQuery({
     enabled: !!user,
     queryKey: ["profile", user?.id],
     queryFn: async () => {
       const { data } = await supabase
         .from("profiles")
-        .select("username")
+        .select("username, bio, avatar_url, banner_url, accent, views")
         .eq("id", user!.id)
         .maybeSingle();
       return data ?? null;
     },
   });
 
+  const avatarUrl = useProfileMedia(profile?.avatar_url);
+  const bannerUrl = useProfileMedia(profile?.banner_url);
+
   useEffect(() => {
     if (profile?.username) setUsername(profile.username);
-  }, [profile?.username]);
+    if (profile) {
+      setBio(profile.bio ?? "");
+      setAccent(profile.accent ?? "red");
+    }
+  }, [profile]);
+
+  async function saveProfile(e: React.FormEvent) {
+    e.preventDefault();
+    setProfileState({ busy: true, msg: null, err: false });
+    const { error } = await supabase
+      .from("profiles")
+      .update({ bio: bio.slice(0, 500), accent })
+      .eq("id", user!.id);
+    await qc.invalidateQueries({ queryKey: ["profile", user?.id] });
+    setProfileState({
+      busy: false,
+      msg: error ? "Nie udało się zapisać profilu." : "Profil zapisany.",
+      err: !!error,
+    });
+  }
+
+  async function pickMedia(kind: "avatar" | "banner", file: File | null | undefined) {
+    if (!file || !user) return;
+    setProfileState({ busy: true, msg: null, err: false });
+    try {
+      const path = await uploadProfileMedia(user.id, kind, file);
+      const { error } = await supabase
+        .from("profiles")
+        .update(kind === "avatar" ? { avatar_url: path } : { banner_url: path })
+        .eq("id", user.id);
+      if (error) throw error;
+      await qc.invalidateQueries({ queryKey: ["profile", user.id] });
+      setProfileState({
+        busy: false,
+        msg: kind === "avatar" ? "Nowe zdjęcie profilowe." : "Nowy banner.",
+        err: false,
+      });
+    } catch {
+      setProfileState({
+        busy: false,
+        msg: "Nie udało się wgrać pliku (maks. 8 MB, obrazek lub GIF).",
+        err: true,
+      });
+    }
+  }
+
+  async function clearMedia(kind: "avatar" | "banner") {
+    if (!user) return;
+    await supabase
+      .from("profiles")
+      .update(kind === "avatar" ? { avatar_url: null } : { banner_url: null })
+      .eq("id", user.id);
+    await qc.invalidateQueries({ queryKey: ["profile", user.id] });
+  }
 
   async function saveUsername(e: React.FormEvent) {
     e.preventDefault();
@@ -179,7 +244,130 @@ function Settings() {
 
         {tab === "profile" && (
           <div className="mt-5 grid gap-5 lg:grid-cols-2">
-            <GsPanel title="Profil">
+            <GsPanel title="Profil publiczny" className="lg:col-span-2 overflow-hidden">
+              <div
+                className="profile-banner relative h-36 w-full"
+                style={{
+                  ...(bannerUrl ? { backgroundImage: `url(${bannerUrl})` } : {}),
+                  ["--profile-accent" as string]: accentColor(accent),
+                }}
+                aria-hidden="true"
+              >
+                {!bannerUrl && <div className="profile-banner-fallback" />}
+              </div>
+              <form className="space-y-4 p-4" onSubmit={saveProfile}>
+                <div className="flex flex-wrap items-center gap-4">
+                  <div
+                    className="-mt-12 size-16 shrink-0 overflow-hidden rounded-xl border-2 bg-card"
+                    style={{ borderColor: accentColor(accent) }}
+                  >
+                    {avatarUrl ? (
+                      <img src={avatarUrl} alt="Twoje zdjęcie profilowe" className="size-full object-cover" />
+                    ) : (
+                      <div className="flex size-full items-center justify-center font-display text-xl text-muted-foreground">
+                        {(profile?.username ?? "??").slice(0, 2).toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap gap-2 text-xs">
+                    <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-border px-3 py-2 hover:border-primary">
+                      <ImagePlus className="size-3" />
+                      Zdjęcie profilowe
+                      <input
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp,image/gif"
+                        className="hidden"
+                        onChange={(e) => void pickMedia("avatar", e.target.files?.[0])}
+                      />
+                    </label>
+                    <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-border px-3 py-2 hover:border-primary">
+                      <ImagePlus className="size-3" />
+                      Banner (GIF działa)
+                      <input
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp,image/gif"
+                        className="hidden"
+                        onChange={(e) => void pickMedia("banner", e.target.files?.[0])}
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => void clearMedia("avatar")}
+                      className="rounded-lg border border-border px-3 py-2 text-muted-foreground hover:border-primary"
+                    >
+                      Usuń zdjęcie
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => void clearMedia("banner")}
+                      className="rounded-lg border border-border px-3 py-2 text-muted-foreground hover:border-primary"
+                    >
+                      Usuń banner
+                    </button>
+                  </div>
+                  {profile?.username && (
+                    <Link
+                      to="/profil/$username"
+                      params={{ username: profile.username }}
+                      className="ml-auto inline-flex items-center gap-1 text-xs font-semibold text-primary"
+                    >
+                      <ExternalLink className="size-3" />
+                      Zobacz profil ({profile.views} odwiedzin)
+                    </Link>
+                  )}
+                </div>
+
+                <label className="block text-xs">
+                  <span className="text-muted-foreground">O sobie (maks. 500 znaków)</span>
+                  <textarea
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    maxLength={500}
+                    rows={4}
+                    className={`${inputClass} resize-y`}
+                  />
+                </label>
+
+                <div className="text-xs">
+                  <span className="text-muted-foreground">Kolor profilu</span>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {ACCENTS.map((a) => (
+                      <button
+                        key={a.id}
+                        type="button"
+                        onClick={() => setAccent(a.id)}
+                        aria-pressed={accent === a.id}
+                        className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 ${accent === a.id ? "border-primary text-foreground" : "border-border text-muted-foreground"}`}
+                      >
+                        <span
+                          className="size-3 rounded-full"
+                          style={{ backgroundColor: a.color }}
+                        />
+                        {a.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <button type="submit" disabled={profileState.busy} className={btnClass}>
+                  {profileState.busy ? (
+                    <Loader2 className="size-3 animate-spin" />
+                  ) : (
+                    <Check className="size-3" />
+                  )}
+                  Zapisz profil
+                </button>
+                {profileState.msg && (
+                  <p
+                    className={`text-[11px] ${profileState.err ? "text-primary" : "text-[var(--status-ok)]"}`}
+                  >
+                    {profileState.msg}
+                  </p>
+                )}
+              </form>
+            </GsPanel>
+
+            <GsPanel title="Nick">
               <form className="space-y-3 p-4" onSubmit={saveUsername}>
                 <label className="block text-xs">
                   <span className="text-muted-foreground">Nick na forum i czacie</span>
