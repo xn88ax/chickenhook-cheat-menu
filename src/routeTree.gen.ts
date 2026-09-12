@@ -21,6 +21,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiScStreamRouteImport } from './routes/api/sc-stream'
+import { Route as AuthenticatedUstawieniaRouteImport } from './routes/_authenticated/ustawienia'
 import { Route as AuthenticatedForumRouteImport } from './routes/_authenticated/forum'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedForumIndexRouteImport } from './routes/_authenticated/forum.index'
@@ -86,6 +87,11 @@ const ApiScStreamRoute = ApiScStreamRouteImport.update({
   path: '/api/sc-stream',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedUstawieniaRoute = AuthenticatedUstawieniaRouteImport.update({
+  id: '/ustawienia',
+  path: '/ustawienia',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedForumRoute = AuthenticatedForumRouteImport.update({
   id: '/forum',
   path: '/forum',
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/sponsorzy': typeof SponsorzyRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/forum': typeof AuthenticatedForumRouteWithChildren
+  '/ustawienia': typeof AuthenticatedUstawieniaRoute
   '/api/sc-stream': typeof ApiScStreamRoute
   '/forum/': typeof AuthenticatedForumIndexRoute
   '/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sponsorzy': typeof SponsorzyRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/ustawienia': typeof AuthenticatedUstawieniaRoute
   '/api/sc-stream': typeof ApiScStreamRoute
   '/forum': typeof AuthenticatedForumIndexRoute
   '/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
@@ -164,6 +172,7 @@ export interface FileRoutesById {
   '/sponsorzy': typeof SponsorzyRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/forum': typeof AuthenticatedForumRouteWithChildren
+  '/_authenticated/ustawienia': typeof AuthenticatedUstawieniaRoute
   '/api/sc-stream': typeof ApiScStreamRoute
   '/_authenticated/forum/': typeof AuthenticatedForumIndexRoute
   '/_authenticated/forum/dzial/$slug': typeof AuthenticatedForumDzialSlugRoute
@@ -184,6 +193,7 @@ export interface FileRouteTypes {
     | '/sponsorzy'
     | '/admin'
     | '/forum'
+    | '/ustawienia'
     | '/api/sc-stream'
     | '/forum/'
     | '/forum/dzial/$slug'
@@ -201,6 +211,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sponsorzy'
     | '/admin'
+    | '/ustawienia'
     | '/api/sc-stream'
     | '/forum'
     | '/forum/dzial/$slug'
@@ -220,6 +231,7 @@ export interface FileRouteTypes {
     | '/sponsorzy'
     | '/_authenticated/admin'
     | '/_authenticated/forum'
+    | '/_authenticated/ustawienia'
     | '/api/sc-stream'
     | '/_authenticated/forum/'
     | '/_authenticated/forum/dzial/$slug'
@@ -327,6 +339,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiScStreamRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/ustawienia': {
+      id: '/_authenticated/ustawienia'
+      path: '/ustawienia'
+      fullPath: '/ustawienia'
+      preLoaderRoute: typeof AuthenticatedUstawieniaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/forum': {
       id: '/_authenticated/forum'
       path: '/forum'
@@ -383,11 +402,13 @@ const AuthenticatedForumRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedForumRoute: typeof AuthenticatedForumRouteWithChildren
+  AuthenticatedUstawieniaRoute: typeof AuthenticatedUstawieniaRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedForumRoute: AuthenticatedForumRouteWithChildren,
+  AuthenticatedUstawieniaRoute: AuthenticatedUstawieniaRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
