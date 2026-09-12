@@ -113,6 +113,7 @@ function Index() {
       const target = e.target as HTMLElement;
       const isTyping = target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT" || target.isContentEditable);
       if (isTyping) return;
+      if (!easterEggsEnabled()) return;
 
       if (e.key === "a" || e.key === "A") {
         const id = Date.now() + Math.random();

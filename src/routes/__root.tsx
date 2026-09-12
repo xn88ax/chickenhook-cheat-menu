@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { Konami } from "../components/konami";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { installSessionPersistence } from "../lib/session-persistence";
+import { applySettings, readSettings } from "../lib/site-settings";
 
 
 function NotFoundComponent() {
@@ -138,6 +139,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   useEffect(() => installSessionPersistence(), []);
+  useEffect(() => applySettings(readSettings()), []);
 
 
 

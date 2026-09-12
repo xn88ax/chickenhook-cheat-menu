@@ -841,3 +841,18 @@
   background: var(--ovl-accent);
   cursor: pointer;
 }
+
+/* ===== Ustawienia strony (localStorage) ===== */
+html[data-site-bg="off"] .site-bg-photo { display: none; }
+.site-bg-photo { opacity: var(--site-bg-opacity, 0.16); }
+
+html[data-site-anim="off"] .site-bg-photo,
+html[data-site-anim="off"] .route-transition,
+html[data-site-anim="off"] .site-bg {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+
+html[data-site-compact="on"] main { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+html[data-site-compact="on"] .gs-panel { --gs-gap: 0.5rem; }
