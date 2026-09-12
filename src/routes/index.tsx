@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { builds } from "@/data/changelog";
 import { features } from "@/data/features";
 import { GsPanel, GsShell } from "@/components/gs-shell";
+import { easterEggsEnabled } from "@/lib/site-settings";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [

@@ -173,7 +173,9 @@ export function GsShell({
             )}
             {user ? (
               <>
-                <span className="text-xs font-medium text-foreground">{displayName(user)}</span>
+                <Link to="/ustawienia" className="text-xs font-medium text-foreground hover:text-primary">
+                  {displayName(user)}
+                </Link>
                 <button
                   type="button"
                   onClick={signOut}
@@ -202,7 +204,10 @@ export function GsShell({
                   <Link to="/admin" onClick={() => setMobileOpen(false)} className="block rounded-md px-3 py-2.5 text-sm font-semibold text-primary">Panel admina</Link>
                 )}
                 {user ? (
-                  <button type="button" onClick={() => { setMobileOpen(false); void signOut(); }} className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-border text-xs font-semibold">Wyloguj ({displayName(user)})</button>
+                  <>
+                    <Link to="/ustawienia" onClick={() => setMobileOpen(false)} className="block rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground">Ustawienia</Link>
+                    <button type="button" onClick={() => { setMobileOpen(false); void signOut(); }} className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-border text-xs font-semibold">Wyloguj ({displayName(user)})</button>
+                  </>
                 ) : (
                   <Link to="/auth" search={{ next: pathname }} onClick={() => setMobileOpen(false)} className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-border text-xs font-semibold">Zaloguj</Link>
                 )}
