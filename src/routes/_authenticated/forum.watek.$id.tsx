@@ -1,4 +1,5 @@
 import { useState } from "react";
+// eslint-disable-next-line no-restricted-globals
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -182,6 +183,20 @@ function ThreadPage() {
                   <span className="ml-auto text-xs text-muted-foreground">
                     {timeAgo(p.created_at)}
                   </span>
+                  {(isAdmin || p.author_id === user?.id) && (
+                    <button
+                      type="button"
+                      disabled={modAction.isPending}
+                      onClick={() =>
+                        modAction.mutate({ kind: "post", id: p.id, own: p.author_id === user?.id })
+                      }
+                      className="text-muted-foreground hover:text-primary disabled:opacity-50"
+                      aria-label="Usuń post"
+                      title="Usuń post"
+                    >
+                      <Trash2 className="size-3.5" />
+                    </button>
+                  )}
                 </header>
                 <p className="whitespace-pre-wrap px-4 py-4 text-sm leading-relaxed">
                   {p.body}
