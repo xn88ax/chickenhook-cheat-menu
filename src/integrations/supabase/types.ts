@@ -195,6 +195,39 @@ export type Database = {
         }
         Relationships: []
       }
+      user_bans: {
+        Row: {
+          active: boolean
+          banned_by: string | null
+          banned_until: string | null
+          created_at: string
+          id: string
+          reason: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          banned_by?: string | null
+          banned_until?: string | null
+          created_at?: string
+          id?: string
+          reason?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          banned_by?: string | null
+          banned_until?: string | null
+          created_at?: string
+          id?: string
+          reason?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

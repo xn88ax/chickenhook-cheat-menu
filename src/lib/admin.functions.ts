@@ -32,7 +32,7 @@ export const getAdminData = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     await assertAdmin(context.supabase, context.userId);
 
-    const [codes, profiles, roles] = await Promise.all([
+    const [codes, profiles, roles, bans] = await Promise.all([
       context.supabase
         .from("invite_codes")
         .select("id,code,note,used_by,used_at,expires_at,created_at")
@@ -40,6 +40,10 @@ export const getAdminData = createServerFn({ method: "GET" })
         .limit(200),
       context.supabase.from("profiles").select("id,username,created_at").order("created_at"),
       context.supabase.from("user_roles").select("user_id,role"),
+      context.supabase
+        .from("user_bans")
+        .select("user_id,reason,banned_until,created_at,active")
+        .eq("active", true),
     ]);
 
     return {
@@ -47,6 +51,7 @@ export const getAdminData = createServerFn({ method: "GET" })
       members: (profiles.data ?? []).map((p) => ({
         ...p,
         roles: (roles.data ?? []).filter((r) => r.user_id === p.id).map((r) => r.role),
+        ban: (bans.data ?? []).find((b) => b.user_id === p.id) ?? null,
       })),
     };
   });
@@ -192,3 +197,73 @@ export const moderateContent = createServerFn({ method: "POST" })
     return { ok: true as const };
   });
 
+
+/** Ban a member: closes their account in auth and logs reason + date. */
+export const banUser = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z
+      .object({
+        userId: z.string().uuid(),
+        reason: z.string().trim().min(3).max(300),
+        until: z.string().trim().max(40).optional(),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    if (data.userId === context.userId) {
+      return { ok: false as const, error: "Nie możesz zbanować samego siebie." };
+    }
+
+    let hours = 876000; // ~100 lat = ban permanentny
+    let bannedUntil: string | null = null;
+    if (data.until) {
+      const ts = new Date(data.until).getTime();
+      if (Number.isNaN(ts)) return { ok: false as const, error: "Nieprawidłowa data bana." };
+      if (ts <= Date.now()) return { ok: false as const, error: "Data bana musi być w przyszłości." };
+      hours = Math.max(1, Math.ceil((ts - Date.now()) / 3600000));
+      bannedUntil = new Date(ts).toISOString();
+    }
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(data.userId, {
+      ban_duration: `${hours}h`,
+    });
+    if (authError) return { ok: false as const, error: "Nie udało się zamknąć konta." };
+
+    await supabaseAdmin.from("user_bans").update({ active: false }).eq("user_id", data.userId);
+    const { error } = await supabaseAdmin.from("user_bans").insert({
+      user_id: data.userId,
+      reason: data.reason,
+      banned_until: bannedUntil,
+      banned_by: context.userId,
+      active: true,
+    });
+    if (error) return { ok: false as const, error: "Nie udało się zapisać bana." };
+
+    return { ok: true as const };
+  });
+
+/** Lift a ban and reopen the account. */
+export const unbanUser = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) => z.object({ userId: z.string().uuid() }).parse(data))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(data.userId, {
+      ban_duration: "none",
+    });
+    if (authError) return { ok: false as const, error: "Nie udało się odblokować konta." };
+
+    await supabaseAdmin
+      .from("user_bans")
+      .update({ active: false })
+      .eq("user_id", data.userId)
+      .eq("active", true);
+
+    return { ok: true as const };
+  });
