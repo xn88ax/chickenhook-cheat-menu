@@ -856,3 +856,53 @@ html[data-site-anim="off"] .site-bg {
 
 html[data-site-compact="on"] main { padding-top: 0.75rem; padding-bottom: 0.75rem; }
 html[data-site-compact="on"] .gs-panel { --gs-gap: 0.5rem; }
+
+/* --- Profil: animowany banner --- */
+.profile-banner {
+  background-color: color-mix(in oklab, var(--profile-accent, #e11d2e) 12%, #0b0d10);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  isolation: isolate;
+}
+.profile-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 13, 16, 0.1) 0%, rgba(11, 13, 16, 0.85) 100%);
+}
+.profile-banner-fallback {
+  position: absolute;
+  inset: -30%;
+  background:
+    radial-gradient(
+      closest-side,
+      color-mix(in oklab, var(--profile-accent, #e11d2e) 55%, transparent),
+      transparent
+    ),
+    repeating-linear-gradient(
+      115deg,
+      color-mix(in oklab, var(--profile-accent, #e11d2e) 22%, transparent) 0 8px,
+      transparent 8px 22px
+    );
+  animation: profile-banner-drift 18s linear infinite;
+  opacity: 0.55;
+}
+@keyframes profile-banner-drift {
+  0% {
+    transform: translate3d(-6%, -2%, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(6%, 3%, 0) scale(1.12);
+  }
+  100% {
+    transform: translate3d(-6%, -2%, 0) scale(1.05);
+  }
+}
+:root[data-site-animations="off"] .profile-banner-fallback,
+@media (prefers-reduced-motion: reduce) {
+  .profile-banner-fallback {
+    animation: none;
+  }
+}
