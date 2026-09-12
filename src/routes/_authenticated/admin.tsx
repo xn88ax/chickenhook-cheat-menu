@@ -479,6 +479,46 @@ function Admin() {
                       </div>
                     </div>
 
+                    {renameTarget === m.id && (
+                      <form
+                        className="mt-3 grid gap-3 rounded-lg border border-border p-3 sm:grid-cols-[1fr_auto]"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          setRenameError(null);
+                          rename.mutate({ userId: m.id, username: renameValue.trim() });
+                        }}
+                      >
+                        <label className="text-xs">
+                          <span className="text-muted-foreground">Nowy nick (3–24 znaki)</span>
+                          <input
+                            value={renameValue}
+                            onChange={(e) => setRenameValue(e.target.value)}
+                            required
+                            minLength={3}
+                            maxLength={24}
+                            className={inputClass}
+                          />
+                        </label>
+                        <div className="flex items-end">
+                          <button
+                            type="submit"
+                            disabled={rename.isPending}
+                            className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-60"
+                          >
+                            {rename.isPending ? (
+                              <Loader2 className="size-3 animate-spin" />
+                            ) : (
+                              <Pencil className="size-3" />
+                            )}
+                            Zapisz nick
+                          </button>
+                        </div>
+                        {renameError && (
+                          <p className="sm:col-span-2 text-[11px] text-primary">{renameError}</p>
+                        )}
+                      </form>
+                    )}
+
                     {open && !banned && (
                       <form
                         className="mt-3 grid gap-3 rounded-lg border border-primary/40 p-3 sm:grid-cols-[1fr_auto_auto]"
