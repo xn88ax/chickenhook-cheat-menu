@@ -155,19 +155,37 @@ export type Database = {
       }
       profiles: {
         Row: {
+          accent: string
+          avatar_url: string | null
+          banner_url: string | null
+          bio: string
           created_at: string
           id: string
+          updated_at: string
           username: string
+          views: number
         }
         Insert: {
+          accent?: string
+          avatar_url?: string | null
+          banner_url?: string | null
+          bio?: string
           created_at?: string
           id: string
+          updated_at?: string
           username: string
+          views?: number
         }
         Update: {
+          accent?: string
+          avatar_url?: string | null
+          banner_url?: string | null
+          bio?: string
           created_at?: string
           id?: string
+          updated_at?: string
           username?: string
+          views?: number
         }
         Relationships: []
       }
@@ -254,6 +272,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      bump_profile_view: { Args: { _username: string }; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
