@@ -42,15 +42,14 @@ export function Shoutbox() {
   const [error, setError] = useState<string | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
-  // Nick gościa trzymany lokalnie w przeglądarce.
+  // Nick gościa jest przydzielany automatycznie i nie da się go zmienić bez konta.
   useEffect(() => {
     const saved = localStorage.getItem(NICK_KEY);
-    setGuestNick(saved ?? `gosc_${Math.floor(1000 + Math.random() * 8999)}`);
+    const valid = saved && /^gosc_\d{4}$/.test(saved) ? saved : null;
+    const nick = valid ?? `gosc_${Math.floor(1000 + Math.random() * 8999)}`;
+    localStorage.setItem(NICK_KEY, nick);
+    setGuestNick(nick);
   }, []);
-
-  useEffect(() => {
-    if (guestNick) localStorage.setItem(NICK_KEY, guestNick);
-  }, [guestNick]);
 
   // Historia z bazy + wiadomości na żywo.
   useEffect(() => {
