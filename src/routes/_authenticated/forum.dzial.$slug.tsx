@@ -24,6 +24,14 @@ export const Route = createFileRoute("/_authenticated/forum/dzial/$slug")({
 
 function CategoryPage() {
   const { slug } = Route.useParams();
+  const { isAdmin } = useIsAdmin();
+  const queryClient = useQueryClient();
+  const moderate = useServerFn(moderateContent);
+  const modAction = useMutation({
+    mutationFn: (input: { kind: "thread" | "post" | "shout"; id: string }) =>
+      moderate({ data: { kind: input.kind, id: input.id, action: "delete" } }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["forum", "category-threads"] }),
+  });
 
   const categoryQuery = useQuery({
     queryKey: ["forum", "category", slug],
