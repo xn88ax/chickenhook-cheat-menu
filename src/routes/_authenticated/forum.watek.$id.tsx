@@ -1,5 +1,4 @@
 import { useState } from "react";
-// eslint-disable-next-line no-restricted-globals
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -155,7 +154,7 @@ function ThreadPage() {
                     type="button"
                     disabled={modAction.isPending}
                     onClick={() => {
-                      if (confirm("Usunąć cały wątek?"))
+                      if (window.confirm("Usunąć cały wątek?"))
                         modAction.mutate({
                           kind: "thread",
                           id: thread.id,
