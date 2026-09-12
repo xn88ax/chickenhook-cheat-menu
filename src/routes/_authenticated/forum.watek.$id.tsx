@@ -99,7 +99,22 @@ function ThreadPage() {
     onError: (e) => setError(e instanceof Error ? e.message : "Nie udało się wysłać."),
   });
 
+  const navigate = useNavigate();
+  const moderate = useServerFn(moderateContent);
+  const modAction = useMutation({
+    mutationFn: (input: { kind: "thread" | "post"; id: string; action?: "delete" }) =>
+      moderate({ data: { kind: input.kind, id: input.id, action: input.action ?? "delete" } }),
+    onSuccess: (_r, v) => {
+      if (v.kind === "thread") {
+        navigate({ to: "/forum" });
+        return;
+      }
+      queryClient.invalidateQueries({ queryKey: ["forum", "posts", id] });
+    },
+  });
+
   const thread = threadQuery.data;
+  const canDeleteThread = isAdmin || (user && thread?.author_id === user.id);
 
   return (
     <GsShell crumbs={thread ? [{ label: "Forum" }, { label: thread.title }] : [{ label: "Forum" }]}>
