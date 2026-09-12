@@ -7,6 +7,7 @@ import {
   Copy,
   KeyRound,
   Loader2,
+  Pencil,
   Pin,
   PinOff,
   ShieldAlert,
@@ -22,6 +23,7 @@ import {
   getAdminData,
   getModerationData,
   moderateContent,
+  setUsername,
   setUserRole,
   unbanUser,
 } from "@/lib/admin.functions";
@@ -68,6 +70,7 @@ function Admin() {
   const moderate = useServerFn(moderateContent);
   const banFn = useServerFn(banUser);
   const unbanFn = useServerFn(unbanUser);
+  const renameFn = useServerFn(setUsername);
   const qc = useQueryClient();
 
   const [tab, setTab] = useState<Tab>("overview");
@@ -80,6 +83,9 @@ function Admin() {
   const [banReason, setBanReason] = useState("");
   const [banUntil, setBanUntil] = useState("");
   const [banError, setBanError] = useState<string | null>(null);
+  const [renameTarget, setRenameTarget] = useState<string | null>(null);
+  const [renameValue, setRenameValue] = useState("");
+  const [renameError, setRenameError] = useState<string | null>(null);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin-data"],
