@@ -420,6 +420,19 @@ function Admin() {
                       <div className="flex flex-wrap gap-2">
                         <button
                           type="button"
+                          onClick={() => {
+                            const on = renameTarget === m.id;
+                            setRenameTarget(on ? null : m.id);
+                            setRenameValue(on ? "" : m.username);
+                            setRenameError(null);
+                          }}
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary"
+                        >
+                          <Pencil className="size-3" />
+                          Zmień nick
+                        </button>
+                        <button
+                          type="button"
                           disabled={changeRole.isPending}
                           onClick={() =>
                             changeRole.mutate({ userId: m.id, role: "moderator", grant: !isMod })
