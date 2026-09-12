@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Eye, MessageSquare, ShieldCheck, Sparkles } from "lucide-react";
+import { Eye, MessageSquare, ShieldCheck, Sparkles, Star } from "lucide-react";
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { supabase } from "@/integrations/supabase/client";
@@ -33,10 +33,27 @@ function pl(iso: string) {
   const d = new Date(iso);
   return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
+function plTime(iso: string) {
+  const d = new Date(iso);
+  return `${pl(iso)} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
+const TABS = [
+  ["about", "O mnie"],
+  ["activity", "Ostatnia aktywność"],
+] as const;
+type Tab = (typeof TABS)[number][0];
+
+const ROLE_TITLES: Record<string, string> = {
+  owner: "Właściciel kurnika",
+  admin: "Administrator",
+  moderator: "Moderator",
+};
 
 function ProfilePage() {
   const { username } = Route.useParams();
   const { user } = useAuth();
+  const [tab, setTab] = useState<Tab>("about");
 
   const { data: profile, isLoading } = useQuery({
     queryKey: ["public-profile", username],
@@ -76,6 +93,44 @@ function ProfilePage() {
     },
   });
 
+  const { data: activity } = useQuery({
+    enabled: !!profile?.id,
+    queryKey: ["public-profile-activity", profile?.id],
+    queryFn: async () => {
+      const [threads, posts] = await Promise.all([
+        supabase
+          .from("forum_threads")
+          .select("id, title, created_at")
+          .eq("author_id", profile!.id)
+          .order("created_at", { ascending: false })
+          .limit(10),
+        supabase
+          .from("forum_posts")
+          .select("id, body, created_at, thread_id")
+          .eq("author_id", profile!.id)
+          .order("created_at", { ascending: false })
+          .limit(10),
+      ]);
+      const items = [
+        ...(threads.data ?? []).map((t) => ({
+          key: `t-${t.id}`,
+          kind: "Nowy wątek",
+          text: t.title,
+          at: t.created_at,
+          threadId: t.id,
+        })),
+        ...(posts.data ?? []).map((p) => ({
+          key: `p-${p.id}`,
+          kind: "Odpowiedź w wątku",
+          text: p.body.slice(0, 140),
+          at: p.created_at,
+          threadId: p.thread_id,
+        })),
+      ];
+      return items.sort((a, b) => b.at.localeCompare(a.at)).slice(0, 12);
+    },
+  });
+
   const { data: roles } = useQuery({
     enabled: !!profile?.id && !!user,
     queryKey: ["public-profile-roles", profile?.id],
@@ -99,9 +154,13 @@ function ProfilePage() {
   }, [profile?.username]);
 
   const isMine = !!user && user.id === profile?.id;
+  const roleList = roles ?? [];
+  const title =
+    ROLE_TITLES[roleList.find((r) => ROLE_TITLES[r]) ?? ""] ?? "Członek kurnika";
+  const points = (stats?.threads ?? 0) * 5 + (stats?.posts ?? 0) * 2 + (stats?.shouts ?? 0);
 
   return (
-    <GsShell crumbs={[{ label: "Profil" }]}>
+    <GsShell crumbs={[{ label: "Członkowie" }, { label: username }]}>
       <main className="mx-auto max-w-[1160px] px-5 py-6">
         {isLoading ? (
           <p className="text-xs text-muted-foreground">Szukam w kurniku…</p>
@@ -117,9 +176,10 @@ function ProfilePage() {
           </GsPanel>
         ) : (
           <>
+            {/* Nagłówek profilu w stylu forumowej karty członka */}
             <GsPanel className="overflow-hidden">
               <div
-                className="profile-banner relative h-40 w-full sm:h-52"
+                className="profile-banner relative h-40 w-full sm:h-56"
                 style={{
                   ...(banner ? { backgroundImage: `url(${banner})` } : {}),
                   ["--profile-accent" as string]: accent,
@@ -129,9 +189,9 @@ function ProfilePage() {
                 {!banner && <div className="profile-banner-fallback" />}
               </div>
 
-              <div className="flex flex-wrap items-end gap-4 px-4 pb-4">
+              <div className="flex flex-wrap items-end gap-4 border-b border-border/60 px-4 pb-4">
                 <div
-                  className="-mt-10 size-20 shrink-0 overflow-hidden rounded-xl border-2 bg-card"
+                  className="-mt-14 size-24 shrink-0 overflow-hidden rounded-lg border-2 bg-card sm:size-28"
                   style={{ borderColor: accent }}
                 >
                   {avatar ? (
@@ -141,7 +201,7 @@ function ProfilePage() {
                       className="size-full object-cover"
                     />
                   ) : (
-                    <div className="flex size-full items-center justify-center font-display text-2xl text-muted-foreground">
+                    <div className="flex size-full items-center justify-center font-display text-3xl text-muted-foreground">
                       {profile.username.slice(0, 2).toUpperCase()}
                     </div>
                   )}
@@ -150,46 +210,123 @@ function ProfilePage() {
                   <h1 className="font-display text-2xl tracking-wide" style={{ color: accent }}>
                     {profile.username}
                   </h1>
-                  <p className="mt-0.5 text-[11px] text-muted-foreground">
-                    W kurniku od {pl(profile.created_at)}
+                  <p className="mt-0.5 text-[11px] uppercase tracking-wide text-muted-foreground">
+                    {title}
                   </p>
+                  <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px]">
+                    {roleList.map((r) => (
+                      <span
+                        key={r}
+                        className="inline-flex items-center gap-1 rounded border border-border px-2 py-0.5 text-foreground"
+                      >
+                        <ShieldCheck className="size-3" style={{ color: accent }} />
+                        {r}
+                      </span>
+                    ))}
+                  </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2 text-[11px]">
-                  {(roles ?? []).map((r) => (
-                    <span
-                      key={r}
-                      className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-1 text-foreground"
-                    >
-                      <ShieldCheck className="size-3" style={{ color: accent }} />
-                      {r}
-                    </span>
-                  ))}
-                  {isMine && (
+                  {isMine ? (
                     <Link
                       to="/ustawienia"
-                      className="rounded-full border border-border px-3 py-1 font-semibold text-primary hover:brightness-110"
+                      className="rounded border border-border px-3 py-1.5 font-semibold text-primary hover:border-primary"
                     >
                       Edytuj profil
+                    </Link>
+                  ) : (
+                    <Link
+                      to="/forum"
+                      className="rounded border border-border px-3 py-1.5 font-semibold text-muted-foreground hover:border-primary hover:text-foreground"
+                    >
+                      Znajdź posty
                     </Link>
                   )}
                 </div>
               </div>
+
+              {/* Pasek liczników jak w profilu forum */}
+              <dl className="grid grid-cols-2 divide-x divide-y divide-border/60 text-xs sm:grid-cols-4 sm:divide-y-0">
+                {[
+                  ["Wiadomości", (stats?.posts ?? 0) + (stats?.threads ?? 0)],
+                  ["Punkty", points],
+                  ["Odwiedziny", profile.views],
+                  ["Dołączył", pl(profile.created_at)],
+                ].map(([label, value]) => (
+                  <div key={label as string} className="px-4 py-3">
+                    <dt className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                      {label as string}
+                    </dt>
+                    <dd className="mt-0.5 font-semibold tabular-nums text-foreground">
+                      {value as string | number}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </GsPanel>
 
-            <div className="mt-5 grid gap-5 lg:grid-cols-[1.4fr_1fr]">
-              <GsPanel title="O sobie">
-                <p className="whitespace-pre-wrap p-4 text-xs leading-relaxed text-muted-foreground">
-                  {profile.bio?.trim() || "Ten kurczak nic o sobie nie napisał."}
-                </p>
-              </GsPanel>
+            <div className="mt-5 grid gap-5 lg:grid-cols-[1.5fr_1fr]">
+              <div>
+                <nav className="flex gap-1 rounded-xl border border-border bg-secondary/50 p-1">
+                  {TABS.map(([id, label]) => (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => setTab(id)}
+                      aria-current={tab === id}
+                      className={`rounded-lg px-3 py-2 text-xs font-medium transition-colors ${
+                        tab === id
+                          ? "bg-primary text-primary-foreground"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </nav>
 
-              <GsPanel title="Statystyki">
+                {tab === "about" && (
+                  <GsPanel title="O mnie" className="mt-4">
+                    <p className="whitespace-pre-wrap p-4 text-xs leading-relaxed text-muted-foreground">
+                      {profile.bio?.trim() || "Ten kurczak nic o sobie nie napisał."}
+                    </p>
+                  </GsPanel>
+                )}
+
+                {tab === "activity" && (
+                  <GsPanel title="Ostatnia aktywność" className="mt-4">
+                    <div className="divide-y divide-border/60">
+                      {(activity ?? []).map((a) => (
+                        <div key={a.key} className="px-4 py-3 text-xs">
+                          <p className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                            {a.kind} · {plTime(a.at)}
+                          </p>
+                          <Link
+                            to="/forum/watek/$id"
+                            params={{ id: a.threadId }}
+                            className="mt-1 block text-foreground hover:text-primary"
+                          >
+                            {a.text}
+                          </Link>
+                        </div>
+                      ))}
+                      {(activity ?? []).length === 0 && (
+                        <p className="px-4 py-4 text-xs text-muted-foreground">
+                          Brak aktywności na forum.
+                        </p>
+                      )}
+                    </div>
+                  </GsPanel>
+                )}
+              </div>
+
+              <GsPanel title="Informacje" className="lg:mt-11">
                 <dl className="divide-y divide-border/60 text-xs">
                   {[
                     ["Odwiedziny profilu", profile.views, Eye],
                     ["Wątki na forum", stats?.threads ?? 0, MessageSquare],
                     ["Posty na forum", stats?.posts ?? 0, MessageSquare],
                     ["Wiadomości na czacie", stats?.shouts ?? 0, Sparkles],
+                    ["Punkty kurnika", points, Star],
                   ].map(([label, value, Icon]) => {
                     const I = Icon as typeof Eye;
                     return (
