@@ -53,7 +53,7 @@ const faq = [
   ],
   [
     "Jakie systemy operacyjne są obsługiwane?",
-    "Obsługiwane są wyłącznie oficjalne, stabilne wersje Windows 10 i Windows 11, które nadal otrzymują wsparcie od Microsoftu. Aktualną listę obsługiwanych wersji znajdziesz na oficjalnej stronie Microsoftu: Supported versions of Windows client. Buildy Windows Insider Preview oraz inne systemy operacyjne nie są obsługiwane.",
+    "Obsługiwane są wyłącznie oficjalne, stabilne wersje Windows 10 i Windows 11, które nadal otrzymują wsparcie od Microsoftu. Buildy Windows Insider Preview oraz inne systemy operacyjne nie są obsługiwane.",
   ],
   [
     "Jak długo trzeba czekać na dostęp po zakupie subskrypcji?",
