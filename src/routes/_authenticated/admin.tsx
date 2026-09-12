@@ -7,6 +7,7 @@ import {
   Copy,
   KeyRound,
   Loader2,
+  Pencil,
   Pin,
   PinOff,
   ShieldAlert,
@@ -22,6 +23,7 @@ import {
   getAdminData,
   getModerationData,
   moderateContent,
+  setUsername,
   setUserRole,
   unbanUser,
 } from "@/lib/admin.functions";
@@ -68,6 +70,7 @@ function Admin() {
   const moderate = useServerFn(moderateContent);
   const banFn = useServerFn(banUser);
   const unbanFn = useServerFn(unbanUser);
+  const renameFn = useServerFn(setUsername);
   const qc = useQueryClient();
 
   const [tab, setTab] = useState<Tab>("overview");
@@ -80,6 +83,9 @@ function Admin() {
   const [banReason, setBanReason] = useState("");
   const [banUntil, setBanUntil] = useState("");
   const [banError, setBanError] = useState<string | null>(null);
+  const [renameTarget, setRenameTarget] = useState<string | null>(null);
+  const [renameValue, setRenameValue] = useState("");
+  const [renameError, setRenameError] = useState<string | null>(null);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin-data"],
@@ -141,6 +147,21 @@ function Admin() {
   const unban = useMutation({
     mutationFn: (v: { userId: string }) => unbanFn({ data: v }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-data"] }),
+  });
+
+  const rename = useMutation({
+    mutationFn: (v: { userId: string; username: string }) => renameFn({ data: v }),
+    onSuccess: (res) => {
+      if (!res.ok) {
+        setRenameError(res.error);
+        return;
+      }
+      setRenameTarget(null);
+      setRenameValue("");
+      setRenameError(null);
+      qc.invalidateQueries({ queryKey: ["admin-data"] });
+    },
+    onError: () => setRenameError("Nie udało się zmienić nicku."),
   });
 
 
@@ -399,6 +420,19 @@ function Admin() {
                       <div className="flex flex-wrap gap-2">
                         <button
                           type="button"
+                          onClick={() => {
+                            const on = renameTarget === m.id;
+                            setRenameTarget(on ? null : m.id);
+                            setRenameValue(on ? "" : m.username);
+                            setRenameError(null);
+                          }}
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary"
+                        >
+                          <Pencil className="size-3" />
+                          Zmień nick
+                        </button>
+                        <button
+                          type="button"
                           disabled={changeRole.isPending}
                           onClick={() =>
                             changeRole.mutate({ userId: m.id, role: "moderator", grant: !isMod })
@@ -444,6 +478,46 @@ function Admin() {
                         )}
                       </div>
                     </div>
+
+                    {renameTarget === m.id && (
+                      <form
+                        className="mt-3 grid gap-3 rounded-lg border border-border p-3 sm:grid-cols-[1fr_auto]"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          setRenameError(null);
+                          rename.mutate({ userId: m.id, username: renameValue.trim() });
+                        }}
+                      >
+                        <label className="text-xs">
+                          <span className="text-muted-foreground">Nowy nick (3–24 znaki)</span>
+                          <input
+                            value={renameValue}
+                            onChange={(e) => setRenameValue(e.target.value)}
+                            required
+                            minLength={3}
+                            maxLength={24}
+                            className={inputClass}
+                          />
+                        </label>
+                        <div className="flex items-end">
+                          <button
+                            type="submit"
+                            disabled={rename.isPending}
+                            className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-60"
+                          >
+                            {rename.isPending ? (
+                              <Loader2 className="size-3 animate-spin" />
+                            ) : (
+                              <Pencil className="size-3" />
+                            )}
+                            Zapisz nick
+                          </button>
+                        </div>
+                        {renameError && (
+                          <p className="sm:col-span-2 text-[11px] text-primary">{renameError}</p>
+                        )}
+                      </form>
+                    )}
 
                     {open && !banned && (
                       <form

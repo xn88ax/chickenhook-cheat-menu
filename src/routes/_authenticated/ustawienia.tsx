@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Check, ExternalLink, ImagePlus, Loader2, RotateCcw } from "lucide-react";
+import { Check, ExternalLink, ImagePlus, Loader2, Lock, RotateCcw } from "lucide-react";
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useIsAdmin } from "@/hooks/use-is-admin";
 import { useSiteSettings } from "@/lib/site-settings";
 import { isRememberSession, setRememberSession } from "@/lib/session-persistence";
 import { ACCENTS, accentColor, uploadProfileMedia, useProfileMedia } from "@/lib/profile-media";
@@ -80,6 +81,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void 
 
 function Settings() {
   const { user } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const qc = useQueryClient();
   const { settings, update, reset } = useSiteSettings();
   const [tab, setTab] = useState<Tab>("profile");
@@ -90,6 +92,7 @@ function Settings() {
     msg: null,
     err: false,
   });
+  const [currentPassword, setCurrentPassword] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [passState, setPassState] = useState<{ busy: boolean; msg: string | null; err: boolean }>({
@@ -202,6 +205,10 @@ function Settings() {
 
   async function savePassword(e: React.FormEvent) {
     e.preventDefault();
+    if (!currentPassword) {
+      setPassState({ busy: false, msg: "Podaj obecne hasło.", err: true });
+      return;
+    }
     if (password.length < 8) {
       setPassState({ busy: false, msg: "Hasło musi mieć min. 8 znaków.", err: true });
       return;
@@ -210,8 +217,23 @@ function Settings() {
       setPassState({ busy: false, msg: "Hasła nie są takie same.", err: true });
       return;
     }
+    if (password === currentPassword) {
+      setPassState({ busy: false, msg: "Nowe hasło musi być inne niż obecne.", err: true });
+      return;
+    }
     setPassState({ busy: true, msg: null, err: false });
+
+    const { error: authError } = await supabase.auth.signInWithPassword({
+      email: user!.email!,
+      password: currentPassword,
+    });
+    if (authError) {
+      setPassState({ busy: false, msg: "Obecne hasło jest nieprawidłowe.", err: true });
+      return;
+    }
+
     const { error } = await supabase.auth.updateUser({ password });
+    setCurrentPassword("");
     setPassword("");
     setPassword2("");
     setPassState({
@@ -377,22 +399,32 @@ function Settings() {
                     minLength={3}
                     maxLength={24}
                     required
-                    className={inputClass}
+                    disabled={!isAdmin}
+                    className={`${inputClass} disabled:cursor-not-allowed disabled:opacity-60`}
                   />
                 </label>
-                <button type="submit" disabled={nameState.busy} className={btnClass}>
-                  {nameState.busy ? (
-                    <Loader2 className="size-3 animate-spin" />
-                  ) : (
-                    <Check className="size-3" />
-                  )}
-                  Zapisz nick
-                </button>
-                {nameState.msg && (
-                  <p
-                    className={`text-[11px] ${nameState.err ? "text-primary" : "text-[var(--status-ok)]"}`}
-                  >
-                    {nameState.msg}
+                {isAdmin ? (
+                  <>
+                    <button type="submit" disabled={nameState.busy} className={btnClass}>
+                      {nameState.busy ? (
+                        <Loader2 className="size-3 animate-spin" />
+                      ) : (
+                        <Check className="size-3" />
+                      )}
+                      Zapisz nick
+                    </button>
+                    {nameState.msg && (
+                      <p
+                        className={`text-[11px] ${nameState.err ? "text-primary" : "text-[var(--status-ok)]"}`}
+                      >
+                        {nameState.msg}
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <p className="flex items-start gap-1.5 text-[11px] text-muted-foreground">
+                    <Lock className="mt-0.5 size-3 shrink-0 text-primary" />
+                    Nick zmienia tylko administracja kurnika — napisz na forum, jeśli chcesz zmianę.
                   </p>
                 )}
               </form>
@@ -400,6 +432,17 @@ function Settings() {
 
             <GsPanel title="Hasło">
               <form className="space-y-3 p-4" onSubmit={savePassword}>
+                <label className="block text-xs">
+                  <span className="text-muted-foreground">Obecne hasło</span>
+                  <input
+                    type="password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    autoComplete="current-password"
+                    required
+                    className={inputClass}
+                  />
+                </label>
                 <label className="block text-xs">
                   <span className="text-muted-foreground">Nowe hasło</span>
                   <input

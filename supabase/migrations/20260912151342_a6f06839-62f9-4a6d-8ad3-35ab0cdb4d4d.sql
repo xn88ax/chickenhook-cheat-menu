@@ -1,0 +1,1 @@
+REVOKE ALL ON FUNCTION public.enforce_username_change_policy() FROM anon, authenticated, PUBLIC;

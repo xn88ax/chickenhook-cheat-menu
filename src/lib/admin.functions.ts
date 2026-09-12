@@ -267,3 +267,39 @@ export const unbanUser = createServerFn({ method: "POST" })
 
     return { ok: true as const };
   });
+
+/** Admin-only: rename a member (nicks are locked for regular users). */
+export const setUsername = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: unknown) =>
+    z
+      .object({
+        userId: z.string().uuid(),
+        username: z.string().trim().min(3).max(24),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { data: taken } = await supabaseAdmin
+      .from("profiles")
+      .select("id")
+      .ilike("username", data.username)
+      .neq("id", data.userId)
+      .maybeSingle();
+    if (taken) return { ok: false as const, error: "Ten nick jest już zajęty." };
+
+    const { error } = await supabaseAdmin
+      .from("profiles")
+      .update({ username: data.username })
+      .eq("id", data.userId);
+    if (error) return { ok: false as const, error: "Nie udało się zmienić nicku." };
+
+    await supabaseAdmin.auth.admin.updateUserById(data.userId, {
+      user_metadata: { username: data.username },
+    });
+
+    return { ok: true as const };
+  });
