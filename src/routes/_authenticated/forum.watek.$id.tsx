@@ -149,6 +149,25 @@ function ThreadPage() {
                 <span className="ml-auto text-xs text-muted-foreground">
                   {timeAgo(thread.created_at)}
                 </span>
+                {canDeleteThread && (
+                  <button
+                    type="button"
+                    disabled={modAction.isPending}
+                    onClick={() => {
+                      if (confirm("Usunąć cały wątek?"))
+                        modAction.mutate({
+                          kind: "thread",
+                          id: thread.id,
+                          own: thread.author_id === user?.id,
+                        });
+                    }}
+                    className="text-muted-foreground hover:text-primary disabled:opacity-50"
+                    aria-label="Usuń wątek"
+                    title="Usuń wątek"
+                  >
+                    <Trash2 className="size-3.5" />
+                  </button>
+                )}
               </header>
               <p className="whitespace-pre-wrap px-4 py-4 text-sm leading-relaxed">
                 {thread.body}
