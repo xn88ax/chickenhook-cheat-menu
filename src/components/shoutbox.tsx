@@ -93,7 +93,13 @@ export function Shoutbox() {
   async function send(e: React.FormEvent) {
     e.preventDefault();
     const text = draft.trim();
-    const nick = (user ? displayName(user) : guestNick.trim() || "gosc").slice(0, 32);
+    const nick = (
+      user
+        ? displayName(user)
+        : /^gosc_\d{4}$/.test(guestNick)
+          ? guestNick
+          : `gosc_${Math.floor(1000 + Math.random() * 8999)}`
+    ).slice(0, 32);
     if (!text || sending) return;
     setSending(true);
     setError(null);
