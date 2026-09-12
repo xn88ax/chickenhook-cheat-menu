@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { Avatar, timeAgo } from "@/components/forum/forum-shell";
+import { moderateContent } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/_authenticated/forum/watek/$id")({
   head: () => ({
@@ -96,7 +99,31 @@ function ThreadPage() {
     onError: (e) => setError(e instanceof Error ? e.message : "Nie udało się wysłać."),
   });
 
+  const navigate = useNavigate();
+  const moderate = useServerFn(moderateContent);
+  const modAction = useMutation({
+    mutationFn: async (input: { kind: "thread" | "post"; id: string; own?: boolean }) => {
+      // Własne treści usuwamy zwykłym klientem (RLS), cudze — przez funkcję admina.
+      if (input.own && !isAdmin) {
+        const table = input.kind === "thread" ? "forum_threads" : "forum_posts";
+        const { error } = await supabase.from(table).delete().eq("id", input.id);
+        if (error) throw new Error("Nie udało się usunąć.");
+        return;
+      }
+      const res = await moderate({ data: { kind: input.kind, id: input.id, action: "delete" } });
+      if (!res.ok) throw new Error(res.error ?? "Nie udało się usunąć.");
+    },
+    onSuccess: (_r, v) => {
+      if (v.kind === "thread") {
+        navigate({ to: "/forum" });
+        return;
+      }
+      queryClient.invalidateQueries({ queryKey: ["forum", "posts", id] });
+    },
+  });
+
   const thread = threadQuery.data;
+  const canDeleteThread = isAdmin || (user && thread?.author_id === user.id);
 
   return (
     <GsShell crumbs={thread ? [{ label: "Forum" }, { label: thread.title }] : [{ label: "Forum" }]}>
@@ -122,6 +149,25 @@ function ThreadPage() {
                 <span className="ml-auto text-xs text-muted-foreground">
                   {timeAgo(thread.created_at)}
                 </span>
+                {canDeleteThread && (
+                  <button
+                    type="button"
+                    disabled={modAction.isPending}
+                    onClick={() => {
+                      if (window.confirm("Usunąć cały wątek?"))
+                        modAction.mutate({
+                          kind: "thread",
+                          id: thread.id,
+                          own: thread.author_id === user?.id,
+                        });
+                    }}
+                    className="text-muted-foreground hover:text-primary disabled:opacity-50"
+                    aria-label="Usuń wątek"
+                    title="Usuń wątek"
+                  >
+                    <Trash2 className="size-3.5" />
+                  </button>
+                )}
               </header>
               <p className="whitespace-pre-wrap px-4 py-4 text-sm leading-relaxed">
                 {thread.body}
@@ -136,6 +182,20 @@ function ThreadPage() {
                   <span className="ml-auto text-xs text-muted-foreground">
                     {timeAgo(p.created_at)}
                   </span>
+                  {(isAdmin || p.author_id === user?.id) && (
+                    <button
+                      type="button"
+                      disabled={modAction.isPending}
+                      onClick={() =>
+                        modAction.mutate({ kind: "post", id: p.id, own: p.author_id === user?.id })
+                      }
+                      className="text-muted-foreground hover:text-primary disabled:opacity-50"
+                      aria-label="Usuń post"
+                      title="Usuń post"
+                    >
+                      <Trash2 className="size-3.5" />
+                    </button>
+                  )}
                 </header>
                 <p className="whitespace-pre-wrap px-4 py-4 text-sm leading-relaxed">
                   {p.body}
