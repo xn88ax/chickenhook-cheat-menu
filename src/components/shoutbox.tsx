@@ -141,7 +141,17 @@ export function Shoutbox() {
                 <span className="text-xs text-[var(--text-subtle)] tabular-nums">
                   {formatTime(s.created_at)}
                 </span>
-                <span className="font-semibold text-primary">{s.nick}</span>
+                {s.user_id ? (
+                  <Link
+                    to="/profil/$username"
+                    params={{ username: s.nick }}
+                    className="font-semibold text-primary hover:underline"
+                  >
+                    {s.nick}
+                  </Link>
+                ) : (
+                  <span className="font-semibold text-muted-foreground">{s.nick}</span>
+                )}
                 <span className="min-w-0 break-words text-muted-foreground">{s.text}</span>
                 {mine ? (
                   <button
