@@ -149,6 +149,21 @@ function Admin() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-data"] }),
   });
 
+  const rename = useMutation({
+    mutationFn: (v: { userId: string; username: string }) => renameFn({ data: v }),
+    onSuccess: (res) => {
+      if (!res.ok) {
+        setRenameError(res.error);
+        return;
+      }
+      setRenameTarget(null);
+      setRenameValue("");
+      setRenameError(null);
+      qc.invalidateQueries({ queryKey: ["admin-data"] });
+    },
+    onError: () => setRenameError("Nie udało się zmienić nicku."),
+  });
+
 
   function copy(code: string) {
     void navigator.clipboard.writeText(code);
