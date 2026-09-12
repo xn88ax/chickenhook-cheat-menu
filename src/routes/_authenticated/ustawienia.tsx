@@ -81,6 +81,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void 
 
 function Settings() {
   const { user } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const qc = useQueryClient();
   const { settings, update, reset } = useSiteSettings();
   const [tab, setTab] = useState<Tab>("profile");
@@ -91,6 +92,7 @@ function Settings() {
     msg: null,
     err: false,
   });
+  const [currentPassword, setCurrentPassword] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [passState, setPassState] = useState<{ busy: boolean; msg: string | null; err: boolean }>({
@@ -203,6 +205,10 @@ function Settings() {
 
   async function savePassword(e: React.FormEvent) {
     e.preventDefault();
+    if (!currentPassword) {
+      setPassState({ busy: false, msg: "Podaj obecne hasło.", err: true });
+      return;
+    }
     if (password.length < 8) {
       setPassState({ busy: false, msg: "Hasło musi mieć min. 8 znaków.", err: true });
       return;
@@ -211,8 +217,23 @@ function Settings() {
       setPassState({ busy: false, msg: "Hasła nie są takie same.", err: true });
       return;
     }
+    if (password === currentPassword) {
+      setPassState({ busy: false, msg: "Nowe hasło musi być inne niż obecne.", err: true });
+      return;
+    }
     setPassState({ busy: true, msg: null, err: false });
+
+    const { error: authError } = await supabase.auth.signInWithPassword({
+      email: user!.email!,
+      password: currentPassword,
+    });
+    if (authError) {
+      setPassState({ busy: false, msg: "Obecne hasło jest nieprawidłowe.", err: true });
+      return;
+    }
+
     const { error } = await supabase.auth.updateUser({ password });
+    setCurrentPassword("");
     setPassword("");
     setPassword2("");
     setPassState({
