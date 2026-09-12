@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Check, ExternalLink, ImagePlus, Loader2, RotateCcw } from "lucide-react";
+import { Check, ExternalLink, ImagePlus, Loader2, Lock, RotateCcw } from "lucide-react";
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { supabase } from "@/integrations/supabase/client";
@@ -399,22 +399,32 @@ function Settings() {
                     minLength={3}
                     maxLength={24}
                     required
-                    className={inputClass}
+                    disabled={!isAdmin}
+                    className={`${inputClass} disabled:cursor-not-allowed disabled:opacity-60`}
                   />
                 </label>
-                <button type="submit" disabled={nameState.busy} className={btnClass}>
-                  {nameState.busy ? (
-                    <Loader2 className="size-3 animate-spin" />
-                  ) : (
-                    <Check className="size-3" />
-                  )}
-                  Zapisz nick
-                </button>
-                {nameState.msg && (
-                  <p
-                    className={`text-[11px] ${nameState.err ? "text-primary" : "text-[var(--status-ok)]"}`}
-                  >
-                    {nameState.msg}
+                {isAdmin ? (
+                  <>
+                    <button type="submit" disabled={nameState.busy} className={btnClass}>
+                      {nameState.busy ? (
+                        <Loader2 className="size-3 animate-spin" />
+                      ) : (
+                        <Check className="size-3" />
+                      )}
+                      Zapisz nick
+                    </button>
+                    {nameState.msg && (
+                      <p
+                        className={`text-[11px] ${nameState.err ? "text-primary" : "text-[var(--status-ok)]"}`}
+                      >
+                        {nameState.msg}
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <p className="flex items-start gap-1.5 text-[11px] text-muted-foreground">
+                    <Lock className="mt-0.5 size-3 shrink-0 text-primary" />
+                    Nick zmienia tylko administracja kurnika — napisz na forum, jeśli chcesz zmianę.
                   </p>
                 )}
               </form>
@@ -422,6 +432,17 @@ function Settings() {
 
             <GsPanel title="Hasło">
               <form className="space-y-3 p-4" onSubmit={savePassword}>
+                <label className="block text-xs">
+                  <span className="text-muted-foreground">Obecne hasło</span>
+                  <input
+                    type="password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    autoComplete="current-password"
+                    required
+                    className={inputClass}
+                  />
+                </label>
                 <label className="block text-xs">
                   <span className="text-muted-foreground">Nowe hasło</span>
                   <input
