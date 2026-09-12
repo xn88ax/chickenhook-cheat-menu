@@ -6,6 +6,7 @@ import { Check, ExternalLink, ImagePlus, Loader2, RotateCcw } from "lucide-react
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useIsAdmin } from "@/hooks/use-is-admin";
 import { useSiteSettings } from "@/lib/site-settings";
 import { isRememberSession, setRememberSession } from "@/lib/session-persistence";
 import { ACCENTS, accentColor, uploadProfileMedia, useProfileMedia } from "@/lib/profile-media";
