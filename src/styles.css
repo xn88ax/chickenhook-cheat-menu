@@ -900,7 +900,9 @@ html[data-site-compact="on"] .gs-panel { --gs-gap: 0.5rem; }
     transform: translate3d(-6%, -2%, 0) scale(1.05);
   }
 }
-:root[data-site-animations="off"] .profile-banner-fallback,
+:root[data-site-animations="off"] .profile-banner-fallback {
+  animation: none;
+}
 @media (prefers-reduced-motion: reduce) {
   .profile-banner-fallback {
     animation: none;
