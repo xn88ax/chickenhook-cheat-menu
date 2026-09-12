@@ -102,8 +102,17 @@ function ThreadPage() {
   const navigate = useNavigate();
   const moderate = useServerFn(moderateContent);
   const modAction = useMutation({
-    mutationFn: (input: { kind: "thread" | "post"; id: string; action?: "delete" }) =>
-      moderate({ data: { kind: input.kind, id: input.id, action: input.action ?? "delete" } }),
+    mutationFn: async (input: { kind: "thread" | "post"; id: string; own?: boolean }) => {
+      // Własne treści usuwamy zwykłym klientem (RLS), cudze — przez funkcję admina.
+      if (input.own && !isAdmin) {
+        const table = input.kind === "thread" ? "forum_threads" : "forum_posts";
+        const { error } = await supabase.from(table).delete().eq("id", input.id);
+        if (error) throw new Error("Nie udało się usunąć.");
+        return;
+      }
+      const res = await moderate({ data: { kind: input.kind, id: input.id, action: "delete" } });
+      if (!res.ok) throw new Error(res.error ?? "Nie udało się usunąć.");
+    },
     onSuccess: (_r, v) => {
       if (v.kind === "thread") {
         navigate({ to: "/forum" });
