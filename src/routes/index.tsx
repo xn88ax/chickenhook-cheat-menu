@@ -195,7 +195,7 @@ function Index() {
           <GsPanel title="Funkcje">
             <div id="funkcje" className="grid gap-px bg-border min-[680px]:grid-cols-3">
               {features.slice(0, 3).map((feature) => (
-                <article key={feature.slug} className="flex min-h-48 flex-col bg-card p-4">
+                <article key={feature.slug} className="relative flex min-h-48 flex-col bg-card p-4 transition-colors hover:ring-1 hover:ring-inset hover:ring-primary/50">
                   <div className="flex items-center justify-between gap-2">
                     <feature.icon className="size-5 text-muted-foreground" />
                     <span className={`rounded border px-2 py-0.5 text-[10px] uppercase ${feature.restricted ? "border-primary/40 text-primary" : "border-border text-muted-foreground"}`}>{feature.restricted ? "Elite" : "Standard"}</span>
