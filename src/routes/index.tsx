@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Check, ChevronRight, X } from "lucide-react";
+import { ChevronRight, X } from "lucide-react";
 
 import adamAsset1 from "@/assets/adam-kurczak.jpg.asset.json";
 import adamAsset2 from "@/assets/adam-kurczak-2.jpg.asset.json";
@@ -37,11 +37,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const plans = [
-  { name: "Solo", price: "39", period: "7 dni", tag: "Na start", items: ["Aimbot z smoothem", "Box ESP + HP", "Radar hack"] },
-  { name: "Premium", price: "89", period: "30 dni", tag: "Najczęściej brany", featured: true, items: ["Wszystko z Solo", "Skeleton ESP + glow", "Triggerbot i backtrack"] },
-  { name: "Elite", price: "249", period: "lifetime", tag: "Pełny dostęp", items: ["Wszystko z Premium", "HvH ready config", "Moduły po podaniu"] },
-];
 
 const faq = [
   [
@@ -225,18 +220,6 @@ function Index() {
           </GsPanel>
         </div>
 
-        <GsPanel title="Cennik">
-          <div id="menu" className="grid gap-px bg-border min-[760px]:grid-cols-3">
-            {plans.map((plan) => (
-              <article key={plan.name} className="flex flex-col bg-card p-4">
-                <div className="flex items-center justify-between gap-2"><h3 className="font-semibold">{plan.name}</h3><span className="text-[10px] uppercase text-[var(--text-subtle)]">{plan.tag}</span></div>
-                <p className="mt-3"><strong className="text-2xl">{plan.price} zł</strong> <span className="text-xs text-muted-foreground">/ {plan.period}</span></p>
-                <ul className="my-4 flex-1 space-y-2 text-xs text-muted-foreground">{plan.items.map((item) => <li key={item} className="flex gap-2"><Check className="size-3.5 text-[var(--status-ok)]" />{item}</li>)}</ul>
-                <Button asChild variant={plan.featured ? "default" : "outline"} className="rounded-lg"><a href="#faq">Wybieram {plan.name}</a></Button>
-              </article>
-            ))}
-          </div>
-        </GsPanel>
 
         <GsPanel title="Status bezpieczeństwa">
           <div id="status" className="grid gap-px bg-border sm:grid-cols-2 min-[900px]:grid-cols-4">

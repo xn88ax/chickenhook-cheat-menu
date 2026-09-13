@@ -1,7 +1,8 @@
 import { useState } from "react";
+
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Lock, MessageSquare, Pin, Plus } from "lucide-react";
+import { Check, Lock, MessageSquare, Pin, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
@@ -109,6 +110,12 @@ function Forum() {
       return data as { id: string; username: string }[];
     },
   });
+
+  const plans = [
+    { name: "Solo", price: "39", period: "7 dni", tag: "Na start", items: ["Aimbot z smoothem", "Box ESP + HP", "Radar hack"] },
+    { name: "Premium", price: "89", period: "30 dni", tag: "Najczęściej brany", featured: true, items: ["Wszystko z Solo", "Skeleton ESP + glow", "Triggerbot i backtrack"] },
+    { name: "Elite", price: "249", period: "lifetime", tag: "Pełny dostęp", items: ["Wszystko z Premium", "HvH ready config", "Moduły po podaniu"] },
+  ];
 
   const nameOf = (id: string) =>
     profilesQuery.data?.find((p) => p.id === id)?.username ?? "użytkownik";
@@ -299,6 +306,37 @@ function Forum() {
                     </div>
                   </Link>
                 ))}
+              </div>
+            </GsPanel>
+
+            <GsPanel title="Cennik">
+              <div className="space-y-3 px-4 py-4">
+                {plans.map((plan) => (
+                  <article
+                    key={plan.name}
+                    className={`rounded-lg border p-3 ${plan.featured ? "border-primary/60 bg-primary/5" : "border-border bg-card"}`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="text-sm font-semibold">{plan.name}</h3>
+                      <span className="text-[10px] uppercase text-[var(--text-subtle)]">{plan.tag}</span>
+                    </div>
+                    <p className="mt-1">
+                      <strong className="text-lg">{plan.price} zł</strong>{" "}
+                      <span className="text-[11px] text-muted-foreground">/ {plan.period}</span>
+                    </p>
+                    <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
+                      {plan.items.map((item) => (
+                        <li key={item} className="flex gap-1.5">
+                          <Check className="mt-0.5 size-3 shrink-0 text-[var(--status-ok)]" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+                <p className="text-[11px] leading-relaxed text-muted-foreground">
+                  Zakup przez kod zaproszenia — szczegóły w dziale ogłoszeń.
+                </p>
               </div>
             </GsPanel>
 

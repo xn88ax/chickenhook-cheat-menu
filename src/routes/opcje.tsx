@@ -216,11 +216,10 @@ function Opcje() {
 
         <div className="mt-12 flex flex-wrap gap-3">
           <Link
-            to="/"
-            hash="menu"
+            to="/forum"
             className="bucket-gradient px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-bucket)] transition-transform hover:-translate-y-0.5"
           >
-            Zobacz cennik
+            Zobacz cennik na forum
           </Link>
           <Link
             to="/"
