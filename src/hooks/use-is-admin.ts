@@ -26,3 +26,27 @@ export function useIsAdmin() {
 
   return { isAdmin: !!data, user };
 }
+
+/** True when the signed-in user has the owner role. */
+export function useIsOwner() {
+  const { user } = useAuth();
+
+  const { data } = useQuery({
+    enabled: !!user,
+    queryKey: ["is-owner", user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user!.id)
+        .eq("role", "owner")
+        .limit(1)
+        .maybeSingle();
+      if (error) return false;
+      return !!data;
+    },
+    staleTime: 60_000,
+  });
+
+  return { isOwner: !!data, user };
+}

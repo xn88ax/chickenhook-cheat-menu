@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
+import { useIsOwner } from "@/hooks/use-is-admin";
 import {
   banUser,
   deleteInviteCode,
@@ -72,6 +73,7 @@ function Admin() {
   const unbanFn = useServerFn(unbanUser);
   const renameFn = useServerFn(setUsername);
   const qc = useQueryClient();
+  const { isOwner } = useIsOwner();
 
   const [tab, setTab] = useState<Tab>("overview");
   const [count, setCount] = useState(3);
@@ -431,26 +433,34 @@ function Admin() {
                           <Pencil className="size-3" />
                           Zmień nick
                         </button>
-                        <button
-                          type="button"
-                          disabled={changeRole.isPending}
-                          onClick={() =>
-                            changeRole.mutate({ userId: m.id, role: "moderator", grant: !isMod })
-                          }
-                          className="rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary disabled:opacity-60"
-                        >
-                          {isMod ? "Odbierz moda" : "Nadaj moda"}
-                        </button>
-                        <button
-                          type="button"
-                          disabled={changeRole.isPending}
-                          onClick={() =>
-                            changeRole.mutate({ userId: m.id, role: "admin", grant: !isAdmin })
-                          }
-                          className="rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary disabled:opacity-60"
-                        >
-                          {isAdmin ? "Odbierz admina" : "Nadaj admina"}
-                        </button>
+                        {isOwner && (
+                          <>
+                            <button
+                              type="button"
+                              disabled={changeRole.isPending}
+                              onClick={() =>
+                                changeRole.mutate({
+                                  userId: m.id,
+                                  role: "moderator",
+                                  grant: !isMod,
+                                })
+                              }
+                              className="rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary disabled:opacity-60"
+                            >
+                              {isMod ? "Odbierz moda" : "Nadaj moda"}
+                            </button>
+                            <button
+                              type="button"
+                              disabled={changeRole.isPending}
+                              onClick={() =>
+                                changeRole.mutate({ userId: m.id, role: "admin", grant: !isAdmin })
+                              }
+                              className="rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary disabled:opacity-60"
+                            >
+                              {isAdmin ? "Odbierz admina" : "Nadaj admina"}
+                            </button>
+                          </>
+                        )}
                         {banned ? (
                           <button
                             type="button"
