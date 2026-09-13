@@ -106,6 +106,7 @@ function Settings() {
 
   const [bio, setBio] = useState("");
   const [accent, setAccent] = useState("red");
+  const [profileLinks, setProfileLinks] = useState(["", "", ""]);
   const [profileState, setProfileState] = useState<{
     busy: boolean;
     msg: string | null;
@@ -118,7 +119,7 @@ function Settings() {
     queryFn: async () => {
       const { data } = await supabase
         .from("profiles")
-        .select("username, bio, avatar_url, banner_url, accent, views")
+        .select("username, bio, avatar_url, banner_url, accent, views, link_1, link_2, link_3")
         .eq("id", user!.id)
         .maybeSingle();
       return data ?? null;
@@ -133,15 +134,35 @@ function Settings() {
     if (profile) {
       setBio(profile.bio ?? "");
       setAccent(profile.accent ?? "red");
+      setProfileLinks([profile.link_1 ?? "", profile.link_2 ?? "", profile.link_3 ?? ""]);
     }
   }, [profile]);
 
   async function saveProfile(e: React.FormEvent) {
     e.preventDefault();
+    const normalizedLinks = profileLinks.map((link) => link.trim());
+    const invalidLink = normalizedLinks.find((link) => {
+      if (!link) return false;
+      try {
+        return !["http:", "https:"].includes(new URL(link).protocol);
+      } catch {
+        return true;
+      }
+    });
+    if (invalidLink) {
+      setProfileState({ busy: false, msg: "Linki muszą zaczynać się od http:// lub https://.", err: true });
+      return;
+    }
     setProfileState({ busy: true, msg: null, err: false });
     const { error } = await supabase
       .from("profiles")
-      .update({ bio: bio.slice(0, 500), accent })
+      .update({
+        bio: bio.slice(0, 500),
+        accent,
+        link_1: normalizedLinks[0] || null,
+        link_2: normalizedLinks[1] || null,
+        link_3: normalizedLinks[2] || null,
+      })
       .eq("id", user!.id);
     await qc.invalidateQueries({ queryKey: ["profile", user?.id] });
     setProfileState({
@@ -349,6 +370,27 @@ function Settings() {
                     className={`${inputClass} resize-y`}
                   />
                 </label>
+
+                <div className="space-y-2 text-xs">
+                  <span className="text-muted-foreground">Linki na profilu (maks. 3)</span>
+                  {profileLinks.map((link, index) => (
+                    <input
+                      key={index}
+                      type="url"
+                      value={link}
+                      onChange={(event) =>
+                        setProfileLinks((current) =>
+                          current.map((value, itemIndex) =>
+                            itemIndex === index ? event.target.value : value,
+                          ),
+                        )
+                      }
+                      maxLength={300}
+                      placeholder={`https://twoj-link-${index + 1}.pl`}
+                      className={inputClass}
+                    />
+                  ))}
+                </div>
 
                 <div className="text-xs">
                   <span className="text-muted-foreground">Kolor profilu</span>
