@@ -224,7 +224,7 @@ function Index() {
         <GsPanel title="Status bezpieczeństwa">
           <div id="status" className="grid gap-px bg-border sm:grid-cols-2 min-[900px]:grid-cols-4">
             {["CS2 Premier", "CS2 Faceit", "HvH build", "Legacy CS:GO"].map((name, i) => (
-              <div key={name} className="bg-card p-4"><p className="text-xs font-semibold">{name}</p><p className={`mt-2 flex items-center gap-2 text-xs ${i < 3 ? "text-[var(--status-ok)]" : "text-muted-foreground"}`}><span className={`size-2 rounded-full ${i < 3 ? "bg-[var(--status-ok)]" : "bg-muted-foreground"}`} />{i < 3 ? "Undetected" : "W remoncie"}</p></div>
+              <div key={name} className="bg-card p-4 transition-colors hover:ring-1 hover:ring-inset hover:ring-primary/50"><p className="text-xs font-semibold">{name}</p><p className={`mt-2 flex items-center gap-2 text-xs ${i < 3 ? "text-[var(--status-ok)]" : "text-muted-foreground"}`}><span className={`size-2 rounded-full ${i < 3 ? "bg-[var(--status-ok)]" : "bg-muted-foreground"}`} />{i < 3 ? "Undetected" : "W remoncie"}</p></div>
             ))}
           </div>
         </GsPanel>
