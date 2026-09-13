@@ -30,6 +30,30 @@ function ChatAvatar({ profile }: { profile?: ShoutProfile }) {
   return <img src={avatar} alt="" className="size-7 shrink-0 rounded-md object-cover" />;
 }
 
+function MentionText({ text, known }: { text: string; known: Set<string> }) {
+  const parts = text.split(/(@[A-Za-z0-9_]+)/g);
+  return (
+    <>
+      {parts.map((part, i) => {
+        if (!part.startsWith("@")) return part;
+        const nick = part.slice(1).toLowerCase();
+        return known.has(nick) ? (
+          <Link
+            key={i}
+            to="/profil/$username"
+            params={{ username: part.slice(1) }}
+            className="rounded bg-primary/15 px-1 font-semibold text-primary hover:bg-primary/25"
+          >
+            {part}
+          </Link>
+        ) : (
+          part
+        );
+      })}
+    </>
+  );
+}
+
 function isSameDay(a: Date, b: Date) {
   return (
     a.getFullYear() === b.getFullYear() &&
