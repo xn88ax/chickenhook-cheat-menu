@@ -220,18 +220,6 @@ function Index() {
           </GsPanel>
         </div>
 
-        <GsPanel title="Cennik">
-          <div id="menu" className="grid gap-px bg-border min-[760px]:grid-cols-3">
-            {plans.map((plan) => (
-              <article key={plan.name} className="flex flex-col bg-card p-4">
-                <div className="flex items-center justify-between gap-2"><h3 className="font-semibold">{plan.name}</h3><span className="text-[10px] uppercase text-[var(--text-subtle)]">{plan.tag}</span></div>
-                <p className="mt-3"><strong className="text-2xl">{plan.price} zł</strong> <span className="text-xs text-muted-foreground">/ {plan.period}</span></p>
-                <ul className="my-4 flex-1 space-y-2 text-xs text-muted-foreground">{plan.items.map((item) => <li key={item} className="flex gap-2"><Check className="size-3.5 text-[var(--status-ok)]" />{item}</li>)}</ul>
-                <Button asChild variant={plan.featured ? "default" : "outline"} className="rounded-lg"><a href="#faq">Wybieram {plan.name}</a></Button>
-              </article>
-            ))}
-          </div>
-        </GsPanel>
 
         <GsPanel title="Status bezpieczeństwa">
           <div id="status" className="grid gap-px bg-border sm:grid-cols-2 min-[900px]:grid-cols-4">
