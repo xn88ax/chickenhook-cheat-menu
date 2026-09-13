@@ -22,10 +22,23 @@ async function assertAdmin(supabase: any, userId: string) {
     .from("user_roles")
     .select("role")
     .eq("user_id", userId)
-    .eq("role", "admin")
+    .in("role", ["admin", "owner"])
+    .limit(1)
     .maybeSingle();
   if (error || !data) throw new Error("Brak uprawnień administratora.");
 }
+
+async function assertOwner(supabase: any, userId: string) {
+  const { data, error } = await supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", userId)
+    .eq("role", "owner")
+    .limit(1)
+    .maybeSingle();
+  if (error || !data) throw new Error("Tylko właściciel może zmieniać rangi.");
+}
+
 
 export const getAdminData = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
