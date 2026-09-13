@@ -954,11 +954,23 @@ html[data-site-compact="on"] .gs-panel { --gs-gap: 0.5rem; }
   animation: forum-role-shine 2.4s ease-in-out infinite;
   pointer-events: none;
 }
+.forum-nick-glitter {
+  background: linear-gradient(105deg, var(--primary) 15%, var(--foreground) 42%, var(--primary) 68%);
+  background-size: 220% 100%;
+  background-clip: text;
+  color: transparent;
+  animation: forum-nick-shine 2.4s linear infinite;
+  text-shadow: 0 0 8px color-mix(in oklab, var(--primary) 45%, transparent);
+}
+@keyframes forum-nick-shine {
+  to { background-position: -220% 0; }
+}
 @keyframes forum-role-shine {
   0%, 35% { transform: translateX(-65%) rotate(8deg); opacity: 0; }
   50% { opacity: 0.9; }
   70%, 100% { transform: translateX(65%) rotate(8deg); opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .forum-role-glitter::after { animation: none; }
+  .forum-role-glitter::after,
+  .forum-nick-glitter { animation: none; }
 }

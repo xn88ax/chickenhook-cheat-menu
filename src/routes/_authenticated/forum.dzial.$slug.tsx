@@ -7,6 +7,7 @@ import { useIsAdmin } from "@/hooks/use-is-admin";
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { Avatar, timeAgo } from "@/components/forum/forum-shell";
 import { moderateContent } from "@/lib/admin.functions";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/forum/dzial/$slug")({
   head: () => ({
@@ -113,23 +114,38 @@ function CategoryPage() {
                   </p>
                 )}
                 {(threadsQuery.data ?? []).map((t) => (
-                  <Link
-                    key={t.id}
-                    to="/forum/watek/$id"
-                    params={{ id: t.id }}
-                    className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-white/5"
-                  >
-                    <Avatar name={nameOf(t.author_id)} className="size-9" />
-                    <div className="min-w-0 flex-1">
-                      <h3 className="flex items-center gap-1.5 text-sm font-semibold">
-                        {t.pinned && <Pin className="size-3.5 shrink-0 text-primary" />}
-                        <span className="truncate">{t.title}</span>
-                      </h3>
-                      <p className="mt-0.5 text-xs text-muted-foreground">
-                        {nameOf(t.author_id)} · {timeAgo(t.created_at)}
-                      </p>
-                    </div>
-                  </Link>
+                  <div key={t.id} className="group flex items-center transition-colors hover:bg-white/5">
+                    <Link
+                      to="/forum/watek/$id"
+                      params={{ id: t.id }}
+                      className="flex min-w-0 flex-1 items-center gap-3 px-4 py-3"
+                    >
+                      <Avatar name={nameOf(t.author_id)} className="size-9" />
+                      <div className="min-w-0 flex-1">
+                        <h3 className="flex items-center gap-1.5 text-sm font-semibold">
+                          {t.pinned && <Pin className="size-3.5 shrink-0 text-primary" />}
+                          <span className="truncate">{t.title}</span>
+                        </h3>
+                        <p className="mt-0.5 text-xs text-muted-foreground">
+                          {nameOf(t.author_id)} · {timeAgo(t.created_at)}
+                        </p>
+                      </div>
+                    </Link>
+                    {isAdmin ? (
+                      <Button
+                        type="button"
+                        size="icon"
+                        variant="ghost"
+                        disabled={modAction.isPending}
+                        onClick={() => modAction.mutate({ kind: "thread", id: t.id })}
+                        aria-label={`Usuń wątek ${t.title}`}
+                        title="Usuń wątek"
+                        className="mr-3 size-8 shrink-0 text-muted-foreground hover:text-primary"
+                      >
+                        <Trash2 className="size-4" />
+                      </Button>
+                    ) : null}
+                  </div>
                 ))}
               </div>
             </section>
