@@ -10,6 +10,7 @@ import {
   Pencil,
   Pin,
   PinOff,
+  RefreshCw,
   ShieldAlert,
   ShieldCheck,
   Trash2,
@@ -54,6 +55,7 @@ const TABS = [
   ["overview", "Przegląd"],
   ["codes", "Kody"],
   ["members", "Członkowie"],
+  ["bans", "Bany"],
   ["moderation", "Moderacja"],
 ] as const;
 
@@ -148,7 +150,10 @@ function Admin() {
 
   const unban = useMutation({
     mutationFn: (v: { userId: string }) => unbanFn({ data: v }),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-data"] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin-data"] });
+      qc.invalidateQueries({ queryKey: ["forum"] });
+    },
   });
 
   const rename = useMutation({
