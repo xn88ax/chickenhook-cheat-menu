@@ -10,6 +10,7 @@ import { useIsAdmin } from "@/hooks/use-is-admin";
 import { useSiteSettings } from "@/lib/site-settings";
 import { isRememberSession, setRememberSession } from "@/lib/session-persistence";
 import { ACCENTS, accentColor, uploadProfileMedia, useProfileMedia } from "@/lib/profile-media";
+import { SOCIAL_PLATFORMS, parseSocials, type Socials } from "@/lib/socials";
 
 export const Route = createFileRoute("/_authenticated/ustawienia")({
   head: () => ({
@@ -106,7 +107,7 @@ function Settings() {
 
   const [bio, setBio] = useState("");
   const [accent, setAccent] = useState("red");
-  const [profileLinks, setProfileLinks] = useState(["", "", ""]);
+  const [socials, setSocials] = useState<Socials>({});
   const [profileState, setProfileState] = useState<{
     busy: boolean;
     msg: string | null;
@@ -119,7 +120,7 @@ function Settings() {
     queryFn: async () => {
       const { data } = await supabase
         .from("profiles")
-        .select("username, bio, avatar_url, banner_url, accent, views, link_1, link_2, link_3")
+        .select("username, bio, avatar_url, banner_url, accent, views, socials")
         .eq("id", user!.id)
         .maybeSingle();
       return data ?? null;
@@ -134,24 +135,23 @@ function Settings() {
     if (profile) {
       setBio(profile.bio ?? "");
       setAccent(profile.accent ?? "red");
-      setProfileLinks([profile.link_1 ?? "", profile.link_2 ?? "", profile.link_3 ?? ""]);
+      setSocials(parseSocials(profile.socials));
     }
   }, [profile]);
 
   async function saveProfile(e: React.FormEvent) {
     e.preventDefault();
-    const normalizedLinks = profileLinks.map((link) => link.trim());
-    const invalidLink = normalizedLinks.find((link) => {
-      if (!link) return false;
+    const normalizedSocials: Socials = {};
+    for (const { id } of SOCIAL_PLATFORMS) {
+      const value = (socials[id] ?? "").trim();
+      if (!value) continue;
       try {
-        return !["http:", "https:"].includes(new URL(link).protocol);
+        if (!["http:", "https:"].includes(new URL(value).protocol)) throw new Error();
       } catch {
-        return true;
+        setProfileState({ busy: false, msg: "Linki muszą zaczynać się od http:// lub https://.", err: true });
+        return;
       }
-    });
-    if (invalidLink) {
-      setProfileState({ busy: false, msg: "Linki muszą zaczynać się od http:// lub https://.", err: true });
-      return;
+      normalizedSocials[id] = value;
     }
     setProfileState({ busy: true, msg: null, err: false });
     const { error } = await supabase
@@ -159,9 +159,7 @@ function Settings() {
       .update({
         bio: bio.slice(0, 500),
         accent,
-        link_1: normalizedLinks[0] || null,
-        link_2: normalizedLinks[1] || null,
-        link_3: normalizedLinks[2] || null,
+        socials: normalizedSocials,
       })
       .eq("id", user!.id);
     await qc.invalidateQueries({ queryKey: ["profile", user?.id] });
@@ -372,24 +370,27 @@ function Settings() {
                 </label>
 
                 <div className="space-y-2 text-xs">
-                  <span className="text-muted-foreground">Linki na profilu (maks. 3)</span>
-                  {profileLinks.map((link, index) => (
-                    <input
-                      key={index}
-                      type="url"
-                      value={link}
-                      onChange={(event) =>
-                        setProfileLinks((current) =>
-                          current.map((value, itemIndex) =>
-                            itemIndex === index ? event.target.value : value,
-                          ),
-                        )
-                      }
-                      maxLength={300}
-                      placeholder={`https://twoj-link-${index + 1}.pl`}
-                      className={inputClass}
-                    />
-                  ))}
+                  <span className="text-muted-foreground">Sociale na profilu</span>
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    {SOCIAL_PLATFORMS.map((platform) => (
+                      <label key={platform.id} className="block">
+                        <span className="text-[11px] text-muted-foreground">{platform.label}</span>
+                        <input
+                          type="url"
+                          value={socials[platform.id] ?? ""}
+                          onChange={(event) =>
+                            setSocials((current) => ({
+                              ...current,
+                              [platform.id]: event.target.value,
+                            }))
+                          }
+                          maxLength={300}
+                          placeholder={platform.placeholder}
+                          className={inputClass}
+                        />
+                      </label>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="text-xs">
