@@ -433,26 +433,34 @@ function Admin() {
                           <Pencil className="size-3" />
                           Zmień nick
                         </button>
-                        <button
-                          type="button"
-                          disabled={changeRole.isPending}
-                          onClick={() =>
-                            changeRole.mutate({ userId: m.id, role: "moderator", grant: !isMod })
-                          }
-                          className="rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary disabled:opacity-60"
-                        >
-                          {isMod ? "Odbierz moda" : "Nadaj moda"}
-                        </button>
-                        <button
-                          type="button"
-                          disabled={changeRole.isPending}
-                          onClick={() =>
-                            changeRole.mutate({ userId: m.id, role: "admin", grant: !isAdmin })
-                          }
-                          className="rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary disabled:opacity-60"
-                        >
-                          {isAdmin ? "Odbierz admina" : "Nadaj admina"}
-                        </button>
+                        {isOwner && (
+                          <>
+                            <button
+                              type="button"
+                              disabled={changeRole.isPending}
+                              onClick={() =>
+                                changeRole.mutate({
+                                  userId: m.id,
+                                  role: "moderator",
+                                  grant: !isMod,
+                                })
+                              }
+                              className="rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary disabled:opacity-60"
+                            >
+                              {isMod ? "Odbierz moda" : "Nadaj moda"}
+                            </button>
+                            <button
+                              type="button"
+                              disabled={changeRole.isPending}
+                              onClick={() =>
+                                changeRole.mutate({ userId: m.id, role: "admin", grant: !isAdmin })
+                              }
+                              className="rounded-lg border border-border px-3 py-1.5 font-medium hover:border-primary disabled:opacity-60"
+                            >
+                              {isAdmin ? "Odbierz admina" : "Nadaj admina"}
+                            </button>
+                          </>
+                        )}
                         {banned ? (
                           <button
                             type="button"
