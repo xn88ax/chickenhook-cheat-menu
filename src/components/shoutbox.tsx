@@ -203,7 +203,7 @@ export function Shoutbox() {
                     >
                       {s.nick}
                     </Link>
-                    {profile.roles.map((role) => (
+                    {profile?.roles.map((role) => (
                       <RoleBadge key={role} role={role} />
                     ))}
                   </span>
