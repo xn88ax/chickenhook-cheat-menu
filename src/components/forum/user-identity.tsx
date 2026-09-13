@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 
 import { Avatar } from "@/components/forum/forum-shell";
+import { useRoleStyles } from "@/lib/role-styles";
 
 const ROLE_LABELS: Record<string, string> = {
   owner: "Owner",
@@ -11,10 +12,12 @@ const ROLE_LABELS: Record<string, string> = {
 };
 
 export function RoleBadge({ role }: { role: string }) {
-  const highlighted = role === "owner" || role === "admin";
+  const styles = useRoleStyles();
+  const style = styles[role];
   return (
     <span
-      className={`forum-role-badge forum-role-${role}${highlighted ? " forum-role-glitter" : ""}`}
+      className={`forum-role-badge forum-role-${role}${style?.glitter ? " forum-role-glitter" : ""}`}
+      style={style ? ({ "--role-color": style.color } as React.CSSProperties) : undefined}
     >
       <ShieldCheck className="size-3" aria-hidden />
       {ROLE_LABELS[role] ?? role}
