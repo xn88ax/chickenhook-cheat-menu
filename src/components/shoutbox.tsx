@@ -5,6 +5,8 @@ import { LogIn, Send, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { displayName, useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
+import { Avatar } from "@/components/forum/forum-shell";
+import { useProfileMedia } from "@/lib/profile-media";
 
 type Shout = {
   id: string;
@@ -13,6 +15,21 @@ type Shout = {
   created_at: string;
   user_id: string | null;
 };
+
+type ShoutProfile = {
+  id: string;
+  username: string;
+  avatar_url: string | null;
+  roles: string[];
+};
+
+function ChatAvatar({ profile, nick }: { profile?: ShoutProfile; nick: string }) {
+  const avatar = useProfileMedia(profile?.avatar_url);
+  if (avatar) {
+    return <img src={avatar} alt="" className="size-7 shrink-0 rounded-md object-cover" />;
+  }
+  return <Avatar name={nick} className="size-7 text-[10px]" />;
+}
 
 function isSameDay(a: Date, b: Date) {
   return (
@@ -40,6 +57,7 @@ export function Shoutbox() {
   const [guestNick, setGuestNick] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [profiles, setProfiles] = useState<Record<string, ShoutProfile>>({});
   const listRef = useRef<HTMLDivElement>(null);
 
   // Nick gościa jest przydzielany automatycznie i nie da się go zmienić bez konta.
@@ -50,6 +68,26 @@ export function Shoutbox() {
     localStorage.setItem(NICK_KEY, nick);
     setGuestNick(nick);
   }, []);
+
+  useEffect(() => {
+    const userIds = [...new Set(shouts.flatMap((shout) => (shout.user_id ? [shout.user_id] : [])))];
+    if (userIds.length === 0) return;
+    void Promise.all([
+      supabase.from("profiles").select("id,username,avatar_url").in("id", userIds),
+      supabase.from("user_roles").select("user_id,role").in("user_id", userIds),
+    ]).then(([profileResult, roleResult]) => {
+      const next: Record<string, ShoutProfile> = {};
+      for (const profile of profileResult.data ?? []) {
+        next[profile.id] = {
+          ...profile,
+          roles: (roleResult.data ?? [])
+            .filter((item) => item.user_id === profile.id)
+            .map((item) => item.role),
+        };
+      }
+      setProfiles(next);
+    });
+  }, [shouts]);
 
   // Historia z bazy + wiadomości na żywo.
   useEffect(() => {
@@ -136,16 +174,19 @@ export function Shoutbox() {
         ) : (
           shouts.map((s) => {
             const mine = !!user && s.user_id === user.id;
+            const profile = s.user_id ? profiles[s.user_id] : undefined;
+            const glitter = profile?.roles.some((role) => role === "admin" || role === "owner");
             return (
-              <p key={s.id} className="group grid grid-cols-[auto_auto_1fr_auto] items-baseline gap-2 border-b border-border/50 py-1.5 leading-relaxed last:border-0">
+              <div key={s.id} className="group grid grid-cols-[auto_auto_auto_1fr_auto] items-center gap-2 border-b border-border/50 py-1.5 leading-relaxed last:border-0">
                 <span className="text-xs text-[var(--text-subtle)] tabular-nums">
                   {formatTime(s.created_at)}
                 </span>
+                <ChatAvatar profile={profile} nick={s.nick} />
                 {s.user_id ? (
                   <Link
                     to="/profil/$username"
                     params={{ username: s.nick }}
-                    className="font-semibold text-primary hover:underline"
+                    className={`font-semibold text-primary hover:underline${glitter ? " forum-nick-glitter" : ""}`}
                   >
                     {s.nick}
                   </Link>
@@ -163,7 +204,7 @@ export function Shoutbox() {
                     <Trash2 className="size-3" />
                   </button>
                 ) : null}
-              </p>
+              </div>
             );
           })
         )}
