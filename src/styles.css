@@ -956,6 +956,18 @@ html[data-site-compact="on"] .gs-panel { --gs-gap: 0.5rem; }
   animation: forum-nick-shine 2.4s linear infinite;
   text-shadow: 0 0 8px color-mix(in oklab, var(--primary) 45%, transparent);
 }
+.forum-nick-glitter[style*="--role-color"] {
+  background-image: linear-gradient(
+    105deg,
+    var(--role-color) 15%,
+    var(--foreground) 42%,
+    var(--role-color) 68%
+  );
+  text-shadow: 0 0 8px color-mix(in oklab, var(--role-color) 45%, transparent);
+}
+.forum-nick-color {
+  color: var(--role-color);
+}
 @keyframes forum-nick-shine {
   to { background-position: -220% 0; }
 }
