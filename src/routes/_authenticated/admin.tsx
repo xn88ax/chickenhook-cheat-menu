@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
+import { useIsOwner } from "@/hooks/use-is-admin";
 import {
   banUser,
   deleteInviteCode,
