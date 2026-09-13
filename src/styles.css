@@ -913,6 +913,12 @@ html[data-site-compact="on"] .gs-panel { --gs-gap: 0.5rem; }
   line-height: 1rem;
   text-transform: uppercase;
 }
+.forum-role-badge[style*="--role-color"] {
+  border-color: color-mix(in oklab, var(--role-color) 70%, var(--border));
+  background: color-mix(in oklab, var(--role-color) 16%, var(--card));
+  color: color-mix(in oklab, var(--role-color) 70%, var(--foreground));
+  box-shadow: 0 0 10px color-mix(in oklab, var(--role-color) 30%, transparent);
+}
 .forum-role-owner {
   border-color: color-mix(in oklab, var(--primary) 72%, var(--border));
   background: color-mix(in oklab, var(--primary) 18%, var(--card));
