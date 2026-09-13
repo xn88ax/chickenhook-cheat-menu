@@ -4,7 +4,7 @@ import { z } from "zod";
 const schema = z.object({
   code: z.string().trim().min(4).max(64),
   email: z.string().trim().email(),
-  password: z.string().min(6).max(128),
+  password: z.string().min(8).max(128),
   username: z.string().trim().min(2).max(24),
 });
 
