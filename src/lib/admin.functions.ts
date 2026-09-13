@@ -159,7 +159,7 @@ export const setUserRole = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    await assertAdmin(context.supabase, context.userId);
+    await assertOwner(context.supabase, context.userId);
     if (data.userId === context.userId && data.role === "admin" && !data.grant) {
       return { ok: false as const, error: "Nie możesz odebrać uprawnień sobie." };
     }
