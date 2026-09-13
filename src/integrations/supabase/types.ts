@@ -204,6 +204,30 @@ export type Database = {
         }
         Relationships: []
       }
+      role_styles: {
+        Row: {
+          color: string
+          created_at: string
+          glitter: boolean
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          glitter?: boolean
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          glitter?: boolean
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       shouts: {
         Row: {
           created_at: string
