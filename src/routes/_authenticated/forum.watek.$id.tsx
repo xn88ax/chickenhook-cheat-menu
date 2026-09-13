@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { GsPanel, GsShell } from "@/components/gs-shell";
-import { Avatar, timeAgo } from "@/components/forum/forum-shell";
+import { timeAgo } from "@/components/forum/forum-shell";
 import { UserIdentity, type ForumIdentity } from "@/components/forum/user-identity";
 import { moderateContent } from "@/lib/admin.functions";
 
