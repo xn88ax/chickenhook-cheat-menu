@@ -7,7 +7,6 @@ import { displayName, useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 
 import { useProfileMedia } from "@/lib/profile-media";
-import { RoleBadge } from "@/components/forum/user-identity";
 import { mainRoleOf, useRoleStyles } from "@/lib/role-styles";
 
 type Shout = {
@@ -203,9 +202,6 @@ export function Shoutbox() {
                     >
                       {s.nick}
                     </Link>
-                    {profile?.roles.map((role) => (
-                      <RoleBadge key={role} role={role} />
-                    ))}
                   </span>
                 ) : (
                   <span className="font-semibold text-muted-foreground">{s.nick}</span>
