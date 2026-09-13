@@ -79,7 +79,7 @@ function ThreadPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("id,username,link_1,link_2,link_3");
+        .select("id,username,link_1,link_2,link_3,member_number");
       if (error) throw error;
       return data;
     },
@@ -103,6 +103,7 @@ function ThreadPage() {
         .filter((item) => item.user_id === uid)
         .map((item) => item.role),
       links: [profile?.link_1 ?? null, profile?.link_2 ?? null, profile?.link_3 ?? null],
+      memberNumber: profile?.member_number ?? null,
     };
   };
 
