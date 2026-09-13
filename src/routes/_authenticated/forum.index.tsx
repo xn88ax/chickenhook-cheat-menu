@@ -1,7 +1,8 @@
 import { useState } from "react";
+
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Lock, MessageSquare, Pin, Plus } from "lucide-react";
+import { Check, Lock, MessageSquare, Pin, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
