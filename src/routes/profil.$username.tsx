@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, Eye, MessageSquare, Sparkles } from "lucide-react";
 
-import { RoleBadge } from "@/components/forum/user-identity";
+
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -217,28 +217,15 @@ function ProfilePage() {
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h1 className="font-display text-2xl tracking-wide" style={{ color: accent }}>
-                      {profile.username}
-                    </h1>
-                    {(() => {
-                      const mainRole =
-                        roleList.find((r) => ["owner", "admin", "moderator"].includes(r)) ??
-                        roleList[0];
-                      return mainRole ? <RoleBadge role={mainRole} /> : null;
-                    })()}
-                  </div>
+                  <h1 className="font-display text-2xl tracking-wide" style={{ color: accent }}>
+                    {profile.username}
+                  </h1>
                   <p className="mt-0.5 text-[11px] uppercase tracking-wide text-muted-foreground">
                     {title}
                   </p>
                   <p className="mt-1 break-all font-mono text-[10px] text-muted-foreground">
                     UID: {profile.member_number}
                   </p>
-                  <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px]">
-                    {roleList.map((r) => (
-                      <RoleBadge key={r} role={r} />
-                    ))}
-                  </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2 text-[11px]">
                   {isMine ? (
