@@ -866,12 +866,6 @@ html[data-site-compact="on"] .gs-panel { --gs-gap: 0.5rem; }
   position: relative;
   isolation: isolate;
 }
-.profile-banner::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(11, 13, 16, 0.1) 0%, rgba(11, 13, 16, 0.85) 100%);
-}
 .profile-banner-fallback {
   position: absolute;
   inset: -30%;
