@@ -194,7 +194,7 @@ function ProfilePage() {
 
               <div className="flex flex-wrap items-end gap-4 border-b border-border/60 px-4 pb-4">
                 <div
-                  className="-mt-14 size-24 shrink-0 overflow-hidden rounded-lg border-2 bg-card sm:size-28"
+                  className="relative z-10 -mt-14 size-24 shrink-0 overflow-hidden rounded-lg border-2 bg-card sm:size-28"
                   style={{ borderColor: accent }}
                 >
                   {avatar ? (
