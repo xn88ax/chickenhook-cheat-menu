@@ -8,6 +8,7 @@ import { GsPanel, GsShell } from "@/components/gs-shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { accentColor, useProfileMedia } from "@/lib/profile-media";
+import { SOCIAL_PLATFORMS, parseSocials } from "@/lib/socials";
 
 export const Route = createFileRoute("/profil/$username")({
   head: ({ params }) => ({
@@ -61,7 +62,7 @@ function ProfilePage() {
     queryFn: async () => {
       const { data } = await supabase
         .from("profiles")
-        .select("id, username, bio, avatar_url, banner_url, accent, views, created_at, link_1, link_2, link_3, member_number")
+        .select("id, username, bio, avatar_url, banner_url, accent, views, created_at, socials, member_number")
         .ilike("username", username)
         .maybeSingle();
       return data ?? null;
@@ -158,9 +159,8 @@ function ProfilePage() {
   const roleList = roles ?? [];
   const title =
     ROLE_TITLES[roleList.find((r) => ROLE_TITLES[r]) ?? ""] ?? "Członek kurnika";
-  const profileLinks = [profile?.link_1, profile?.link_2, profile?.link_3].filter(
-    (link): link is string => Boolean(link),
-  );
+  const socials = parseSocials(profile?.socials);
+  const socialEntries = SOCIAL_PLATFORMS.filter((p) => socials[p.id]);
 
   return (
     <GsShell crumbs={[{ label: "Członkowie" }, { label: username }]}>
@@ -190,6 +190,13 @@ function ProfilePage() {
                 aria-hidden="true"
               >
                 {!banner && <div className="profile-banner-fallback" />}
+                <div
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3"
+                  style={{
+                    background: `linear-gradient(to top, ${accent}66, transparent)`,
+                  }}
+                  aria-hidden="true"
+                />
               </div>
 
               <div className="flex flex-wrap items-end gap-4 border-b border-border/60 px-4 pb-4">
@@ -290,22 +297,22 @@ function ProfilePage() {
                         {profile.bio?.trim() || "Ten kurczak nic o sobie nie napisał."}
                       </p>
                     </GsPanel>
-                    <GsPanel title="Linki">
+                    <GsPanel title="Sociale">
                       <div className="flex flex-wrap gap-2 p-4">
-                        {profileLinks.map((url, index) => (
+                        {socialEntries.map((platform) => (
                           <a
-                            key={url}
-                            href={url}
+                            key={platform.id}
+                            href={socials[platform.id]}
                             target="_blank"
                             rel="noreferrer"
                             className="inline-flex max-w-full items-center gap-1.5 rounded border border-border px-3 py-2 text-xs text-foreground hover:border-primary hover:text-primary"
                           >
                             <ExternalLink className="size-3 shrink-0" aria-hidden />
-                            <span className="truncate">Link {index + 1}</span>
+                            <span className="truncate">{platform.label}</span>
                           </a>
                         ))}
-                        {profileLinks.length === 0 && (
-                          <p className="text-xs text-muted-foreground">Brak dodanych linków.</p>
+                        {socialEntries.length === 0 && (
+                          <p className="text-xs text-muted-foreground">Brak dodanych sociali.</p>
                         )}
                       </div>
                     </GsPanel>
