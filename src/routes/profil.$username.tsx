@@ -191,9 +191,9 @@ function ProfilePage() {
               >
                 {!banner && <div className="profile-banner-fallback" />}
                 <div
-                  className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-2/3"
                   style={{
-                    background: `linear-gradient(to top, ${accent}66, transparent)`,
+                    background: `linear-gradient(to bottom, ${accent}99, transparent)`,
                   }}
                   aria-hidden="true"
                 />
