@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
+import { RoleStylesPanel } from "@/components/admin/role-styles-panel";
 import { useIsOwner } from "@/hooks/use-is-admin";
 import {
   banUser,
@@ -56,6 +57,7 @@ const TABS = [
   ["codes", "Kody"],
   ["members", "Członkowie"],
   ["bans", "Bany"],
+  ["ranks", "Rangi"],
   ["moderation", "Moderacja"],
 ] as const;
 
@@ -600,6 +602,8 @@ function Admin() {
             </div>
           </GsPanel>
         )}
+
+        {tab === "ranks" && <RoleStylesPanel />}
 
         {tab === "bans" && (
           <GsPanel title="Zbanowani użytkownicy">
