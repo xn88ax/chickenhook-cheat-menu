@@ -186,7 +186,7 @@ export function Shoutbox() {
                 <span className="text-xs text-[var(--text-subtle)] tabular-nums">
                   {formatTime(s.created_at)}
                 </span>
-                <ChatAvatar profile={profile} nick={s.nick} />
+                <ChatAvatar profile={profile} />
                 {s.user_id ? (
                   <span className="flex min-w-0 items-center gap-1.5">
                     <Link
