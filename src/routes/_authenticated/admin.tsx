@@ -601,6 +601,63 @@ function Admin() {
           </GsPanel>
         )}
 
+        {tab === "bans" && (
+          <GsPanel title="Zbanowani użytkownicy">
+            <div className="flex items-center justify-between border-b border-border/60 px-4 py-2.5">
+              <p className="text-xs text-muted-foreground">
+                {members.filter((m) => m.ban).length}{" "}
+                {members.filter((m) => m.ban).length === 1 ? "zbanowany" : "zbanowanych"}
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  qc.invalidateQueries({ queryKey: ["admin-data"] });
+                  qc.invalidateQueries({ queryKey: ["forum"] });
+                }}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+              >
+                <RefreshCw className="size-3.5" />
+                Odśwież
+              </button>
+            </div>
+            <div className="divide-y divide-border/60">
+              {members
+                .filter((m) => m.ban)
+                .map((m) => (
+                  <div key={m.id} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 text-xs">
+                    <div className="min-w-0">
+                      <p className="font-semibold text-foreground">
+                        {m.username}
+                        <span className="ml-2 rounded border border-primary/50 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-primary">
+                          zbanowany
+                        </span>
+                      </p>
+                      <p className="mt-0.5 text-muted-foreground">
+                        {m.ban!.reason || "bez powodu"} ·{" "}
+                        {m.ban!.banned_until
+                          ? `do ${new Date(m.ban!.banned_until).toLocaleString("pl-PL")}`
+                          : "na zawsze"}{" "}
+                        · {new Date(m.ban!.created_at).toLocaleDateString("pl-PL")}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      disabled={unban.isPending}
+                      onClick={() => unban.mutate({ userId: m.id })}
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary disabled:opacity-50"
+                    >
+                      <ShieldCheck className="size-3.5" />
+                      Odwołaj bana
+                    </button>
+                  </div>
+                ))}
+              {members.filter((m) => m.ban).length === 0 && (
+                <p className="px-4 py-4 text-xs text-muted-foreground">Nikt nie jest zbanowany.</p>
+              )}
+            </div>
+          </GsPanel>
+        )}
+
         {tab === "moderation" && (
           <div className="grid gap-4 min-[860px]:grid-cols-2">
             <GsPanel title="Wątki forum">
