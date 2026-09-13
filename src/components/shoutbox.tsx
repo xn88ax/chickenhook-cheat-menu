@@ -83,6 +83,17 @@ export function Shoutbox() {
   const [profiles, setProfiles] = useState<Record<string, ShoutProfile>>({});
   const roleStyles = useRoleStyles();
   const listRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const knownNicks = new Set<string>([
+    ...Object.values(profiles).map((p) => p.username.toLowerCase()),
+    ...shouts.map((s) => s.nick.toLowerCase()),
+  ]);
+
+  function mention(nick: string) {
+    setDraft((d) => (d.endsWith(" ") || d === "" ? `${d}@${nick} ` : `${d} @${nick} `));
+    inputRef.current?.focus();
+  }
 
   // Nick gościa jest przydzielany automatycznie i nie da się go zmienić bez konta.
   useEffect(() => {
