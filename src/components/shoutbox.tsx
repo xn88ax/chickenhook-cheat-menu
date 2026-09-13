@@ -27,10 +27,8 @@ type ShoutProfile = {
 
 function ChatAvatar({ profile }: { profile?: ShoutProfile }) {
   const avatar = useProfileMedia(profile?.avatar_url);
-  if (avatar) {
-    return <img src={avatar} alt="" className="size-7 shrink-0 rounded-md object-cover" />;
-  }
-  return <span className="size-7 shrink-0" aria-hidden="true" />;
+  if (!avatar) return null;
+  return <img src={avatar} alt="" className="size-7 shrink-0 rounded-md object-cover" />;
 }
 
 function isSameDay(a: Date, b: Date) {
@@ -181,14 +179,18 @@ export function Shoutbox() {
             const mainRole = profile ? mainRoleOf(profile.roles) : undefined;
             const roleStyle = mainRole ? roleStyles[mainRole] : undefined;
             const glitter = roleStyle?.glitter ?? false;
+            const hasAvatar = !!profile?.avatar_url;
             return (
-              <div key={s.id} className="group grid grid-cols-[auto_auto_auto_1fr_auto] items-center gap-2 border-b border-border/50 py-1.5 leading-relaxed last:border-0">
+              <div
+                key={s.id}
+                className={`group grid items-center gap-2 border-b border-border/50 py-1.5 leading-relaxed last:border-0 ${hasAvatar ? "grid-cols-[auto_auto_auto_1fr_auto]" : "grid-cols-[auto_auto_1fr_auto]"}`}
+              >
                 <span className="text-xs text-[var(--text-subtle)] tabular-nums">
                   {formatTime(s.created_at)}
                 </span>
                 <ChatAvatar profile={profile} />
                 {s.user_id ? (
-                  <span className="flex min-w-0 items-center gap-1.5">
+                  <span className="flex min-w-0 flex-wrap items-center gap-1">
                     <Link
                       to="/profil/$username"
                       params={{ username: s.nick }}
@@ -201,7 +203,9 @@ export function Shoutbox() {
                     >
                       {s.nick}
                     </Link>
-                    {mainRole && mainRole !== "user" ? <RoleBadge role={mainRole} /> : null}
+                    {profile.roles.map((role) => (
+                      <RoleBadge key={role} role={role} />
+                    ))}
                   </span>
                 ) : (
                   <span className="font-semibold text-muted-foreground">{s.nick}</span>
