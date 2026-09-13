@@ -30,6 +30,30 @@ function ChatAvatar({ profile }: { profile?: ShoutProfile }) {
   return <img src={avatar} alt="" className="size-7 shrink-0 rounded-md object-cover" />;
 }
 
+function MentionText({ text, known }: { text: string; known: Set<string> }) {
+  const parts = text.split(/(@[A-Za-z0-9_]+)/g);
+  return (
+    <>
+      {parts.map((part, i) => {
+        if (!part.startsWith("@")) return part;
+        const nick = part.slice(1).toLowerCase();
+        return known.has(nick) ? (
+          <Link
+            key={i}
+            to="/profil/$username"
+            params={{ username: part.slice(1) }}
+            className="rounded bg-primary/15 px-1 font-semibold text-primary hover:bg-primary/25"
+          >
+            {part}
+          </Link>
+        ) : (
+          part
+        );
+      })}
+    </>
+  );
+}
+
 function isSameDay(a: Date, b: Date) {
   return (
     a.getFullYear() === b.getFullYear() &&
@@ -59,6 +83,17 @@ export function Shoutbox() {
   const [profiles, setProfiles] = useState<Record<string, ShoutProfile>>({});
   const roleStyles = useRoleStyles();
   const listRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const knownNicks = new Set<string>([
+    ...Object.values(profiles).map((p) => p.username.toLowerCase()),
+    ...shouts.map((s) => s.nick.toLowerCase()),
+  ]);
+
+  function mention(nick: string) {
+    setDraft((d) => (d.endsWith(" ") || d === "" ? `${d}@${nick} ` : `${d} @${nick} `));
+    inputRef.current?.focus();
+  }
 
   // Nick gościa jest przydzielany automatycznie i nie da się go zmienić bez konta.
   useEffect(() => {
@@ -190,10 +225,11 @@ export function Shoutbox() {
                 <ChatAvatar profile={profile} />
                 {s.user_id ? (
                   <span className="flex min-w-0 flex-wrap items-center gap-1">
-                    <Link
-                      to="/profil/$username"
-                      params={{ username: s.nick }}
-                      className={`font-semibold hover:underline ${glitter ? "forum-nick-glitter" : roleStyle ? "forum-nick-color" : "text-primary"}`}
+                    <button
+                      type="button"
+                      onClick={() => mention(s.nick)}
+                      title={`Oznacz @${s.nick}`}
+                      className={`cursor-pointer font-semibold hover:underline ${glitter ? "forum-nick-glitter" : roleStyle ? "forum-nick-color" : "text-primary"}`}
                       style={
                         roleStyle
                           ? ({ "--role-color": roleStyle.color } as React.CSSProperties)
@@ -201,12 +237,21 @@ export function Shoutbox() {
                       }
                     >
                       {s.nick}
-                    </Link>
+                    </button>
                   </span>
                 ) : (
-                  <span className="font-semibold text-muted-foreground">{s.nick}</span>
+                  <button
+                    type="button"
+                    onClick={() => mention(s.nick)}
+                    title={`Oznacz @${s.nick}`}
+                    className="cursor-pointer font-semibold text-muted-foreground hover:underline"
+                  >
+                    {s.nick}
+                  </button>
                 )}
-                <span className="min-w-0 break-words text-muted-foreground">{s.text}</span>
+                <span className="min-w-0 break-words text-muted-foreground">
+                  <MentionText text={s.text} known={knownNicks} />
+                </span>
                 {mine ? (
                   <button
                     type="button"
