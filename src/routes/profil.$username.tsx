@@ -217,9 +217,17 @@ function ProfilePage() {
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h1 className="font-display text-2xl tracking-wide" style={{ color: accent }}>
-                    {profile.username}
-                  </h1>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h1 className="font-display text-2xl tracking-wide" style={{ color: accent }}>
+                      {profile.username}
+                    </h1>
+                    {(() => {
+                      const mainRole =
+                        roleList.find((r) => ["owner", "admin", "moderator"].includes(r)) ??
+                        roleList[0];
+                      return mainRole ? <RoleBadge role={mainRole} /> : null;
+                    })()}
+                  </div>
                   <p className="mt-0.5 text-[11px] uppercase tracking-wide text-muted-foreground">
                     {title}
                   </p>
