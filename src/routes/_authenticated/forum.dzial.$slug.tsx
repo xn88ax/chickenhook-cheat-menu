@@ -154,19 +154,39 @@ function CategoryPage() {
                       </div>
                     </Link>
                     {isAdmin ? (
-                      <Button
-                        type="button"
-                        size="icon"
-                        variant="ghost"
-                        disabled={modAction.isPending}
-                        onClick={() => modAction.mutate({ kind: "thread", id: t.id })}
-                        aria-label={`Usuń wątek ${t.title}`}
-                        title="Usuń wątek"
-                        className="mr-3 size-8 shrink-0 text-muted-foreground hover:text-primary"
-                      >
-                        <Trash2 className="size-4" />
-                      </Button>
+                      <>
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="ghost"
+                          disabled={banAction.isPending}
+                          onClick={() =>
+                            banAction.mutate({
+                              userId: t.author_id,
+                              name: nameOf(t.author_id),
+                            })
+                          }
+                          aria-label={`Zbanuj ${nameOf(t.author_id)}`}
+                          title="Zbanuj autora — wyklucza z forum i zamyka konto"
+                          className="size-8 shrink-0 text-muted-foreground hover:text-primary"
+                        >
+                          <Ban className="size-4" />
+                        </Button>
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="ghost"
+                          disabled={modAction.isPending}
+                          onClick={() => modAction.mutate({ kind: "thread", id: t.id })}
+                          aria-label={`Usuń wątek ${t.title}`}
+                          title="Usuń wątek"
+                          className="mr-3 size-8 shrink-0 text-muted-foreground hover:text-primary"
+                        >
+                          <Trash2 className="size-4" />
+                        </Button>
+                      </>
                     ) : null}
+
                   </div>
                 ))}
               </div>
