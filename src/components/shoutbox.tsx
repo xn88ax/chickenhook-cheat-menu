@@ -25,12 +25,12 @@ type ShoutProfile = {
   roles: string[];
 };
 
-function ChatAvatar({ profile, nick }: { profile?: ShoutProfile; nick: string }) {
+function ChatAvatar({ profile }: { profile?: ShoutProfile }) {
   const avatar = useProfileMedia(profile?.avatar_url);
   if (avatar) {
     return <img src={avatar} alt="" className="size-7 shrink-0 rounded-md object-cover" />;
   }
-  return <Avatar name={nick} className="size-7 text-[10px]" />;
+  return <span className="size-7 shrink-0" aria-hidden="true" />;
 }
 
 function isSameDay(a: Date, b: Date) {
