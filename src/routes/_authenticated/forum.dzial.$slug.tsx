@@ -1,12 +1,13 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Lock, Pin, Trash2 } from "lucide-react";
+import { Ban, Lock, Pin, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { Avatar, timeAgo } from "@/components/forum/forum-shell";
-import { moderateContent } from "@/lib/admin.functions";
+import { banUser, moderateContent } from "@/lib/admin.functions";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/forum/dzial/$slug")({
@@ -28,11 +29,32 @@ function CategoryPage() {
   const { isAdmin } = useIsAdmin();
   const queryClient = useQueryClient();
   const moderate = useServerFn(moderateContent);
+  const ban = useServerFn(banUser);
+  const [banNote, setBanNote] = useState<string | null>(null);
   const modAction = useMutation({
     mutationFn: (input: { kind: "thread" | "post" | "shout"; id: string }) =>
       moderate({ data: { kind: input.kind, id: input.id, action: "delete" } }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["forum", "category-threads"] }),
   });
+  const banAction = useMutation({
+    mutationFn: (input: { userId: string; name: string }) =>
+      ban({
+        data: {
+          userId: input.userId,
+          reason: "Wykluczony z forum przez administrację — do decyzji admina.",
+        },
+      }).then((res) => ({ res, name: input.name })),
+    onSuccess: ({ res, name }) => {
+      setBanNote(
+        res.ok
+          ? `${name} został wykluczony z forum — konto zamknięte do odwołania admina.`
+          : (res.error ?? "Nie udało się zbanować użytkownika."),
+      );
+      queryClient.invalidateQueries({ queryKey: ["forum", "category-threads"] });
+    },
+    onError: () => setBanNote("Nie udało się zbanować użytkownika."),
+  });
+
 
   const categoryQuery = useQuery({
     queryKey: ["forum", "category", slug],
@@ -107,6 +129,10 @@ function CategoryPage() {
               <h2 className="gs-head px-4 py-2 text-xs font-bold">
                 Wątki
               </h2>
+              {isAdmin && banNote && (
+                <p className="border-b border-border/60 px-4 py-2 text-xs text-primary">{banNote}</p>
+              )}
+
                             <div className="divide-y divide-border/60">
                 {(threadsQuery.data ?? []).length === 0 && (
                   <p className="px-4 py-6 text-xs text-muted-foreground">
@@ -132,19 +158,39 @@ function CategoryPage() {
                       </div>
                     </Link>
                     {isAdmin ? (
-                      <Button
-                        type="button"
-                        size="icon"
-                        variant="ghost"
-                        disabled={modAction.isPending}
-                        onClick={() => modAction.mutate({ kind: "thread", id: t.id })}
-                        aria-label={`Usuń wątek ${t.title}`}
-                        title="Usuń wątek"
-                        className="mr-3 size-8 shrink-0 text-muted-foreground hover:text-primary"
-                      >
-                        <Trash2 className="size-4" />
-                      </Button>
+                      <>
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="ghost"
+                          disabled={banAction.isPending}
+                          onClick={() =>
+                            banAction.mutate({
+                              userId: t.author_id,
+                              name: nameOf(t.author_id),
+                            })
+                          }
+                          aria-label={`Zbanuj ${nameOf(t.author_id)}`}
+                          title="Zbanuj autora — wyklucza z forum i zamyka konto"
+                          className="size-8 shrink-0 text-muted-foreground hover:text-primary"
+                        >
+                          <Ban className="size-4" />
+                        </Button>
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="ghost"
+                          disabled={modAction.isPending}
+                          onClick={() => modAction.mutate({ kind: "thread", id: t.id })}
+                          aria-label={`Usuń wątek ${t.title}`}
+                          title="Usuń wątek"
+                          className="mr-3 size-8 shrink-0 text-muted-foreground hover:text-primary"
+                        >
+                          <Trash2 className="size-4" />
+                        </Button>
+                      </>
                     ) : null}
+
                   </div>
                 ))}
               </div>
