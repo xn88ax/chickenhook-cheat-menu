@@ -875,19 +875,13 @@ html[data-site-compact="on"] .gs-panel { --gs-gap: 0.5rem; }
 .profile-banner-fallback {
   position: absolute;
   inset: -30%;
-  background:
-    radial-gradient(
-      closest-side,
-      color-mix(in oklab, var(--profile-accent, #e11d2e) 55%, transparent),
-      transparent
-    ),
-    repeating-linear-gradient(
-      115deg,
-      color-mix(in oklab, var(--profile-accent, #e11d2e) 22%, transparent) 0 8px,
-      transparent 8px 22px
-    );
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklab, var(--profile-accent, #e11d2e) 45%, transparent),
+    transparent
+  );
   animation: profile-banner-drift 18s linear infinite;
-  opacity: 0.55;
+  opacity: 0.5;
 }
 @keyframes profile-banner-drift {
   0% {
