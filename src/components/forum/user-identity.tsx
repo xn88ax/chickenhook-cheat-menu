@@ -27,6 +27,7 @@ export type ForumIdentity = {
   username: string;
   roles: string[];
   links?: Array<string | null>;
+  memberNumber?: number | null;
 };
 
 function linkLabel(url: string) {
@@ -57,7 +58,7 @@ export function UserIdentity({ profile }: { profile: ForumIdentity }) {
           ))}
         </div>
         <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px] text-muted-foreground">
-          <span className="font-mono">UID: {profile.id}</span>
+          <span className="font-mono">UID: {profile.memberNumber ?? "?"}</span>
           {links.map((url) => (
             <a
               key={url}

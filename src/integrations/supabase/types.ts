@@ -164,6 +164,7 @@ export type Database = {
           link_1: string | null
           link_2: string | null
           link_3: string | null
+          member_number: number
           updated_at: string
           username: string
           views: number
@@ -178,6 +179,7 @@ export type Database = {
           link_1?: string | null
           link_2?: string | null
           link_3?: string | null
+          member_number?: number
           updated_at?: string
           username: string
           views?: number
@@ -192,6 +194,7 @@ export type Database = {
           link_1?: string | null
           link_2?: string | null
           link_3?: string | null
+          member_number?: number
           updated_at?: string
           username?: string
           views?: number

@@ -61,7 +61,7 @@ function ProfilePage() {
     queryFn: async () => {
       const { data } = await supabase
         .from("profiles")
-        .select("id, username, bio, avatar_url, banner_url, accent, views, created_at, link_1, link_2, link_3")
+        .select("id, username, bio, avatar_url, banner_url, accent, views, created_at, link_1, link_2, link_3, member_number")
         .ilike("username", username)
         .maybeSingle();
       return data ?? null;
@@ -217,7 +217,7 @@ function ProfilePage() {
                     {title}
                   </p>
                   <p className="mt-1 break-all font-mono text-[10px] text-muted-foreground">
-                    UID: {profile.id}
+                    UID: {profile.member_number}
                   </p>
                   <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px]">
                     {roleList.map((r) => (
