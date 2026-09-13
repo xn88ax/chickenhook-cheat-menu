@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { Avatar, timeAgo } from "@/components/forum/forum-shell";
+import { UserIdentity, type ForumIdentity } from "@/components/forum/user-identity";
 import { moderateContent } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/_authenticated/forum/watek/$id")({
@@ -76,13 +77,34 @@ function ThreadPage() {
   const profilesQuery = useQuery({
     queryKey: ["forum", "profiles"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("profiles").select("id,username");
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id,username,link_1,link_2,link_3");
       if (error) throw error;
-      return data as { id: string; username: string }[];
+      return data;
     },
   });
-  const nameOf = (uid: string) =>
-    profilesQuery.data?.find((p) => p.id === uid)?.username ?? "użytkownik";
+
+  const rolesQuery = useQuery({
+    queryKey: ["forum", "roles"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("user_roles").select("user_id,role");
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const identityOf = (uid: string): ForumIdentity => {
+    const profile = profilesQuery.data?.find((item) => item.id === uid);
+    return {
+      id: uid,
+      username: profile?.username ?? "użytkownik",
+      roles: (rolesQuery.data ?? [])
+        .filter((item) => item.user_id === uid)
+        .map((item) => item.role),
+      links: [profile?.link_1 ?? null, profile?.link_2 ?? null, profile?.link_3 ?? null],
+    };
+  };
 
   const addPost = useMutation({
     mutationFn: async () => {
@@ -144,8 +166,7 @@ function ThreadPage() {
 
             <article className="gs-panel">
               <header className="flex items-center gap-3 gs-head border-b border-border px-4 py-2.5">
-                <Avatar name={nameOf(thread.author_id)} className="size-8" />
-                <span className="text-xs font-bold">{nameOf(thread.author_id)}</span>
+                <UserIdentity profile={identityOf(thread.author_id)} />
                 <span className="ml-auto text-xs text-muted-foreground">
                   {timeAgo(thread.created_at)}
                 </span>
@@ -177,8 +198,7 @@ function ThreadPage() {
             {(postsQuery.data ?? []).map((p) => (
               <article key={p.id} className="gs-panel">
                 <header className="flex items-center gap-3 gs-head border-b border-border px-4 py-2.5">
-                  <Avatar name={nameOf(p.author_id)} className="size-8" />
-                  <span className="text-xs font-bold">{nameOf(p.author_id)}</span>
+                  <UserIdentity profile={identityOf(p.author_id)} />
                   <span className="ml-auto text-xs text-muted-foreground">
                     {timeAgo(p.created_at)}
                   </span>

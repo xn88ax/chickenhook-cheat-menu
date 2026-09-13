@@ -908,3 +908,57 @@ html[data-site-compact="on"] .gs-panel { --gs-gap: 0.5rem; }
     animation: none;
   }
 }
+
+/* --- Forum: role użytkowników --- */
+.forum-role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.4rem;
+  color: var(--muted-foreground);
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1rem;
+  text-transform: uppercase;
+}
+.forum-role-owner {
+  border-color: color-mix(in oklab, var(--primary) 72%, var(--border));
+  background: color-mix(in oklab, var(--primary) 18%, var(--card));
+  color: var(--foreground);
+  box-shadow: 0 0 12px color-mix(in oklab, var(--primary) 35%, transparent);
+}
+.forum-role-admin {
+  border-color: color-mix(in oklab, var(--accent) 68%, var(--border));
+  background: color-mix(in oklab, var(--accent) 14%, var(--card));
+  color: var(--foreground);
+  box-shadow: 0 0 10px color-mix(in oklab, var(--accent) 28%, transparent);
+}
+.forum-role-moderator {
+  border-color: color-mix(in oklab, var(--status-ok) 55%, var(--border));
+  color: var(--status-ok);
+}
+.forum-role-glitter::after {
+  content: "";
+  position: absolute;
+  inset: -120% -45%;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    color-mix(in oklab, var(--foreground) 75%, transparent) 48%,
+    transparent 61%
+  );
+  animation: forum-role-shine 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes forum-role-shine {
+  0%, 35% { transform: translateX(-65%) rotate(8deg); opacity: 0; }
+  50% { opacity: 0.9; }
+  70%, 100% { transform: translateX(65%) rotate(8deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .forum-role-glitter::after { animation: none; }
+}

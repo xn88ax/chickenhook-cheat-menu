@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Eye, MessageSquare, ShieldCheck, Sparkles, Star } from "lucide-react";
+import { ExternalLink, Eye, MessageSquare, Sparkles } from "lucide-react";
 
+import { RoleBadge } from "@/components/forum/user-identity";
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -60,7 +61,7 @@ function ProfilePage() {
     queryFn: async () => {
       const { data } = await supabase
         .from("profiles")
-        .select("id, username, bio, avatar_url, banner_url, accent, views, created_at")
+        .select("id, username, bio, avatar_url, banner_url, accent, views, created_at, link_1, link_2, link_3")
         .ilike("username", username)
         .maybeSingle();
       return data ?? null;
@@ -157,7 +158,9 @@ function ProfilePage() {
   const roleList = roles ?? [];
   const title =
     ROLE_TITLES[roleList.find((r) => ROLE_TITLES[r]) ?? ""] ?? "Członek kurnika";
-  const points = (stats?.threads ?? 0) * 5 + (stats?.posts ?? 0) * 2 + (stats?.shouts ?? 0);
+  const profileLinks = [profile?.link_1, profile?.link_2, profile?.link_3].filter(
+    (link): link is string => Boolean(link),
+  );
 
   return (
     <GsShell crumbs={[{ label: "Członkowie" }, { label: username }]}>
@@ -213,15 +216,12 @@ function ProfilePage() {
                   <p className="mt-0.5 text-[11px] uppercase tracking-wide text-muted-foreground">
                     {title}
                   </p>
+                  <p className="mt-1 break-all font-mono text-[10px] text-muted-foreground">
+                    UID: {profile.id}
+                  </p>
                   <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px]">
                     {roleList.map((r) => (
-                      <span
-                        key={r}
-                        className="inline-flex items-center gap-1 rounded border border-border px-2 py-0.5 text-foreground"
-                      >
-                        <ShieldCheck className="size-3" style={{ color: accent }} />
-                        {r}
-                      </span>
+                      <RoleBadge key={r} role={r} />
                     ))}
                   </div>
                 </div>
@@ -245,10 +245,9 @@ function ProfilePage() {
               </div>
 
               {/* Pasek liczników jak w profilu forum */}
-              <dl className="grid grid-cols-2 divide-x divide-y divide-border/60 text-xs sm:grid-cols-4 sm:divide-y-0">
+              <dl className="grid grid-cols-1 divide-y divide-border/60 text-xs sm:grid-cols-3 sm:divide-x sm:divide-y-0">
                 {[
                   ["Wiadomości", (stats?.posts ?? 0) + (stats?.threads ?? 0)],
-                  ["Punkty", points],
                   ["Odwiedziny", profile.views],
                   ["Dołączył", pl(profile.created_at)],
                 ].map(([label, value]) => (
@@ -285,11 +284,32 @@ function ProfilePage() {
                 </nav>
 
                 {tab === "about" && (
-                  <GsPanel title="O mnie" className="mt-4">
-                    <p className="whitespace-pre-wrap p-4 text-xs leading-relaxed text-muted-foreground">
-                      {profile.bio?.trim() || "Ten kurczak nic o sobie nie napisał."}
-                    </p>
-                  </GsPanel>
+                  <div className="mt-4 space-y-4">
+                    <GsPanel title="O mnie">
+                      <p className="whitespace-pre-wrap p-4 text-xs leading-relaxed text-muted-foreground">
+                        {profile.bio?.trim() || "Ten kurczak nic o sobie nie napisał."}
+                      </p>
+                    </GsPanel>
+                    <GsPanel title="Linki">
+                      <div className="flex flex-wrap gap-2 p-4">
+                        {profileLinks.map((url, index) => (
+                          <a
+                            key={url}
+                            href={url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex max-w-full items-center gap-1.5 rounded border border-border px-3 py-2 text-xs text-foreground hover:border-primary hover:text-primary"
+                          >
+                            <ExternalLink className="size-3 shrink-0" aria-hidden />
+                            <span className="truncate">Link {index + 1}</span>
+                          </a>
+                        ))}
+                        {profileLinks.length === 0 && (
+                          <p className="text-xs text-muted-foreground">Brak dodanych linków.</p>
+                        )}
+                      </div>
+                    </GsPanel>
+                  </div>
                 )}
 
                 {tab === "activity" && (
@@ -326,7 +346,6 @@ function ProfilePage() {
                     ["Wątki na forum", stats?.threads ?? 0, MessageSquare],
                     ["Posty na forum", stats?.posts ?? 0, MessageSquare],
                     ["Wiadomości na czacie", stats?.shouts ?? 0, Sparkles],
-                    ["Punkty kurnika", points, Star],
                   ].map(([label, value, Icon]) => {
                     const I = Icon as typeof Eye;
                     return (
