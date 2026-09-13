@@ -5,7 +5,7 @@ import { LogIn, Send, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { displayName, useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
-import { Avatar } from "@/components/forum/forum-shell";
+
 import { useProfileMedia } from "@/lib/profile-media";
 import { RoleBadge } from "@/components/forum/user-identity";
 import { mainRoleOf, useRoleStyles } from "@/lib/role-styles";
