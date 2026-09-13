@@ -129,6 +129,10 @@ function CategoryPage() {
               <h2 className="gs-head px-4 py-2 text-xs font-bold">
                 Wątki
               </h2>
+              {isAdmin && banNote && (
+                <p className="border-b border-border/60 px-4 py-2 text-xs text-primary">{banNote}</p>
+              )}
+
                             <div className="divide-y divide-border/60">
                 {(threadsQuery.data ?? []).length === 0 && (
                   <p className="px-4 py-6 text-xs text-muted-foreground">
