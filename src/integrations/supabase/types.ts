@@ -165,6 +165,7 @@ export type Database = {
           link_2: string | null
           link_3: string | null
           member_number: number
+          socials: Json
           updated_at: string
           username: string
           views: number
@@ -180,6 +181,7 @@ export type Database = {
           link_2?: string | null
           link_3?: string | null
           member_number?: number
+          socials?: Json
           updated_at?: string
           username: string
           views?: number
@@ -195,6 +197,7 @@ export type Database = {
           link_2?: string | null
           link_3?: string | null
           member_number?: number
+          socials?: Json
           updated_at?: string
           username?: string
           views?: number
