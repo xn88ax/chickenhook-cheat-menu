@@ -8,6 +8,7 @@ import { GsPanel, GsShell } from "@/components/gs-shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { accentColor, useProfileMedia } from "@/lib/profile-media";
+import { SOCIAL_PLATFORMS, parseSocials } from "@/lib/socials";
 
 export const Route = createFileRoute("/profil/$username")({
   head: ({ params }) => ({
