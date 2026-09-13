@@ -73,6 +73,7 @@ function Admin() {
   const unbanFn = useServerFn(unbanUser);
   const renameFn = useServerFn(setUsername);
   const qc = useQueryClient();
+  const { isOwner } = useIsOwner();
 
   const [tab, setTab] = useState<Tab>("overview");
   const [count, setCount] = useState(3);
