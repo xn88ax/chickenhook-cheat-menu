@@ -225,10 +225,11 @@ export function Shoutbox() {
                 <ChatAvatar profile={profile} />
                 {s.user_id ? (
                   <span className="flex min-w-0 flex-wrap items-center gap-1">
-                    <Link
-                      to="/profil/$username"
-                      params={{ username: s.nick }}
-                      className={`font-semibold hover:underline ${glitter ? "forum-nick-glitter" : roleStyle ? "forum-nick-color" : "text-primary"}`}
+                    <button
+                      type="button"
+                      onClick={() => mention(s.nick)}
+                      title={`Oznacz @${s.nick}`}
+                      className={`cursor-pointer font-semibold hover:underline ${glitter ? "forum-nick-glitter" : roleStyle ? "forum-nick-color" : "text-primary"}`}
                       style={
                         roleStyle
                           ? ({ "--role-color": roleStyle.color } as React.CSSProperties)
@@ -236,12 +237,21 @@ export function Shoutbox() {
                       }
                     >
                       {s.nick}
-                    </Link>
+                    </button>
                   </span>
                 ) : (
-                  <span className="font-semibold text-muted-foreground">{s.nick}</span>
+                  <button
+                    type="button"
+                    onClick={() => mention(s.nick)}
+                    title={`Oznacz @${s.nick}`}
+                    className="cursor-pointer font-semibold text-muted-foreground hover:underline"
+                  >
+                    {s.nick}
+                  </button>
                 )}
-                <span className="min-w-0 break-words text-muted-foreground">{s.text}</span>
+                <span className="min-w-0 break-words text-muted-foreground">
+                  <MentionText text={s.text} known={knownNicks} />
+                </span>
                 {mine ? (
                   <button
                     type="button"
