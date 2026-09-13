@@ -7,6 +7,8 @@ import { displayName, useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/forum/forum-shell";
 import { useProfileMedia } from "@/lib/profile-media";
+import { RoleBadge } from "@/components/forum/user-identity";
+import { mainRoleOf, useRoleStyles } from "@/lib/role-styles";
 
 type Shout = {
   id: string;
@@ -58,6 +60,7 @@ export function Shoutbox() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [profiles, setProfiles] = useState<Record<string, ShoutProfile>>({});
+  const roleStyles = useRoleStyles();
   const listRef = useRef<HTMLDivElement>(null);
 
   // Nick gościa jest przydzielany automatycznie i nie da się go zmienić bez konta.
@@ -175,7 +178,9 @@ export function Shoutbox() {
           shouts.map((s) => {
             const mine = !!user && s.user_id === user.id;
             const profile = s.user_id ? profiles[s.user_id] : undefined;
-            const glitter = profile?.roles.some((role) => role === "admin" || role === "owner");
+            const mainRole = profile ? mainRoleOf(profile.roles) : undefined;
+            const roleStyle = mainRole ? roleStyles[mainRole] : undefined;
+            const glitter = roleStyle?.glitter ?? false;
             return (
               <div key={s.id} className="group grid grid-cols-[auto_auto_auto_1fr_auto] items-center gap-2 border-b border-border/50 py-1.5 leading-relaxed last:border-0">
                 <span className="text-xs text-[var(--text-subtle)] tabular-nums">
@@ -183,13 +188,21 @@ export function Shoutbox() {
                 </span>
                 <ChatAvatar profile={profile} nick={s.nick} />
                 {s.user_id ? (
-                  <Link
-                    to="/profil/$username"
-                    params={{ username: s.nick }}
-                    className={`font-semibold text-primary hover:underline${glitter ? " forum-nick-glitter" : ""}`}
-                  >
-                    {s.nick}
-                  </Link>
+                  <span className="flex min-w-0 items-center gap-1.5">
+                    <Link
+                      to="/profil/$username"
+                      params={{ username: s.nick }}
+                      className={`font-semibold hover:underline ${glitter ? "forum-nick-glitter" : roleStyle ? "forum-nick-color" : "text-primary"}`}
+                      style={
+                        roleStyle
+                          ? ({ "--role-color": roleStyle.color } as React.CSSProperties)
+                          : undefined
+                      }
+                    >
+                      {s.nick}
+                    </Link>
+                    {mainRole && mainRole !== "user" ? <RoleBadge role={mainRole} /> : null}
+                  </span>
                 ) : (
                   <span className="font-semibold text-muted-foreground">{s.nick}</span>
                 )}
