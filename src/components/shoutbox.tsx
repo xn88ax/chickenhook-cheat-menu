@@ -288,7 +288,8 @@ export function Shoutbox() {
       </div>
 
        <form className="flex gap-2 border-t border-border px-4 py-3" onSubmit={send}>
-        <input
+         <input
+          ref={inputRef}
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           maxLength={200}
