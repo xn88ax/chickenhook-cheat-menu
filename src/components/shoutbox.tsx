@@ -31,25 +31,44 @@ function ChatAvatar({ profile }: { profile?: ShoutProfile }) {
 }
 
 function MentionText({ text, known }: { text: string; known: Set<string> }) {
-  const parts = text.split(/(@[A-Za-z0-9_]+)/g);
+  // Dopasowuje @nick, także ze spacjami: bierze najdłuższy znany nick.
+  const nicks = [...known].sort((a, b) => b.length - a.length);
+  const parts: (string | { nick: string; label: string })[] = [];
+  let rest = text;
+  while (rest) {
+    const at = rest.indexOf("@");
+    if (at === -1) {
+      parts.push(rest);
+      break;
+    }
+    if (at > 0) parts.push(rest.slice(0, at));
+    rest = rest.slice(at);
+    const tail = rest.slice(1).toLowerCase();
+    const hit = nicks.find((n) => tail.startsWith(n));
+    if (hit) {
+      parts.push({ nick: hit, label: rest.slice(0, 1 + hit.length) });
+      rest = rest.slice(1 + hit.length);
+    } else {
+      parts.push("@");
+      rest = rest.slice(1);
+    }
+  }
   return (
     <>
-      {parts.map((part, i) => {
-        if (!part.startsWith("@")) return part;
-        const nick = part.slice(1).toLowerCase();
-        return known.has(nick) ? (
+      {parts.map((part, i) =>
+        typeof part === "string" ? (
+          part
+        ) : (
           <Link
             key={i}
             to="/profil/$username"
-            params={{ username: part.slice(1) }}
+            params={{ username: part.nick }}
             className="rounded bg-primary/15 px-1 font-semibold text-primary hover:bg-primary/25"
           >
-            {part}
+            {part.label}
           </Link>
-        ) : (
-          part
-        );
-      })}
+        ),
+      )}
     </>
   );
 }
@@ -269,7 +288,8 @@ export function Shoutbox() {
       </div>
 
        <form className="flex gap-2 border-t border-border px-4 py-3" onSubmit={send}>
-        <input
+         <input
+          ref={inputRef}
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           maxLength={200}
