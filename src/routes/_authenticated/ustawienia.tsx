@@ -295,11 +295,18 @@ function Settings() {
                 aria-hidden="true"
               >
                 {!bannerUrl && <div className="profile-banner-fallback" />}
+                <div
+                  className="pointer-events-none absolute inset-x-0 top-0 h-2/3"
+                  style={{
+                    background: `linear-gradient(to bottom, ${accentColor(accent)}99, transparent)`,
+                  }}
+                  aria-hidden="true"
+                />
               </div>
               <form className="space-y-4 p-4" onSubmit={saveProfile}>
                 <div className="flex flex-wrap items-center gap-4">
                   <div
-                    className="-mt-12 size-16 shrink-0 overflow-hidden rounded-xl border-2 bg-card"
+                    className="relative z-10 -mt-12 size-16 shrink-0 overflow-hidden rounded-xl border-2 bg-card"
                     style={{ borderColor: accentColor(accent) }}
                   >
                     {avatarUrl ? (
