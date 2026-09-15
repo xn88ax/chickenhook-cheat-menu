@@ -987,3 +987,26 @@ html[data-site-compact="on"] .gs-panel { --gs-gap: 0.5rem; }
   .forum-role-glitter::after,
   .forum-nick-glitter { animation: none; }
 }
+
+/* --- Profil: motywy karty profilu --- */
+[data-profile-theme] .gs-panel {
+  background-color: color-mix(in oklab, var(--profile-surface, var(--color-card)) 88%, transparent);
+  border-color: color-mix(in oklab, var(--profile-accent, #e11d2e) 22%, var(--color-border));
+  color: var(--profile-text, inherit);
+}
+[data-profile-theme="grafit"] {
+  --profile-surface: #171a1f;
+}
+[data-profile-theme="neon"] {
+  --profile-surface: #0a0714;
+}
+[data-profile-theme="neon"] .gs-panel {
+  box-shadow: 0 0 18px color-mix(in oklab, var(--profile-accent, #e11d2e) 26%, transparent);
+}
+[data-profile-theme="panierka"] {
+  --profile-surface: #f6efe2;
+  --profile-text: #22201c;
+}
+[data-profile-theme="panierka"] .text-muted-foreground {
+  color: color-mix(in oklab, #22201c 62%, transparent);
+}
