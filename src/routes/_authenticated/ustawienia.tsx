@@ -115,6 +115,7 @@ function Settings() {
 
   const [bio, setBio] = useState("");
   const [accent, setAccent] = useState("red");
+  const [theme, setTheme] = useState<string>("nocny");
   const [socials, setSocials] = useState<Socials>({});
   const [profileState, setProfileState] = useState<{
     busy: boolean;
@@ -143,6 +144,7 @@ function Settings() {
     if (profile) {
       setBio(profile.bio ?? "");
       setAccent(profile.accent ?? "red");
+      setTheme(profileTheme((profile as { theme?: string | null }).theme));
       setSocials(parseSocials(profile.socials));
     }
   }, [profile]);
