@@ -871,6 +871,7 @@ html[data-site-compact="on"] .gs-panel { --gs-gap: 0.5rem; }
   background-repeat: no-repeat;
   position: relative;
   isolation: isolate;
+  overflow: hidden;
 }
 .profile-banner-fallback {
   position: absolute;
