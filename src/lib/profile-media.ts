@@ -12,9 +12,31 @@ export const ACCENTS = [
   { id: "violet", label: "HvH violet", color: "#8b5cf6" },
 ] as const;
 
+const HEX = /^#[0-9a-fA-F]{6}$/;
+
+/** Zwraca kolor: gotowy preset albo własny hex (#rrggbb). */
 export function accentColor(id: string | null | undefined) {
+  if (id && HEX.test(id)) return id.toLowerCase();
   return ACCENTS.find((a) => a.id === id)?.color ?? ACCENTS[0].color;
 }
+
+export function isCustomAccent(id: string | null | undefined) {
+  return !!id && HEX.test(id);
+}
+
+export const PROFILE_THEMES = [
+  { id: "nocny", label: "Nocny kurnik" },
+  { id: "grafit", label: "Grafit" },
+  { id: "neon", label: "Neon HvH" },
+  { id: "panierka", label: "Panierka (jasny)" },
+] as const;
+
+export type ProfileThemeId = (typeof PROFILE_THEMES)[number]["id"];
+
+export function profileTheme(id: string | null | undefined): ProfileThemeId {
+  return (PROFILE_THEMES.find((t) => t.id === id)?.id ?? "nocny") as ProfileThemeId;
+}
+
 
 /** Private bucket → short-lived signed URL, cached by react-query. */
 export function useProfileMedia(path: string | null | undefined) {
