@@ -7,7 +7,7 @@ import { ExternalLink, Eye, MessageSquare, Sparkles } from "lucide-react";
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { accentColor, useProfileMedia } from "@/lib/profile-media";
+import { accentColor, profileTheme, useProfileMedia } from "@/lib/profile-media";
 import { SOCIAL_PLATFORMS, parseSocials } from "@/lib/socials";
 
 export const Route = createFileRoute("/profil/$username")({
@@ -145,6 +145,7 @@ function ProfilePage() {
   const banner = useProfileMedia(profile?.banner_url);
   const avatar = useProfileMedia(profile?.avatar_url);
   const accent = accentColor(profile?.accent);
+  const theme = profileTheme((profile as { theme?: string | null } | null)?.theme);
 
   // Licznik odwiedzin: raz na sesję przeglądarki na dany profil.
   useEffect(() => {
@@ -164,7 +165,11 @@ function ProfilePage() {
 
   return (
     <GsShell crumbs={[{ label: "Członkowie" }, { label: username }]}>
-      <main className="mx-auto max-w-[1160px] px-5 py-6">
+      <main
+        className="mx-auto max-w-[1160px] px-5 py-6"
+        data-profile-theme={theme}
+        style={{ ["--profile-accent" as string]: accent }}
+      >
         {isLoading ? (
           <p className="text-xs text-muted-foreground">Szukam w kurniku…</p>
         ) : !profile ? (

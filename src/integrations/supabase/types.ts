@@ -166,6 +166,7 @@ export type Database = {
           link_3: string | null
           member_number: number
           socials: Json
+          theme: string
           updated_at: string
           username: string
           views: number
@@ -182,6 +183,7 @@ export type Database = {
           link_3?: string | null
           member_number?: number
           socials?: Json
+          theme?: string
           updated_at?: string
           username: string
           views?: number
@@ -198,6 +200,7 @@ export type Database = {
           link_3?: string | null
           member_number?: number
           socials?: Json
+          theme?: string
           updated_at?: string
           username?: string
           views?: number

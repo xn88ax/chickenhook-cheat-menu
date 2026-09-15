@@ -9,7 +9,15 @@ import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
 import { useSiteSettings } from "@/lib/site-settings";
 import { isRememberSession, setRememberSession } from "@/lib/session-persistence";
-import { ACCENTS, accentColor, uploadProfileMedia, useProfileMedia } from "@/lib/profile-media";
+import {
+  ACCENTS,
+  PROFILE_THEMES,
+  accentColor,
+  isCustomAccent,
+  profileTheme,
+  uploadProfileMedia,
+  useProfileMedia,
+} from "@/lib/profile-media";
 import { SOCIAL_PLATFORMS, parseSocials, type Socials } from "@/lib/socials";
 
 export const Route = createFileRoute("/_authenticated/ustawienia")({
@@ -107,6 +115,7 @@ function Settings() {
 
   const [bio, setBio] = useState("");
   const [accent, setAccent] = useState("red");
+  const [theme, setTheme] = useState<string>("nocny");
   const [socials, setSocials] = useState<Socials>({});
   const [profileState, setProfileState] = useState<{
     busy: boolean;
@@ -120,7 +129,7 @@ function Settings() {
     queryFn: async () => {
       const { data } = await supabase
         .from("profiles")
-        .select("username, bio, avatar_url, banner_url, accent, views, socials")
+        .select("username, bio, avatar_url, banner_url, accent, theme, views, socials")
         .eq("id", user!.id)
         .maybeSingle();
       return data ?? null;
@@ -135,6 +144,7 @@ function Settings() {
     if (profile) {
       setBio(profile.bio ?? "");
       setAccent(profile.accent ?? "red");
+      setTheme(profileTheme((profile as { theme?: string | null }).theme));
       setSocials(parseSocials(profile.socials));
     }
   }, [profile]);
@@ -159,6 +169,7 @@ function Settings() {
       .update({
         bio: bio.slice(0, 500),
         accent,
+        theme: profileTheme(theme),
         socials: normalizedSocials,
       })
       .eq("id", user!.id);
@@ -418,8 +429,41 @@ function Settings() {
                         {a.label}
                       </button>
                     ))}
+                    <label
+                      className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 ${isCustomAccent(accent) ? "border-primary text-foreground" : "border-border text-muted-foreground"}`}
+                    >
+                      <input
+                        type="color"
+                        value={accentColor(accent)}
+                        onChange={(event) => setAccent(event.target.value.toLowerCase())}
+                        className="size-4 cursor-pointer rounded border-0 bg-transparent p-0"
+                        aria-label="Własny kolor profilu"
+                      />
+                      Własny kolor
+                    </label>
+                  </div>
+                  {isCustomAccent(accent) && (
+                    <p className="mt-1 font-mono text-[10px] text-muted-foreground">{accent}</p>
+                  )}
+                </div>
+
+                <div className="text-xs">
+                  <span className="text-muted-foreground">Motyw profilu</span>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {PROFILE_THEMES.map((t) => (
+                      <button
+                        key={t.id}
+                        type="button"
+                        onClick={() => setTheme(t.id)}
+                        aria-pressed={theme === t.id}
+                        className={`rounded-lg border px-2.5 py-1.5 ${theme === t.id ? "border-primary text-foreground" : "border-border text-muted-foreground"}`}
+                      >
+                        {t.label}
+                      </button>
+                    ))}
                   </div>
                 </div>
+
 
                 <button type="submit" disabled={profileState.busy} className={btnClass}>
                   {profileState.busy ? (
