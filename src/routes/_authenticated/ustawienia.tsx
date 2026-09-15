@@ -129,7 +129,7 @@ function Settings() {
     queryFn: async () => {
       const { data } = await supabase
         .from("profiles")
-        .select("username, bio, avatar_url, banner_url, accent, views, socials")
+        .select("username, bio, avatar_url, banner_url, accent, theme, views, socials")
         .eq("id", user!.id)
         .maybeSingle();
       return data ?? null;
@@ -169,6 +169,7 @@ function Settings() {
       .update({
         bio: bio.slice(0, 500),
         accent,
+        theme: profileTheme(theme),
         socials: normalizedSocials,
       })
       .eq("id", user!.id);
