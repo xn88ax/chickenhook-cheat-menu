@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Check, ExternalLink, ImagePlus, Loader2, Lock, RotateCcw } from "lucide-react";
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
+import { MediaCropper } from "@/components/media-cropper";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
@@ -181,6 +182,16 @@ function Settings() {
     });
   }
 
+  function chooseFile(kind: "avatar" | "banner", file: File | null | undefined) {
+    if (!file) return;
+    // GIF zostawiamy nietknięty, żeby nie stracić animacji.
+    if (file.type === "image/gif") {
+      void pickMedia(kind, file);
+      return;
+    }
+    setCropping({ kind, file });
+  }
+
   async function pickMedia(kind: "avatar" | "banner", file: File | null | undefined) {
     if (!file || !user) return;
     setProfileState({ busy: true, msg: null, err: false });
@@ -205,6 +216,7 @@ function Settings() {
       });
     }
   }
+
 
   async function clearMedia(kind: "avatar" | "banner") {
     if (!user) return;
