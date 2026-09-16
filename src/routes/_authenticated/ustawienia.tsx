@@ -95,6 +95,7 @@ function Settings() {
   const qc = useQueryClient();
   const { settings, update, reset } = useSiteSettings();
   const [tab, setTab] = useState<Tab>("profile");
+  const [cropping, setCropping] = useState<{ kind: "avatar" | "banner"; file: File } | null>(null);
 
   const [username, setUsername] = useState("");
   const [nameState, setNameState] = useState<{ busy: boolean; msg: string | null; err: boolean }>({
@@ -348,7 +349,10 @@ function Settings() {
                         type="file"
                         accept="image/png,image/jpeg,image/webp,image/gif"
                         className="hidden"
-                        onChange={(e) => void pickMedia("avatar", e.target.files?.[0])}
+                        onChange={(e) => {
+                          chooseFile("avatar", e.target.files?.[0]);
+                          e.target.value = "";
+                        }}
                       />
                     </label>
                     <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-border px-3 py-2 hover:border-primary">
@@ -358,7 +362,10 @@ function Settings() {
                         type="file"
                         accept="image/png,image/jpeg,image/webp,image/gif"
                         className="hidden"
-                        onChange={(e) => void pickMedia("banner", e.target.files?.[0])}
+                        onChange={(e) => {
+                          chooseFile("banner", e.target.files?.[0]);
+                          e.target.value = "";
+                        }}
                       />
                     </label>
                     <button
