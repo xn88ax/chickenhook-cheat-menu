@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Check, ExternalLink, ImagePlus, Loader2, Lock, RotateCcw } from "lucide-react";
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
+import { MediaCropper } from "@/components/media-cropper";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
@@ -94,6 +95,7 @@ function Settings() {
   const qc = useQueryClient();
   const { settings, update, reset } = useSiteSettings();
   const [tab, setTab] = useState<Tab>("profile");
+  const [cropping, setCropping] = useState<{ kind: "avatar" | "banner"; file: File } | null>(null);
 
   const [username, setUsername] = useState("");
   const [nameState, setNameState] = useState<{ busy: boolean; msg: string | null; err: boolean }>({
@@ -181,6 +183,16 @@ function Settings() {
     });
   }
 
+  function chooseFile(kind: "avatar" | "banner", file: File | null | undefined) {
+    if (!file) return;
+    // GIF zostawiamy nietknięty, żeby nie stracić animacji.
+    if (file.type === "image/gif") {
+      void pickMedia(kind, file);
+      return;
+    }
+    setCropping({ kind, file });
+  }
+
   async function pickMedia(kind: "avatar" | "banner", file: File | null | undefined) {
     if (!file || !user) return;
     setProfileState({ busy: true, msg: null, err: false });
@@ -205,6 +217,7 @@ function Settings() {
       });
     }
   }
+
 
   async function clearMedia(kind: "avatar" | "banner") {
     if (!user) return;
@@ -336,7 +349,10 @@ function Settings() {
                         type="file"
                         accept="image/png,image/jpeg,image/webp,image/gif"
                         className="hidden"
-                        onChange={(e) => void pickMedia("avatar", e.target.files?.[0])}
+                        onChange={(e) => {
+                          chooseFile("avatar", e.target.files?.[0]);
+                          e.target.value = "";
+                        }}
                       />
                     </label>
                     <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-border px-3 py-2 hover:border-primary">
@@ -346,7 +362,10 @@ function Settings() {
                         type="file"
                         accept="image/png,image/jpeg,image/webp,image/gif"
                         className="hidden"
-                        onChange={(e) => void pickMedia("banner", e.target.files?.[0])}
+                        onChange={(e) => {
+                          chooseFile("banner", e.target.files?.[0]);
+                          e.target.value = "";
+                        }}
                       />
                     </label>
                     <button
@@ -655,6 +674,20 @@ function Settings() {
           </div>
         )}
       </main>
+      {cropping && (
+        <MediaCropper
+          file={cropping.file}
+          aspect={cropping.kind === "avatar" ? 1 : 3}
+          outWidth={cropping.kind === "avatar" ? 512 : 1200}
+          title={cropping.kind === "avatar" ? "Kadruj zdjęcie profilowe" : "Kadruj banner"}
+          onCancel={() => setCropping(null)}
+          onDone={(file) => {
+            const kind = cropping.kind;
+            setCropping(null);
+            void pickMedia(kind, file);
+          }}
+        />
+      )}
     </GsShell>
   );
 }
