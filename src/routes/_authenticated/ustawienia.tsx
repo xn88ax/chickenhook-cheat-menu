@@ -674,6 +674,20 @@ function Settings() {
           </div>
         )}
       </main>
+      {cropping && (
+        <MediaCropper
+          file={cropping.file}
+          aspect={cropping.kind === "avatar" ? 1 : 3}
+          outWidth={cropping.kind === "avatar" ? 512 : 1200}
+          title={cropping.kind === "avatar" ? "Kadruj zdjęcie profilowe" : "Kadruj banner"}
+          onCancel={() => setCropping(null)}
+          onDone={(file) => {
+            const kind = cropping.kind;
+            setCropping(null);
+            void pickMedia(kind, file);
+          }}
+        />
+      )}
     </GsShell>
   );
 }
