@@ -6,9 +6,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { displayName, useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 
-import { useProfileMedia } from "@/lib/profile-media";
+import { nameEffect, nickVars, useProfileMedia } from "@/lib/profile-media";
 import { mainRoleOf, useRoleStyles } from "@/lib/role-styles";
-import { nameEffect, nickVars } from "@/lib/profile-media";
 
 type Shout = {
   id: string;
