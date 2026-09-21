@@ -117,6 +117,10 @@ function Settings() {
 
   const [bio, setBio] = useState("");
   const [accent, setAccent] = useState("red");
+  const [accent2, setAccent2] = useState<string | null>(null);
+  const [bg, setBg] = useState("solid");
+  const [angle, setAngle] = useState("down");
+  const [effect, setEffect] = useState("solid");
   const [theme, setTheme] = useState<string>("nocny");
   const [socials, setSocials] = useState<Socials>({});
   const [profileState, setProfileState] = useState<{
