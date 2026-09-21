@@ -1010,3 +1010,84 @@ html[data-site-compact="on"] .gs-panel { --gs-gap: 0.5rem; }
 [data-profile-theme="panierka"] .text-muted-foreground {
   color: color-mix(in oklab, #22201c 62%, transparent);
 }
+
+/* --- Profil: gradient tła --- */
+.profile-banner-fallback {
+  background: var(--profile-bg, radial-gradient(
+    closest-side,
+    color-mix(in oklab, var(--profile-accent, #e11d2e) 45%, transparent),
+    transparent
+  ));
+}
+
+/* --- Efekty nicku --- */
+.nick-fx {
+  --nick-1: var(--role-color, var(--primary));
+  --nick-2: var(--primary);
+  display: inline-block;
+}
+.nick-fx-solid {
+  color: var(--nick-1);
+}
+.nick-fx-gradient {
+  background-image: linear-gradient(100deg, var(--nick-1), var(--nick-2));
+  background-clip: text;
+  color: transparent;
+}
+.nick-fx-neon {
+  color: color-mix(in oklab, var(--nick-1) 35%, white);
+  text-shadow:
+    0 0 4px var(--nick-1),
+    0 0 12px var(--nick-1),
+    0 0 26px color-mix(in oklab, var(--nick-2) 70%, transparent);
+}
+.nick-fx-toon {
+  color: var(--nick-1);
+  -webkit-text-stroke: 1.5px color-mix(in oklab, var(--nick-2) 80%, black);
+  paint-order: stroke fill;
+  letter-spacing: 0.02em;
+}
+.nick-fx-pop {
+  color: var(--nick-1);
+  text-shadow:
+    1px 1px 0 var(--nick-2),
+    2px 2px 0 color-mix(in oklab, var(--nick-2) 55%, black),
+    3px 3px 0 color-mix(in oklab, var(--nick-2) 25%, black);
+}
+.nick-fx-gummy {
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--nick-1) 35%, white),
+    var(--nick-1) 55%,
+    color-mix(in oklab, var(--nick-2) 70%, black)
+  );
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 1px 1px color-mix(in oklab, var(--nick-2) 40%, transparent);
+  filter: saturate(1.15);
+}
+.nick-fx-prism {
+  background-image: linear-gradient(
+    100deg,
+    var(--nick-1),
+    #f59e0b,
+    #22c55e,
+    #3b82f6,
+    var(--nick-2),
+    var(--nick-1)
+  );
+  background-size: 320% 100%;
+  background-clip: text;
+  color: transparent;
+  animation: nick-prism 6s linear infinite;
+}
+@keyframes nick-prism {
+  to { background-position: -320% 0; }
+}
+html[data-site-anim="off"] .nick-fx-prism,
+:root[data-site-animations="off"] .nick-fx-prism {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nick-fx-prism { animation: none; }
+}

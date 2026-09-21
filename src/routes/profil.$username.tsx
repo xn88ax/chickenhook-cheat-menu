@@ -7,7 +7,14 @@ import { ExternalLink, Eye, MessageSquare, Sparkles } from "lucide-react";
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { accentColor, profileTheme, useProfileMedia } from "@/lib/profile-media";
+import {
+  accentColor,
+  nameEffect,
+  nickVars,
+  profileBackground,
+  profileTheme,
+  useProfileMedia,
+} from "@/lib/profile-media";
 import { SOCIAL_PLATFORMS, parseSocials } from "@/lib/socials";
 
 export const Route = createFileRoute("/profil/$username")({
@@ -62,7 +69,9 @@ function ProfilePage() {
     queryFn: async () => {
       const { data } = await supabase
         .from("profiles")
-        .select("id, username, bio, avatar_url, banner_url, accent, views, created_at, socials, member_number")
+        .select(
+          "id, username, bio, avatar_url, banner_url, accent, accent_2, bg_mode, bg_angle, name_effect, views, created_at, socials, member_number",
+        )
         .ilike("username", username)
         .maybeSingle();
       return data ?? null;
@@ -146,6 +155,9 @@ function ProfilePage() {
   const avatar = useProfileMedia(profile?.avatar_url);
   const accent = accentColor(profile?.accent);
   const theme = profileTheme((profile as { theme?: string | null } | null)?.theme);
+  const accent2 = profile?.accent_2 ?? null;
+  const fx = nameEffect(profile?.name_effect);
+  const bgValue = profileBackground(profile?.bg_mode, profile?.bg_angle, profile?.accent, accent2);
 
   // Licznik odwiedzin: raz na sesję przeglądarki na dany profil.
   useEffect(() => {
@@ -194,7 +206,12 @@ function ProfilePage() {
                 }}
                 aria-hidden="true"
               >
-                {!banner && <div className="profile-banner-fallback" />}
+                {!banner && (
+                  <div
+                    className="profile-banner-fallback"
+                    style={{ ["--profile-bg" as string]: bgValue }}
+                  />
+                )}
                 <div
                   className="pointer-events-none absolute inset-x-0 top-0 h-2/3"
                   style={{
@@ -222,8 +239,10 @@ function ProfilePage() {
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h1 className="font-display text-2xl tracking-wide" style={{ color: accent }}>
-                    {profile.username}
+                  <h1 className="font-display text-2xl tracking-wide">
+                    <span className={`nick-fx nick-fx-${fx}`} style={nickVars(profile.accent, accent2)}>
+                      {profile.username}
+                    </span>
                   </h1>
                   <p className="mt-0.5 text-[11px] uppercase tracking-wide text-muted-foreground">
                     {title}

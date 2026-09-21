@@ -3,6 +3,7 @@ import { ExternalLink, ShieldCheck } from "lucide-react";
 
 import { Avatar } from "@/components/forum/forum-shell";
 import { useRoleStyles } from "@/lib/role-styles";
+import { nameEffect, nickVars } from "@/lib/profile-media";
 
 const ROLE_LABELS: Record<string, string> = {
   owner: "Owner",
@@ -31,6 +32,9 @@ export type ForumIdentity = {
   roles: string[];
   links?: Array<string | null>;
   memberNumber?: number | null;
+  accent?: string | null;
+  accent2?: string | null;
+  nameEffect?: string | null;
 };
 
 function linkLabel(url: string) {
@@ -52,9 +56,14 @@ export function UserIdentity({ profile }: { profile: ForumIdentity }) {
           <Link
             to="/profil/$username"
             params={{ username: profile.username }}
-            className="text-xs font-bold text-foreground hover:text-primary"
+            className="text-xs font-bold hover:opacity-80"
           >
-            {profile.username}
+            <span
+              className={`nick-fx nick-fx-${nameEffect(profile.nameEffect)}`}
+              style={nickVars(profile.accent, profile.accent2)}
+            >
+              {profile.username}
+            </span>
           </Link>
           {profile.roles.map((role) => (
             <RoleBadge key={role} role={role} />

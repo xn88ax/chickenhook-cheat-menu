@@ -37,6 +37,82 @@ export function profileTheme(id: string | null | undefined): ProfileThemeId {
   return (PROFILE_THEMES.find((t) => t.id === id)?.id ?? "nocny") as ProfileThemeId;
 }
 
+/** Drugi kolor profilu (do gradientów i efektów nicku). */
+export function secondAccent(id: string | null | undefined, fallbackFrom?: string | null) {
+  if (id && HEX.test(id)) return id.toLowerCase();
+  const preset = ACCENTS.find((a) => a.id === id)?.color;
+  if (preset) return preset;
+  // domyślnie: fiolet albo drugi z presetów, żeby gradient nie był płaski
+  const main = accentColor(fallbackFrom);
+  return main === "#8b5cf6" ? "#3b82f6" : "#8b5cf6";
+}
+
+export const BG_MODES = [
+  { id: "solid", label: "Jednolity kolor" },
+  { id: "gradient", label: "Gradient" },
+] as const;
+
+export const BG_ANGLES = [
+  { id: "down", label: "Z góry na dół" },
+  { id: "diagonal", label: "Po skosie" },
+  { id: "radial", label: "Promieniście" },
+] as const;
+
+export function bgMode(id: string | null | undefined) {
+  return BG_MODES.find((m) => m.id === id)?.id ?? "solid";
+}
+
+export function bgAngle(id: string | null | undefined) {
+  return BG_ANGLES.find((a) => a.id === id)?.id ?? "down";
+}
+
+/** Gotowa wartość CSS `background` dla tła profilu. */
+export function profileBackground(
+  mode: string | null | undefined,
+  angle: string | null | undefined,
+  accent: string | null | undefined,
+  accent2: string | null | undefined,
+) {
+  const c1 = accentColor(accent);
+  const c2 = secondAccent(accent2, accent);
+  if (bgMode(mode) !== "gradient") {
+    return `radial-gradient(closest-side, color-mix(in oklab, ${c1} 45%, transparent), transparent)`;
+  }
+  switch (bgAngle(angle)) {
+    case "diagonal":
+      return `linear-gradient(135deg, ${c1}, ${c2})`;
+    case "radial":
+      return `radial-gradient(circle at 50% 30%, ${c2}, ${c1})`;
+    default:
+      return `linear-gradient(to bottom, ${c2}, ${c1})`;
+  }
+}
+
+export const NAME_EFFECTS = [
+  { id: "solid", label: "Solid" },
+  { id: "gradient", label: "Gradient" },
+  { id: "neon", label: "Neon" },
+  { id: "toon", label: "Toon" },
+  { id: "pop", label: "Pop" },
+  { id: "gummy", label: "Gummy" },
+  { id: "prism", label: "Prism" },
+] as const;
+
+export type NameEffectId = (typeof NAME_EFFECTS)[number]["id"];
+
+export function nameEffect(id: string | null | undefined): NameEffectId {
+  return (NAME_EFFECTS.find((e) => e.id === id)?.id ?? "solid") as NameEffectId;
+}
+
+/** Zmienne CSS dla klasy `nick-fx-*`. */
+export function nickVars(accent: string | null | undefined, accent2: string | null | undefined) {
+  return {
+    ["--nick-1" as string]: accentColor(accent),
+    ["--nick-2" as string]: secondAccent(accent2, accent),
+  } as Record<string, string>;
+}
+
+
 
 /** Private bucket → short-lived signed URL, cached by react-query. */
 export function useProfileMedia(path: string | null | undefined) {

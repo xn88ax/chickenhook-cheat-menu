@@ -79,7 +79,7 @@ function ThreadPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("id,username,link_1,link_2,link_3,member_number");
+        .select("id,username,link_1,link_2,link_3,member_number,accent,accent_2,name_effect");
       if (error) throw error;
       return data;
     },
@@ -104,6 +104,9 @@ function ThreadPage() {
         .map((item) => item.role),
       links: [profile?.link_1 ?? null, profile?.link_2 ?? null, profile?.link_3 ?? null],
       memberNumber: profile?.member_number ?? null,
+      accent: profile?.accent ?? null,
+      accent2: profile?.accent_2 ?? null,
+      nameEffect: profile?.name_effect ?? null,
     };
   };
 
