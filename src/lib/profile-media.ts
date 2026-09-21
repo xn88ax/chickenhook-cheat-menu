@@ -109,7 +109,7 @@ export function nickVars(accent: string | null | undefined, accent2: string | nu
   return {
     ["--nick-1" as string]: accentColor(accent),
     ["--nick-2" as string]: secondAccent(accent2, accent),
-  } as React.CSSProperties;
+  } as Record<string, string>;
 }
 
 
