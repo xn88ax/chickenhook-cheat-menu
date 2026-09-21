@@ -12,8 +12,17 @@ import { useSiteSettings } from "@/lib/site-settings";
 import { isRememberSession, setRememberSession } from "@/lib/session-persistence";
 import {
   ACCENTS,
+  BG_ANGLES,
+  BG_MODES,
+  NAME_EFFECTS,
   PROFILE_THEMES,
   accentColor,
+  bgAngle,
+  bgMode,
+  nameEffect,
+  nickVars,
+  profileBackground,
+  secondAccent,
   isCustomAccent,
   profileTheme,
   uploadProfileMedia,
@@ -135,7 +144,9 @@ function Settings() {
     queryFn: async () => {
       const { data } = await supabase
         .from("profiles")
-        .select("username, bio, avatar_url, banner_url, accent, theme, views, socials")
+        .select(
+          "username, bio, avatar_url, banner_url, accent, accent_2, bg_mode, bg_angle, name_effect, theme, views, socials",
+        )
         .eq("id", user!.id)
         .maybeSingle();
       return data ?? null;
@@ -150,6 +161,10 @@ function Settings() {
     if (profile) {
       setBio(profile.bio ?? "");
       setAccent(profile.accent ?? "red");
+      setAccent2(profile.accent_2 ?? null);
+      setBg(bgMode(profile.bg_mode));
+      setAngle(bgAngle(profile.bg_angle));
+      setEffect(nameEffect(profile.name_effect));
       setTheme(profileTheme((profile as { theme?: string | null }).theme));
       setSocials(parseSocials(profile.socials));
     }
@@ -175,6 +190,10 @@ function Settings() {
       .update({
         bio: bio.slice(0, 500),
         accent,
+        accent_2: accent2,
+        bg_mode: bgMode(bg),
+        bg_angle: bgAngle(angle),
+        name_effect: nameEffect(effect),
         theme: profileTheme(theme),
         socials: normalizedSocials,
       })
@@ -322,7 +341,12 @@ function Settings() {
                 }}
                 aria-hidden="true"
               >
-                {!bannerUrl && <div className="profile-banner-fallback" />}
+                {!bannerUrl && (
+                  <div
+                    className="profile-banner-fallback"
+                    style={{ ["--profile-bg" as string]: profileBackground(bg, angle, accent, accent2) }}
+                  />
+                )}
                 <div
                   className="pointer-events-none absolute inset-x-0 top-0 h-2/3"
                   style={{
@@ -468,6 +492,102 @@ function Settings() {
                   {isCustomAccent(accent) && (
                     <p className="mt-1 font-mono text-[10px] text-muted-foreground">{accent}</p>
                   )}
+                </div>
+
+                <div className="text-xs">
+                  <span className="text-muted-foreground">Drugi kolor (gradient i efekty nicku)</span>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <label className="inline-flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5">
+                      <input
+                        type="color"
+                        value={secondAccent(accent2, accent)}
+                        onChange={(event) => setAccent2(event.target.value.toLowerCase())}
+                        className="size-4 cursor-pointer rounded border-0 bg-transparent p-0"
+                        aria-label="Drugi kolor profilu"
+                      />
+                      Własny kolor
+                    </label>
+                    {ACCENTS.map((a) => (
+                      <button
+                        key={a.id}
+                        type="button"
+                        onClick={() => setAccent2(a.color)}
+                        aria-pressed={secondAccent(accent2, accent) === a.color}
+                        className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 ${secondAccent(accent2, accent) === a.color ? "border-primary text-foreground" : "border-border text-muted-foreground"}`}
+                      >
+                        <span className="size-3 rounded-full" style={{ backgroundColor: a.color }} />
+                        {a.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="text-xs">
+                  <span className="text-muted-foreground">Tło profilu</span>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {BG_MODES.map((m) => (
+                      <button
+                        key={m.id}
+                        type="button"
+                        onClick={() => setBg(m.id)}
+                        aria-pressed={bg === m.id}
+                        className={`rounded-lg border px-2.5 py-1.5 ${bg === m.id ? "border-primary text-foreground" : "border-border text-muted-foreground"}`}
+                      >
+                        {m.label}
+                      </button>
+                    ))}
+                  </div>
+                  {bg === "gradient" && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {BG_ANGLES.map((a) => (
+                        <button
+                          key={a.id}
+                          type="button"
+                          onClick={() => setAngle(a.id)}
+                          aria-pressed={angle === a.id}
+                          className={`rounded-lg border px-2.5 py-1.5 ${angle === a.id ? "border-primary text-foreground" : "border-border text-muted-foreground"}`}
+                        >
+                          {a.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  <div
+                    className="mt-2 h-14 w-full rounded-lg border border-border"
+                    style={{ background: profileBackground(bg, angle, accent, accent2) }}
+                    aria-hidden="true"
+                  />
+                </div>
+
+                <div className="text-xs">
+                  <span className="text-muted-foreground">Efekt nicku</span>
+                  <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                    {NAME_EFFECTS.map((fx) => (
+                      <button
+                        key={fx.id}
+                        type="button"
+                        onClick={() => setEffect(fx.id)}
+                        aria-pressed={effect === fx.id}
+                        className={`rounded-lg border px-2.5 py-3 ${effect === fx.id ? "border-primary" : "border-border"}`}
+                      >
+                        <span
+                          className={`nick-fx nick-fx-${fx.id} font-display text-sm`}
+                          style={nickVars(accent, accent2)}
+                        >
+                          {fx.label}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                  <p className="mt-2 text-[11px] text-muted-foreground">
+                    Podgląd nicku:{" "}
+                    <span
+                      className={`nick-fx nick-fx-${effect} font-display text-base`}
+                      style={nickVars(accent, accent2)}
+                    >
+                      {username || "twoj_nick"}
+                    </span>
+                  </p>
                 </div>
 
                 <div className="text-xs">
