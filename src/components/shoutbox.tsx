@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 
 import { useProfileMedia } from "@/lib/profile-media";
 import { mainRoleOf, useRoleStyles } from "@/lib/role-styles";
+import { nameEffect, nickVars } from "@/lib/profile-media";
 
 type Shout = {
   id: string;
@@ -21,6 +22,9 @@ type ShoutProfile = {
   id: string;
   username: string;
   avatar_url: string | null;
+  accent: string | null;
+  accent_2: string | null;
+  name_effect: string | null;
   roles: string[];
 };
 
@@ -127,7 +131,7 @@ export function Shoutbox() {
     const userIds = [...new Set(shouts.flatMap((shout) => (shout.user_id ? [shout.user_id] : [])))];
     if (userIds.length === 0) return;
     void Promise.all([
-      supabase.from("profiles").select("id,username,avatar_url").in("id", userIds),
+      supabase.from("profiles").select("id,username,avatar_url,accent,accent_2,name_effect").in("id", userIds),
       supabase.from("user_roles").select("user_id,role").in("user_id", userIds),
     ]).then(([profileResult, roleResult]) => {
       const next: Record<string, ShoutProfile> = {};
@@ -232,6 +236,7 @@ export function Shoutbox() {
             const mainRole = profile ? mainRoleOf(profile.roles) : undefined;
             const roleStyle = mainRole ? roleStyles[mainRole] : undefined;
             const glitter = roleStyle?.glitter ?? false;
+            const fx = nameEffect(profile?.name_effect);
             const hasAvatar = !!profile?.avatar_url;
             return (
               <div
@@ -248,11 +253,13 @@ export function Shoutbox() {
                       type="button"
                       onClick={() => mention(s.nick)}
                       title={`Oznacz @${s.nick}`}
-                      className={`cursor-pointer font-semibold hover:underline ${glitter ? "forum-nick-glitter" : roleStyle ? "forum-nick-color" : "text-primary"}`}
+                      className={`cursor-pointer font-semibold hover:underline ${fx !== "solid" ? `nick-fx nick-fx-${fx}` : glitter ? "forum-nick-glitter" : roleStyle ? "forum-nick-color" : "text-primary"}`}
                       style={
-                        roleStyle
-                          ? ({ "--role-color": roleStyle.color } as React.CSSProperties)
-                          : undefined
+                        fx !== "solid"
+                          ? (nickVars(profile?.accent, profile?.accent_2) as React.CSSProperties)
+                          : roleStyle
+                            ? ({ "--role-color": roleStyle.color } as React.CSSProperties)
+                            : undefined
                       }
                     >
                       {s.nick}
