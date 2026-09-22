@@ -1,0 +1,23 @@
+# Tech Stack & Rules
+
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite (fast dev server & bundling)
+- **Package Manager**: Bun (or npm/yarn if preferred)
+- **Routing**: React Router v6 – keep all route definitions in `src/App.tsx`
+- **Styling**: Tailwind CSS – use utility classes for layout, spacing, colors, and responsive design
+- **UI Components**: shadcn/ui library – use prebuilt components; do **not** edit the generated shadcn/ui files directly. If you need to customize a component, create a new wrapper component in `src/components/` that extends or styles the shadcn/ui component.
+- **Icons**: lucide-react – import icons from this package for consistent SVG icons
+- **Primitives**: Radix UI (already installed via shadcn/ui) – use for accessible behavior when building custom components
+- **State Management**: Prefer React's built-in hooks (`useState`, `useEffect`, `useContext`) or lightweight libraries like Zustand if needed; avoid heavy state solutions unless justified.
+- **Data Fetching**: Use `fetch` or `axios`; consider React Query for server state if the app grows.
+- **Code Organization**:
+  - Pages: `src/pages/` (each route component)
+  - Components: `src/components/` (reusable UI pieces)
+  - Main entry: `src/pages/Index.tsx` (home page) – always update this file to showcase new components
+  - Keep route configuration centralized in `src/App.tsx`
+- **Best Practices**:
+  - Write functional components with TypeScript props interfaces.
+  - Use Tailwind's `@apply` sparingly; prefer utility classes in JSX for clarity.
+  - Keep files small and focused; split large components into smaller ones.
+  - Follow ESLint and Prettier configurations already set up.
+  - When adding a new feature, create a new page or component under the appropriate folder and import it where needed.
