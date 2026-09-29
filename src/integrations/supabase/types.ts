@@ -157,6 +157,7 @@ export type Database = {
         Row: {
           accent: string
           accent_2: string | null
+          avatar_decoration: string
           avatar_url: string | null
           banner_url: string | null
           bg_angle: string
@@ -169,6 +170,8 @@ export type Database = {
           link_3: string | null
           member_number: number
           name_effect: string
+          nameplate: string
+          profile_effect: string
           socials: Json
           theme: string
           updated_at: string
@@ -178,6 +181,7 @@ export type Database = {
         Insert: {
           accent?: string
           accent_2?: string | null
+          avatar_decoration?: string
           avatar_url?: string | null
           banner_url?: string | null
           bg_angle?: string
@@ -190,6 +194,8 @@ export type Database = {
           link_3?: string | null
           member_number?: number
           name_effect?: string
+          nameplate?: string
+          profile_effect?: string
           socials?: Json
           theme?: string
           updated_at?: string
@@ -199,6 +205,7 @@ export type Database = {
         Update: {
           accent?: string
           accent_2?: string | null
+          avatar_decoration?: string
           avatar_url?: string | null
           banner_url?: string | null
           bg_angle?: string
@@ -211,6 +218,8 @@ export type Database = {
           link_3?: string | null
           member_number?: number
           name_effect?: string
+          nameplate?: string
+          profile_effect?: string
           socials?: Json
           theme?: string
           updated_at?: string
