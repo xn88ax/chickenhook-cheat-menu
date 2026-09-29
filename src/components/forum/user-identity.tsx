@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 
 import { Avatar } from "@/components/forum/forum-shell";
+import { DecoratedAvatar, Nameplate } from "@/components/profile-cosmetics";
 import { useRoleStyles } from "@/lib/role-styles";
 import { nameEffect, nickVars } from "@/lib/profile-media";
 
@@ -35,6 +36,8 @@ export type ForumIdentity = {
   accent?: string | null;
   accent2?: string | null;
   nameEffect?: string | null;
+  avatarDecoration?: string | null;
+  nameplate?: string | null;
 };
 
 function linkLabel(url: string) {
@@ -50,7 +53,9 @@ export function UserIdentity({ profile }: { profile: ForumIdentity }) {
 
   return (
     <div className="flex min-w-0 items-center gap-3">
-      <Avatar name={profile.username} className="size-9" />
+      <DecoratedAvatar decoration={profile.avatarDecoration} accent={profile.accent} accent2={profile.accent2} className="size-9 shrink-0">
+        <Avatar name={profile.username} className="size-full rounded-none border-0" />
+      </DecoratedAvatar>
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-1.5">
           <Link
@@ -58,12 +63,14 @@ export function UserIdentity({ profile }: { profile: ForumIdentity }) {
             params={{ username: profile.username }}
             className="text-xs font-bold hover:opacity-80"
           >
-            <span
-              className={`nick-fx nick-fx-${nameEffect(profile.nameEffect)}`}
-              style={nickVars(profile.accent, profile.accent2)}
-            >
-              {profile.username}
-            </span>
+            <Nameplate variant={profile.nameplate} accent={profile.accent} accent2={profile.accent2} compact>
+              <span
+                className={`nick-fx nick-fx-${nameEffect(profile.nameEffect)}`}
+                style={nickVars(profile.accent, profile.accent2)}
+              >
+                {profile.username}
+              </span>
+            </Nameplate>
           </Link>
           {profile.roles.map((role) => (
             <RoleBadge key={role} role={role} />

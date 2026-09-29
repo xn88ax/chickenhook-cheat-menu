@@ -5,6 +5,7 @@ import { ExternalLink, Eye, MessageSquare, Sparkles } from "lucide-react";
 
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
+import { DecoratedAvatar, Nameplate, ProfileEffectLayer } from "@/components/profile-cosmetics";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import {
@@ -70,7 +71,7 @@ function ProfilePage() {
       const { data } = await supabase
         .from("profiles")
         .select(
-          "id, username, bio, avatar_url, banner_url, accent, accent_2, bg_mode, bg_angle, name_effect, views, created_at, socials, member_number",
+          "id, username, bio, avatar_url, banner_url, accent, accent_2, bg_mode, bg_angle, name_effect, avatar_decoration, profile_effect, nameplate, theme, views, created_at, socials, member_number",
         )
         .ilike("username", username)
         .maybeSingle();
@@ -197,7 +198,8 @@ function ProfilePage() {
         ) : (
           <>
             {/* Nagłówek profilu w stylu forumowej karty członka */}
-            <GsPanel className="overflow-hidden">
+            <GsPanel className="profile-card relative overflow-hidden">
+              <ProfileEffectLayer effect={profile.profile_effect} />
               <div
                 className="profile-banner relative h-40 w-full sm:h-56"
                 style={{
@@ -222,9 +224,11 @@ function ProfilePage() {
               </div>
 
               <div className="flex flex-wrap items-end gap-4 border-b border-border/60 px-4 pb-4">
-                <div
-                  className="relative z-10 -mt-14 size-24 shrink-0 overflow-hidden rounded-lg border-2 bg-card sm:size-28"
-                  style={{ borderColor: accent }}
+                <DecoratedAvatar
+                  decoration={profile.avatar_decoration}
+                  accent={profile.accent}
+                  accent2={accent2}
+                  className="relative z-10 -mt-14 size-24 shrink-0 sm:size-28"
                 >
                   {avatar ? (
                     <img
@@ -237,12 +241,14 @@ function ProfilePage() {
                       {profile.username.slice(0, 2).toUpperCase()}
                     </div>
                   )}
-                </div>
+                </DecoratedAvatar>
                 <div className="min-w-0 flex-1">
                   <h1 className="font-display text-2xl tracking-wide">
-                    <span className={`nick-fx nick-fx-${fx}`} style={nickVars(profile.accent, accent2)}>
-                      {profile.username}
-                    </span>
+                    <Nameplate variant={profile.nameplate} accent={profile.accent} accent2={accent2}>
+                      <span className={`nick-fx nick-fx-${fx}`} style={nickVars(profile.accent, accent2)}>
+                        {profile.username}
+                      </span>
+                    </Nameplate>
                   </h1>
                   <p className="mt-0.5 text-[11px] uppercase tracking-wide text-muted-foreground">
                     {title}
