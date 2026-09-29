@@ -1091,3 +1091,143 @@ html[data-site-anim="off"] .nick-fx-prism,
 @media (prefers-reduced-motion: reduce) {
   .nick-fx-prism { animation: none; }
 }
+
+/* --- Kosmetyki profilu inspirowane kartami społecznościowymi --- */
+.avatar-cosmetic {
+  --nick-1: var(--primary);
+  --nick-2: var(--accent);
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  isolation: isolate;
+  overflow: visible;
+}
+.avatar-cosmetic-content {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 2px solid color-mix(in oklab, var(--nick-1) 72%, var(--border));
+  border-radius: 0.55rem;
+  background: var(--card);
+}
+.avatar-cosmetic-overlay {
+  position: absolute;
+  inset: -14%;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 0.75rem;
+}
+.avatar-cosmetic-energy .avatar-cosmetic-overlay {
+  border: 2px solid var(--nick-1);
+  box-shadow: 0 0 8px var(--nick-1), inset 0 0 8px var(--nick-2);
+  animation: avatar-energy 2.6s ease-in-out infinite;
+}
+.avatar-cosmetic-flames .avatar-cosmetic-overlay {
+  background: conic-gradient(from 30deg, transparent, var(--nick-1), transparent 22%, var(--nick-2), transparent 55%, var(--nick-1), transparent);
+  filter: blur(2px) saturate(1.3);
+  animation: avatar-spin 5s linear infinite;
+}
+.avatar-cosmetic-flames .avatar-cosmetic-content { z-index: 1; }
+.avatar-cosmetic-pixels .avatar-cosmetic-overlay {
+  border: 3px dashed var(--nick-2);
+  box-shadow: 5px -4px 0 -2px var(--nick-1), -5px 5px 0 -2px var(--nick-2);
+  animation: avatar-pixels 1.2s steps(2) infinite;
+}
+.avatar-cosmetic-crown .avatar-cosmetic-overlay::before {
+  content: "♛";
+  position: absolute;
+  top: -0.9em;
+  left: 50%;
+  color: var(--nick-2);
+  font-size: 1.25em;
+  line-height: 1;
+  text-shadow: 0 0 7px var(--nick-1);
+  transform: translateX(-50%) rotate(-5deg);
+}
+.avatar-cosmetic-chicken .avatar-cosmetic-overlay::before {
+  content: "🐔";
+  position: absolute;
+  right: -0.45em;
+  bottom: -0.45em;
+  font-size: 1.05em;
+  filter: drop-shadow(0 2px 3px color-mix(in oklab, black 55%, transparent));
+  animation: avatar-chicken 1.6s ease-in-out infinite;
+}
+
+.nameplate {
+  --nick-1: var(--primary);
+  --nick-2: var(--accent);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5em;
+  border-radius: 0.35rem;
+}
+.nameplate:not(.nameplate-none) { padding: 0.18em 0.5em; }
+.nameplate-compact:not(.nameplate-none) { padding: 0.08em 0.35em; }
+.nameplate-neon {
+  background: color-mix(in oklab, var(--nick-1) 16%, var(--card));
+  box-shadow: inset 0 0 0 1px var(--nick-1), 0 0 8px color-mix(in oklab, var(--nick-1) 45%, transparent);
+}
+.nameplate-glitch {
+  background: repeating-linear-gradient(90deg, color-mix(in oklab, var(--nick-1) 25%, var(--card)) 0 5px, color-mix(in oklab, var(--nick-2) 18%, var(--card)) 5px 8px);
+  box-shadow: -2px 0 var(--nick-1), 2px 0 var(--nick-2);
+  animation: nameplate-jitter 2.4s steps(1) infinite;
+}
+.nameplate-hologram {
+  background: linear-gradient(115deg, color-mix(in oklab, var(--nick-1) 24%, transparent), color-mix(in oklab, var(--nick-2) 40%, transparent), color-mix(in oklab, var(--foreground) 20%, transparent));
+  background-size: 220% 100%;
+  border: 1px solid color-mix(in oklab, var(--nick-2) 60%, transparent);
+  animation: nameplate-flow 3s linear infinite;
+}
+.nameplate-fire {
+  background: linear-gradient(to top, color-mix(in oklab, var(--nick-1) 50%, var(--card)), color-mix(in oklab, var(--nick-2) 18%, var(--card)));
+  box-shadow: 0 -3px 10px color-mix(in oklab, var(--nick-1) 40%, transparent);
+}
+
+.profile-effect {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  pointer-events: none;
+}
+.profile-effect i { position: absolute; display: block; }
+.profile-effect-sparks i,
+.profile-effect-petals i,
+.profile-effect-confetti i {
+  top: -12%;
+  left: calc((var(--particle, 1) * 8%) - 4%);
+  width: 7px;
+  height: 7px;
+  background: var(--profile-accent, var(--primary));
+  animation: profile-particle 4.5s linear infinite;
+  animation-delay: calc(var(--particle, 1) * -0.31s);
+}
+.profile-effect i:nth-child(1) { --particle: 1; }.profile-effect i:nth-child(2) { --particle: 2; }.profile-effect i:nth-child(3) { --particle: 3; }.profile-effect i:nth-child(4) { --particle: 4; }.profile-effect i:nth-child(5) { --particle: 5; }.profile-effect i:nth-child(6) { --particle: 6; }.profile-effect i:nth-child(7) { --particle: 7; }.profile-effect i:nth-child(8) { --particle: 8; }.profile-effect i:nth-child(9) { --particle: 9; }.profile-effect i:nth-child(10) { --particle: 10; }.profile-effect i:nth-child(11) { --particle: 11; }.profile-effect i:nth-child(12) { --particle: 12; }
+.profile-effect-petals i { width: 9px; height: 6px; border-radius: 90% 10% 90% 10%; background: color-mix(in oklab, var(--profile-accent, var(--primary)) 45%, white); }
+.profile-effect-confetti i:nth-child(3n) { background: var(--status-ok); }.profile-effect-confetti i:nth-child(3n + 1) { background: var(--accent); }
+.profile-effect-lightning { background: linear-gradient(118deg, transparent 42%, color-mix(in oklab, var(--profile-accent, var(--primary)) 70%, white) 48%, transparent 51%); opacity: 0; animation: profile-flash 4.5s steps(1) infinite; }
+.profile-effect-glitch { background: repeating-linear-gradient(0deg, transparent 0 12px, color-mix(in oklab, var(--profile-accent, var(--primary)) 18%, transparent) 12px 14px); mix-blend-mode: screen; animation: profile-glitch 2.8s steps(2) infinite; }
+.profile-effect-preview { background: color-mix(in oklab, var(--card) 82%, transparent); }
+.profile-effect-preview .profile-effect { z-index: 0; }
+
+@keyframes avatar-energy { 50% { transform: scale(1.06) rotate(3deg); opacity: 0.72; } }
+@keyframes avatar-spin { to { transform: rotate(360deg); } }
+@keyframes avatar-pixels { 50% { transform: translate(1px, -1px); filter: hue-rotate(45deg); } }
+@keyframes avatar-chicken { 50% { transform: translateY(-12%) rotate(8deg); } }
+@keyframes nameplate-jitter { 15% { transform: translateX(1px); } 16% { transform: translateX(-1px); } 17% { transform: none; } }
+@keyframes nameplate-flow { to { background-position: -220% 0; } }
+@keyframes profile-particle { to { transform: translate3d(calc((var(--particle) - 6) * 4px), 620px, 0) rotate(300deg); opacity: 0; } }
+@keyframes profile-flash { 8%, 11% { opacity: 0.55; } 9%, 12%, 100% { opacity: 0; } }
+@keyframes profile-glitch { 20% { transform: translateX(2px); opacity: 0.8; } 21% { transform: translateX(-2px); } 22%, 100% { transform: none; opacity: 0.35; } }
+
+html[data-site-anim="off"] .avatar-cosmetic-overlay,
+html[data-site-anim="off"] .nameplate,
+html[data-site-anim="off"] .profile-effect,
+:root[data-site-animations="off"] .avatar-cosmetic-overlay,
+:root[data-site-animations="off"] .nameplate,
+:root[data-site-animations="off"] .profile-effect { animation: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .avatar-cosmetic-overlay, .nameplate, .profile-effect, .profile-effect i { animation: none !important; }
+}
