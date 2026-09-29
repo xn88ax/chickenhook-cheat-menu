@@ -5,6 +5,7 @@ import { LogIn, Send, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { displayName, useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
+import { DecoratedAvatar, Nameplate } from "@/components/profile-cosmetics";
 
 import { nameEffect, nickVars, useProfileMedia } from "@/lib/profile-media";
 import { mainRoleOf, useRoleStyles } from "@/lib/role-styles";
@@ -24,13 +25,19 @@ type ShoutProfile = {
   accent: string | null;
   accent_2: string | null;
   name_effect: string | null;
+  avatar_decoration: string | null;
+  nameplate: string | null;
   roles: string[];
 };
 
 function ChatAvatar({ profile }: { profile?: ShoutProfile }) {
   const avatar = useProfileMedia(profile?.avatar_url);
   if (!avatar) return null;
-  return <img src={avatar} alt="" className="size-7 shrink-0 rounded-md object-cover" />;
+  return (
+    <DecoratedAvatar decoration={profile?.avatar_decoration} accent={profile?.accent} accent2={profile?.accent_2} className="size-7 shrink-0">
+      <img src={avatar} alt="" className="size-full object-cover" />
+    </DecoratedAvatar>
+  );
 }
 
 function MentionText({ text, known }: { text: string; known: Set<string> }) {
@@ -130,7 +137,7 @@ export function Shoutbox() {
     const userIds = [...new Set(shouts.flatMap((shout) => (shout.user_id ? [shout.user_id] : [])))];
     if (userIds.length === 0) return;
     void Promise.all([
-      supabase.from("profiles").select("id,username,avatar_url,accent,accent_2,name_effect").in("id", userIds),
+      supabase.from("profiles").select("id,username,avatar_url,accent,accent_2,name_effect,avatar_decoration,nameplate").in("id", userIds),
       supabase.from("user_roles").select("user_id,role").in("user_id", userIds),
     ]).then(([profileResult, roleResult]) => {
       const next: Record<string, ShoutProfile> = {};
@@ -248,6 +255,7 @@ export function Shoutbox() {
                 <ChatAvatar profile={profile} />
                 {s.user_id ? (
                   <span className="flex min-w-0 flex-wrap items-center gap-1">
+                    <Nameplate variant={profile?.nameplate} accent={profile?.accent} accent2={profile?.accent_2} compact>
                     <button
                       type="button"
                       onClick={() => mention(s.nick)}
@@ -263,6 +271,7 @@ export function Shoutbox() {
                     >
                       {s.nick}
                     </button>
+                    </Nameplate>
                   </span>
                 ) : (
                   <button

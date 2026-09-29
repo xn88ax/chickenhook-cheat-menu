@@ -5,6 +5,7 @@ import { Check, ExternalLink, ImagePlus, Loader2, Lock, RotateCcw } from "lucide
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
 import { MediaCropper } from "@/components/media-cropper";
+import { DecoratedAvatar, Nameplate, ProfileEffectLayer } from "@/components/profile-cosmetics";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
@@ -12,16 +13,22 @@ import { useSiteSettings } from "@/lib/site-settings";
 import { isRememberSession, setRememberSession } from "@/lib/session-persistence";
 import {
   ACCENTS,
+  AVATAR_DECORATIONS,
   BG_ANGLES,
   BG_MODES,
   NAME_EFFECTS,
+  NAMEPLATES,
+  PROFILE_EFFECTS,
   PROFILE_THEMES,
   accentColor,
+  avatarDecoration,
   bgAngle,
   bgMode,
   nameEffect,
+  nameplate,
   nickVars,
   profileBackground,
+  profileEffect,
   secondAccent,
   isCustomAccent,
   profileTheme,
@@ -130,6 +137,9 @@ function Settings() {
   const [bg, setBg] = useState("solid");
   const [angle, setAngle] = useState("down");
   const [effect, setEffect] = useState("solid");
+  const [decoration, setDecoration] = useState("none");
+  const [cardEffect, setCardEffect] = useState("none");
+  const [plate, setPlate] = useState("none");
   const [theme, setTheme] = useState<string>("nocny");
   const [socials, setSocials] = useState<Socials>({});
   const [profileState, setProfileState] = useState<{
@@ -145,7 +155,7 @@ function Settings() {
       const { data } = await supabase
         .from("profiles")
         .select(
-          "username, bio, avatar_url, banner_url, accent, accent_2, bg_mode, bg_angle, name_effect, theme, views, socials",
+          "username, bio, avatar_url, banner_url, accent, accent_2, bg_mode, bg_angle, name_effect, avatar_decoration, profile_effect, nameplate, theme, views, socials",
         )
         .eq("id", user!.id)
         .maybeSingle();
@@ -165,6 +175,9 @@ function Settings() {
       setBg(bgMode(profile.bg_mode));
       setAngle(bgAngle(profile.bg_angle));
       setEffect(nameEffect(profile.name_effect));
+      setDecoration(avatarDecoration(profile.avatar_decoration));
+      setCardEffect(profileEffect(profile.profile_effect));
+      setPlate(nameplate(profile.nameplate));
       setTheme(profileTheme((profile as { theme?: string | null }).theme));
       setSocials(parseSocials(profile.socials));
     }
@@ -194,6 +207,9 @@ function Settings() {
         bg_mode: bgMode(bg),
         bg_angle: bgAngle(angle),
         name_effect: nameEffect(effect),
+        avatar_decoration: avatarDecoration(decoration),
+        profile_effect: profileEffect(cardEffect),
+        nameplate: nameplate(plate),
         theme: profileTheme(theme),
         socials: normalizedSocials,
       })
@@ -357,18 +373,20 @@ function Settings() {
               </div>
               <form className="space-y-4 p-4" onSubmit={saveProfile}>
                 <div className="flex flex-wrap items-center gap-4">
-                  <div
-                    className="relative z-10 -mt-12 size-16 shrink-0 overflow-hidden rounded-xl border-2 bg-card"
-                    style={{ borderColor: accentColor(accent) }}
+                  <DecoratedAvatar
+                    decoration={decoration}
+                    accent={accent}
+                    accent2={accent2}
+                    className="relative z-10 -mt-12 size-16 shrink-0"
                   >
                     {avatarUrl ? (
                       <img src={avatarUrl} alt="Twoje zdjęcie profilowe" className="size-full object-cover" />
                     ) : (
-                      <div className="flex size-full items-center justify-center font-display text-xl text-muted-foreground">
+                      <div className="flex size-full items-center justify-center bg-card font-display text-xl text-muted-foreground">
                         {(profile?.username ?? "??").slice(0, 2).toUpperCase()}
                       </div>
                     )}
-                  </div>
+                  </DecoratedAvatar>
                   <div className="flex flex-wrap gap-2 text-xs">
                     <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-border px-3 py-2 hover:border-primary">
                       <ImagePlus className="size-3" />
@@ -588,6 +606,63 @@ function Settings() {
                       {username || "twoj_nick"}
                     </span>
                   </p>
+                </div>
+
+                <div className="text-xs">
+                  <span className="text-muted-foreground">Tabliczka nicku</span>
+                  <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-5">
+                    {NAMEPLATES.map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => setPlate(item.id)}
+                        aria-pressed={plate === item.id}
+                        className={`min-h-12 rounded-lg border px-2 ${plate === item.id ? "border-primary" : "border-border"}`}
+                      >
+                        <Nameplate variant={item.id} accent={accent} accent2={accent2} compact>
+                          {item.label}
+                        </Nameplate>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="text-xs">
+                  <span className="text-muted-foreground">Dekoracja zdjęcia profilowego</span>
+                  <div className="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-6">
+                    {AVATAR_DECORATIONS.map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => setDecoration(item.id)}
+                        aria-pressed={decoration === item.id}
+                        className={`flex min-h-20 flex-col items-center justify-center gap-2 rounded-lg border px-2 ${decoration === item.id ? "border-primary" : "border-border"}`}
+                      >
+                        <DecoratedAvatar decoration={item.id} accent={accent} accent2={accent2} className="size-9">
+                          <span className="flex size-full items-center justify-center bg-card font-bold">CH</span>
+                        </DecoratedAvatar>
+                        <span className="text-[10px] text-muted-foreground">{item.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="text-xs">
+                  <span className="text-muted-foreground">Efekt otwarcia profilu</span>
+                  <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    {PROFILE_EFFECTS.map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => setCardEffect(item.id)}
+                        aria-pressed={cardEffect === item.id}
+                        className={`profile-effect-preview relative h-16 overflow-hidden rounded-lg border ${cardEffect === item.id ? "border-primary" : "border-border"}`}
+                      >
+                        <span className="relative z-10 font-semibold">{item.label}</span>
+                        <ProfileEffectLayer effect={item.id} />
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="text-xs">

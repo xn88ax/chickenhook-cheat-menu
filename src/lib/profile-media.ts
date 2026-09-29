@@ -98,6 +98,48 @@ export const NAME_EFFECTS = [
   { id: "prism", label: "Prism" },
 ] as const;
 
+export const AVATAR_DECORATIONS = [
+  { id: "none", label: "Brak" },
+  { id: "energy", label: "Pierścień energii" },
+  { id: "flames", label: "Płomienie" },
+  { id: "pixels", label: "Piksele" },
+  { id: "crown", label: "Korona" },
+  { id: "chicken", label: "Kurczak" },
+] as const;
+
+export const PROFILE_EFFECTS = [
+  { id: "none", label: "Brak" },
+  { id: "sparks", label: "Iskry" },
+  { id: "petals", label: "Płatki" },
+  { id: "lightning", label: "Wyładowania" },
+  { id: "glitch", label: "Glitch" },
+  { id: "confetti", label: "Konfetti" },
+] as const;
+
+export const NAMEPLATES = [
+  { id: "none", label: "Brak" },
+  { id: "neon", label: "Neon" },
+  { id: "glitch", label: "Glitch" },
+  { id: "hologram", label: "Hologram" },
+  { id: "fire", label: "Ogień" },
+] as const;
+
+function allowedId<const T extends readonly { id: string }[]>(items: T, id: string | null | undefined) {
+  return items.find((item) => item.id === id)?.id ?? items[0].id;
+}
+
+export function avatarDecoration(id: string | null | undefined) {
+  return allowedId(AVATAR_DECORATIONS, id);
+}
+
+export function profileEffect(id: string | null | undefined) {
+  return allowedId(PROFILE_EFFECTS, id);
+}
+
+export function nameplate(id: string | null | undefined) {
+  return allowedId(NAMEPLATES, id);
+}
+
 export type NameEffectId = (typeof NAME_EFFECTS)[number]["id"];
 
 export function nameEffect(id: string | null | undefined): NameEffectId {

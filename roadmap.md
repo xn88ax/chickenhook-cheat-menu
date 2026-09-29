@@ -16,5 +16,5 @@
 - [x] Kosz administratora przy wątkach bez potwierdzenia
 - [x] Avatar i brokatowy nick na czacie
 
-## W toku
-- [ ] Efekty profilu inspirowane Discordem: animacje karty, dekoracje awatara i rozszerzone style nicku
+## Ukończone (profil)
+- [x] Efekty profilu inspirowane Discordem: animacje karty, dekoracje awatara i rozszerzone style nicku

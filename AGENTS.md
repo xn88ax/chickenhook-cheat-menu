@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Profile cosmetics use stored preset IDs rendered with shared CSS-only components, so profiles, forum, and chat stay visually consistent without third-party assets.
