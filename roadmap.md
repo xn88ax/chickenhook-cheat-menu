@@ -21,5 +21,5 @@
 
 - [x] Usunąć komendy /roll i /flip oraz ich animacje z czatu.
 
-## W toku
-- [ ] Rozdzielić menu ChickenHook na CS2, League of Legends i Fortnite
+## Ukończone (gry)
+- [x] Rozdzielić menu ChickenHook na CS2, League of Legends i Fortnite
