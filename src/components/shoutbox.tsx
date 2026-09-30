@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { displayName, useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { DecoratedAvatar, Nameplate } from "@/components/profile-cosmetics";
+import chickenAsset from "@/assets/chicken.png.asset.json";
+
 
 import { nameEffect, nickVars, useProfileMedia } from "@/lib/profile-media";
 import { mainRoleOf, useRoleStyles } from "@/lib/role-styles";
@@ -118,6 +120,22 @@ function formatTime(iso: string) {
   const months = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"];
   return `${d.getDate()} ${months[d.getMonth()]} ${time}`;
 }
+
+export const CHICKEN_TEXT = "🐔 kukuryku!";
+
+function ChickenMessage() {
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      <img
+        src={chickenAsset.url}
+        alt="kurczak"
+        className="chat-chicken inline-block size-7 align-middle"
+      />
+      <span className="font-semibold text-primary">kukuryku!</span>
+    </span>
+  );
+}
+
 
 const NICK_KEY = "chickenhook_guest_nick";
 
