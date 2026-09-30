@@ -124,6 +124,8 @@ export function Shoutbox() {
   const { user, loading } = useAuth();
   const [shouts, setShouts] = useState<Shout[]>([]);
   const [draft, setDraft] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   const [guestNick, setGuestNick] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
