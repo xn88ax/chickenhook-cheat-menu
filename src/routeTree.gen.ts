@@ -9,76 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as ChangelogRouteImport } from './routes/changelog'
-import { Route as LolRouteImport } from './routes/lol'
-import { Route as NarzedziaRouteImport } from './routes/narzedzia'
-import { Route as ONasRouteImport } from './routes/o-nas'
-import { Route as OpcjeRouteImport } from './routes/opcje'
-import { Route as PodanieRouteImport } from './routes/podanie'
-import { Route as RestauracjeRouteImport } from './routes/restauracje'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SponsorzyRouteImport } from './routes/sponsorzy'
-import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
-import { Route as AuthenticatedForumRouteImport } from './routes/_authenticated/forum'
-import { Route as AuthenticatedUstawieniaRouteImport } from './routes/_authenticated/ustawienia'
-import { Route as ApiScStreamRouteImport } from './routes/api/sc-stream'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RestauracjeRouteImport } from './routes/restauracje'
+import { Route as PodanieRouteImport } from './routes/podanie'
+import { Route as OpcjeRouteImport } from './routes/opcje'
+import { Route as ONasRouteImport } from './routes/o-nas'
+import { Route as NarzedziaRouteImport } from './routes/narzedzia'
+import { Route as LolRouteImport } from './routes/lol'
+import { Route as ChangelogRouteImport } from './routes/changelog'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProfilUsernameRouteImport } from './routes/profil.$username'
+import { Route as ApiScStreamRouteImport } from './routes/api/sc-stream'
+import { Route as AuthenticatedUstawieniaRouteImport } from './routes/_authenticated/ustawienia'
+import { Route as AuthenticatedForumRouteImport } from './routes/_authenticated/forum'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedForumIndexRouteImport } from './routes/_authenticated/forum.index'
-import { Route as AuthenticatedForumDzialSlugRouteImport } from './routes/_authenticated/forum.dzial.$slug'
-import { Route as AuthenticatedForumWatekIdRouteImport } from './routes/_authenticated/forum.watek.$id'
-import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
+import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
+import { Route as AuthenticatedForumWatekIdRouteImport } from './routes/_authenticated/forum.watek.$id'
+import { Route as AuthenticatedForumDzialSlugRouteImport } from './routes/_authenticated/forum.dzial.$slug'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChangelogRoute = ChangelogRouteImport.update({
-  id: '/changelog',
-  path: '/changelog',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LolRoute = LolRouteImport.update({
-  id: '/lol',
-  path: '/lol',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NarzedziaRoute = NarzedziaRouteImport.update({
-  id: '/narzedzia',
-  path: '/narzedzia',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ONasRoute = ONasRouteImport.update({
-  id: '/o-nas',
-  path: '/o-nas',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OpcjeRoute = OpcjeRouteImport.update({
-  id: '/opcje',
-  path: '/opcje',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PodanieRoute = PodanieRouteImport.update({
-  id: '/podanie',
-  path: '/podanie',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RestauracjeRoute = RestauracjeRouteImport.update({
-  id: '/restauracje',
-  path: '/restauracje',
+const SponsorzyRoute = SponsorzyRouteImport.update({
+  id: '/sponsorzy',
+  path: '/sponsorzy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -86,29 +42,53 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SponsorzyRoute = SponsorzyRouteImport.update({
-  id: '/sponsorzy',
-  path: '/sponsorzy',
+const RestauracjeRoute = RestauracjeRouteImport.update({
+  id: '/restauracje',
+  path: '/restauracje',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const PodanieRoute = PodanieRouteImport.update({
+  id: '/podanie',
+  path: '/podanie',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedForumRoute = AuthenticatedForumRouteImport.update({
-  id: '/forum',
-  path: '/forum',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const OpcjeRoute = OpcjeRouteImport.update({
+  id: '/opcje',
+  path: '/opcje',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedUstawieniaRoute = AuthenticatedUstawieniaRouteImport.update({
-  id: '/ustawienia',
-  path: '/ustawienia',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const ONasRoute = ONasRouteImport.update({
+  id: '/o-nas',
+  path: '/o-nas',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const ApiScStreamRoute = ApiScStreamRouteImport.update({
-  id: '/api/sc-stream',
-  path: '/api/sc-stream',
+const NarzedziaRoute = NarzedziaRouteImport.update({
+  id: '/narzedzia',
+  path: '/narzedzia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LolRoute = LolRouteImport.update({
+  id: '/lol',
+  path: '/lol',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChangelogRoute = ChangelogRouteImport.update({
+  id: '/changelog',
+  path: '/changelog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfilUsernameRoute = ProfilUsernameRouteImport.update({
@@ -116,33 +96,53 @@ const ProfilUsernameRoute = ProfilUsernameRouteImport.update({
   path: '/profil/$username',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiScStreamRoute = ApiScStreamRouteImport.update({
+  id: '/api/sc-stream',
+  path: '/api/sc-stream',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedUstawieniaRoute = AuthenticatedUstawieniaRouteImport.update({
+  id: '/ustawienia',
+  path: '/ustawienia',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedForumRoute = AuthenticatedForumRouteImport.update({
+  id: '/forum',
+  path: '/forum',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedForumIndexRoute = AuthenticatedForumIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedForumRoute,
-} as any)
-const AuthenticatedForumDzialSlugRoute =
-  AuthenticatedForumDzialSlugRouteImport.update({
-    id: '/dzial/$slug',
-    path: '/dzial/$slug',
-    getParentRoute: () => AuthenticatedForumRoute,
-  } as any)
-const AuthenticatedForumWatekIdRoute =
-  AuthenticatedForumWatekIdRouteImport.update({
-    id: '/watek/$id',
-    path: '/watek/$id',
-    getParentRoute: () => AuthenticatedForumRoute,
-  } as any)
-const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
-  id: '/lovable/email/auth/preview',
-  path: '/lovable/email/auth/preview',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const LovableEmailAuthWebhookRoute = LovableEmailAuthWebhookRouteImport.update({
   id: '/lovable/email/auth/webhook',
   path: '/lovable/email/auth/webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
+  id: '/lovable/email/auth/preview',
+  path: '/lovable/email/auth/preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedForumWatekIdRoute =
+  AuthenticatedForumWatekIdRouteImport.update({
+    id: '/watek/$id',
+    path: '/watek/$id',
+    getParentRoute: () => AuthenticatedForumRoute,
+  } as any)
+const AuthenticatedForumDzialSlugRoute =
+  AuthenticatedForumDzialSlugRouteImport.update({
+    id: '/dzial/$slug',
+    path: '/dzial/$slug',
+    getParentRoute: () => AuthenticatedForumRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -307,74 +307,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/changelog': {
-      id: '/changelog'
-      path: '/changelog'
-      fullPath: '/changelog'
-      preLoaderRoute: typeof ChangelogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/lol': {
-      id: '/lol'
-      path: '/lol'
-      fullPath: '/lol'
-      preLoaderRoute: typeof LolRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/narzedzia': {
-      id: '/narzedzia'
-      path: '/narzedzia'
-      fullPath: '/narzedzia'
-      preLoaderRoute: typeof NarzedziaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/o-nas': {
-      id: '/o-nas'
-      path: '/o-nas'
-      fullPath: '/o-nas'
-      preLoaderRoute: typeof ONasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/opcje': {
-      id: '/opcje'
-      path: '/opcje'
-      fullPath: '/opcje'
-      preLoaderRoute: typeof OpcjeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/podanie': {
-      id: '/podanie'
-      path: '/podanie'
-      fullPath: '/podanie'
-      preLoaderRoute: typeof PodanieRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/restauracje': {
-      id: '/restauracje'
-      path: '/restauracje'
-      fullPath: '/restauracje'
-      preLoaderRoute: typeof RestauracjeRouteImport
+    '/sponsorzy': {
+      id: '/sponsorzy'
+      path: '/sponsorzy'
+      fullPath: '/sponsorzy'
+      preLoaderRoute: typeof SponsorzyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -384,39 +321,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/sponsorzy': {
-      id: '/sponsorzy'
-      path: '/sponsorzy'
-      fullPath: '/sponsorzy'
-      preLoaderRoute: typeof SponsorzyRouteImport
+    '/restauracje': {
+      id: '/restauracje'
+      path: '/restauracje'
+      fullPath: '/restauracje'
+      preLoaderRoute: typeof RestauracjeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/podanie': {
+      id: '/podanie'
+      path: '/podanie'
+      fullPath: '/podanie'
+      preLoaderRoute: typeof PodanieRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/forum': {
-      id: '/_authenticated/forum'
-      path: '/forum'
-      fullPath: '/forum'
-      preLoaderRoute: typeof AuthenticatedForumRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/opcje': {
+      id: '/opcje'
+      path: '/opcje'
+      fullPath: '/opcje'
+      preLoaderRoute: typeof OpcjeRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/ustawienia': {
-      id: '/_authenticated/ustawienia'
-      path: '/ustawienia'
-      fullPath: '/ustawienia'
-      preLoaderRoute: typeof AuthenticatedUstawieniaRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/o-nas': {
+      id: '/o-nas'
+      path: '/o-nas'
+      fullPath: '/o-nas'
+      preLoaderRoute: typeof ONasRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/api/sc-stream': {
-      id: '/api/sc-stream'
-      path: '/api/sc-stream'
-      fullPath: '/api/sc-stream'
-      preLoaderRoute: typeof ApiScStreamRouteImport
+    '/narzedzia': {
+      id: '/narzedzia'
+      path: '/narzedzia'
+      fullPath: '/narzedzia'
+      preLoaderRoute: typeof NarzedziaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lol': {
+      id: '/lol'
+      path: '/lol'
+      fullPath: '/lol'
+      preLoaderRoute: typeof LolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/changelog': {
+      id: '/changelog'
+      path: '/changelog'
+      fullPath: '/changelog'
+      preLoaderRoute: typeof ChangelogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profil/$username': {
@@ -426,6 +398,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfilUsernameRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/sc-stream': {
+      id: '/api/sc-stream'
+      path: '/api/sc-stream'
+      fullPath: '/api/sc-stream'
+      preLoaderRoute: typeof ApiScStreamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/ustawienia': {
+      id: '/_authenticated/ustawienia'
+      path: '/ustawienia'
+      fullPath: '/ustawienia'
+      preLoaderRoute: typeof AuthenticatedUstawieniaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/forum': {
+      id: '/_authenticated/forum'
+      path: '/forum'
+      fullPath: '/forum'
+      preLoaderRoute: typeof AuthenticatedForumRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/forum/': {
       id: '/_authenticated/forum/'
       path: '/'
@@ -433,19 +433,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedForumIndexRouteImport
       parentRoute: typeof AuthenticatedForumRoute
     }
-    '/_authenticated/forum/dzial/$slug': {
-      id: '/_authenticated/forum/dzial/$slug'
-      path: '/dzial/$slug'
-      fullPath: '/forum/dzial/$slug'
-      preLoaderRoute: typeof AuthenticatedForumDzialSlugRouteImport
-      parentRoute: typeof AuthenticatedForumRoute
-    }
-    '/_authenticated/forum/watek/$id': {
-      id: '/_authenticated/forum/watek/$id'
-      path: '/watek/$id'
-      fullPath: '/forum/watek/$id'
-      preLoaderRoute: typeof AuthenticatedForumWatekIdRouteImport
-      parentRoute: typeof AuthenticatedForumRoute
+    '/lovable/email/auth/webhook': {
+      id: '/lovable/email/auth/webhook'
+      path: '/lovable/email/auth/webhook'
+      fullPath: '/lovable/email/auth/webhook'
+      preLoaderRoute: typeof LovableEmailAuthWebhookRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/lovable/email/auth/preview': {
       id: '/lovable/email/auth/preview'
@@ -454,12 +447,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LovableEmailAuthPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/lovable/email/auth/webhook': {
-      id: '/lovable/email/auth/webhook'
-      path: '/lovable/email/auth/webhook'
-      fullPath: '/lovable/email/auth/webhook'
-      preLoaderRoute: typeof LovableEmailAuthWebhookRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authenticated/forum/watek/$id': {
+      id: '/_authenticated/forum/watek/$id'
+      path: '/watek/$id'
+      fullPath: '/forum/watek/$id'
+      preLoaderRoute: typeof AuthenticatedForumWatekIdRouteImport
+      parentRoute: typeof AuthenticatedForumRoute
+    }
+    '/_authenticated/forum/dzial/$slug': {
+      id: '/_authenticated/forum/dzial/$slug'
+      path: '/dzial/$slug'
+      fullPath: '/forum/dzial/$slug'
+      preLoaderRoute: typeof AuthenticatedForumDzialSlugRouteImport
+      parentRoute: typeof AuthenticatedForumRoute
     }
   }
 }
