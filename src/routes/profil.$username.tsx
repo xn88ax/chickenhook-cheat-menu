@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { ProfileCard } from "@/components/profile-card";
 import { ExternalLink, Eye, MessageSquare, Sparkles } from "lucide-react";
 
 
@@ -71,7 +72,7 @@ function ProfilePage() {
       const { data } = await supabase
         .from("profiles")
         .select(
-          "id, username, bio, avatar_url, banner_url, accent, accent_2, bg_mode, bg_angle, name_effect, avatar_decoration, profile_effect, nameplate, theme, views, created_at, socials, member_number",
+          "id, username, bio, avatar_url, banner_url, accent, accent_2, bg_mode, bg_angle, name_effect, avatar_decoration, profile_effect, nameplate, theme, views, created_at, socials, member_number, display_name, status, name_font, profile_frame",
         )
         .ilike("username", username)
         .maybeSingle();
@@ -197,103 +198,9 @@ function ProfilePage() {
           </GsPanel>
         ) : (
           <>
-            {/* Nagłówek profilu w stylu forumowej karty członka */}
-            <GsPanel className="profile-card relative overflow-hidden">
-              <ProfileEffectLayer effect={profile.profile_effect} />
-              <div
-                className="profile-banner relative h-40 w-full sm:h-56"
-                style={{
-                  ...(banner ? { backgroundImage: `url(${banner})` } : {}),
-                  ["--profile-accent" as string]: accent,
-                }}
-                aria-hidden="true"
-              >
-                {!banner && (
-                  <div
-                    className="profile-banner-fallback"
-                    style={{ ["--profile-bg" as string]: bgValue }}
-                  />
-                )}
-                <div
-                  className="pointer-events-none absolute inset-x-0 top-0 h-2/3"
-                  style={{
-                    background: `linear-gradient(to bottom, ${accent}99, transparent)`,
-                  }}
-                  aria-hidden="true"
-                />
-              </div>
-
-              <div className="flex flex-wrap items-end gap-4 border-b border-border/60 px-4 pb-4">
-                <DecoratedAvatar
-                  decoration={profile.avatar_decoration}
-                  accent={profile.accent}
-                  accent2={accent2}
-                  className="relative z-10 -mt-14 size-24 shrink-0 sm:size-28"
-                >
-                  {avatar ? (
-                    <img
-                      src={avatar}
-                      alt={`Zdjęcie profilowe ${profile.username}`}
-                      className="size-full object-cover"
-                    />
-                  ) : (
-                    <div className="flex size-full items-center justify-center font-display text-3xl text-muted-foreground">
-                      {profile.username.slice(0, 2).toUpperCase()}
-                    </div>
-                  )}
-                </DecoratedAvatar>
-                <div className="min-w-0 flex-1">
-                  <h1 className="font-display text-2xl tracking-wide">
-                    <Nameplate variant={profile.nameplate} accent={profile.accent} accent2={accent2}>
-                      <span className={`nick-fx nick-fx-${fx}`} style={nickVars(profile.accent, accent2)}>
-                        {profile.username}
-                      </span>
-                    </Nameplate>
-                  </h1>
-                  <p className="mt-0.5 text-[11px] uppercase tracking-wide text-muted-foreground">
-                    {title}
-                  </p>
-                  <p className="mt-1 break-all font-mono text-[10px] text-muted-foreground">
-                    UID: {profile.member_number}
-                  </p>
-                </div>
-                <div className="flex flex-wrap items-center gap-2 text-[11px]">
-                  {isMine ? (
-                    <Link
-                      to="/ustawienia"
-                      className="rounded border border-border px-3 py-1.5 font-semibold text-primary hover:border-primary"
-                    >
-                      Edytuj profil
-                    </Link>
-                  ) : (
-                    <Link
-                      to="/forum"
-                      className="rounded border border-border px-3 py-1.5 font-semibold text-muted-foreground hover:border-primary hover:text-foreground"
-                    >
-                      Znajdź posty
-                    </Link>
-                  )}
-                </div>
-              </div>
-
-              {/* Pasek liczników jak w profilu forum */}
-              <dl className="grid grid-cols-1 divide-y divide-border/60 text-xs sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-                {[
-                  ["Wiadomości", (stats?.posts ?? 0) + (stats?.threads ?? 0)],
-                  ["Odwiedziny", profile.views],
-                  ["Dołączył", pl(profile.created_at)],
-                ].map(([label, value]) => (
-                  <div key={label as string} className="px-4 py-3">
-                    <dt className="text-[11px] uppercase tracking-wide text-muted-foreground">
-                      {label as string}
-                    </dt>
-                    <dd className="mt-0.5 font-semibold tabular-nums text-foreground">
-                      {value as string | number}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </GsPanel>
+            <div className="flex justify-center">
+              <ProfileCard size="full" profile={{ ...profile, roles: roles ?? [] }} />
+            </div>
 
             <div className="mt-5 grid gap-5 lg:grid-cols-[1.5fr_1fr]">
               <div>
