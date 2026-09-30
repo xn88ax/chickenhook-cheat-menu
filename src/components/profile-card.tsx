@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { AtSign, ShieldCheck } from "lucide-react";
-import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 
 import { DecoratedAvatar, Nameplate, ProfileEffectLayer } from "@/components/profile-cosmetics";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { supabase } from "@/integrations/supabase/client";
+import { subscribeOnlineUsers } from "@/lib/presence";
 import {
   accentColor,
   nameEffect,
@@ -18,6 +19,16 @@ import {
   useProfileMedia,
 } from "@/lib/profile-media";
 import { useRoleStyles } from "@/lib/role-styles";
+
+/** Czy użytkownik jest teraz na stronie (Realtime Presence). */
+export function useUserOnline(userId: string | null | undefined) {
+  const [online, setOnline] = useState(false);
+  useEffect(() => {
+    if (!userId) return;
+    return subscribeOnlineUsers((ids) => setOnline(ids.has(userId)));
+  }, [userId]);
+  return online;
+}
 
 export type ProfileCardData = {
   id: string;
@@ -150,8 +161,9 @@ export function ProfileCard({
   const roleStyles = useRoleStyles();
   const c1 = accentColor(profile.accent);
   const c2 = secondAccent(profile.accent_2, profile.accent);
-  const status = userStatus(profile.status);
-  const statusLabel = USER_STATUSES.find((s) => s.id === status)?.label;
+  const online = useUserOnline(profile.id);
+  const status = online ? userStatus(profile.status) : "offline";
+  const statusLabel = online ? USER_STATUSES.find((s) => s.id === status)?.label : "Offline";
   const fx = nameEffect(profile.name_effect);
   const font = nameFont(profile.name_font);
   const frame = profileFrame(profile.profile_frame);
