@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { supabase } from "@/integrations/supabase/client";
+import { DISCORD_DECORATIONS } from "@/lib/avatar-decorations-data";
 
 export const PROFILE_BUCKET = "profiles";
 
@@ -105,24 +106,7 @@ export const AVATAR_DECORATIONS = [
   { id: "pixels", label: "Piksele" },
   { id: "crown", label: "Korona" },
   { id: "chicken", label: "Kurczak" },
-  { id: "img-chicken-nugget", label: "Nugget", img: "/__l5e/assets-v1/79e10545-3d8b-447d-819c-9dc6ec7984f1/deco-chicken_nugget.png" },
-  { id: "img-fire", label: "Ogień", img: "/__l5e/assets-v1/ee617942-7f6b-4f09-a578-d7efe58425c9/deco-fire.png" },
-  { id: "img-sakura", label: "Sakura", img: "/__l5e/assets-v1/35c44e4d-c34b-42bd-bf8a-5db120a43a0f/deco-sakura.png" },
-  { id: "img-cat-ears", label: "Kocie uszy", img: "/__l5e/assets-v1/2cbd8ff9-45d1-4039-8789-a851e7b2a918/deco-cat_ears.png" },
-  { id: "img-skull", label: "Czaszka", img: "/__l5e/assets-v1/44b73b18-08ea-4a40-8c6c-484658b6884c/deco-skull_medallion.png" },
-  { id: "img-rage", label: "Rage", img: "/__l5e/assets-v1/fef9926f-8ae9-4b65-89a0-859f3f852c6a/deco-rage_red.png" },
-  { id: "img-oni", label: "Maska oni", img: "/__l5e/assets-v1/f79015b1-e9e7-4421-b892-35c8b4e250b8/deco-oni_mask.png" },
-  { id: "img-laurel", label: "Wieniec", img: "/__l5e/assets-v1/2918f967-5bc7-421a-918e-b3933796dcc7/deco-gold_laurel_wreath.png" },
-  { id: "img-hood", label: "Kaptur", img: "/__l5e/assets-v1/76dbbb12-744f-4536-87ef-66d20fd05365/deco-hood_dark.png" },
-  { id: "img-sabers", label: "Miecze świetlne", img: "/__l5e/assets-v1/593940a0-f534-4680-80bc-c72b8b5cc35f/deco-lightsabers_blue_and_red.png" },
-  { id: "img-dragon-balls", label: "Smocze kule", img: "/__l5e/assets-v1/b8e538a0-b4aa-4e19-a8bd-f1e2b923cf92/deco-dragon_balls.png" },
-  { id: "img-phoenix", label: "Feniks", img: "/__l5e/assets-v1/717c913d-30d9-4d42-807b-173c5d1b4745/deco-phoenix.png" },
-  { id: "img-stardust", label: "Gwiezdny pył", img: "/__l5e/assets-v1/cd9d3282-309f-4dd4-9042-dc679906f255/deco-stardust.png" },
-  { id: "img-duck", label: "Kaczka", img: "/__l5e/assets-v1/6f8fbd08-50be-4b6e-b9a9-829b9b75855b/deco-a_duck.png" },
-  { id: "img-egg", label: "Jajko sadzone", img: "/__l5e/assets-v1/f376741a-9ea2-4159-8d8b-485e8680a552/deco-fried_egg.png" },
-  { id: "img-glitch", label: "Glitch", img: "/__l5e/assets-v1/7fce1810-9f39-4f8d-a0bc-d02d7c71f680/deco-glitch.png" },
-  { id: "img-neon-hoodie", label: "Neonowa bluza", img: "/__l5e/assets-v1/f4a6612b-4a46-48d8-b3d5-76655a481195/deco-neon_cat_hoodie.png" },
-  { id: "img-angry", label: "Wściekły", img: "/__l5e/assets-v1/0ecaae36-9907-4e0c-af1f-2b13842c3444/deco-angry.png" },
+  ...DISCORD_DECORATIONS,
 ] as const;
 
 export const PROFILE_EFFECTS = [

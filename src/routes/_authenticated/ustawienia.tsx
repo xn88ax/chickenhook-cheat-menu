@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Check, ExternalLink, ImagePlus, Loader2, Lock, RotateCcw } from "lucide-react";
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
+import { Input } from "@/components/ui/input";
 import { MediaCropper } from "@/components/media-cropper";
 import { DecoratedAvatar, Nameplate, ProfileEffectLayer } from "@/components/profile-cosmetics";
 import { supabase } from "@/integrations/supabase/client";
@@ -138,6 +139,7 @@ function Settings() {
   const [angle, setAngle] = useState("down");
   const [effect, setEffect] = useState("solid");
   const [decoration, setDecoration] = useState("none");
+  const [decoQuery, setDecoQuery] = useState("");
   const [cardEffect, setCardEffect] = useState("none");
   const [plate, setPlate] = useState("none");
   const [theme, setTheme] = useState<string>("nocny");
@@ -628,9 +630,17 @@ function Settings() {
                 </div>
 
                 <div className="text-xs">
-                  <span className="text-muted-foreground">Dekoracja zdjęcia profilowego</span>
-                  <div className="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-6">
-                    {AVATAR_DECORATIONS.map((item) => (
+                  <span className="text-muted-foreground">Dekoracja zdjęcia profilowego ({AVATAR_DECORATIONS.length - 1})</span>
+                  <Input
+                    value={decoQuery}
+                    onChange={(event) => setDecoQuery(event.target.value)}
+                    placeholder="Szukaj dekoracji…"
+                    className="mt-2 h-8 text-xs"
+                  />
+                  <div className="mt-2 grid max-h-96 grid-cols-3 gap-2 overflow-y-auto pr-1 sm:grid-cols-6">
+                    {AVATAR_DECORATIONS.filter((item) =>
+                      item.label.toLowerCase().includes(decoQuery.trim().toLowerCase()),
+                    ).map((item) => (
                       <button
                         key={item.id}
                         type="button"
