@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Check, ExternalLink, ImagePlus, Loader2, Lock, RotateCcw } from "lucide-react";
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
+import { Input } from "@/components/ui/input";
 import { MediaCropper } from "@/components/media-cropper";
 import { DecoratedAvatar, Nameplate, ProfileEffectLayer } from "@/components/profile-cosmetics";
 import { supabase } from "@/integrations/supabase/client";
