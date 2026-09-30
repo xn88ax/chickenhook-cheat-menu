@@ -9,10 +9,11 @@ import { useIsAdmin } from "@/hooks/use-is-admin";
 
 
 const tabs = [
-  { label: "Funkcje", to: "/opcje" },
+  { label: "CS2", to: "/cs" },
+  { label: "LoL", to: "/lol" },
+  { label: "Fortnite", to: "/fortnite" },
   { label: "Forum", to: "/forum" },
   { label: "Changelog", to: "/changelog" },
-  { label: "League of Legends", to: "/lol" },
 ] as const;
 
 const moreTabs = [
