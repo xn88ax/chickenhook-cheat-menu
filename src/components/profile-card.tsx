@@ -35,13 +35,15 @@ export type ProfileCardData = {
   nameplate?: string | null;
   profile_frame?: string | null;
   status?: string | null;
+  activity?: string | null;
+  discord_id?: string | null;
   created_at?: string | null;
   member_number?: number | null;
   roles?: string[];
 };
 
 const CARD_FIELDS =
-  "id, username, display_name, bio, avatar_url, banner_url, accent, accent_2, name_effect, name_font, avatar_decoration, profile_effect, nameplate, profile_frame, status, created_at, member_number";
+  "id, username, display_name, bio, avatar_url, banner_url, accent, accent_2, name_effect, name_font, avatar_decoration, profile_effect, nameplate, profile_frame, status, activity, discord_id, created_at, member_number";
 
 const ROLE_LABELS: Record<string, string> = { owner: "Owner", admin: "Admin", moderator: "Moderator" };
 
@@ -57,6 +59,77 @@ export function useProfileCard(username: string | null | undefined, enabled = tr
       return { ...data, roles: (roles ?? []).map((r) => r.role as string) };
     },
   });
+}
+
+type LanyardActivity = { name: string; type: number; details?: string; state?: string; application_id?: string; assets?: { large_image?: string } };
+type LanyardData = {
+  discord_status: string;
+  activities: LanyardActivity[];
+  listening_to_spotify?: boolean;
+  spotify?: { song: string; artist: string; album_art_url: string } | null;
+};
+
+export function useDiscordPresence(discordId: string | null | undefined) {
+  const id = discordId?.trim();
+  return useQuery({
+    enabled: !!id && /^\d{15,21}$/.test(id),
+    queryKey: ["lanyard", id],
+    staleTime: 30_000,
+    refetchInterval: 60_000,
+    retry: false,
+    queryFn: async (): Promise<LanyardData | null> => {
+      const r = await fetch(`https://api.lanyard.rest/v1/users/${id}`);
+      if (!r.ok) return null;
+      const j = await r.json();
+      return j?.success ? (j.data as LanyardData) : null;
+    },
+  });
+}
+
+function activityImage(a: LanyardActivity) {
+  const img = a.assets?.large_image;
+  if (!img) return null;
+  if (img.startsWith("mp:external/")) return `https://media.discordapp.net/external/${img.slice(12)}`;
+  if (a.application_id) return `https://cdn.discordapp.com/app-assets/${a.application_id}/${img}.png`;
+  return null;
+}
+
+const ACT_VERB: Record<number, string> = { 0: "Gra w", 1: "Streamuje", 2: "Słucha", 3: "Ogląda", 5: "Rywalizuje w" };
+
+function ActivityBlock({ activity, discordId }: { activity?: string | null; discordId?: string | null }) {
+  const { data } = useDiscordPresence(discordId);
+  const game = data?.activities.find((a) => a.type !== 4 && a.type !== 2);
+  const custom = data?.activities.find((a) => a.type === 4)?.state;
+  const spotify = data?.listening_to_spotify ? data.spotify : null;
+  const own = activity?.trim();
+  if (!game && !spotify && !own && !custom) return null;
+  return (
+    <div className="dc-section">
+      <h4>Aktywność{data ? " · Discord" : ""}</h4>
+      {own || custom ? <p>💬 {own || custom}</p> : null}
+      {game ? (
+        <div className="mt-1 flex items-center gap-2">
+          {activityImage(game) ? <img src={activityImage(game)!} alt="" className="size-10 rounded-md" /> : null}
+          <div className="min-w-0 text-xs">
+            <div className="text-muted-foreground">{ACT_VERB[game.type] ?? "Gra w"}</div>
+            <div className="truncate font-semibold">{game.name}</div>
+            {game.details ? <div className="truncate text-muted-foreground">{game.details}</div> : null}
+            {game.state ? <div className="truncate text-muted-foreground">{game.state}</div> : null}
+          </div>
+        </div>
+      ) : null}
+      {spotify ? (
+        <div className="mt-1 flex items-center gap-2">
+          <img src={spotify.album_art_url} alt="" className="size-10 rounded-md" />
+          <div className="min-w-0 text-xs">
+            <div className="text-muted-foreground">Słucha Spotify</div>
+            <div className="truncate font-semibold">{spotify.song}</div>
+            <div className="truncate text-muted-foreground">{spotify.artist}</div>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
 }
 
 function isVideo(url: string | null | undefined) {
@@ -155,6 +228,7 @@ export function ProfileCard({
             ) : null}
           </div>
 
+          <ActivityBlock activity={profile.activity} discordId={profile.discord_id} />
           <div className="dc-section">
             {profile.bio ? (
               <>
