@@ -41,6 +41,7 @@ function AuthPage() {
   const [mode, setMode] = useState<"login" | "invite">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
   const [username, setUsername] = useState("");
   const [invite, setInvite] = useState("");
   const [error, setError] = useState<string | null>(null);
