@@ -180,7 +180,7 @@ export function Shoutbox() {
   const inputRef = useRef<HTMLInputElement>(null);
   const seenIds = useRef<Set<string>>(new Set());
   const fxTimer = useRef<number | null>(null);
-  const [fx, setFx] = useState<{ id: string; kind: "roll" | "flip"; value: string; max?: string } | null>(null);
+  const [cmdFx, setCmdFx] = useState<{ id: string; kind: "roll" | "flip"; value: string; max?: string } | null>(null);
 
   // Animacja wyniku /roll i /flip — tylko dla wiadomości, które przychodzą na żywo
   // (po przeładowaniu strony historia wgrywa się już bez animacji).
@@ -192,9 +192,9 @@ export function Shoutbox() {
     if (!roll && !flip) return;
     if (Date.now() - new Date(shout.created_at).getTime() > 15000) return;
     if (fxTimer.current) window.clearTimeout(fxTimer.current);
-    if (roll) setFx({ id: shout.id, kind: "roll", value: roll[2], max: roll[1] });
-    else setFx({ id: shout.id, kind: "flip", value: flip![1] });
-    fxTimer.current = window.setTimeout(() => setFx(null), 2300);
+    if (roll) setCmdFx({ id: shout.id, kind: "roll", value: roll[2], max: roll[1] });
+    else setCmdFx({ id: shout.id, kind: "flip", value: flip![1] });
+    fxTimer.current = window.setTimeout(() => setCmdFx(null), 2300);
   }
 
   const knownNicks = new Set<string>([
@@ -395,7 +395,7 @@ export function Shoutbox() {
                   </button>
                 )}
                 <span className="min-w-0 break-words text-muted-foreground">
-                  {!(s.attachment_url && s.text === "📎") && (fx?.id === s.id ? <CmdFx kind={fx.kind} value={fx.value} max={fx.max} /> : <MentionText text={s.text} known={knownNicks} />)}
+                  {!(s.attachment_url && s.text === "📎") && (cmdFx?.id === s.id ? <CmdFx kind={cmdFx.kind} value={cmdFx.value} max={cmdFx.max} /> : <MentionText text={s.text} known={knownNicks} />)}
                   {s.attachment_url ? <ChatAttachment path={s.attachment_url} /> : null}
                 </span>
                 {mine || isAdmin ? (
