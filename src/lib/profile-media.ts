@@ -150,6 +150,11 @@ export function avatarDecoration(id: string | null | undefined) {
   return allowedId(AVATAR_DECORATIONS, id);
 }
 
+export function avatarDecorationImg(id: string | null | undefined) {
+  const item = AVATAR_DECORATIONS.find((d) => d.id === id);
+  return item && "img" in item ? item.img : null;
+}
+
 export function profileEffect(id: string | null | undefined) {
   return allowedId(PROFILE_EFFECTS, id);
 }
