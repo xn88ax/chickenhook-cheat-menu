@@ -161,7 +161,8 @@ export function ProfileCard({
   const roleStyles = useRoleStyles();
   const c1 = accentColor(profile.accent);
   const c2 = secondAccent(profile.accent_2, profile.accent);
-  const status = userStatus(profile.status);
+  const online = useUserOnline(profile.id);
+  const status = online ? userStatus(profile.status) : "offline";
   const statusLabel = USER_STATUSES.find((s) => s.id === status)?.label;
   const fx = nameEffect(profile.name_effect);
   const font = nameFont(profile.name_font);
