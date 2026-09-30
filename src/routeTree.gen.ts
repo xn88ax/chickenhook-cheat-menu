@@ -16,6 +16,7 @@ import { Route as PodanieRouteImport } from './routes/podanie'
 import { Route as OpcjeRouteImport } from './routes/opcje'
 import { Route as ONasRouteImport } from './routes/o-nas'
 import { Route as NarzedziaRouteImport } from './routes/narzedzia'
+import { Route as LolRouteImport } from './routes/lol'
 import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -64,6 +65,11 @@ const ONasRoute = ONasRouteImport.update({
 const NarzedziaRoute = NarzedziaRouteImport.update({
   id: '/narzedzia',
   path: '/narzedzia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LolRoute = LolRouteImport.update({
+  id: '/lol',
+  path: '/lol',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChangelogRoute = ChangelogRouteImport.update({
@@ -142,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/changelog': typeof ChangelogRoute
+  '/lol': typeof LolRoute
   '/narzedzia': typeof NarzedziaRoute
   '/o-nas': typeof ONasRoute
   '/opcje': typeof OpcjeRoute
@@ -164,6 +171,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/changelog': typeof ChangelogRoute
+  '/lol': typeof LolRoute
   '/narzedzia': typeof NarzedziaRoute
   '/o-nas': typeof ONasRoute
   '/opcje': typeof OpcjeRoute
@@ -187,6 +195,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/changelog': typeof ChangelogRoute
+  '/lol': typeof LolRoute
   '/narzedzia': typeof NarzedziaRoute
   '/o-nas': typeof ONasRoute
   '/opcje': typeof OpcjeRoute
@@ -211,6 +220,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/changelog'
+    | '/lol'
     | '/narzedzia'
     | '/o-nas'
     | '/opcje'
@@ -233,6 +243,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/changelog'
+    | '/lol'
     | '/narzedzia'
     | '/o-nas'
     | '/opcje'
@@ -255,6 +266,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/changelog'
+    | '/lol'
     | '/narzedzia'
     | '/o-nas'
     | '/opcje'
@@ -279,6 +291,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ChangelogRoute: typeof ChangelogRoute
+  LolRoute: typeof LolRoute
   NarzedziaRoute: typeof NarzedziaRoute
   ONasRoute: typeof ONasRoute
   OpcjeRoute: typeof OpcjeRoute
@@ -341,6 +354,13 @@ declare module '@tanstack/react-router' {
       path: '/narzedzia'
       fullPath: '/narzedzia'
       preLoaderRoute: typeof NarzedziaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lol': {
+      id: '/lol'
+      path: '/lol'
+      fullPath: '/lol'
+      preLoaderRoute: typeof LolRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/changelog': {
@@ -479,6 +499,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ChangelogRoute: ChangelogRoute,
+  LolRoute: LolRoute,
   NarzedziaRoute: NarzedziaRoute,
   ONasRoute: ONasRoute,
   OpcjeRoute: OpcjeRoute,
