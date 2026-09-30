@@ -1231,27 +1231,3 @@ html[data-site-anim="off"] .profile-effect,
 @media (prefers-reduced-motion: reduce) {
   .avatar-cosmetic-overlay, .nameplate, .profile-effect, .profile-effect i { animation: none !important; }
 }
-
-/* Animacje /roll i /flip na czacie */
-.chat-cmd-dice { display: inline-block; animation: chat-dice-shake 0.4s ease-in-out infinite; }
-.chat-cmd-coin { display: inline-block; animation: chat-coin-spin 0.45s linear infinite; }
-.chat-cmd-coin-settled { animation: chat-coin-land-h 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) forwards; }
-.chat-cmd-coin-tails.chat-cmd-coin-settled { animation-name: chat-coin-land-t; }
-.chat-cmd-value-cycling { display: inline-block; min-width: 3ch; text-align: center; color: var(--text-subtle); }
-.chat-cmd-value-locked { display: inline-block; min-width: 3ch; text-align: center; font-weight: 700; color: var(--primary); animation: chat-value-pop 0.35s cubic-bezier(0.2, 1.4, 0.4, 1); }
-
-@keyframes chat-dice-shake { 0%, 100% { transform: rotate(0) scale(1); } 25% { transform: rotate(-16deg) scale(1.08); } 75% { transform: rotate(14deg) scale(1.08); } }
-@keyframes chat-coin-spin { to { transform: rotateY(360deg); } }
-@keyframes chat-coin-land-h { 0% { transform: rotateY(0) scale(1.4); } 60% { transform: rotateY(340deg) scale(0.92); } 100% { transform: rotateY(360deg) scale(1); } }
-@keyframes chat-coin-land-t { 0% { transform: rotateY(180deg) scale(1.4); } 60% { transform: rotateY(500deg) scale(0.92); } 100% { transform: rotateY(540deg) scale(1); } }
-@keyframes chat-value-pop { 0% { transform: scale(1.6); } 100% { transform: scale(1); } }
-
-html[data-site-anim="off"] .chat-cmd-dice,
-html[data-site-anim="off"] .chat-cmd-coin,
-html[data-site-anim="off"] .chat-cmd-value-locked,
-:root[data-site-animations="off"] .chat-cmd-dice,
-:root[data-site-animations="off"] .chat-cmd-coin,
-:root[data-site-animations="off"] .chat-cmd-value-locked { animation: none !important; }
-@media (prefers-reduced-motion: reduce) {
-  .chat-cmd-dice, .chat-cmd-coin, .chat-cmd-value-locked { animation: none !important; }
-}
