@@ -151,6 +151,8 @@ function Settings() {
   const [plate, setPlate] = useState("none");
   const [displayName, setDisplayName] = useState("");
   const [status, setStatus] = useState("online");
+  const [activity, setActivity] = useState("");
+  const [discordId, setDiscordId] = useState("");
   const [font, setFont] = useState("default");
   const [frame, setFrame] = useState("none");
   const [theme, setTheme] = useState<string>("nocny");
@@ -168,7 +170,7 @@ function Settings() {
       const { data } = await supabase
         .from("profiles")
         .select(
-          "username, bio, avatar_url, banner_url, accent, accent_2, bg_mode, bg_angle, name_effect, avatar_decoration, profile_effect, nameplate, theme, views, socials, display_name, status, name_font, profile_frame",
+          "username, bio, avatar_url, banner_url, accent, accent_2, bg_mode, bg_angle, name_effect, avatar_decoration, profile_effect, nameplate, theme, views, socials, display_name, status, name_font, profile_frame, activity, discord_id",
         )
         .eq("id", user!.id)
         .maybeSingle();
@@ -193,6 +195,8 @@ function Settings() {
       setPlate(nameplate(profile.nameplate));
       setDisplayName(profile.display_name ?? "");
       setStatus(userStatus(profile.status));
+      setActivity(profile.activity ?? "");
+      setDiscordId(profile.discord_id ?? "");
       setFont(nameFont(profile.name_font).id);
       setFrame(profileFrame(profile.profile_frame));
       setTheme(profileTheme((profile as { theme?: string | null }).theme));
@@ -229,6 +233,8 @@ function Settings() {
         nameplate: nameplate(plate),
         display_name: displayName.trim().slice(0, 32) || null,
         status: userStatus(status),
+        activity: activity.trim().slice(0, 80) || null,
+        discord_id: /^\d{15,21}$/.test(discordId) ? discordId : null,
         name_font: nameFont(font).id,
         profile_frame: profileFrame(frame),
         theme: profileTheme(theme),
@@ -713,6 +719,15 @@ function Settings() {
                         ))}
                       </div>
                     </div>
+                    <label className="block">
+                      <span className="text-muted-foreground">Własny status / w co grasz</span>
+                      <Input value={activity} maxLength={80} onChange={(e) => setActivity(e.target.value)} placeholder="np. gram w CS2 z chickenhookiem" className="mt-1 h-8 text-xs" />
+                    </label>
+                    <label className="block">
+                      <span className="text-muted-foreground">Discord ID (status na żywo z Discorda)</span>
+                      <Input value={discordId} maxLength={21} onChange={(e) => setDiscordId(e.target.value.replace(/\D/g, ""))} placeholder="np. 123456789012345678" className="mt-1 h-8 text-xs" />
+                      <span className="mt-1 block text-[11px] text-muted-foreground">Wejdź na serwer discord.gg/lanyard, żeby gra i Spotify pokazywały się automatycznie. ID skopiujesz w Discordzie: tryb dewelopera → PPM na siebie → Kopiuj ID.</span>
+                    </label>
                     <div>
                       <span className="text-muted-foreground">Czcionka nicku</span>
                       <div className="mt-1 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
@@ -750,6 +765,8 @@ function Settings() {
                           nameplate: plate,
                           profile_frame: frame,
                           status,
+                          activity,
+                          discord_id: discordId,
                         }}
                       />
                     </div>

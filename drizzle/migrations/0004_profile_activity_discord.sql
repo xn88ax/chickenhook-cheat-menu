@@ -1,0 +1,1 @@
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS activity text, ADD COLUMN IF NOT EXISTS discord_id text;

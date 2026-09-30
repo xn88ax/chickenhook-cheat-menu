@@ -29,6 +29,13 @@
       "when": 1790730935594,
       "tag": "0003_discord_profile_card_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1790731633276,
+      "tag": "0004_profile_activity_discord",
+      "breakpoints": true
     }
   ]
 }
