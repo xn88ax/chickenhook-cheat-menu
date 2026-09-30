@@ -236,7 +236,8 @@ export function Shoutbox() {
 
   async function send(e: React.FormEvent) {
     e.preventDefault();
-    const text = draft.trim();
+    const text = draft.trim().replace(/^\/chicken$/i, CHICKEN_TEXT);
+
     const nick = (
       user
         ? displayName(user)
@@ -340,9 +341,14 @@ export function Shoutbox() {
                   </button>
                 )}
                 <span className="min-w-0 break-words text-muted-foreground">
-                  {!(s.attachment_url && s.text === "📎") && <MentionText text={s.text} known={knownNicks} />}
+                  {s.attachment_url && s.text === "📎" ? null : s.text === CHICKEN_TEXT ? (
+                    <ChickenMessage />
+                  ) : (
+                    <MentionText text={s.text} known={knownNicks} />
+                  )}
                   {s.attachment_url ? <ChatAttachment path={s.attachment_url} /> : null}
                 </span>
+
                 {mine || isAdmin ? (
                   <button
                     type="button"
@@ -375,7 +381,7 @@ export function Shoutbox() {
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           maxLength={200}
-          placeholder="Napisz coś do kurnika…"
+          placeholder="Napisz coś do kurnika… (/chicken)"
           aria-label="Wiadomość na shoutboxie"
            className="h-9 min-w-0 flex-1 rounded-lg border border-border bg-background px-3 text-xs outline-none focus:border-primary"
         />
