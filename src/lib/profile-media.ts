@@ -102,9 +102,6 @@ export const NAME_EFFECTS = [
 
 export const AVATAR_DECORATIONS = [
   { id: "none", label: "Brak" },
-  { id: "energy", label: "Pierścień energii" },
-  { id: "flames", label: "Płomienie" },
-  { id: "pixels", label: "Piksele" },
   { id: "crown", label: "Korona" },
   { id: "chicken", label: "Kurczak" },
   ...DISCORD_DECORATIONS,
