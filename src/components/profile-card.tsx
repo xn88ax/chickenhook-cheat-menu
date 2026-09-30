@@ -163,7 +163,7 @@ export function ProfileCard({
   const c2 = secondAccent(profile.accent_2, profile.accent);
   const online = useUserOnline(profile.id);
   const status = online ? userStatus(profile.status) : "offline";
-  const statusLabel = USER_STATUSES.find((s) => s.id === status)?.label;
+  const statusLabel = online ? USER_STATUSES.find((s) => s.id === status)?.label : "Offline";
   const fx = nameEffect(profile.name_effect);
   const font = nameFont(profile.name_font);
   const frame = profileFrame(profile.profile_frame);
