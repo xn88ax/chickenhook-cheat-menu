@@ -121,6 +121,50 @@ function formatTime(iso: string) {
 
 const NICK_KEY = "chickenhook_guest_nick";
 
+// Animowany wynik komendy: moneta kręci się i "pada", kostka losuje jak automat.
+function CmdFx({ kind, value, max }: { kind: "roll" | "flip"; value: string; max?: string }) {
+  const [shown, setShown] = useState(kind === "roll" ? "0" : "?");
+  const [settled, setSettled] = useState(false);
+  useEffect(() => {
+    const tick =
+      kind === "roll"
+        ? window.setInterval(() => setShown(String(Math.floor(1 + Math.random() * Number(max ?? "100")))), 70)
+        : null;
+    const stop = window.setTimeout(() => {
+      if (tick) window.clearInterval(tick);
+      setShown(value);
+      setSettled(true);
+    }, 1400);
+    return () => {
+      if (tick) window.clearInterval(tick);
+      window.clearTimeout(stop);
+    };
+  }, [kind, value, max]);
+  if (kind === "flip") {
+    return (
+      <span>
+        <span
+          className={`chat-cmd-coin ${settled ? "chat-cmd-coin-settled" : ""} ${settled && value === "RESZKA" ? "chat-cmd-coin-tails" : ""}`}
+        >
+          🪙
+        </span>{" "}
+        /flip →{" "}
+        <span className={`chat-cmd-value ${settled ? "chat-cmd-value-locked" : "chat-cmd-value-cycling"}`}>
+          {shown}
+        </span>
+      </span>
+    );
+  }
+  return (
+    <span>
+      <span className="chat-cmd-dice">🎲</span> /roll 1-{max} →{" "}
+      <span className={`chat-cmd-value ${settled ? "chat-cmd-value-locked" : "chat-cmd-value-cycling"}`}>
+        {shown}
+      </span>
+    </span>
+  );
+}
+
 export function Shoutbox() {
   const { user, loading } = useAuth();
   const [shouts, setShouts] = useState<Shout[]>([]);
@@ -134,6 +178,24 @@ export function Shoutbox() {
   const roleStyles = useRoleStyles();
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const seenIds = useRef<Set<string>>(new Set());
+  const fxTimer = useRef<number | null>(null);
+  const [cmdFx, setCmdFx] = useState<{ id: string; kind: "roll" | "flip"; value: string; max?: string } | null>(null);
+
+  // Animacja wyniku /roll i /flip — tylko dla wiadomości, które przychodzą na żywo
+  // (po przeładowaniu strony historia wgrywa się już bez animacji).
+  function noteFx(shout: Shout) {
+    if (seenIds.current.has(shout.id)) return;
+    seenIds.current.add(shout.id);
+    const roll = /^🎲 \/roll 1-(\d+) → wylosowałem (\d+)$/.exec(shout.text);
+    const flip = /^🪙 \/flip → (ORZEŁ|RESZKA)$/.exec(shout.text);
+    if (!roll && !flip) return;
+    if (Date.now() - new Date(shout.created_at).getTime() > 15000) return;
+    if (fxTimer.current) window.clearTimeout(fxTimer.current);
+    if (roll) setCmdFx({ id: shout.id, kind: "roll", value: roll[2], max: roll[1] });
+    else setCmdFx({ id: shout.id, kind: "flip", value: flip![1] });
+    fxTimer.current = window.setTimeout(() => setCmdFx(null), 2300);
+  }
 
   const knownNicks = new Set<string>([
     ...Object.values(profiles).map((p) => p.username.toLowerCase()),
@@ -183,7 +245,11 @@ export function Shoutbox() {
       .order("created_at", { ascending: false })
       .limit(80)
       .then(({ data }) => {
-        if (active && data) setShouts([...data].reverse() as Shout[]);
+        if (active && data) {
+          const rows = [...data].reverse() as Shout[];
+          for (const row of rows) seenIds.current.add(row.id);
+          setShouts(rows);
+        }
       });
 
     const channel = supabase
@@ -193,6 +259,7 @@ export function Shoutbox() {
         { event: "INSERT", schema: "public", table: "shouts" },
         (payload) => {
           const row = payload.new as Shout;
+          noteFx(row);
           setShouts((s) => (s.some((x) => x.id === row.id) ? s : [...s, row].slice(-120)));
         },
       )
@@ -257,6 +324,7 @@ export function Shoutbox() {
     setDraft("");
     setFile(null);
     if (fileRef.current) fileRef.current.value = "";
+    noteFx(data as Shout);
     setShouts((s) => (s.some((x) => x.id === data.id) ? s : [...s, data as Shout].slice(-120)));
   }
 
@@ -327,7 +395,7 @@ export function Shoutbox() {
                   </button>
                 )}
                 <span className="min-w-0 break-words text-muted-foreground">
-                  {!(s.attachment_url && s.text === "📎") && <MentionText text={s.text} known={knownNicks} />}
+                  {!(s.attachment_url && s.text === "📎") && (cmdFx?.id === s.id ? <CmdFx kind={cmdFx.kind} value={cmdFx.value} max={cmdFx.max} /> : <MentionText text={s.text} known={knownNicks} />)}
                   {s.attachment_url ? <ChatAttachment path={s.attachment_url} /> : null}
                 </span>
                 {mine || isAdmin ? (
