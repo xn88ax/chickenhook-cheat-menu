@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Profile cosmetics use stored preset IDs rendered with shared CSS-only components, so profiles, forum, and chat stay visually consistent without third-party assets.
+- Game-specific demo menus use shared controls with isolated configuration data, so CS2, LoL, and Fortnite remain visually consistent without sharing state.

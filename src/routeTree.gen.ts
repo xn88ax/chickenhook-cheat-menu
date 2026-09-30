@@ -17,6 +17,8 @@ import { Route as OpcjeRouteImport } from './routes/opcje'
 import { Route as ONasRouteImport } from './routes/o-nas'
 import { Route as NarzedziaRouteImport } from './routes/narzedzia'
 import { Route as LolRouteImport } from './routes/lol'
+import { Route as FortniteRouteImport } from './routes/fortnite'
+import { Route as CsRouteImport } from './routes/cs'
 import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -70,6 +72,16 @@ const NarzedziaRoute = NarzedziaRouteImport.update({
 const LolRoute = LolRouteImport.update({
   id: '/lol',
   path: '/lol',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FortniteRoute = FortniteRouteImport.update({
+  id: '/fortnite',
+  path: '/fortnite',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CsRoute = CsRouteImport.update({
+  id: '/cs',
+  path: '/cs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChangelogRoute = ChangelogRouteImport.update({
@@ -148,6 +160,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/changelog': typeof ChangelogRoute
+  '/cs': typeof CsRoute
+  '/fortnite': typeof FortniteRoute
   '/lol': typeof LolRoute
   '/narzedzia': typeof NarzedziaRoute
   '/o-nas': typeof ONasRoute
@@ -171,6 +185,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/changelog': typeof ChangelogRoute
+  '/cs': typeof CsRoute
+  '/fortnite': typeof FortniteRoute
   '/lol': typeof LolRoute
   '/narzedzia': typeof NarzedziaRoute
   '/o-nas': typeof ONasRoute
@@ -195,6 +211,8 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/changelog': typeof ChangelogRoute
+  '/cs': typeof CsRoute
+  '/fortnite': typeof FortniteRoute
   '/lol': typeof LolRoute
   '/narzedzia': typeof NarzedziaRoute
   '/o-nas': typeof ONasRoute
@@ -220,6 +238,8 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/changelog'
+    | '/cs'
+    | '/fortnite'
     | '/lol'
     | '/narzedzia'
     | '/o-nas'
@@ -243,6 +263,8 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/changelog'
+    | '/cs'
+    | '/fortnite'
     | '/lol'
     | '/narzedzia'
     | '/o-nas'
@@ -266,6 +288,8 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/changelog'
+    | '/cs'
+    | '/fortnite'
     | '/lol'
     | '/narzedzia'
     | '/o-nas'
@@ -291,6 +315,8 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ChangelogRoute: typeof ChangelogRoute
+  CsRoute: typeof CsRoute
+  FortniteRoute: typeof FortniteRoute
   LolRoute: typeof LolRoute
   NarzedziaRoute: typeof NarzedziaRoute
   ONasRoute: typeof ONasRoute
@@ -361,6 +387,20 @@ declare module '@tanstack/react-router' {
       path: '/lol'
       fullPath: '/lol'
       preLoaderRoute: typeof LolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fortnite': {
+      id: '/fortnite'
+      path: '/fortnite'
+      fullPath: '/fortnite'
+      preLoaderRoute: typeof FortniteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cs': {
+      id: '/cs'
+      path: '/cs'
+      fullPath: '/cs'
+      preLoaderRoute: typeof CsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/changelog': {
@@ -499,6 +539,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ChangelogRoute: ChangelogRoute,
+  CsRoute: CsRoute,
+  FortniteRoute: FortniteRoute,
   LolRoute: LolRoute,
   NarzedziaRoute: NarzedziaRoute,
   ONasRoute: ONasRoute,

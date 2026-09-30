@@ -206,7 +206,7 @@ function Index() {
                 </article>
               ))}
             </div>
-            <div className="border-t border-border px-4 py-3"><Link to="/opcje" className="text-xs font-semibold text-primary hover:text-accent">Wszystkie {features.length} modułów →</Link></div>
+            <div className="border-t border-border px-4 py-3"><Link to="/cs" className="text-xs font-semibold text-primary hover:text-accent">Menu CS2 i wszystkie {features.length} modułów →</Link></div>
           </GsPanel>
 
           <GsPanel title={`Ostatni build — ${builds[0]?.version ?? "4.chkn"}`}>
