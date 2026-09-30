@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { supabase } from "@/integrations/supabase/client";
+import { DISCORD_DECORATIONS } from "@/lib/avatar-decorations-data";
 
 export const PROFILE_BUCKET = "profiles";
 
