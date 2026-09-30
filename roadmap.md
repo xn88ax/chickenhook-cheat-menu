@@ -20,3 +20,6 @@
 - [x] Efekty profilu inspirowane Discordem: animacje karty, dekoracje awatara i rozszerzone style nicku
 
 - [x] Usunąć komendy /roll i /flip oraz ich animacje z czatu.
+
+## W toku
+- [ ] Rozdzielić menu ChickenHook na CS2, League of Legends i Fortnite
