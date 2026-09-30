@@ -1163,6 +1163,7 @@ html[data-site-anim="off"] .nick-fx-prism,
   inset: -14%;
   width: 128%;
   height: 128%;
+  max-width: none;
   z-index: 2;
   pointer-events: none;
   object-fit: contain;
