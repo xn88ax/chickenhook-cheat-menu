@@ -359,7 +359,7 @@ export function Shoutbox() {
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           maxLength={200}
-          placeholder="Napisz coś do kurnika…"
+          placeholder="Napisz coś do kurnika… (/roll, /flip)"
           aria-label="Wiadomość na shoutboxie"
            className="h-9 min-w-0 flex-1 rounded-lg border border-border bg-background px-3 text-xs outline-none focus:border-primary"
         />
