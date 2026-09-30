@@ -179,7 +179,34 @@ function AuthPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
               />
+              {mode === "invite" && password.length > 0 && (
+                <p className={`mt-1 text-xs ${password.length < 8 ? "text-primary" : "text-accent"}`}>
+                  {password.length < 8
+                    ? "Za słabe — minimum 8 znaków, dodaj cyfry i znaki specjalne."
+                    : "Hasło wygląda OK."}
+                </p>
+              )}
             </div>
+
+            {mode === "invite" && (
+              <div>
+                <label className="text-xs font-bold uppercase text-muted-foreground" htmlFor="pass2">
+                  Powtórz hasło
+                </label>
+                <input
+                  id="pass2"
+                  type="password"
+                  required
+                  minLength={8}
+                  value={password2}
+                  onChange={(e) => setPassword2(e.target.value)}
+                  className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                />
+                {password2.length > 0 && password !== password2 && (
+                  <p className="mt-1 text-xs text-primary">Hasła nie są takie same.</p>
+                )}
+              </div>
+            )}
 
             <label className="flex items-center gap-2 text-xs font-bold uppercase text-muted-foreground">
               <input
