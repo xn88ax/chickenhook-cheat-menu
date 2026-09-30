@@ -236,6 +236,7 @@ function Settings() {
       })
       .eq("id", user!.id);
     await qc.invalidateQueries({ queryKey: ["profile", user?.id] });
+    await qc.invalidateQueries({ queryKey: ["profile-card"] });
     setProfileState({
       busy: false,
       msg: error ? "Nie udało się zapisać profilu." : "Profil zapisany.",
