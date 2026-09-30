@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 
-import { avatarDecoration, nameplate, nickVars, profileEffect } from "@/lib/profile-media";
+import { avatarDecoration, avatarDecorationImg, nameplate, nickVars, profileEffect } from "@/lib/profile-media";
 
 export function DecoratedAvatar({
   decoration,
@@ -16,6 +16,7 @@ export function DecoratedAvatar({
   children: ReactNode;
 }) {
   const selected = avatarDecoration(decoration);
+  const img = avatarDecorationImg(decoration);
   return (
     <div
       className={`avatar-cosmetic avatar-cosmetic-${selected} ${className}`}
@@ -23,7 +24,11 @@ export function DecoratedAvatar({
       data-decoration={selected}
     >
       <div className="avatar-cosmetic-content">{children}</div>
-      {selected !== "none" && <span className="avatar-cosmetic-overlay" aria-hidden="true" />}
+      {img ? (
+        <img className="avatar-cosmetic-img" src={img} alt="" aria-hidden="true" loading="lazy" />
+      ) : (
+        selected !== "none" && <span className="avatar-cosmetic-overlay" aria-hidden="true" />
+      )}
     </div>
   );
 }
