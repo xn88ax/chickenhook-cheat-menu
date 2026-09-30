@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { LogIn, Send, Trash2 } from "lucide-react";
+import { ImagePlus, LogIn, Send, Trash2, X } from "lucide-react";
 
 import { supabase } from "@/integrations/supabase/client";
 import { displayName, useAuth } from "@/hooks/use-auth";
@@ -16,7 +16,25 @@ type Shout = {
   text: string;
   created_at: string;
   user_id: string | null;
+  attachment_url?: string | null;
 };
+
+const signedCache = new Map<string, string>();
+function ChatAttachment({ path }: { path: string }) {
+  const [url, setUrl] = useState<string | null>(signedCache.get(path) ?? null);
+  useEffect(() => {
+    if (url) return;
+    void supabase.storage.from("chat").createSignedUrl(path, 60 * 60 * 24).then(({ data }) => {
+      if (data?.signedUrl) { signedCache.set(path, data.signedUrl); setUrl(data.signedUrl); }
+    });
+  }, [path, url]);
+  if (!url) return <span className="block text-[11px] text-[var(--text-subtle)]">ładuję załącznik…</span>;
+  const isVideo = /\.(mp4|webm|mov)$/i.test(path);
+  const isImage = /\.(png|jpe?g|gif|webp|avif)$/i.test(path);
+  if (isVideo) return <video src={url} controls className="mt-1 block max-h-48 max-w-full rounded-md border border-border" />;
+  if (isImage) return <a href={url} target="_blank" rel="noreferrer"><img src={url} alt="załącznik" loading="lazy" className="mt-1 block max-h-48 max-w-full rounded-md border border-border" /></a>;
+  return <a href={url} target="_blank" rel="noreferrer" className="mt-1 block text-xs font-bold text-primary underline">📎 {path.split("/").pop()}</a>;
+}
 
 type ShoutProfile = {
   id: string;
@@ -106,6 +124,8 @@ export function Shoutbox() {
   const { user, loading } = useAuth();
   const [shouts, setShouts] = useState<Shout[]>([]);
   const [draft, setDraft] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   const [guestNick, setGuestNick] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -158,7 +178,7 @@ export function Shoutbox() {
     let active = true;
     void supabase
       .from("shouts")
-      .select("id, nick, text, created_at, user_id")
+      .select("id, nick, text, created_at, user_id, attachment_url")
       .order("created_at", { ascending: false })
       .limit(80)
       .then(({ data }) => {
@@ -202,13 +222,23 @@ export function Shoutbox() {
           ? guestNick
           : `gosc_${Math.floor(1000 + Math.random() * 8999)}`
     ).slice(0, 32);
-    if (!text || sending) return;
+    if ((!text && !file) || sending) return;
     setSending(true);
     setError(null);
+    let attachment_url: string | null = null;
+    if (file) {
+      if (!user) { setSending(false); setError("Załączniki tylko dla zalogowanych."); return; }
+      if (file.size > 10 * 1024 * 1024) { setSending(false); setError("Plik za duży (max 10 MB)."); return; }
+      const ext = (file.name.split(".").pop() || "bin").toLowerCase().replace(/[^a-z0-9]/g, "");
+      const path = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const { error: upErr } = await supabase.storage.from("chat").upload(path, file, { contentType: file.type || undefined });
+      if (upErr) { setSending(false); setError("Nie udało się wgrać pliku."); return; }
+      attachment_url = path;
+    }
     const { data, error: err } = await supabase
       .from("shouts")
-      .insert({ nick, text, user_id: user ? user.id : null })
-      .select("id, nick, text, created_at, user_id")
+      .insert({ nick, text: text || "📎", user_id: user ? user.id : null, attachment_url })
+      .select("id, nick, text, created_at, user_id, attachment_url")
       .single();
     setSending(false);
     if (err || !data) {
@@ -216,6 +246,8 @@ export function Shoutbox() {
       return;
     }
     setDraft("");
+    setFile(null);
+    if (fileRef.current) fileRef.current.value = "";
     setShouts((s) => (s.some((x) => x.id === data.id) ? s : [...s, data as Shout].slice(-120)));
   }
 
@@ -284,7 +316,8 @@ export function Shoutbox() {
                   </button>
                 )}
                 <span className="min-w-0 break-words text-muted-foreground">
-                  <MentionText text={s.text} known={knownNicks} />
+                  {!(s.attachment_url && s.text === "📎") && <MentionText text={s.text} known={knownNicks} />}
+                  {s.attachment_url ? <ChatAttachment path={s.attachment_url} /> : null}
                 </span>
                 {mine ? (
                   <button
@@ -302,7 +335,17 @@ export function Shoutbox() {
         )}
       </div>
 
+       {file ? (
+        <div className="flex items-center gap-2 border-t border-border px-4 pt-2 text-[11px] text-muted-foreground">
+          <span className="truncate">📎 {file.name}</span>
+          <button type="button" aria-label="Usuń załącznik" onClick={() => { setFile(null); if (fileRef.current) fileRef.current.value = ""; }}><X className="size-3" /></button>
+        </div>
+      ) : null}
        <form className="flex gap-2 border-t border-border px-4 py-3" onSubmit={send}>
+        <input ref={fileRef} type="file" hidden accept="image/*,video/mp4,video/webm,.pdf,.txt,.zip" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
+        <Button type="button" variant="outline" size="sm" className="h-9 rounded-lg px-2.5" aria-label="Załącz plik" title={user ? "Załącz obrazek / plik" : "Zaloguj się, żeby załączać"} disabled={!user} onClick={() => fileRef.current?.click()}>
+          <ImagePlus className="size-3.5" />
+        </Button>
          <input
           ref={inputRef}
           value={draft}

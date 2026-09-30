@@ -254,6 +254,7 @@ export type Database = {
       }
       shouts: {
         Row: {
+          attachment_url: string | null
           created_at: string
           id: string
           nick: string
@@ -261,6 +262,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          attachment_url?: string | null
           created_at?: string
           id?: string
           nick: string
@@ -268,6 +270,7 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          attachment_url?: string | null
           created_at?: string
           id?: string
           nick?: string
