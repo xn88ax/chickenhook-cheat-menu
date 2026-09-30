@@ -3,6 +3,7 @@ import { ExternalLink, ShieldCheck } from "lucide-react";
 
 import { Avatar } from "@/components/forum/forum-shell";
 import { DecoratedAvatar, Nameplate } from "@/components/profile-cosmetics";
+import { ProfilePopover } from "@/components/profile-card";
 import { useRoleStyles } from "@/lib/role-styles";
 import { nameEffect, nickVars } from "@/lib/profile-media";
 
@@ -58,11 +59,8 @@ export function UserIdentity({ profile }: { profile: ForumIdentity }) {
       </DecoratedAvatar>
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-1.5">
-          <Link
-            to="/profil/$username"
-            params={{ username: profile.username }}
-            className="text-xs font-bold hover:opacity-80"
-          >
+          <ProfilePopover username={profile.username}>
+          <button type="button" className="text-xs font-bold hover:opacity-80">
             <Nameplate variant={profile.nameplate} accent={profile.accent} accent2={profile.accent2} compact>
               <span
                 className={`nick-fx nick-fx-${nameEffect(profile.nameEffect)}`}
@@ -71,7 +69,8 @@ export function UserIdentity({ profile }: { profile: ForumIdentity }) {
                 {profile.username}
               </span>
             </Nameplate>
-          </Link>
+          </button>
+          </ProfilePopover>
           {profile.roles.map((role) => (
             <RoleBadge key={role} role={role} />
           ))}
