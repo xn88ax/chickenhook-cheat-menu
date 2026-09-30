@@ -1,0 +1,1 @@
+CREATE POLICY shouts_delete_owner ON public.shouts FOR DELETE TO authenticated USING (public.has_role(auth.uid(), 'owner'::app_role));

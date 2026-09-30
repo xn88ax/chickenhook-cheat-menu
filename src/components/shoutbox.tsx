@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ImagePlus, LogIn, Send, Trash2, X } from "lucide-react";
+import { useIsAdmin } from "@/hooks/use-is-admin";
 
 import { supabase } from "@/integrations/supabase/client";
 import { displayName, useAuth } from "@/hooks/use-auth";
@@ -259,6 +260,8 @@ export function Shoutbox() {
     setShouts((s) => (s.some((x) => x.id === data.id) ? s : [...s, data as Shout].slice(-120)));
   }
 
+  const { isAdmin } = useIsAdmin();
+
   async function remove(id: string) {
     setShouts((s) => s.filter((x) => x.id !== id));
     const { error: err } = await supabase.from("shouts").delete().eq("id", id);
@@ -327,7 +330,7 @@ export function Shoutbox() {
                   {!(s.attachment_url && s.text === "📎") && <MentionText text={s.text} known={knownNicks} />}
                   {s.attachment_url ? <ChatAttachment path={s.attachment_url} /> : null}
                 </span>
-                {mine ? (
+                {mine || isAdmin ? (
                   <button
                     type="button"
                     onClick={() => void remove(s.id)}
