@@ -311,7 +311,7 @@ export function Shoutbox() {
                 {s.user_id ? (
                   <span className="flex min-w-0 flex-wrap items-center gap-1">
                     <Nameplate variant={profile?.nameplate} accent={profile?.accent} accent2={profile?.accent_2} compact>
-                    <ProfilePopover username={s.nick} onMention={() => mention(s.nick)}>
+                    <ProfilePopover username={profile?.username ?? s.nick} onMention={() => mention(profile?.username ?? s.nick)}>
                     <button
                       type="button"
                       title={`Profil ${s.nick}`}
@@ -324,7 +324,7 @@ export function Shoutbox() {
                             : undefined
                       }
                     >
-                      {s.nick}
+                      {profile?.username ?? s.nick}
                     </button>
                     </ProfilePopover>
                     </Nameplate>
