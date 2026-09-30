@@ -59,7 +59,7 @@ export function useProfileCard(username: string | null | undefined, enabled = tr
   });
 }
 
-function isVideo(url: string | null) {
+function isVideo(url: string | null | undefined) {
   return !!url && /\.(webm|mp4)(\?|$)/i.test(url);
 }
 
