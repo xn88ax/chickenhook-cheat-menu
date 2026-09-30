@@ -1153,6 +1153,15 @@ html[data-site-anim="off"] .nick-fx-prism,
   filter: drop-shadow(0 2px 3px color-mix(in oklab, black 55%, transparent));
   animation: avatar-chicken 1.6s ease-in-out infinite;
 }
+.avatar-cosmetic-img {
+  position: absolute;
+  inset: -14%;
+  width: 128%;
+  height: 128%;
+  z-index: 2;
+  pointer-events: none;
+  object-fit: contain;
+}
 
 .nameplate {
   --nick-1: var(--primary);
