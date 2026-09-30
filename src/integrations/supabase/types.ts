@@ -157,6 +157,7 @@ export type Database = {
         Row: {
           accent: string
           accent_2: string | null
+          activity: string | null
           avatar_decoration: string
           avatar_url: string | null
           banner_url: string | null
@@ -164,6 +165,7 @@ export type Database = {
           bg_mode: string
           bio: string
           created_at: string
+          discord_id: string | null
           display_name: string | null
           id: string
           link_1: string | null
@@ -185,6 +187,7 @@ export type Database = {
         Insert: {
           accent?: string
           accent_2?: string | null
+          activity?: string | null
           avatar_decoration?: string
           avatar_url?: string | null
           banner_url?: string | null
@@ -192,6 +195,7 @@ export type Database = {
           bg_mode?: string
           bio?: string
           created_at?: string
+          discord_id?: string | null
           display_name?: string | null
           id: string
           link_1?: string | null
@@ -213,6 +217,7 @@ export type Database = {
         Update: {
           accent?: string
           accent_2?: string | null
+          activity?: string | null
           avatar_decoration?: string
           avatar_url?: string | null
           banner_url?: string | null
@@ -220,6 +225,7 @@ export type Database = {
           bg_mode?: string
           bio?: string
           created_at?: string
+          discord_id?: string | null
           display_name?: string | null
           id?: string
           link_1?: string | null
