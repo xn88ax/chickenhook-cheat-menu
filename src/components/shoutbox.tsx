@@ -214,7 +214,15 @@ export function Shoutbox() {
 
   async function send(e: React.FormEvent) {
     e.preventDefault();
-    const text = draft.trim();
+    let text = draft.trim();
+    // Komendy czatu: /roll [max] i /flip.
+    const rollMatch = /^\/roll(?:\s+(\d+))?$/i.exec(text);
+    if (rollMatch) {
+      const max = Math.min(Math.max(parseInt(rollMatch[1] ?? "100", 10) || 100, 2), 1_000_000);
+      text = `🎲 /roll 1-${max} → wylosowałem ${Math.floor(1 + Math.random() * max)}`;
+    } else if (/^\/flip$/i.test(text)) {
+      text = `🪙 /flip → ${Math.random() < 0.5 ? "ORZEŁ" : "RESZKA"}`;
+    }
     const nick = (
       user
         ? displayName(user)
