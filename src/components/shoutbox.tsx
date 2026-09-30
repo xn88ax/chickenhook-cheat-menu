@@ -23,7 +23,7 @@ type Shout = {
 };
 
 const signedCache = new Map<string, string>();
-function ChatAttachment({ path }: { path: string }) {
+function ChatAttachment({ path, onZoom }: { path: string; onZoom?: (url: string) => void }) {
   const [url, setUrl] = useState<string | null>(signedCache.get(path) ?? null);
   useEffect(() => {
     if (url) return;
@@ -35,7 +35,17 @@ function ChatAttachment({ path }: { path: string }) {
   const isVideo = /\.(mp4|webm|mov)$/i.test(path);
   const isImage = /\.(png|jpe?g|gif|webp|avif)$/i.test(path);
   if (isVideo) return <video src={url} controls className="mt-1 block max-h-48 max-w-full rounded-md border border-border" />;
-  if (isImage) return <a href={url} target="_blank" rel="noreferrer"><img src={url} alt="załącznik" loading="lazy" className="mt-1 block max-h-48 max-w-full rounded-md border border-border" /></a>;
+  if (isImage) return (
+    <button
+      type="button"
+      onClick={() => onZoom?.(url)}
+      title="Kliknij, żeby powiększyć"
+      className="group/att relative mt-1 block cursor-zoom-in"
+    >
+      <img src={url} alt="załącznik" loading="lazy" className="block max-h-48 max-w-full rounded-md border border-border" />
+      <span className="pointer-events-none absolute inset-0 rounded-md bg-black/0 transition-colors group-hover/att:bg-black/25" />
+    </button>
+  );
   return <a href={url} target="_blank" rel="noreferrer" className="mt-1 block text-xs font-bold text-primary underline">📎 {path.split("/").pop()}</a>;
 }
 
@@ -148,6 +158,7 @@ export function Shoutbox() {
   const [guestNick, setGuestNick] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [zoomUrl, setZoomUrl] = useState<string | null>(null);
   const [profiles, setProfiles] = useState<Record<string, ShoutProfile>>({});
   const roleStyles = useRoleStyles();
   const listRef = useRef<HTMLDivElement>(null);
@@ -346,7 +357,7 @@ export function Shoutbox() {
                   ) : (
                     <MentionText text={s.text} known={knownNicks} />
                   )}
-                  {s.attachment_url ? <ChatAttachment path={s.attachment_url} /> : null}
+                  {s.attachment_url ? <ChatAttachment path={s.attachment_url} onZoom={setZoomUrl} /> : null}
                 </span>
 
                 {mine || isAdmin ? (
