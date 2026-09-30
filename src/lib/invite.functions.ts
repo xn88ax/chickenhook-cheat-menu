@@ -39,7 +39,9 @@ export const registerWithInvite = createServerFn({ method: "POST" })
         ok: false as const,
         error: createError?.message?.includes("already")
           ? "Konto z tym e-mailem już istnieje."
-          : "Nie udało się utworzyć konta.",
+          : /weak|easy to guess|pwned|leaked/i.test(createError?.message ?? "")
+            ? "To hasło jest zbyt słabe lub wyciekło w sieci — wybierz inne, trudniejsze hasło."
+            : "Nie udało się utworzyć konta.",
       };
     }
 
