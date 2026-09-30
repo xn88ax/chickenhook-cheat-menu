@@ -71,7 +71,7 @@ function Podanie() {
               loaderze.
             </p>
             <Link
-              to="/opcje"
+              to="/cs"
               className="mt-2 rounded-sm border border-border px-5 py-2.5 text-sm font-bold uppercase tracking-wide transition-colors hover:bg-secondary"
             >
               Wróć do opcji

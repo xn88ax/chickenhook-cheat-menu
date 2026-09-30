@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { Check, Lock, Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -9,6 +9,9 @@ import { GsPanel, GsShell } from "@/components/gs-shell";
 
 
 export const Route = createFileRoute("/opcje")({
+  beforeLoad: () => {
+    throw redirect({ to: "/cs", statusCode: 301 });
+  },
   head: () => ({
     meta: [
       { title: "Opcje cheata — chickenhook.wtf | CS2" },
