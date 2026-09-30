@@ -65,6 +65,16 @@ function AuthPage() {
         if (error) throw error;
         navigate({ to: target });
       } else {
+        if (password !== password2) {
+          setError("Hasła nie są takie same.");
+          setBusy(false);
+          return;
+        }
+        if (password.length < 8) {
+          setError("Hasło jest za słabe — musi mieć co najmniej 8 znaków.");
+          setBusy(false);
+          return;
+        }
         const result = await register({
           data: {
             code: invite,
