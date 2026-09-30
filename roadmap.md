@@ -18,3 +18,5 @@
 
 ## Ukończone (profil)
 - [x] Efekty profilu inspirowane Discordem: animacje karty, dekoracje awatara i rozszerzone style nicku
+
+- [ ] Usunąć komendy /roll i /flip oraz ich animacje z czatu.
