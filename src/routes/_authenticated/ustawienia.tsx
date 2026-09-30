@@ -18,6 +18,12 @@ import {
   BG_ANGLES,
   BG_MODES,
   NAME_EFFECTS,
+  NAME_FONTS,
+  PROFILE_FRAMES,
+  USER_STATUSES,
+  nameFont,
+  profileFrame,
+  userStatus,
   NAMEPLATES,
   PROFILE_EFFECTS,
   PROFILE_THEMES,
@@ -36,6 +42,7 @@ import {
   uploadProfileMedia,
   useProfileMedia,
 } from "@/lib/profile-media";
+import { ProfileCard } from "@/components/profile-card";
 import { SOCIAL_PLATFORMS, parseSocials, type Socials } from "@/lib/socials";
 
 export const Route = createFileRoute("/_authenticated/ustawienia")({
@@ -142,6 +149,10 @@ function Settings() {
   const [decoQuery, setDecoQuery] = useState("");
   const [cardEffect, setCardEffect] = useState("none");
   const [plate, setPlate] = useState("none");
+  const [displayName, setDisplayName] = useState("");
+  const [status, setStatus] = useState("online");
+  const [font, setFont] = useState("default");
+  const [frame, setFrame] = useState("none");
   const [theme, setTheme] = useState<string>("nocny");
   const [socials, setSocials] = useState<Socials>({});
   const [profileState, setProfileState] = useState<{
@@ -157,7 +168,7 @@ function Settings() {
       const { data } = await supabase
         .from("profiles")
         .select(
-          "username, bio, avatar_url, banner_url, accent, accent_2, bg_mode, bg_angle, name_effect, avatar_decoration, profile_effect, nameplate, theme, views, socials",
+          "username, bio, avatar_url, banner_url, accent, accent_2, bg_mode, bg_angle, name_effect, avatar_decoration, profile_effect, nameplate, theme, views, socials, display_name, status, name_font, profile_frame",
         )
         .eq("id", user!.id)
         .maybeSingle();
@@ -180,6 +191,10 @@ function Settings() {
       setDecoration(avatarDecoration(profile.avatar_decoration));
       setCardEffect(profileEffect(profile.profile_effect));
       setPlate(nameplate(profile.nameplate));
+      setDisplayName(profile.display_name ?? "");
+      setStatus(userStatus(profile.status));
+      setFont(nameFont(profile.name_font).id);
+      setFrame(profileFrame(profile.profile_frame));
       setTheme(profileTheme((profile as { theme?: string | null }).theme));
       setSocials(parseSocials(profile.socials));
     }
@@ -212,11 +227,16 @@ function Settings() {
         avatar_decoration: avatarDecoration(decoration),
         profile_effect: profileEffect(cardEffect),
         nameplate: nameplate(plate),
+        display_name: displayName.trim().slice(0, 32) || null,
+        status: userStatus(status),
+        name_font: nameFont(font).id,
+        profile_frame: profileFrame(frame),
         theme: profileTheme(theme),
         socials: normalizedSocials,
       })
       .eq("id", user!.id);
     await qc.invalidateQueries({ queryKey: ["profile", user?.id] });
+    await qc.invalidateQueries({ queryKey: ["profile-card"] });
     setProfileState({
       busy: false,
       msg: error ? "Nie udało się zapisać profilu." : "Profil zapisany.",
@@ -659,7 +679,7 @@ function Settings() {
 
                 <div className="text-xs">
                   <span className="text-muted-foreground">Efekt otwarcia profilu</span>
-                  <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                  <div className="mt-2 grid max-h-96 grid-cols-2 gap-2 overflow-y-auto pr-1 sm:grid-cols-4">
                     {PROFILE_EFFECTS.map((item) => (
                       <button
                         key={item.id}
@@ -668,10 +688,71 @@ function Settings() {
                         aria-pressed={cardEffect === item.id}
                         className={`profile-effect-preview relative h-16 overflow-hidden rounded-lg border ${cardEffect === item.id ? "border-primary" : "border-border"}`}
                       >
-                        <span className="relative z-10 font-semibold">{item.label}</span>
-                        <ProfileEffectLayer effect={item.id} />
+                        {"thumb" in item ? (
+                          <img src={item.thumb} alt="" loading="lazy" className="absolute inset-0 size-full object-cover opacity-80" />
+                        ) : (
+                          <ProfileEffectLayer effect={item.id} />
+                        )}
+                        <span className="relative z-10 font-semibold drop-shadow">{item.label}</span>
                       </button>
                     ))}
+                  </div>
+                </div>
+
+                <div className="grid gap-4 text-xs md:grid-cols-[1fr_auto]">
+                  <div className="space-y-3">
+                    <label className="block">
+                      <span className="text-muted-foreground">Nazwa wyświetlana</span>
+                      <Input value={displayName} maxLength={32} onChange={(e) => setDisplayName(e.target.value)} placeholder={username} className="mt-1 h-8 text-xs" />
+                    </label>
+                    <div>
+                      <span className="text-muted-foreground">Status</span>
+                      <div className="mt-1 flex flex-wrap gap-1.5">
+                        {USER_STATUSES.map((st) => (
+                          <button key={st.id} type="button" onClick={() => setStatus(st.id)} aria-pressed={status === st.id} className={`rounded-lg border px-2 py-1 ${status === st.id ? "border-primary" : "border-border text-muted-foreground"}`}>{st.label}</button>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Czcionka nicku</span>
+                      <div className="mt-1 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+                        {NAME_FONTS.map((f) => (
+                          <button key={f.id} type="button" onClick={() => setFont(f.id)} aria-pressed={font === f.id} style={{ fontFamily: f.family }} className={`rounded-lg border px-2 py-1.5 text-sm ${font === f.id ? "border-primary" : "border-border"}`}>{f.label}</button>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Ramka karty profilu</span>
+                      <div className="mt-1 flex flex-wrap gap-1.5">
+                        {PROFILE_FRAMES.map((f) => (
+                          <button key={f.id} type="button" onClick={() => setFrame(f.id)} aria-pressed={frame === f.id} className={`rounded-lg border px-2 py-1 ${frame === f.id ? "border-primary" : "border-border text-muted-foreground"}`}>{f.label}</button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Podgląd karty</span>
+                    <div className="mt-1">
+                      <ProfileCard
+                        profile={{
+                          id: user?.id ?? "",
+                          username: username || "ty",
+                          display_name: displayName,
+                          bio,
+                          avatar_url: profile?.avatar_url,
+                          banner_url: profile?.banner_url,
+                          accent,
+                          accent_2: accent2,
+                          name_effect: effect,
+                          name_font: font,
+                          avatar_decoration: decoration,
+                          profile_effect: cardEffect,
+                          nameplate: plate,
+                          profile_frame: frame,
+                          status,
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
 

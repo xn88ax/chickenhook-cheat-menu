@@ -1,6 +1,6 @@
-import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 
-import { avatarDecoration, avatarDecorationImg, nameplate, nickVars, profileEffect } from "@/lib/profile-media";
+import { avatarDecoration, avatarDecorationImg, nameplate, nameplateMedia, nickVars, profileEffect, profileEffectMedia } from "@/lib/profile-media";
 
 export function DecoratedAvatar({
   decoration,
@@ -33,9 +33,27 @@ export function DecoratedAvatar({
   );
 }
 
+function MediaEffect({ media }: { media: NonNullable<ReturnType<typeof profileEffectMedia>> }) {
+  const [phase, setPhase] = useState<"intro" | "loop">("intro");
+  useEffect(() => {
+    setPhase("intro");
+    if (!media.loop) return;
+    const t = window.setTimeout(() => setPhase("loop"), media.introMs || 3000);
+    return () => window.clearTimeout(t);
+  }, [media]);
+  const src = phase === "loop" && media.loop ? media.loop : media.intro;
+  return (
+    <div className="profile-effect-media" aria-hidden="true">
+      <img key={src} src={src} alt="" />
+    </div>
+  );
+}
+
 export function ProfileEffectLayer({ effect }: { effect?: string | null }) {
   const selected = profileEffect(effect);
   if (selected === "none") return null;
+  const media = profileEffectMedia(selected);
+  if (media) return <MediaEffect media={media} />;
   return (
     <div className={`profile-effect profile-effect-${selected}`} aria-hidden="true">
       {Array.from({ length: 12 }, (_, index) => <i key={index} />)}
@@ -57,11 +75,15 @@ export function Nameplate({
   children: ReactNode;
 }) {
   const selected = nameplate(variant);
+  const media = nameplateMedia(selected);
   return (
     <span
-      className={`nameplate nameplate-${selected}${compact ? " nameplate-compact" : ""}`}
+      className={`nameplate nameplate-${media ? "media" : selected}${compact ? " nameplate-compact" : ""}`}
       style={nickVars(accent, accent2) as CSSProperties}
     >
+      {media ? (
+        <video className="nameplate-video" src={media.video} poster={media.still} autoPlay loop muted playsInline aria-hidden="true" />
+      ) : null}
       {children}
     </span>
   );

@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { displayName, useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { DecoratedAvatar, Nameplate } from "@/components/profile-cosmetics";
+import { ProfilePopover } from "@/components/profile-card";
 import chickenAsset from "@/assets/chicken.png.asset.json";
 
 
@@ -324,10 +325,10 @@ export function Shoutbox() {
                 {s.user_id ? (
                   <span className="flex min-w-0 flex-wrap items-center gap-1">
                     <Nameplate variant={profile?.nameplate} accent={profile?.accent} accent2={profile?.accent_2} compact>
+                    <ProfilePopover username={s.nick} onMention={() => mention(s.nick)}>
                     <button
                       type="button"
-                      onClick={() => mention(s.nick)}
-                      title={`Oznacz @${s.nick}`}
+                      title={`Profil ${s.nick}`}
                       className={`cursor-pointer font-semibold hover:underline ${fx !== "solid" ? `nick-fx nick-fx-${fx}` : glitter ? "forum-nick-glitter" : roleStyle ? "forum-nick-color" : "text-primary"}`}
                       style={
                         fx !== "solid"
@@ -339,6 +340,7 @@ export function Shoutbox() {
                     >
                       {s.nick}
                     </button>
+                    </ProfilePopover>
                     </Nameplate>
                   </span>
                 ) : (

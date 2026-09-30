@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { supabase } from "@/integrations/supabase/client";
 import { DISCORD_DECORATIONS } from "@/lib/avatar-decorations-data";
+import { DISCORD_NAMEPLATES, DISCORD_PROFILE_EFFECTS } from "@/lib/discord-collectibles-data";
 
 export const PROFILE_BUCKET = "profiles";
 
@@ -116,6 +117,7 @@ export const PROFILE_EFFECTS = [
   { id: "lightning", label: "Wyładowania" },
   { id: "glitch", label: "Glitch" },
   { id: "confetti", label: "Konfetti" },
+  ...DISCORD_PROFILE_EFFECTS,
 ] as const;
 
 export const NAMEPLATES = [
@@ -124,7 +126,54 @@ export const NAMEPLATES = [
   { id: "glitch", label: "Glitch" },
   { id: "hologram", label: "Hologram" },
   { id: "fire", label: "Ogień" },
+  ...DISCORD_NAMEPLATES,
 ] as const;
+
+export const NAME_FONTS = [
+  { id: "default", label: "Domyślna", family: "inherit" },
+  { id: "tempo", label: "Tempo", family: "'Bebas Neue', Impact, sans-serif" },
+  { id: "sakura", label: "Sakura", family: "'Pacifico', cursive" },
+  { id: "jellybean", label: "Jellybean", family: "'Fredoka', 'Comic Sans MS', sans-serif" },
+  { id: "modern", label: "Modern", family: "'Space Grotesk', sans-serif" },
+  { id: "medieval", label: "Medieval", family: "'UnifrakturMaguntia', serif" },
+  { id: "8bit", label: "8Bit", family: "'Press Start 2P', monospace" },
+  { id: "vampyre", label: "Vampyre", family: "'Creepster', cursive" },
+] as const;
+
+export const USER_STATUSES = [
+  { id: "online", label: "Dostępny" },
+  { id: "idle", label: "Zaraz wracam" },
+  { id: "dnd", label: "Nie przeszkadzać" },
+  { id: "streaming", label: "Streamuje" },
+  { id: "offline", label: "Niewidoczny" },
+] as const;
+
+export const PROFILE_FRAMES = [
+  { id: "none", label: "Brak" },
+  { id: "accent", label: "Akcent" },
+  { id: "gold", label: "Złota" },
+  { id: "rainbow", label: "Tęcza" },
+  { id: "chrome", label: "Chrom" },
+  { id: "pulse", label: "Puls" },
+] as const;
+
+export function nameFont(id: string | null | undefined) {
+  return NAME_FONTS.find((f) => f.id === id) ?? NAME_FONTS[0];
+}
+export function userStatus(id: string | null | undefined) {
+  return (USER_STATUSES.find((s) => s.id === id) ?? USER_STATUSES[0]).id;
+}
+export function profileFrame(id: string | null | undefined) {
+  return (PROFILE_FRAMES.find((s) => s.id === id) ?? PROFILE_FRAMES[0]).id;
+}
+export function profileEffectMedia(id: string | null | undefined) {
+  const item = PROFILE_EFFECTS.find((d) => d.id === id);
+  return item && "intro" in item ? item : null;
+}
+export function nameplateMedia(id: string | null | undefined) {
+  const item = NAMEPLATES.find((d) => d.id === id);
+  return item && "video" in item ? item : null;
+}
 
 function allowedId<const T extends readonly { id: string }[]>(items: T, id: string | null | undefined) {
   return items.find((item) => item.id === id)?.id ?? items[0].id;

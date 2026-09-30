@@ -164,15 +164,19 @@ export type Database = {
           bg_mode: string
           bio: string
           created_at: string
+          display_name: string | null
           id: string
           link_1: string | null
           link_2: string | null
           link_3: string | null
           member_number: number
           name_effect: string
+          name_font: string
           nameplate: string
           profile_effect: string
+          profile_frame: string
           socials: Json
+          status: string
           theme: string
           updated_at: string
           username: string
@@ -188,15 +192,19 @@ export type Database = {
           bg_mode?: string
           bio?: string
           created_at?: string
+          display_name?: string | null
           id: string
           link_1?: string | null
           link_2?: string | null
           link_3?: string | null
           member_number?: number
           name_effect?: string
+          name_font?: string
           nameplate?: string
           profile_effect?: string
+          profile_frame?: string
           socials?: Json
+          status?: string
           theme?: string
           updated_at?: string
           username: string
@@ -212,15 +220,19 @@ export type Database = {
           bg_mode?: string
           bio?: string
           created_at?: string
+          display_name?: string | null
           id?: string
           link_1?: string | null
           link_2?: string | null
           link_3?: string | null
           member_number?: number
           name_effect?: string
+          name_font?: string
           nameplate?: string
           profile_effect?: string
+          profile_frame?: string
           socials?: Json
+          status?: string
           theme?: string
           updated_at?: string
           username?: string
