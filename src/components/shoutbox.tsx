@@ -8,7 +8,6 @@ import { displayName, useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { DecoratedAvatar, Nameplate } from "@/components/profile-cosmetics";
 import { ProfilePopover } from "@/components/profile-card";
-import chickenAsset from "@/assets/chicken.png.asset.json";
 
 
 import { nameEffect, nickVars, useProfileMedia } from "@/lib/profile-media";
@@ -132,20 +131,7 @@ function formatTime(iso: string) {
   return `${d.getDate()} ${months[d.getMonth()]} ${time}`;
 }
 
-export const CHICKEN_TEXT = "🐔 kukuryku!";
-
-function ChickenMessage() {
-  return (
-    <span className="inline-flex items-center gap-1.5">
-      <img
-        src={chickenAsset.url}
-        alt="kurczak"
-        className="chat-chicken inline-block size-7 align-middle"
-      />
-      <span className="font-semibold text-primary">kukuryku!</span>
-    </span>
-  );
-}
+export const CHICKEN_TEXT = "🐔";
 
 
 const NICK_KEY = "chickenhook_guest_nick";
@@ -354,9 +340,7 @@ export function Shoutbox() {
                   </button>
                 )}
                 <span className="min-w-0 break-words text-muted-foreground">
-                  {s.attachment_url && s.text === "📎" ? null : s.text === CHICKEN_TEXT ? (
-                    <ChickenMessage />
-                  ) : (
+                  {s.attachment_url && s.text === "📎" ? null : (
                     <MentionText text={s.text} known={knownNicks} />
                   )}
                   {s.attachment_url ? <ChatAttachment path={s.attachment_url} onZoom={setZoomUrl} /> : null}
