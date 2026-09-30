@@ -12,6 +12,7 @@ const tabs = [
   { label: "Funkcje", to: "/opcje" },
   { label: "Forum", to: "/forum" },
   { label: "Changelog", to: "/changelog" },
+  { label: "League of Legends", to: "/lol" },
 ] as const;
 
 const moreTabs = [
