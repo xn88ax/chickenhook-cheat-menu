@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
 import { Activity } from "lucide-react";
 
-/** Fałszywy licznik graczy online — skacze losowo co kilka sekund. */
+import { subscribeOnlineCount } from "@/lib/presence";
+
+/** Prawdziwy licznik osób online — Realtime Presence (goście + zalogowani). */
 export function OnlineCounter() {
-  const [count, setCount] = useState(47);
-  const [peak, setPeak] = useState(63);
+  const [count, setCount] = useState(0);
+  const [peak, setPeak] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(() => {
-      setCount((c) => {
-        const next = Math.min(68, Math.max(38, c + Math.round((Math.random() - 0.5) * 9)));
-        setPeak((p) => Math.max(p, next));
-        return next;
-      });
-    }, 2600);
-    return () => clearInterval(id);
+    return subscribeOnlineCount((n) => {
+      setCount(n);
+      setPeak((p) => Math.max(p, n));
+    });
   }, []);
 
   return (
@@ -25,11 +23,11 @@ export function OnlineCounter() {
           <span className="relative inline-flex size-2 rounded-full bg-primary" />
         </span>
         <strong className="text-sm font-bold text-foreground tabular-nums">{count}</strong>
-        <span className="text-muted-foreground">użytkowników gra teraz z ChickenHook</span>
+        <span className="text-muted-foreground">{count === 1 ? "osoba jest" : "osób jest"} teraz na stronie</span>
       </span>
       <span className="flex items-center gap-2 text-muted-foreground">
         <Activity className="size-3.5 text-primary" />
-        Szczyt dzisiaj: <strong className="text-foreground tabular-nums">{peak}</strong>
+        Szczyt sesji: <strong className="text-foreground tabular-nums">{peak}</strong>
       </span>
       <span className="text-muted-foreground">
         W kolejce po invite: <strong className="gs-gold">nadal Ty</strong>
