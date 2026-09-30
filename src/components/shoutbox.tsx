@@ -426,6 +426,30 @@ export function Shoutbox() {
         {error ? <span className="text-primary">{error}</span> : null}
        </div>
 
+      {zoomUrl ? (
+        <div
+          role="dialog"
+          aria-label="Powiększone zdjęcie"
+          onClick={() => setZoomUrl(null)}
+          className="fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-black/85 p-6 backdrop-blur-sm"
+        >
+          <button
+            type="button"
+            aria-label="Zamknij"
+            onClick={() => setZoomUrl(null)}
+            className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
+          >
+            <X className="size-5" />
+          </button>
+          <img
+            src={zoomUrl}
+            alt="Powiększone zdjęcie"
+            onClick={(e) => e.stopPropagation()}
+            className="max-h-[90vh] max-w-[90vw] rounded-lg border border-white/15 object-contain shadow-2xl"
+          />
+        </div>
+      ) : null}
+
     </div>
   );
 }
