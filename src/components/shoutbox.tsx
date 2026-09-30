@@ -214,7 +214,15 @@ export function Shoutbox() {
 
   async function send(e: React.FormEvent) {
     e.preventDefault();
-    const text = draft.trim();
+    let text = draft.trim();
+    // Komendy czatu: /roll [max] i /flip.
+    const rollMatch = /^\/roll(?:\s+(\d+))?$/i.exec(text);
+    if (rollMatch) {
+      const max = Math.min(Math.max(parseInt(rollMatch[1] ?? "100", 10) || 100, 2), 1_000_000);
+      text = `🎲 /roll 1-${max} → wylosowałem ${Math.floor(1 + Math.random() * max)}`;
+    } else if (/^\/flip$/i.test(text)) {
+      text = `🪙 /flip → ${Math.random() < 0.5 ? "ORZEŁ" : "RESZKA"}`;
+    }
     const nick = (
       user
         ? displayName(user)
@@ -351,7 +359,7 @@ export function Shoutbox() {
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           maxLength={200}
-          placeholder="Napisz coś do kurnika…"
+          placeholder="Napisz coś do kurnika… (/roll, /flip)"
           aria-label="Wiadomość na shoutboxie"
            className="h-9 min-w-0 flex-1 rounded-lg border border-border bg-background px-3 text-xs outline-none focus:border-primary"
         />
