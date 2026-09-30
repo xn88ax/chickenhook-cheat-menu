@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 
 import { Avatar } from "@/components/forum/forum-shell";

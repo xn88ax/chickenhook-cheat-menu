@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { displayName, useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { DecoratedAvatar, Nameplate } from "@/components/profile-cosmetics";
+import { ProfilePopover } from "@/components/profile-card";
 import chickenAsset from "@/assets/chicken.png.asset.json";
 
 
