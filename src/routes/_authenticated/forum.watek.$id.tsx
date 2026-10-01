@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Trash2 } from "lucide-react";
+import { Film, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
@@ -237,9 +237,12 @@ function ThreadPage() {
                     </button>
                   )}
                 </header>
-                <p className="whitespace-pre-wrap px-4 py-4 text-sm leading-relaxed">
-                  {p.body}
-                </p>
+                {!(p.video_url && p.body === "🎬") && (
+                  <p className="whitespace-pre-wrap px-4 py-4 text-sm leading-relaxed">
+                    {p.body}
+                  </p>
+                )}
+                {p.video_url && <ForumVideo path={p.video_url} />}
               </article>
             ))}
 
@@ -257,7 +260,7 @@ function ThreadPage() {
                 className="space-y-3 gs-panel p-4"
               >
                 <textarea
-                  required
+                  required={!video}
                   rows={4}
                   value={reply}
                   onChange={(e) => setReply(e.target.value)}
@@ -265,13 +268,34 @@ function ThreadPage() {
                   className="w-full rounded-sm border border-border bg-background px-3 py-2 text-sm"
                 />
                 {error && <p className="text-xs text-primary">{error}</p>}
-                <button
-                  type="submit"
-                  disabled={addPost.isPending}
-                  className="rounded-sm bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-60"
-                >
-                  Odpowiedz
-                </button>
+                <div className="flex flex-wrap items-center gap-3">
+                  <button
+                    type="submit"
+                    disabled={addPost.isPending}
+                    className="rounded-sm bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-60"
+                  >
+                    {addPost.isPending ? "Wysyłanie…" : "Odpowiedz"}
+                  </button>
+                  <label className="flex cursor-pointer items-center gap-1.5 rounded-sm border border-border px-3 py-2 text-xs text-muted-foreground hover:text-foreground">
+                    <Film className="size-3.5" />
+                    {video ? video.name : "Dodaj film (max 10 MB)"}
+                    <input
+                      type="file"
+                      accept="video/mp4,video/webm,video/quicktime"
+                      className="hidden"
+                      onChange={(e) => setVideo(e.target.files?.[0] ?? null)}
+                    />
+                  </label>
+                  {video && (
+                    <button
+                      type="button"
+                      onClick={() => setVideo(null)}
+                      className="text-xs text-muted-foreground hover:text-primary"
+                    >
+                      Usuń film
+                    </button>
+                  )}
+                </div>
               </form>
             ) : (
               <Link
