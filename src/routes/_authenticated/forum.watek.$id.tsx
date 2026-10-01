@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -31,6 +31,7 @@ function ThreadPage() {
   const { isAdmin } = useIsAdmin();
   const queryClient = useQueryClient();
   const [reply, setReply] = useState("");
+  const [video, setVideo] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const threadQuery = useQuery({
@@ -66,7 +67,7 @@ function ThreadPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("forum_posts")
-        .select("id,body,created_at,author_id")
+        .select("id,body,created_at,author_id,video_url")
         .eq("thread_id", id)
         .order("created_at");
       if (error) throw error;
@@ -115,13 +116,26 @@ function ThreadPage() {
   const addPost = useMutation({
     mutationFn: async () => {
       if (!user) throw new Error("Zaloguj się, aby odpowiedzieć.");
+      let video_url: string | null = null;
+      if (video) {
+        if (!video.type.startsWith("video/")) throw new Error("To nie jest film.");
+        if (video.size > 10 * 1024 * 1024) throw new Error("Film za duży (max 10 MB).");
+        const ext = (video.name.split(".").pop() || "mp4").toLowerCase().replace(/[^a-z0-9]/g, "");
+        const path = `${user.id}/forum-${Date.now()}.${ext}`;
+        const { error: upErr } = await supabase.storage
+          .from("chat")
+          .upload(path, video, { contentType: video.type });
+        if (upErr) throw new Error("Nie udało się wgrać filmu.");
+        video_url = path;
+      }
       const { error } = await supabase
         .from("forum_posts")
-        .insert({ thread_id: id, author_id: user.id, body: reply });
+        .insert({ thread_id: id, author_id: user.id, body: reply.trim() || "🎬", video_url });
       if (error) throw error;
     },
     onSuccess: () => {
       setReply("");
+      setVideo(null);
       queryClient.invalidateQueries({ queryKey: ["forum", "posts", id] });
     },
     onError: (e) => setError(e instanceof Error ? e.message : "Nie udało się wysłać."),
