@@ -227,7 +227,7 @@ export function ProfileCard({
             </Nameplate>
             <div className="dc-handle">
               {profile.username}
-              {profile.member_number ? <span> · UID {profile.member_number}</span> : null}
+              {profile.member_number != null ? <span> · UID {profile.member_number}</span> : null}
             </div>
             {badges.length ? (
               <div className="mt-1 flex flex-wrap gap-1">
