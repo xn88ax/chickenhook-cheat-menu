@@ -54,6 +54,7 @@ export type Database = {
           created_at: string
           id: string
           thread_id: string
+          video_url: string | null
         }
         Insert: {
           author_id: string
@@ -61,6 +62,7 @@ export type Database = {
           created_at?: string
           id?: string
           thread_id: string
+          video_url?: string | null
         }
         Update: {
           author_id?: string
@@ -68,6 +70,7 @@ export type Database = {
           created_at?: string
           id?: string
           thread_id?: string
+          video_url?: string | null
         }
         Relationships: [
           {

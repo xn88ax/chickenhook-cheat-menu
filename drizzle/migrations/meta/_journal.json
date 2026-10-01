@@ -36,6 +36,13 @@
       "when": 1790731633276,
       "tag": "0004_profile_activity_discord",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1790897768498,
+      "tag": "0005_forum_post_video",
+      "breakpoints": true
     }
   ]
 }

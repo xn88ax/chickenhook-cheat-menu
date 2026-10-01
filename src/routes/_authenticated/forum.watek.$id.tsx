@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Trash2 } from "lucide-react";
+import { Film, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { useIsAdmin } from "@/hooks/use-is-admin";
@@ -31,6 +31,7 @@ function ThreadPage() {
   const { isAdmin } = useIsAdmin();
   const queryClient = useQueryClient();
   const [reply, setReply] = useState("");
+  const [video, setVideo] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const threadQuery = useQuery({
@@ -66,7 +67,7 @@ function ThreadPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("forum_posts")
-        .select("id,body,created_at,author_id")
+        .select("id,body,created_at,author_id,video_url")
         .eq("thread_id", id)
         .order("created_at");
       if (error) throw error;
@@ -115,13 +116,26 @@ function ThreadPage() {
   const addPost = useMutation({
     mutationFn: async () => {
       if (!user) throw new Error("Zaloguj się, aby odpowiedzieć.");
+      let video_url: string | null = null;
+      if (video) {
+        if (!video.type.startsWith("video/")) throw new Error("To nie jest film.");
+        if (video.size > 10 * 1024 * 1024) throw new Error("Film za duży (max 10 MB).");
+        const ext = (video.name.split(".").pop() || "mp4").toLowerCase().replace(/[^a-z0-9]/g, "");
+        const path = `${user.id}/forum-${Date.now()}.${ext}`;
+        const { error: upErr } = await supabase.storage
+          .from("chat")
+          .upload(path, video, { contentType: video.type });
+        if (upErr) throw new Error("Nie udało się wgrać filmu.");
+        video_url = path;
+      }
       const { error } = await supabase
         .from("forum_posts")
-        .insert({ thread_id: id, author_id: user.id, body: reply });
+        .insert({ thread_id: id, author_id: user.id, body: reply.trim() || "🎬", video_url });
       if (error) throw error;
     },
     onSuccess: () => {
       setReply("");
+      setVideo(null);
       queryClient.invalidateQueries({ queryKey: ["forum", "posts", id] });
     },
     onError: (e) => setError(e instanceof Error ? e.message : "Nie udało się wysłać."),
@@ -223,9 +237,12 @@ function ThreadPage() {
                     </button>
                   )}
                 </header>
-                <p className="whitespace-pre-wrap px-4 py-4 text-sm leading-relaxed">
-                  {p.body}
-                </p>
+                {!(p.video_url && p.body === "🎬") && (
+                  <p className="whitespace-pre-wrap px-4 py-4 text-sm leading-relaxed">
+                    {p.body}
+                  </p>
+                )}
+                {p.video_url && <ForumVideo path={p.video_url} />}
               </article>
             ))}
 
@@ -243,7 +260,7 @@ function ThreadPage() {
                 className="space-y-3 gs-panel p-4"
               >
                 <textarea
-                  required
+                  required={!video}
                   rows={4}
                   value={reply}
                   onChange={(e) => setReply(e.target.value)}
@@ -251,13 +268,34 @@ function ThreadPage() {
                   className="w-full rounded-sm border border-border bg-background px-3 py-2 text-sm"
                 />
                 {error && <p className="text-xs text-primary">{error}</p>}
-                <button
-                  type="submit"
-                  disabled={addPost.isPending}
-                  className="rounded-sm bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-60"
-                >
-                  Odpowiedz
-                </button>
+                <div className="flex flex-wrap items-center gap-3">
+                  <button
+                    type="submit"
+                    disabled={addPost.isPending}
+                    className="rounded-sm bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-60"
+                  >
+                    {addPost.isPending ? "Wysyłanie…" : "Odpowiedz"}
+                  </button>
+                  <label className="flex cursor-pointer items-center gap-1.5 rounded-sm border border-border px-3 py-2 text-xs text-muted-foreground hover:text-foreground">
+                    <Film className="size-3.5" />
+                    {video ? video.name : "Dodaj film (max 10 MB)"}
+                    <input
+                      type="file"
+                      accept="video/mp4,video/webm,video/quicktime"
+                      className="hidden"
+                      onChange={(e) => setVideo(e.target.files?.[0] ?? null)}
+                    />
+                  </label>
+                  {video && (
+                    <button
+                      type="button"
+                      onClick={() => setVideo(null)}
+                      className="text-xs text-muted-foreground hover:text-primary"
+                    >
+                      Usuń film
+                    </button>
+                  )}
+                </div>
               </form>
             ) : (
               <Link
@@ -272,5 +310,27 @@ function ThreadPage() {
         )}
       </main>
     </GsShell>
+  );
+}
+
+function ForumVideo({ path }: { path: string }) {
+  const [url, setUrl] = useState<string | null>(null);
+  useEffect(() => {
+    let alive = true;
+    void supabase.storage
+      .from("chat")
+      .createSignedUrl(path, 60 * 60 * 24)
+      .then(({ data }) => {
+        if (alive && data?.signedUrl) setUrl(data.signedUrl);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [path]);
+  if (!url) return <p className="px-4 pb-4 text-xs text-muted-foreground">Ładowanie filmu…</p>;
+  return (
+    <div className="px-4 pb-4">
+      <video src={url} controls preload="metadata" className="max-h-[480px] w-full rounded-sm bg-background" />
+    </div>
   );
 }
