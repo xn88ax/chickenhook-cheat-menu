@@ -312,3 +312,25 @@ function ThreadPage() {
     </GsShell>
   );
 }
+
+function ForumVideo({ path }: { path: string }) {
+  const [url, setUrl] = useState<string | null>(null);
+  useEffect(() => {
+    let alive = true;
+    void supabase.storage
+      .from("chat")
+      .createSignedUrl(path, 60 * 60 * 24)
+      .then(({ data }) => {
+        if (alive && data?.signedUrl) setUrl(data.signedUrl);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [path]);
+  if (!url) return <p className="px-4 pb-4 text-xs text-muted-foreground">Ładowanie filmu…</p>;
+  return (
+    <div className="px-4 pb-4">
+      <video src={url} controls preload="metadata" className="max-h-[480px] w-full rounded-sm bg-background" />
+    </div>
+  );
+}
