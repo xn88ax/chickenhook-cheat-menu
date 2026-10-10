@@ -20,6 +20,7 @@ const moreTabs = [
   { label: "Sponsorzy", to: "/sponsorzy" },
   { label: "Restauracje", to: "/restauracje" },
   { label: "Narzędzia", to: "/narzedzia" },
+  { label: "Slots", to: "/slots" },
   { label: "O nas", to: "/o-nas" },
   { label: "Podanie", to: "/podanie" },
 ] as const;
