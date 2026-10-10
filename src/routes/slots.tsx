@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Cherry, Coins, RotateCw } from "lucide-react";
+import { Cherry, Coins, Play, RotateCw } from "lucide-react";
 
 import { GsPanel, GsShell } from "@/components/gs-shell";
 
