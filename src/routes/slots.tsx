@@ -48,6 +48,70 @@ function evalSpin(reels: string[]): { win: number; note: string } {
   return { win: 0, note: "Pudło. Kurczak nie płaci." };
 }
 
+const DEMO_GAMES = [
+  { id: "vs20sweetbonanza", title: "Sweet Bonanza" },
+  { id: "vs20gates", title: "Gates of Olympus" },
+  { id: "vs20doghouse", title: "The Dog House" },
+  { id: "vs10bbbonanza", title: "Big Bass Bonanza" },
+  { id: "vs25wolfgold", title: "Wolf Gold" },
+  { id: "vs20sugarrush", title: "Sugar Rush" },
+] as const;
+
+function demoUrl(gameSymbol: string) {
+  return `https://demogamesfree.pragmaticplay.net/gs2c/openGame.do?lang=pl&cur=PLN&gameSymbol=${gameSymbol}&websiteUrl=https%3A%2F%2Fdemogamesfree.pragmaticplay.net&jurisdiction=99`;
+}
+
+function DemoSlots() {
+  const [active, setActive] = useState<string | null>(null);
+
+  return (
+    <GsPanel title="Prawdziwe demo — Pragmatic Play">
+      <div className="space-y-4 px-4 py-4">
+        <p className="text-xs text-muted-foreground">
+          Oficjalne wersje demo od Pragmatic Play — grasz za wirtualne kredyty, bez depozytu i bez
+          rejestracji. Wybierz grę:
+        </p>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          {DEMO_GAMES.map((g) => (
+            <button
+              key={g.id}
+              type="button"
+              onClick={() => setActive(active === g.id ? null : g.id)}
+              className={`flex items-center gap-2 rounded-lg border px-3 py-2.5 text-left text-xs font-medium transition-colors ${
+                active === g.id
+                  ? "border-primary bg-primary/10 text-foreground"
+                  : "border-border bg-background/40 text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Play className="size-3.5 shrink-0 text-primary" />
+              {g.title}
+            </button>
+          ))}
+        </div>
+
+        {active && (
+          <div className="overflow-hidden rounded-lg border border-border bg-background">
+            <div className="flex items-center justify-between border-b border-border px-3 py-2 text-xs">
+              <span className="font-semibold">
+                {DEMO_GAMES.find((g) => g.id === active)?.title}
+              </span>
+              <span className="text-muted-foreground">Tryb demo · kredyty wirtualne</span>
+            </div>
+            <iframe
+              key={active}
+              src={demoUrl(active)}
+              title={DEMO_GAMES.find((g) => g.id === active)?.title ?? "Demo slot"}
+              className="h-[560px] w-full"
+              allow="autoplay; fullscreen"
+              loading="lazy"
+            />
+          </div>
+        )}
+      </div>
+    </GsPanel>
+  );
+}
+
 function Slots() {
   const [reels, setReels] = useState<string[]>(["🐔", "🍗", "🥚"]);
   const [credits, setCredits] = useState(1000);
@@ -109,6 +173,8 @@ function Slots() {
         </p>
 
         <h1 className="sr-only">ExactPlay Spin — automaty</h1>
+
+        <DemoSlots />
 
         <GsPanel title="ExactPlay Spin · Pragmatic Kurczak">
           <div className="flex flex-col items-center gap-5 px-4 py-6">
