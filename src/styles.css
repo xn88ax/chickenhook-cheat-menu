@@ -1300,3 +1300,29 @@ html[data-site-anim="off"] .profile-effect,
 @keyframes dc-pulse { 50% { box-shadow: 0 0 28px var(--dc-1), 0 12px 40px rgb(0 0 0 / 0.55); } }
 :root[data-site-animations="off"] .dc-card-frame, html[data-site-anim="off"] .dc-card-frame { animation: none !important; }
 @media (prefers-reduced-motion: reduce) { .dc-card-frame { animation: none !important; } .profile-effect-media { display: none; } }
+
+/* Pre-login gate */
+.gate-bg {
+  background: color-mix(in oklab, var(--background) 55%, transparent) url("/og.gif") center / cover no-repeat;
+  background-blend-mode: multiply;
+  image-rendering: pixelated;
+}
+.pixel-login, .pixel-login input, .pixel-login button {
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.pixel-box {
+  background: color-mix(in oklab, var(--background) 85%, transparent);
+  border: 4px solid var(--foreground);
+  box-shadow: 6px 6px 0 0 var(--primary), 0 0 0 4px var(--background);
+  image-rendering: pixelated;
+}
+.pixel-box input {
+  border-width: 3px !important;
+  border-color: var(--foreground) !important;
+}
+.pixel-box button[type="submit"] {
+  box-shadow: 4px 4px 0 0 var(--foreground);
+}
+.pixel-box button[type="submit"]:active { transform: translate(4px, 4px); box-shadow: none; }

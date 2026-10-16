@@ -5,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 
 import { registerWithInvite } from "@/lib/invite.functions";
 import { isRememberSession, setRememberSession } from "@/lib/session-persistence";
-import { GsShell } from "@/components/gs-shell";
 
 
 export const Route = createFileRoute("/auth")({
@@ -107,14 +106,14 @@ function AuthPage() {
 
 
   return (
-    <GsShell>
-      <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-5 py-12">
-        <div className="overflow-hidden rounded-sm border border-border">
+    <div className="gate-bg flex min-h-screen items-center justify-center px-5 py-12">
+      <main className="pixel-login w-full max-w-md">
+        <div className="pixel-box overflow-hidden">
           <h1 className="bucket-gradient px-4 py-3 text-sm font-bold uppercase tracking-wide text-primary-foreground">
             {mode === "login" ? "Logowanie" : "Aktywacja zaproszenia"}
           </h1>
           <form onSubmit={onSubmit} className="space-y-4 glass px-5 py-5">
-            <p className="rounded-sm border border-border bg-background px-3 py-2 text-xs text-muted-foreground">
+            <p className="rounded-none border border-border bg-background px-3 py-2 text-xs text-muted-foreground">
               Forum działa w trybie <span className="font-bold text-accent">invite only</span> —
               otwarta rejestracja jest wyłączona. Konto założysz tylko z kodem zaproszenia.
             </p>
@@ -133,7 +132,7 @@ function AuthPage() {
                     value={invite}
                     onChange={(e) => setInvite(e.target.value.toUpperCase())}
                     maxLength={64}
-                    className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm uppercase tracking-wide outline-none focus:border-primary"
+                    className="mt-1 w-full rounded-none border border-border bg-background px-3 py-2 text-sm uppercase tracking-wide outline-none focus:border-primary"
                     placeholder="CHICKEN-XXXXX-2026"
                   />
                 </div>
@@ -146,7 +145,7 @@ function AuthPage() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     maxLength={24}
-                    className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                    className="mt-1 w-full rounded-none border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
                     placeholder="np. zimnyFrytek"
                   />
                 </div>
@@ -163,7 +162,7 @@ function AuthPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                className="mt-1 w-full rounded-none border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
               />
             </div>
             <div>
@@ -177,7 +176,7 @@ function AuthPage() {
                 minLength={8}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                className="mt-1 w-full rounded-none border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
               />
               {mode === "invite" && password.length > 0 && (
                 <p className={`mt-1 text-xs ${password.length < 8 ? "text-primary" : "text-accent"}`}>
@@ -200,7 +199,7 @@ function AuthPage() {
                   minLength={8}
                   value={password2}
                   onChange={(e) => setPassword2(e.target.value)}
-                  className="mt-1 w-full rounded-sm border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                  className="mt-1 w-full rounded-none border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
                 />
                 {password2.length > 0 && password !== password2 && (
                   <p className="mt-1 text-xs text-primary">Hasła nie są takie same.</p>
@@ -228,7 +227,7 @@ function AuthPage() {
             <button
               type="submit"
               disabled={busy}
-              className="w-full rounded-sm bucket-gradient px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground disabled:opacity-60"
+              className="w-full rounded-none bucket-gradient px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground disabled:opacity-60"
             >
               {mode === "login" ? "Zaloguj się" : "Aktywuj kod i wejdź"}
             </button>
@@ -249,6 +248,6 @@ function AuthPage() {
           </form>
         </div>
       </main>
-    </GsShell>
+    </div>
   );
 }

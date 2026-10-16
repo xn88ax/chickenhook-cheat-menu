@@ -36,7 +36,7 @@ export function SiteGate({ children }: { children: ReactNode }) {
   if (user) return <>{children}</>;
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
+    <div className="gate-bg flex min-h-screen items-center justify-center">
       <Link to="/auth" search={{ next: "/" } as never} aria-label="Zaloguj" className="text-foreground">
         <pre className="select-none whitespace-pre font-mono text-[10px] leading-[1.1] sm:text-sm">{ART}</pre>
       </Link>
