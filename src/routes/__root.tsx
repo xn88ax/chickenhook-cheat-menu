@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { Konami } from "../components/konami";
+import { SiteGate } from "../components/site-gate";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { installSessionPersistence } from "../lib/session-persistence";
 import { applySettings, readSettings } from "../lib/site-settings";
@@ -146,10 +147,12 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <RouteTransition>
-        <Outlet />
-      </RouteTransition>
-      <Konami />
+      <SiteGate>
+        <RouteTransition>
+          <Outlet />
+        </RouteTransition>
+        <Konami />
+      </SiteGate>
     </QueryClientProvider>
   );
 }
