@@ -64,7 +64,6 @@ export function GateLogin({ next }: { next: string }) {
       <div onClick={(e) => e.stopPropagation()}>
         <PixelLoginForm next={next} />
       </div>
-      <p className="pixel-login cursor-pointer text-muted-foreground">CLICK OUTSIDE TO CLOSE</p>
     </div>
   );
 }
