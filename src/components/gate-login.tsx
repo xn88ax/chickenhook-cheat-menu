@@ -33,6 +33,15 @@ const ART = `⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀�
 export function GateLogin({ next }: { next: string }) {
   const [showLogin, setShowLogin] = useState(false);
 
+  useEffect(() => {
+    if (!showLogin) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowLogin(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showLogin]);
+
   if (!showLogin) {
     return (
       <button
@@ -46,7 +55,18 @@ export function GateLogin({ next }: { next: string }) {
     );
   }
 
-  return <PixelLoginForm next={next} />;
+  return (
+    <div
+      role="presentation"
+      onClick={() => setShowLogin(false)}
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 p-6"
+    >
+      <div onClick={(e) => e.stopPropagation()}>
+        <PixelLoginForm next={next} />
+      </div>
+      <p className="pixel-login cursor-pointer text-muted-foreground">CLICK OUTSIDE TO CLOSE</p>
+    </div>
+  );
 }
 
 function PixelLoginForm({ next }: { next: string }) {
