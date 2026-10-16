@@ -1303,8 +1303,10 @@ html[data-site-anim="off"] .profile-effect,
 
 /* Pre-login gate */
 .gate-bg {
-  background: color-mix(in oklab, var(--background) 55%, transparent) url("/og.gif") center / cover no-repeat;
-  background-blend-mode: multiply;
+  background:
+    linear-gradient(rgb(2 2 3 / 0.82), rgb(2 2 3 / 0.82)),
+    color-mix(in oklab, var(--background) 60%, transparent) url("/og.gif") center / cover no-repeat;
+  background-blend-mode: normal, multiply;
   image-rendering: pixelated;
 }
 .pixel-login, .pixel-login input, .pixel-login button {
