@@ -48,7 +48,7 @@ export function GateLogin({ next }: { next: string }) {
         type="button"
         aria-label="Kliknij, aby się zalogować"
         onClick={() => setShowLogin(true)}
-        className="cursor-pointer text-foreground transition-opacity hover:opacity-70"
+        className="cursor-pointer text-foreground transition-[opacity,transform] duration-150 hover:scale-[0.92] hover:opacity-70"
       >
         <pre className="select-none whitespace-pre font-mono text-[10px] leading-[1.1] sm:text-sm">{ART}</pre>
       </button>
