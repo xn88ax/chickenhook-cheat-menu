@@ -1315,7 +1315,7 @@ html[data-site-anim="off"] .profile-effect,
 .pixel-box {
   background: color-mix(in oklab, var(--background) 85%, transparent);
   border: 4px solid var(--foreground);
-  box-shadow: 6px 6px 0 0 var(--primary), 0 0 0 4px var(--background);
+  box-shadow: 6px 6px 0 0 var(--foreground);
   image-rendering: pixelated;
 }
 .pixel-box input {
