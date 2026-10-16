@@ -65,12 +65,12 @@ function AuthPage() {
         navigate({ to: target });
       } else {
         if (password !== password2) {
-          setError("Hasła nie są takie same.");
+          setError("Passwords do not match.");
           setBusy(false);
           return;
         }
         if (password.length < 8) {
-          setError("Hasło jest za słabe — musi mieć co najmniej 8 znaków.");
+          setError("Password must be at least 8 characters.");
           setBusy(false);
           return;
         }
@@ -88,14 +88,14 @@ function AuthPage() {
         }
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
-          setInfo("Konto utworzone. Zaloguj się.");
+          setInfo("Account created. Log in.");
           setMode("login");
           return;
         }
         navigate({ to: target });
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Coś poszło nie tak.");
+      setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
       setBusy(false);
     }
@@ -105,148 +105,32 @@ function AuthPage() {
 
 
 
+  const field = "w-full border-[3px] border-foreground bg-background px-3 py-2 outline-none";
   return (
     <div className="gate-bg flex min-h-screen items-center justify-center px-5 py-12">
-      <main className="pixel-login w-full max-w-md">
-        <div className="pixel-box overflow-hidden">
-          <h1 className="bucket-gradient px-4 py-3 text-sm font-bold uppercase tracking-wide text-primary-foreground">
-            {mode === "login" ? "Logowanie" : "Aktywacja zaproszenia"}
-          </h1>
-          <form onSubmit={onSubmit} className="space-y-4 glass px-5 py-5">
-            <p className="rounded-none border border-border bg-background px-3 py-2 text-xs text-muted-foreground">
-              Forum działa w trybie <span className="font-bold text-accent">invite only</span> —
-              otwarta rejestracja jest wyłączona. Konto założysz tylko z kodem zaproszenia.
-            </p>
-            {mode === "invite" && (
-              <>
-                <div>
-                  <label
-                    className="text-xs font-bold uppercase text-muted-foreground"
-                    htmlFor="invite"
-                  >
-                    Kod zaproszenia
-                  </label>
-                  <input
-                    id="invite"
-                    required
-                    value={invite}
-                    onChange={(e) => setInvite(e.target.value.toUpperCase())}
-                    maxLength={64}
-                    className="mt-1 w-full rounded-none border border-border bg-background px-3 py-2 text-sm uppercase tracking-wide outline-none focus:border-primary"
-                    placeholder="CHICKEN-XXXXX-2026"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-bold uppercase text-muted-foreground" htmlFor="nick">
-                    Nick
-                  </label>
-                  <input
-                    id="nick"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    maxLength={24}
-                    className="mt-1 w-full rounded-none border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
-                    placeholder="np. zimnyFrytek"
-                  />
-                </div>
-              </>
-            )}
-
-            <div>
-              <label className="text-xs font-bold uppercase text-muted-foreground" htmlFor="email">
-                E-mail
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 w-full rounded-none border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
-              />
-            </div>
-            <div>
-              <label className="text-xs font-bold uppercase text-muted-foreground" htmlFor="pass">
-                Hasło
-              </label>
-              <input
-                id="pass"
-                type="password"
-                required
-                minLength={8}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full rounded-none border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
-              />
-              {mode === "invite" && password.length > 0 && (
-                <p className={`mt-1 text-xs ${password.length < 8 ? "text-primary" : "text-accent"}`}>
-                  {password.length < 8
-                    ? "Za słabe — minimum 8 znaków, dodaj cyfry i znaki specjalne."
-                    : "Hasło wygląda OK."}
-                </p>
-              )}
-            </div>
-
-            {mode === "invite" && (
-              <div>
-                <label className="text-xs font-bold uppercase text-muted-foreground" htmlFor="pass2">
-                  Powtórz hasło
-                </label>
-                <input
-                  id="pass2"
-                  type="password"
-                  required
-                  minLength={8}
-                  value={password2}
-                  onChange={(e) => setPassword2(e.target.value)}
-                  className="mt-1 w-full rounded-none border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
-                />
-                {password2.length > 0 && password !== password2 && (
-                  <p className="mt-1 text-xs text-primary">Hasła nie są takie same.</p>
-                )}
-              </div>
-            )}
-
-            <label className="flex items-center gap-2 text-xs font-bold uppercase text-muted-foreground">
-              <input
-                type="checkbox"
-                checked={remember}
-                onChange={(e) => {
-                  setRemember(e.target.checked);
-                  setRememberSession(e.target.checked);
-                }}
-                className="size-4 accent-[hsl(var(--primary))]"
-              />
-              Zapamiętaj mnie
-            </label>
-
-            {error && <p className="text-xs text-primary">{error}</p>}
-            {info && <p className="text-xs text-accent">{info}</p>}
-
-
-            <button
-              type="submit"
-              disabled={busy}
-              className="w-full rounded-none bucket-gradient px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-primary-foreground disabled:opacity-60"
-            >
-              {mode === "login" ? "Zaloguj się" : "Aktywuj kod i wejdź"}
-            </button>
-
-
-            <button
-              type="button"
-              onClick={() => {
-                setMode(mode === "login" ? "invite" : "login");
-                setError(null);
-                setInfo(null);
-              }}
-              className="w-full text-xs text-muted-foreground underline-offset-2 hover:underline"
-            >
-              {mode === "login" ? "Masz kod zaproszenia? Aktywuj konto" : "Masz konto? Zaloguj się"}
-            </button>
-
-          </form>
-        </div>
+      <main className="pixel-login w-full max-w-sm">
+        <form onSubmit={onSubmit} className="pixel-box space-y-4 p-6">
+          <h1 className="text-center text-foreground">{mode === "login" ? "LOGIN" : "INVITE"}</h1>
+          {mode === "invite" && (
+            <>
+              <input aria-label="Invite code" required value={invite} onChange={(e) => setInvite(e.target.value.toUpperCase())} maxLength={64} placeholder="INVITE CODE" className={field} />
+              <input aria-label="Username" value={username} onChange={(e) => setUsername(e.target.value)} maxLength={24} placeholder="USERNAME" className={field} />
+            </>
+          )}
+          <input aria-label="Email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="EMAIL" className={field} />
+          <input aria-label="Password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="PASSWORD" className={field} />
+          {mode === "invite" && (
+            <input aria-label="Repeat password" type="password" required value={password2} onChange={(e) => setPassword2(e.target.value)} placeholder="REPEAT PASSWORD" className={field} />
+          )}
+          {error && <p className="text-foreground">{error}</p>}
+          {info && <p className="text-foreground">{info}</p>}
+          <button type="submit" disabled={busy} className="w-full border-[3px] border-foreground bg-foreground px-4 py-2.5 text-background disabled:opacity-60">
+            {busy ? "..." : mode === "login" ? "ENTER" : "ACTIVATE"}
+          </button>
+          <button type="button" onClick={() => { setMode(mode === "login" ? "invite" : "login"); setError(null); setInfo(null); }} className="w-full text-muted-foreground hover:text-foreground">
+            {mode === "login" ? "invite code?" : "back to login"}
+          </button>
+        </form>
       </main>
     </div>
   );
